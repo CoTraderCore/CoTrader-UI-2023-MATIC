@@ -1,11 +1,11 @@
 import React from 'react'
 
-function Stack() {
+function Allfund() {
   return (
     <div>
-      stack
+      All funds
     </div>
   )
 }
 
-export default Stack
+export default Allfund

@@ -6,7 +6,8 @@ import { BsFillSunFill } from "react-icons/bs"
 // import { MdOutlineDesktopMac } from "react-icons/md"
 // import { useTheme } from '@chakra-ui/react';
 
-const Navbar = ({ isChange , changeTheme}) => {
+
+const Navbar = ({ isChange , changeTheme,colorMode,toggleColorMode}) => {
     // function fullWidth() {
     //     if (!document.body.classList.contains('fullWidth_container')) {
     //         document.body.classList.remove('tablet_container');
@@ -31,9 +32,10 @@ const Navbar = ({ isChange , changeTheme}) => {
     //     }
     // }
 
+  
     return (
         <React.Fragment>
-            <Box bg="#8073de" padding="15px" color="white" boxShadow='lg'>
+            <Box bg="#6553FF" padding="15px" color="white">
                 <Flex justifyContent="space-between">
                     <Box display="flex" alignItems="center" gap={4} >
                         <Heading as="h1" size="lg" cursor={'pointer'}>
@@ -41,9 +43,9 @@ const Navbar = ({ isChange , changeTheme}) => {
                         </Heading>
                     </Box>
                     <Box display="flex" alignItems="center" fontSize="2xl" cursor={'pointer'} gap={2}>
-                        <span onClick={changeTheme} style={{ display: "flex", alignItems: "center" }}>
+                        <span onClick={toggleColorMode} style={{ display: "flex", alignItems: "center" }}>
                             {
-                                !isChange ? <MdDarkMode title='Dark'/> : <BsFillSunFill title='Light' />
+                                !colorMode ? <MdDarkMode title='Dark'/> : <BsFillSunFill title='Light' />
                             }
                         </span>
                     </Box>

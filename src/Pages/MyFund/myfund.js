@@ -1,11 +1,11 @@
 import React from 'react'
 
-function About() {
+function myfund() {
   return (
     <div>
-      about
+      my funds
     </div>
   )
 }
 
-export default About
+export default myfund

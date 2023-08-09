@@ -1,14 +1,19 @@
 import React, { useState } from 'react'
 import Navbar from '../Components/common/Navbar'
 import Sidebar from '../Components/common/Sidebar'
-import { Grid, GridItem, useDisclosure } from '@chakra-ui/react';
+import { Grid, GridItem, useColorMode, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import { Outlet } from 'react-router-dom';
+import { useTheme } from '@emotion/react';
 // import { useLocation } from 'react-router-dom';
 
-function DashboardLayout({ component }) {
+function DashboardLayout({ component,}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isChange, setIsChange] = useState(false)
+  const {colorMode , toggleColorMode} = useColorMode(false)
+  const theme = useTheme()
+  const Boxbg = useColorModeValue("#F3F6FD", "rgba(0,0,0,0.4)");
 
+ 
   function changeTheme() {
     if (document.body.classList.contains('dark_theme')) {
       document.body.classList.add('light_theme');
@@ -37,17 +42,18 @@ function DashboardLayout({ component }) {
         overflow: "hidden",
       }}
     >
-      <Navbar isOpen onOpen onClose isChange={isChange} setIsChange changeTheme={changeTheme} />
+      <Navbar isOpen onOpen onClose isChange={isChange} setIsChange changeTheme={changeTheme} toggleColorMode={toggleColorMode} colorMode={colorMode} />
       <Grid
         style={{display:'flex', flexWrap: "nowrap", overflow: "auto" }}
       >
         <GridItem 
         >
-          <Sidebar isOpen={isOpen} onOpen={onOpen} onClose={onClose} component={component} />
+          <Sidebar isOpen={isOpen} onOpen={onOpen} onClose={onClose} component={component} isChange={isChange} />
         </GridItem>
 
         <GridItem 
-          style={{ flexGrow: 1, overflow: "auto", backgroundColor: "#F8F8F8" }}
+        bg={Boxbg}
+          style={{ flexGrow: 1, overflow: "auto",}}
         >
           <Outlet />
         </GridItem>

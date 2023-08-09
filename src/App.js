@@ -1,14 +1,16 @@
 import React from 'react';
-import './App.css';
-import { ChakraProvider, Stack } from '@chakra-ui/react';
+import { ChakraProvider,} from '@chakra-ui/react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import Dashboard from './Components/Pages/Dashboard';
-import About from './Components/Pages/About';
-import Buy from './Components/Pages/Buy';
-import Telegram from './Components/Pages/Telegram';
-import Twitter from './Components/Pages/Twitter';
+import Dashboard from './Pages/Dashboard';
+import About from './Pages/About/Index';
+import StackCot from './Pages/Stack/Index';
+import Buy from './Pages/Buy/Index';
+import Telegram from './Pages/Telegram/Index';
+import Twitter from './Pages/Twitter/Index';
 import DashboardLayout from './Layouts/DashboardLayout';
-import { DashboardPages } from './Components/utils/Pages';
+import { DashboardPages } from './utils/Pages';
+
+import themes from './Theme/Theme';
 function App() {
   const router = createBrowserRouter([
     {
@@ -25,7 +27,7 @@ function App() {
         },
         {
           path: DashboardPages.STACK,
-          element: <Stack />
+          element: <StackCot />
         },
         {
           path: DashboardPages.BUY,
@@ -44,7 +46,7 @@ function App() {
   ]);
   return (
     <React.Fragment>
-      <ChakraProvider className="App">
+      <ChakraProvider className="App" theme={themes}>
         <RouterProvider router={router} />
       </ChakraProvider>
     </React.Fragment>

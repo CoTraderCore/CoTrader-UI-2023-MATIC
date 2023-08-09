@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, GridItem, List, ListItem } from '@chakra-ui/react';
+import { Grid, GridItem, List, ListItem, useColorModeValue } from '@chakra-ui/react';
 import { BiSolidShareAlt, BiLogoTelegram } from 'react-icons/bi';
 import { AiOutlineTwitter } from "react-icons/ai"
 import { GiShoppingBag } from "react-icons/gi"
@@ -7,8 +7,8 @@ import { BiSolidMessageAltDetail, } from 'react-icons/bi'
 import { AiFillHome } from 'react-icons/ai'
 import { ArrowRightIcon, ArrowLeftIcon } from '@chakra-ui/icons'
 import { Link } from 'react-router-dom';
-import { DashboardPages } from '../utils/Pages';
-
+import { DashboardPages } from '../../utils/Pages';
+import { useLocation } from 'react-router-dom';
 const menuItems = [
     {
         name: "Dashboard",
@@ -55,27 +55,30 @@ const Menu_style = {
     gap: "15px",
     padding: "10px 20px",
     width: "100%",
-    color: "black",
     textDecoration: "none"
 }
 
-function Sidebar({ isOpen, onOpen, onClose, }) {
+function Sidebar({ isOpen, onOpen, onClose, isChange }) {
+    const location = useLocation();
+    const ArrowBg = useColorModeValue("black", "black");
 
     return (
-        <Grid w='100%' position={'relative'} >
-            <GridItem w="auto" height="100vh" style={{ background: "#fff", position: "sticky", left: "0", top: "0", }}>
+        <Grid w='100%'>
+            <GridItem w="auto" height="100vh" style={{ backgroundColor: isChange ? "#F8F8F8" : "#fff", }}>
                 <List p={1} >
                     <ListItem>
-                        <span style={{ padding: "10px 25px", color: "black", display: "flex", justifyContent: "end" }} onClick={isOpen ? onClose : onOpen}>
+                        <span style={{ padding: "10px 25px", display: "flex", justifyContent: "end" }} onClick={isOpen ? onClose : onOpen}>
                             {
-                                isOpen ? <ArrowLeftIcon sx={{ _active: { color: "#8073de" } }} /> : <ArrowRightIcon sx={{ _active: { color: "#8073de" } }} />
+                                isOpen ? <ArrowLeftIcon color={ArrowBg} /> : <ArrowRightIcon color={ArrowBg} />
                             }
                         </span>
                     </ListItem>
                     {menuItems.map((item) => {
-                        return <ListItem sx={{ ":hover": { backgroundColor: "lightgray", transition: ".3s" } }}>
-                            <Link to={item.path} style={{ ...Menu_style }}><item.icon style={{ fontSize: "1.7rem", color: "#8073de", }} />
+                        const isActive = location.pathname === item.path;
+                        return <ListItem>
+                            <Link to={item.path} style={{ ...Menu_style }}><item.icon style={{ fontSize: "1.7rem", color:isActive ? "#422AFB":"#A4ADC7", }} />
                                 <span
+                                    style={{ color: isActive ? "#000" : "#A4ADC7" }}
                                     className={isOpen ? 'hidden-text' : 'show-text'}
                                 >{item.name}</span>
                             </Link>
