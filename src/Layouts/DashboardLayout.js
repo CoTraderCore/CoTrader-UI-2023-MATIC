@@ -11,6 +11,7 @@ function DashboardLayout({ component,}) {
   const [isChange, setIsChange] = useState(false)
   const {colorMode , toggleColorMode} = useColorMode(false)
   const theme = useTheme()
+  console.log(theme,">>>>>>>>>>>>>>>==================");
   const Boxbg = useColorModeValue("#F3F6FD", "rgba(0,0,0,0.4)");
 
  
