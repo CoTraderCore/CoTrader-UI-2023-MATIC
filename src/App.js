@@ -9,7 +9,7 @@ import Telegram from './Pages/Telegram/Index';
 import Twitter from './Pages/Twitter/Index';
 import DashboardLayout from './Layouts/DashboardLayout';
 import { DashboardPages } from './utils/Pages';
-
+import getWeb3 from './utils/getWeb3';
 import themes from './Theme/Theme';
 function App() {
   const router = createBrowserRouter([

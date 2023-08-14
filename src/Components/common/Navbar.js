@@ -43,10 +43,8 @@ const Navbar = ({ isChange , changeTheme,colorMode,toggleColorMode}) => {
                         </Heading>
                     </Box>
                     <Box display="flex" alignItems="center" fontSize="2xl" cursor={'pointer'} gap={2}>
-                        <span onClick={toggleColorMode} style={{ display: "flex", alignItems: "center" }}>
-                            {
-                                !colorMode ? <MdDarkMode title='Dark'/> : <BsFillSunFill title='Light' />
-                            }
+                        <span onClick={toggleColorMode} style={{ display: "flex", alignItems: "center" }}>        
+                        <BsFillSunFill title='Light' /> / <MdDarkMode title='Dark'/>           
                         </span>
                     </Box>
                 </Flex>

@@ -15,11 +15,11 @@ function PieCard(props) {
         "0px 18px 40px rgba(112, 144, 176, 0.12)",
         "unset"
     );
-    const BUSD =pieChartData[0]
-    const CAKE=pieChartData[1]
-  
+    const BUSD = pieChartData[0]
+    const CAKE = pieChartData[1]
+
     return (
-        <Box  align='center' direction='column' w='100%' {...rest}>
+        <Box align='center' direction='column' w='100%' {...rest}>
             <Flex
                 px={{ base: "0px", "2xl": "10px" }}
                 justifyContent='space-between'
@@ -27,7 +27,7 @@ function PieCard(props) {
                 w='100%'
                 mb='8px'>
                 <Text color={headingColor} fontSize='md' fontWeight='700' mt='4px'>
-                    FUND IN %
+                    ASSET ALLOCATION IN ETH VALUE
                 </Text>
             </Flex>
             <PieChart

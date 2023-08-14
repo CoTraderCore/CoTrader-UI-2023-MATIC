@@ -4,7 +4,6 @@ import { useGlobalFilter, usePagination, useSortBy, useTable, } from "react-tabl
 
 export default function PieChartTable(props) {
     const { columnsData, tableData } = props;
-
     const columns = useMemo(() => columnsData, [columnsData]);
     const data = useMemo(() => tableData, [tableData]);
     const tableInstance = useTable(
