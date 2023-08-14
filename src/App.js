@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState,useEffect } from 'react';
 import { ChakraProvider,} from '@chakra-ui/react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Dashboard from './Pages/Dashboard';
@@ -11,7 +11,37 @@ import DashboardLayout from './Layouts/DashboardLayout';
 import { DashboardPages } from './utils/Pages';
 import getWeb3 from './utils/getWeb3';
 import themes from './Theme/Theme';
-function App() {
+ 
+function App(props) {
+
+  const [web3,setWeb3]=useState(null);
+  const [network,setNetwork]=useState(0);
+  const [isLoadNetID,setIsLoadNetID]=useState(false)
+  const [accounts,setAccounts]=useState(null)
+
+  useEffect(()=>{
+    if(web3){
+      web3.eth.net.getId().then(netId => {
+        setNetwork(netId);
+        setIsLoadNetID(true);
+      });
+    }
+    
+  },[])
+  useEffect(()=>{
+    try{
+      const web3=getWeb3();
+      const accounts=web3.eth.getAccounts()
+      setWeb3(web3);
+      setAccounts(accounts)
+      props.MobXStorage.initWeb3AndAccounts(web3,accounts)
+    }catch(error){
+      console.log("error:",error);
+    }
+
+  },[])
+
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -23,7 +53,7 @@ function App() {
         },
         {
           path: DashboardPages.ABOUT,
-          element: <About />
+          element: <About {...props} web3={web3}/>
         },
         {
           path: DashboardPages.STACK,

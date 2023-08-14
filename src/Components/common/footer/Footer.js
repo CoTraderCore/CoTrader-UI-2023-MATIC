@@ -1,21 +1,19 @@
 import { Box, Grid, GridItem, Heading } from '@chakra-ui/react'
 import React from 'react'
-// import getFundData from '../../../utils/getFundData';
-// import { EtherscanLink } from '../../../config';
+import { EtherscanLink } from '../../../config';
 import Card from '../../Card/Card'
-// import { useParams } from 'react-router-dom';
 
-function Footer() {
+function Footer({owner,smartFundAddress}) {
 
     return (
         <Box>
             <Card mt={5}>
-                <Grid sx={{ display: "flex", justifyContent: "space-around" }}>
+                <Grid sx={{ display: "flex", justifyContent: "space-around",}} flexDirection={{base:"column" ,md:"row"}} gap={{base:"20px", md:"0"}}>
                     <GridItem fontWeight={600}>
-                        Smart Fund: <a href="/" target="_blank" rel="noopener noreferrer">===========</a>
+                        Smart Fund: <a  style={{ color: "blue", fontWeight: "500" }} href={EtherscanLink + "address/" + smartFundAddress } target="_blank" rel="noopener noreferrer">{String(smartFundAddress).replace(String(smartFundAddress).substring(6,36),"...")}</a>
                     </GridItem>
                     <GridItem fontWeight={600}>
-                        Owner: <a style={{ color: "blue", fontWeight: "500" }} href="/" target="_blank" rel="noopener noreferrer">+++++++++</a>
+                        Owner: <a style={{ color: "blue", fontWeight: "500" }} href={EtherscanLink +"address/" + owner} target="_blank" rel="noopener noreferrer">{String(owner).replace(String(owner).substring(6,36),"...")}</a>
                     </GridItem>
                 </Grid>
             </Card>

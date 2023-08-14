@@ -1,4 +1,4 @@
-import { APIEnpoint } from '../config'
+import { APIEnpoint } from '../config.js'
 import axios from 'axios'
 
 const getFundData = async (address) => {

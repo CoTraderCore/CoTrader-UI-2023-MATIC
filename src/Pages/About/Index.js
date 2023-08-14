@@ -1,75 +1,90 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ShadowBox from '../../Components/Cards/ShadowBox'
 import IconBox from '../../Components/Icons/IconBox';
 import Header from '../../Components/common/Header';
 // import DashboardHeader from '../../Components/common/DashboardHeader';
-import { Box, Heading, Icon, SimpleGrid, Button, Tooltip,List, ListItem, Progress, Stack, useColorModeValue } from '@chakra-ui/react'
+import { Box, Heading, Icon, SimpleGrid, Button, Tooltip, List, ListItem, Progress, Stack, useColorModeValue } from '@chakra-ui/react'
 import { MdAttachMoney, } from "react-icons/md";
 import PieCard from '../../Components/Card/PieCard';
 import PieChartTable from '../../Components/view/table/PieChartTable';
 import Card from '../../Components/Card/Card';
-// import {columnsDataCheck} from '../../Components/view/default/columnDataCheck'
-// import {tableDataCheck} from '../../Components/view/default/tableDataCheck.json'
-import { pieChartData, } from "../../Variable/Chart.js";
-// import ManagerInfo from '../../Components/view/default/progress/managerInfo';
 import Footer from '../../Components/common/footer/Footer';
-// import {NeworkID } from '../../config';
-// import getFundData from '../../utils/getFundData';
-// import { useParams } from 'react-router-dom';
-import ChartsButton from '../../Components/actions/ChartButton';
+import { NeworkID,} from '../../config';
+import getFundData from '../../utils/getFundData';
+import { fromWei } from 'web3-utils';
+import EtherscanButton from '../../Components/actions/EtherscanButton';
 
-const BUSD = pieChartData[0]
-const CAKE = pieChartData[1]
-const tableDataCheck = [{
-    "token": "BUSD",
-    "% from fund": BUSD,
-    "value in bnb": 9.396720,
-    "balance": 2289.8938
-},
-{
-    "token": "CAKE",
-    "% from fund": CAKE,
-    "value in bnb": 0.763615,
-    "balance": 125.2259
-},
 
-]
-const columnsDataCheck = [
-    {
-        Header: "TOKEN",
-        accessor: "token",
-    },
-    {
-        Header: "% FROM FUND",
-        accessor: "% from fund",
-    },
-    {
-        Header: "VALUE IN BNB",
-        accessor: "value in bnb",
-    },
-    {
-        Header: "BALANCE",
-        accessor: "balance",
-    },
-];
-function About() {
+
+
+
+function About(props) {
+  
+    const address = "0x36BDe6F520613Ce99dAC0b255492c533Ca3Dd8e0"
+    const [fundData, setFundData] = useState({
+        smartFundAddress: '',
+        name: '',
+        balance: [],
+        owner: '',
+        profitInETH: '0',
+        profitInUSD: '0',
+        valueInETH: '0',
+        valueInUSD: '0',
+        managerTotalCut: '0',
+        managerRemainingCut: '0',
+        shares: [],
+        isDataLoad: false,
+        mainAsset: '',
+        tradeVerification: 0,
+        fundSizeType: 'light',
+        version: 0,
+        managerFee: 0
+    });
+    useEffect(() => {
+        const getInitialData = async () => {
+            const fund = await getFundData(address)
+            setFundData({
+                smartFundAddress: fund?.data?.result?.address || "",
+                name: fund?.data?.result?.name,
+                balance: JSON.parse(fund?.data?.result?.balance || "[]"),
+                owner: fund?.data?.result?.owner,
+                profitInETH: fund?.data?.result?.profitInETH,
+                profitInUSD: fund?.data?.result?.profitInUSD,
+                valueInETH: fund?.data?.result?.valueInETH,
+                valueInUSD: fund?.data?.result?.valueInUSD,
+                managerTotalCut: fund?.data?.result?.managerTotalCut,
+                managerRemainingCut: fund?.data?.result?.managerRemainingCut,
+                shares: fund?.data?.result?.shares,
+                mainAsset: fund?.data?.result?.mainAsset,
+                isDataLoad: true,
+                tradeVerification: fund?.data?.result?.tradeVerification,
+                fundSizeType: fund?.data?.result?.fundType || "",
+                managerFee: fund?.data?.result?.managerFee,
+                version: fund?.data?.result?.version
+            })
+
+        }
+        getInitialData()
+
+    }, [address])
+
 
 
     const brandColor = useColorModeValue("#422AFB", "#422AFB");
     const boxBg = useColorModeValue("#F4F7FE", "#F4F7FE");
     const tooltipBg = useColorModeValue("black", "#A4ADC7")
     const headingColor = useColorModeValue("#1B2559", "#F4F7FE");
-    const totalprogressBg=useColorModeValue("green.100","white")
-    const colorSchemeGreen=useColorModeValue("green","green")
-    const colorSchemeRed=useColorModeValue("red","red")
-    const remainingprogressBg=useColorModeValue("red.100","white")
+    const totalprogressBg = useColorModeValue("green.100", "white")
+    const colorSchemeGreen = useColorModeValue("green", "green")
+    const colorSchemeRed = useColorModeValue("red", "red")
+    const remainingprogressBg = useColorModeValue("red.100", "white")
 
     return (
         <Box p={4} background="" >
             <Header heading="All Funds" />
             {  /*  <DashboardHeader />*/}
             <Box mt={4} sx={{ backgroundColor: "rgba(128, 144, 255,.1)", padding: "10px", borderRadius: "10px", }}>
-                <Heading fontSize={{ base: "2xl" }} color={headingColor} textAlign={'center'} p={2}>CAKE BUSD TVL ALGO FUND</Heading>
+                <Heading textTransform={"uppercase"} fontSize={{ base: "2xl" }} color={headingColor} textAlign={'center'} p={2}>{fundData.name}</Heading>
                 <SimpleGrid
                     width="100%"
                     columns={{ base: 1, md: 3, lg: 5, }}
@@ -77,27 +92,27 @@ function About() {
                     mb='20px'>
                     <ShadowBox
                         name='Type'
-                        value="Full"
+                        value={fundData.fundSizeType}
                         shadow="1px 2px 3px 2px rgba(21,21,21,0.12)"
                     />
                     <ShadowBox
                         name='Core asset'
-                        value="====="
+                        value={fundData.mainAsset}
                         shadow="1px 2px 3px 2px rgba(21,21,21,0.12)"
                     />
                     <ShadowBox
                         name='Version'
-                        value="========="
+                        value={String(fundData.version)}
                         shadow="1px 2px 3px 2px rgba(21,21,21,0.12)"
                     />
                     <ShadowBox
                         name='Manager fee'
-                        value="=========="
+                        value={Number(fundData.managerFee / 100).toFixed(2) + "%"}
                         shadow="1px 2px 3px 2px rgba(21,21,21,0.12)"
                     />
                     <ShadowBox
                         name='Limit tokens'
-                        value="======"
+                        value={Number(fundData.tradeVerification) === 1 ? "enable" : "disabled"}
                         shadow="1px 2px 3px 2px rgba(21,21,21,0.12)"
                     />
                 </SimpleGrid>
@@ -119,8 +134,8 @@ function About() {
                             }
                         />
                     }
-                    name='Fund profit in ETH'
-                    value="0"
+                    name='Fund profit in BNB'
+                    value={fromWei(String(fundData.profitInETH), 'ether')}
                 />
                 <ShadowBox
                     startContent={
@@ -134,7 +149,7 @@ function About() {
                         />
                     }
                     name='Fund profit in USD'
-                    value="0"
+                    value={fromWei(String(fundData.profitInUSD), 'ether')}
                 />
                 <ShadowBox
                     startContent={
@@ -145,8 +160,8 @@ function About() {
                             icon={<Icon w='28px' h='28px' as={MdAttachMoney} color={brandColor} />}
                         />
                     }
-                    name='Fund value in ETH'
-                    value="0"
+                    name='Fund value in BNB'
+                    value={fromWei(String(fundData.valueInETH), 'ether')}
                 />
                 <ShadowBox
                     startContent={
@@ -158,7 +173,7 @@ function About() {
                         />
                     }
                     name='Fund value in USD'
-                    value="0"
+                    value={fromWei(String(fundData.valueInUSD), 'ether')}
                 />
             </SimpleGrid>
             <Box>
@@ -175,15 +190,7 @@ function About() {
                                 Withdraw
                             </Button>
                         </Tooltip>
-                     
-                                <ChartsButton />
-                           
-                                    <Tooltip hasArrow label="This button is available only in mainnet" bg={tooltipBg}>
-                                        <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#4318ff" color="#fff" sx={{ _hover: { backgroundColor: "#4318ffcc" } }}>
-                                            Charts Button
-                                        </Button>
-                                    </Tooltip>
-                                
+                        <EtherscanButton address={fundData.smartFundAddress} />
                         <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
                             <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#4318ff" color="#fff" sx={{ _hover: { backgroundColor: "#4318ffcc" } }}>
                                 My profile
@@ -194,27 +201,33 @@ function About() {
             </Box>
             <Box>
                 <Box mt={5} gap={4} width={"100%"} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, }} >
-                <Card width={{ base: "100%", md: "30%" }} bg={"rgba(128, 144, 255,.1)"}>
-                <Heading fontSize={{ base: "xl", md: "2xl" }} sx={{ textAlign: "center", textTransform: "uppercase", color: { headingColor }, padding: "10px 0px" }}>MANAGER INFO</Heading>
-                <List  p={5} width={{ base: "100%", md: "100%" }} textAlign={'center'} borderRadius={"10px"}>
-                <ListItem py={4}>
-                    <span style={{ color: { headingColor }, fontWeight: "600" }}> Total Cut: 0</span>
-                    <Stack spacing={5}>
-                        <Progress bg={totalprogressBg} colorScheme={colorSchemeGreen} size='md' value="20" sx={{ borderRadius: "20px" }} />
-                    </Stack>
-                </ListItem>
-                <ListItem py={4}>
-                    <span style={{ color: { headingColor }, fontWeight: "600" }}> Remaining Cut: 0</span>
-                    <Stack spacing={5} >
-                        <Progress bg={remainingprogressBg} colorScheme={colorSchemeRed} size='md' value="20" sx={{ borderRadius: "20px" }} />
-                    </Stack>
-                </ListItem>
-            </List>
-                </Card>
+                    <Card width={{ base: "100%", md: "30%" }} bg={"rgba(128, 144, 255,.1)"}>
+                        <Heading fontSize={{ base: "xl", md: "2xl" }} sx={{ textAlign: "center", textTransform: "uppercase", color: { headingColor }, padding: "10px 0px" }}>MANAGER INFO</Heading>
+                        <List p={5} width={{ base: "100%", md: "100%" }} textAlign={'center'} borderRadius={"10px"}>
+                            <ListItem py={4}>
+                                <span style={{ color: { headingColor }, fontWeight: "600" }}> Total Cut: {fromWei(fundData.managerTotalCut, 'ether')}</span>
+                                <Stack spacing={5}>
+                                    <Progress bg={totalprogressBg} colorScheme={colorSchemeGreen} size='md' value={fromWei(fundData.managerTotalCut, 'ether')} sx={{ borderRadius: "20px" }} />
+                                </Stack>
+                            </ListItem>
+                            <ListItem py={4}>
+                                <span style={{ color: { headingColor }, fontWeight: "600" }}> Remaining Cut: {fromWei(fundData.managerRemainingCut, 'ether')}</span>
+                                <Stack spacing={5} >
+                                    <Progress bg={remainingprogressBg} colorScheme={colorSchemeRed} size='md' value={fromWei(fundData.managerRemainingCut, 'ether')} sx={{ borderRadius: "20px" }} />
+                                </Stack>
+                            </ListItem>
+                        </List>
+                    </Card>
                     <Card width={{ base: "100%", md: "70%" }} >
                         <Box sx={{ display: "flex", flexDirection: { base: "column", md: "row" } }}>
-                            <PieChartTable columnsData={columnsDataCheck} tableData={tableDataCheck} />
-                            <PieCard />
+                           <PieChartTable/>
+                            {
+                                NeworkID === 2 ?
+                                    (
+                                        <PieCard AssetsData={fundData.balance} version={fundData.version} />
+                                    ) : null
+                            }
+
                         </Box>
                     </Card>
                 </Box>
@@ -243,18 +256,20 @@ function About() {
                                 White List
                             </Button>
                         </Tooltip>
-                      
-                                <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#4318ff" color="#fff" sx={{ _hover: { backgroundColor: "#4318ffcc" } }}>
-                                    Stable Tokens
-                                </Button>
-                            </Tooltip>
-                           
-                        
+                        {
+                            fundData.mainAsset === "USD" ?
+                                (
+                                    <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
+                                        <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#4318ff" color="#fff" sx={{ _hover: { backgroundColor: "#4318ffcc" } }}>
+                                            Stable Tokens
+                                        </Button>
+                                    </Tooltip>
+                                ) : null
+                        }
                     </Box>
                 </Box>
             </Box>
-            <Footer />
+            <Footer smartFundAddress={fundData.smartFundAddress} owner={fundData.owner} />
         </Box>
     )
 }
