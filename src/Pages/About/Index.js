@@ -2,23 +2,20 @@ import React, { useEffect, useState } from 'react'
 import ShadowBox from '../../Components/Cards/ShadowBox'
 import IconBox from '../../Components/Icons/IconBox';
 import Header from '../../Components/common/Header';
-// import DashboardHeader from '../../Components/common/DashboardHeader';
+import DashboardHeader from '../../Components/common/DashboardHeader';
 import { Box, Heading, Icon, SimpleGrid, Button, Tooltip, List, ListItem, Progress, Stack, useColorModeValue } from '@chakra-ui/react'
 import { MdAttachMoney, } from "react-icons/md";
 import PieCard from '../../Components/Card/PieCard';
 import PieChartTable from '../../Components/view/table/PieChartTable';
 import Card from '../../Components/Card/Card';
 import Footer from '../../Components/common/footer/Footer';
-import { NeworkID,} from '../../config';
 import getFundData from '../../utils/getFundData';
 import { fromWei } from 'web3-utils';
+import { NeworkID } from '../../config';
 import EtherscanButton from '../../Components/actions/EtherscanButton';
 
 
-
-
-
-function About(props) {
+function About() {
   
     const address = "0x36BDe6F520613Ce99dAC0b255492c533Ca3Dd8e0"
     const [fundData, setFundData] = useState({
@@ -70,20 +67,20 @@ function About(props) {
 
 
 
-    const brandColor = useColorModeValue("#422AFB", "#422AFB");
-    const boxBg = useColorModeValue("#F4F7FE", "#F4F7FE");
+    const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
+    const boxBg = useColorModeValue("#F4F7FE", "#110938");
     const tooltipBg = useColorModeValue("black", "#A4ADC7")
     const headingColor = useColorModeValue("#1B2559", "#F4F7FE");
-    const totalprogressBg = useColorModeValue("green.100", "white")
+    const totalprogressBg = useColorModeValue("green.100", "#CBC3E3")
     const colorSchemeGreen = useColorModeValue("green", "green")
     const colorSchemeRed = useColorModeValue("red", "red")
-    const remainingprogressBg = useColorModeValue("red.100", "white")
+    const remainingprogressBg = useColorModeValue("red.100", "#CBC3E3")
 
     return (
         <Box p={4} background="" >
             <Header heading="All Funds" />
-            {  /*  <DashboardHeader />*/}
-            <Box mt={4} sx={{ backgroundColor: "rgba(128, 144, 255,.1)", padding: "10px", borderRadius: "10px", }}>
+        <DashboardHeader />
+            <Box mt={4} sx={{  padding: "10px", borderRadius: "10px", }}>
                 <Heading textTransform={"uppercase"} fontSize={{ base: "2xl" }} color={headingColor} textAlign={'center'} p={2}>{fundData.name}</Heading>
                 <SimpleGrid
                     width="100%"
@@ -181,18 +178,18 @@ function About(props) {
                 <Box sx={{ display: "flex", justifyContent: "center" }}>
                     <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
                         <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#4318ff" color="#fff" sx={{ _hover: { backgroundColor: "#4318ffcc" } }}>
+                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
                                 Deposit
                             </Button>
                         </Tooltip>
                         <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#4318ff" color="#fff" sx={{ _hover: { backgroundColor: "#4318ffcc" } }}>
+                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
                                 Withdraw
                             </Button>
                         </Tooltip>
                         <EtherscanButton address={fundData.smartFundAddress} />
                         <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#4318ff" color="#fff" sx={{ _hover: { backgroundColor: "#4318ffcc" } }}>
+                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
                                 My profile
                             </Button>
                         </Tooltip>
@@ -221,12 +218,13 @@ function About(props) {
                     <Card width={{ base: "100%", md: "70%" }} >
                         <Box sx={{ display: "flex", flexDirection: { base: "column", md: "row" } }}>
                            <PieChartTable/>
-                            {
+                           <PieCard AssetsData={fundData.balance} version={fundData.version} />
+                            {/*
                                 NeworkID === 2 ?
                                     (
                                         <PieCard AssetsData={fundData.balance} version={fundData.version} />
                                     ) : null
-                            }
+                                    */ }
 
                         </Box>
                     </Card>
@@ -237,22 +235,22 @@ function About(props) {
                 <Box sx={{ display: "flex", justifyContent: "center" }}>
                     <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
                         <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#4318ff" color="#fff" sx={{ _hover: { backgroundColor: "#4318ffcc" } }}>
+                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
                                 Exchange
                             </Button>
                         </Tooltip>
                         <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#4318ff" color="#fff" sx={{ _hover: { backgroundColor: "#4318ffcc" } }}>
+                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
                                 Pool
                             </Button>
                         </Tooltip>
                         <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#4318ff" color="#fff" sx={{ _hover: { backgroundColor: "#4318ffcc" } }}>
+                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
                                 Take Cut
                             </Button>
                         </Tooltip>
                         <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#4318ff" color="#fff" sx={{ _hover: { backgroundColor: "#4318ffcc" } }}>
+                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
                                 White List
                             </Button>
                         </Tooltip>
@@ -260,7 +258,7 @@ function About(props) {
                             fundData.mainAsset === "USD" ?
                                 (
                                     <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                                        <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#4318ff" color="#fff" sx={{ _hover: { backgroundColor: "#4318ffcc" } }}>
+                                        <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
                                             Stable Tokens
                                         </Button>
                                     </Tooltip>

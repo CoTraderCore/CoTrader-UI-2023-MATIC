@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Grid, GridItem, Select, Stack, Icon, useColorModeValue, SimpleGrid,Button } from '@chakra-ui/react';
+import { Box, Grid, GridItem, Stack, Icon, useColorModeValue, SimpleGrid,Button } from '@chakra-ui/react';
 import DashboardHeader from '../../Components/common/DashboardHeader'
 import Header from '../../Components/common/Header';
 import FilterSearch from '../../Components/Filter&Search/FilterSearch';
@@ -10,6 +10,8 @@ import {MdAttachMoney, } from "react-icons/md";
 import CardBox from '../../Components/Cards/CardBox';
 import HorizontalTabs from '../../Components/Tabs/HorizontalTabs';
 import { dashbordTabs } from '../../utils/sample';
+import SortFunds from '../../Components/navigation/SortFunds';
+
 function Dashboard() {
 
     const brandColor = useColorModeValue("#422AFB", "#422AFB");
@@ -27,11 +29,11 @@ function Dashboard() {
                         <FilterSearch />
                     </GridItem>
                     <GridItem >
-                        <Button bg="#4318ff" color={"#fff"} _hover={"none"} fontSize={{ base: "1.5rem", md: "1.4rem" }}>Total Funds: 30</Button>
+                        <Button bg="#5E39FF" color={"#fff"} _hover={"none"} fontWeight="500"  textTransform={'uppercase'}>Total Funds: 30</Button>
                     </GridItem>
                     <GridItem >
-                        <Stack bg="#4318ff"  sx={{color:"#fff",borderRadius:"8px",border:"none",_hover: { backgroundColor: "#4318ffcc"}}}>
-                            <Select placeholder='Higher Value' size='md' />
+                        <Stack bg="#5E39FF"  sx={{color:"#fff",borderRadius:"8px",border:"none",_hover: { backgroundColor: "#7500ff"}}}>
+                            <SortFunds/>
                         </Stack>
                     </GridItem>
                 </Grid>

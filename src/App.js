@@ -11,13 +11,18 @@ import DashboardLayout from './Layouts/DashboardLayout';
 import { DashboardPages } from './utils/Pages';
 import getWeb3 from './utils/getWeb3';
 import themes from './Theme/Theme';
- 
+import getFundsList from './utils/getFundsList';
+import { SmartFundRegistryADDRESS } from './config';
+// card color  #181144
+// background color #110938
 function App(props) {
 
   const [web3,setWeb3]=useState(null);
   const [network,setNetwork]=useState(0);
   const [isLoadNetID,setIsLoadNetID]=useState(false)
   const [accounts,setAccounts]=useState(null)
+  const [isDataLoad,setIsDataLoad]=useState(false)
+  const [_isMounted,_setIsMounted]=useState(false)
 
   useEffect(()=>{
     if(web3){
@@ -41,6 +46,17 @@ function App(props) {
 
   },[])
 
+  // const initData = async () => {
+  //   if(_isMounted && MobXStorage.SmartFundsOriginal.length === 0){
+  //     const smartFunds = await getFundsList()
+  //     MobXStorage.initSFList(smartFunds)
+  //     // view current registry address
+  //     console.log("SmartFundRegistryADDRESS: ", SmartFundRegistryADDRESS, "!___version 28/04/21___!")
+  //     this.setIsDataLoad({ isDataLoad: true })
+  //   }
+  // }
+
+
 
   const router = createBrowserRouter([
     {
@@ -49,7 +65,7 @@ function App(props) {
       children: [
         {
           path: DashboardPages.DASHBOARD,
-          element: <Dashboard />
+          element: <Dashboard {...props} web3={web3} />
         },
         {
           path: DashboardPages.ABOUT,

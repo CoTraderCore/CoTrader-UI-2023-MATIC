@@ -17,7 +17,7 @@ import React from "react";
 export default function ShadowBox(props) {
   const { startContent, endContent, name, growth, value ,shadow,} = props;
   const textColor = useColorModeValue("#A4ADC7", "white");
-  const textColorSecondary = "#1B2559";
+  const textColorSecondary =useColorModeValue("gray", "#CBC3E3");
  
   return (
     <CardBox py='15px' shadow={shadow} >

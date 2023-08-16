@@ -32,10 +32,10 @@ const Navbar = ({ isChange , changeTheme,colorMode,toggleColorMode}) => {
     //     }
     // }
 
-  
+
     return (
         <React.Fragment>
-            <Box bg="#6553FF" padding="15px" color="white">
+            <Box bg="#5E39FF" padding="15px" color="white">
                 <Flex justifyContent="space-between">
                     <Box display="flex" alignItems="center" gap={4} >
                         <Heading as="h1" size="lg" cursor={'pointer'}>

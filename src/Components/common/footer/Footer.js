@@ -10,10 +10,10 @@ function Footer({owner,smartFundAddress}) {
             <Card mt={5}>
                 <Grid sx={{ display: "flex", justifyContent: "space-around",}} flexDirection={{base:"column" ,md:"row"}} gap={{base:"20px", md:"0"}}>
                     <GridItem fontWeight={600}>
-                        Smart Fund: <a  style={{ color: "blue", fontWeight: "500" }} href={EtherscanLink + "address/" + smartFundAddress } target="_blank" rel="noopener noreferrer">{String(smartFundAddress).replace(String(smartFundAddress).substring(6,36),"...")}</a>
+                        Smart Fund: <a  style={{ color: "#5E39FF", fontWeight: "500" }} href={EtherscanLink + "address/" + smartFundAddress } target="_blank" rel="noopener noreferrer">{String(smartFundAddress).replace(String(smartFundAddress).substring(6,36),"...")}</a>
                     </GridItem>
                     <GridItem fontWeight={600}>
-                        Owner: <a style={{ color: "blue", fontWeight: "500" }} href={EtherscanLink +"address/" + owner} target="_blank" rel="noopener noreferrer">{String(owner).replace(String(owner).substring(6,36),"...")}</a>
+                        Owner: <a style={{ color: "#5E39FF", fontWeight: "500" }} href={EtherscanLink +"address/" + owner} target="_blank" rel="noopener noreferrer">{String(owner).replace(String(owner).substring(6,36),"...")}</a>
                     </GridItem>
                 </Grid>
             </Card>

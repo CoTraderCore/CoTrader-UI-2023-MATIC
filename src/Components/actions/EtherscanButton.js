@@ -10,7 +10,7 @@ function EtherscanButton(props) {
 
     return (
         <Tooltip hasArrow label="" bg={tooltipBg}>
-            <Button  flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#4318ff" color="#fff" sx={{ _hover: { backgroundColor: "#4318ffcc" } }}>
+            <Button  flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
                <a style={{textDecoration:"none",width:"100%"}} href={EtherscanLink +"/address/" + props.address} target="_blank">Scan</a>
             </Button>
         </Tooltip>
