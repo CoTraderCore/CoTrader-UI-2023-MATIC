@@ -11,7 +11,7 @@ import Card from '../../Components/Card/Card';
 import Footer from '../../Components/common/footer/Footer';
 import getFundData from '../../utils/getFundData';
 import { fromWei } from 'web3-utils';
-import { NeworkID } from '../../config';
+// import { NeworkID } from '../../config';
 import EtherscanButton from '../../Components/actions/EtherscanButton';
 
 

@@ -1,5 +1,5 @@
-import React, { useState,useEffect } from 'react';
-import { ChakraProvider,} from '@chakra-ui/react';
+import React, { useState, useEffect } from 'react';
+import { ChakraProvider, } from '@chakra-ui/react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Dashboard from './Pages/Dashboard';
 import About from './Pages/About/Index';
@@ -17,44 +17,34 @@ import { SmartFundRegistryADDRESS } from './config';
 // background color #110938
 function App(props) {
 
-  const [web3,setWeb3]=useState(null);
-  const [network,setNetwork]=useState(0);
-  const [isLoadNetID,setIsLoadNetID]=useState(false)
-  const [accounts,setAccounts]=useState(null)
-  const [isDataLoad,setIsDataLoad]=useState(false)
-  const [_isMounted,_setIsMounted]=useState(false)
+  const [web3, setWeb3] = useState(null);
+  const [network, setNetwork] = useState(0);
+  const [isLoadNetID, setIsLoadNetID] = useState(false)
+  const [accounts, setAccounts] = useState(null)
+  const [isDataLoad, setIsDataLoad] = useState(false)
+  const [_isMounted, _setIsMounted] = useState(false)
 
-  useEffect(()=>{
-    if(web3){
+  useEffect(() => {
+    if (web3) {
       web3.eth.net.getId().then(netId => {
         setNetwork(netId);
         setIsLoadNetID(true);
       });
     }
-    
-  },[])
-  useEffect(()=>{
-    try{
-      const web3=getWeb3();
-      const accounts=web3.eth.getAccounts()
+
+  }, [])
+  useEffect(() => {
+    try {
+      const web3 = getWeb3();
+      const accounts = web3.eth.getAccounts()
       setWeb3(web3);
       setAccounts(accounts)
-      props.MobXStorage.initWeb3AndAccounts(web3,accounts)
-    }catch(error){
-      console.log("error:",error);
+      props.MobXStorage.initWeb3AndAccounts(web3, accounts)
+    } catch (error) {
+      console.log("error:", error);
     }
 
-  },[])
-
-  // const initData = async () => {
-  //   if(_isMounted && MobXStorage.SmartFundsOriginal.length === 0){
-  //     const smartFunds = await getFundsList()
-  //     MobXStorage.initSFList(smartFunds)
-  //     // view current registry address
-  //     console.log("SmartFundRegistryADDRESS: ", SmartFundRegistryADDRESS, "!___version 28/04/21___!")
-  //     this.setIsDataLoad({ isDataLoad: true })
-  //   }
-  // }
+  }, [])
 
 
 
@@ -69,7 +59,7 @@ function App(props) {
         },
         {
           path: DashboardPages.ABOUT,
-          element: <About {...props} web3={web3}/>
+          element: <About {...props} web3={web3} />
         },
         {
           path: DashboardPages.STACK,

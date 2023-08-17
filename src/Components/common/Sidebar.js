@@ -61,10 +61,10 @@ const Menu_style = {
 function Sidebar({ isOpen, onOpen, onClose, isChange }) {
     const location = useLocation();
     const ArrowBg = useColorModeValue("black", "white");
-const sliderBg=useColorModeValue("#fff","#181144")
+    const sliderBg = useColorModeValue("#fff", "#181144")
     return (
         <Grid w='100%'>
-            <GridItem w="auto" height="100vh" bg={sliderBg}>
+            <GridItem w="auto" height="90vh" bg={sliderBg} sx={{}}>
                 <List p={1} >
                     <ListItem>
                         <span style={{ padding: "10px 25px", display: "flex", justifyContent: "end" }} onClick={isOpen ? onClose : onOpen}>
@@ -76,7 +76,7 @@ const sliderBg=useColorModeValue("#fff","#181144")
                     {menuItems.map((item) => {
                         const isActive = location.pathname === item.path;
                         return <ListItem>
-                            <Link to={item.path} style={{ ...Menu_style }}><item.icon style={{ fontSize: "1.7rem", color:isActive ? "#5E39FF":"#A4ADC7", }} />
+                            <Link to={item.path} style={{ ...Menu_style }}><item.icon style={{ fontSize: "1.7rem", color: isActive ? "#5E39FF" : "#A4ADC7", }} />
                                 <span
                                     style={{ color: isActive ? "#CBC3E3" : "#A4ADC7" }}
                                     className={isOpen ? 'hidden-text' : 'show-text'}

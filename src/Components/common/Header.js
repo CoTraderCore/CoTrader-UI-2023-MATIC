@@ -12,7 +12,7 @@ function Header({heading}) {
       position: "sticky",
       top: "0px",
       borderRadius: "5px",
-      zIndex: "10000",
+      zIndex: "100",
       backdropFilter: "blur(10px)", // Add blur effect
       backgroundColor: "#F4F7FE0",
     }}>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Navbar from '../Components/common/Navbar'
 import Sidebar from '../Components/common/Sidebar'
-import { Grid, GridItem, useColorMode, useColorModeValue, useDisclosure } from '@chakra-ui/react';
+import { Box, Grid, GridItem, useColorMode, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import { Outlet } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
 // import { useLocation } from 'react-router-dom';
@@ -25,42 +25,27 @@ console.log(theme);
     setIsChange(!isChange)
   }
   return (
-    // <div style={{backgroundColor:"#f3f2fa"}}>
-    //   <Navbar isOpen onOpen onClose isChange={isChange} setIsChange changeTheme={changeTheme} />
-    //   <div style={{display : "flex",}}>
-    //     <Sidebar isOpen={isOpen}  onOpen={onOpen} onClose={onClose} component={component}/>
-    //     <div style={{width:'100%'}}>
-    //     <Outlet />
-    //     </div>
-    //   </div>
-    // </div>
-    <div
+    <Box
       style={{
         height: "100vh",
         display: "flex",
         flexDirection: "column",
         overflow: "hidden",
+        position:"relative"
       }}
     >
       <Navbar isOpen onOpen onClose isChange={isChange} setIsChange changeTheme={changeTheme} toggleColorMode={toggleColorMode} colorMode={colorMode} />
-      <Grid
-        style={{display:'flex', flexWrap: "nowrap", overflow: "auto" }}
-      >
-        <GridItem 
-        >
+      <Grid style={{display:'flex', flexWrap: "nowrap", overflow: "auto" , height: "90vh",}} >
+        <GridItem >
           <Sidebar isOpen={isOpen} onOpen={onOpen} onClose={onClose} component={component} isChange={isChange} />
         </GridItem>
-
-        <GridItem 
-        bg={Boxbg}
-          style={{ flexGrow: 1, overflow: "auto",}}
-        >
+        <GridItem className='example' bg={Boxbg} style={{ flexGrow: 1, overflow: "auto",}}>
           <Outlet />
         </GridItem>
       </Grid>
 
 
-    </div>
+    </Box>
   )
 }
 

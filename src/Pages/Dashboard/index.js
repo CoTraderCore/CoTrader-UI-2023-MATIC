@@ -11,11 +11,43 @@ import CardBox from '../../Components/Cards/CardBox';
 import HorizontalTabs from '../../Components/Tabs/HorizontalTabs';
 import { dashbordTabs } from '../../utils/sample';
 import SortFunds from '../../Components/navigation/SortFunds';
+// import getFundsList from '../../utils/getFundsList';
 
-function Dashboard() {
 
-    const brandColor = useColorModeValue("#422AFB", "#422AFB");
-    const boxBg = useColorModeValue("#F4F7FE", "#F4F7FE");
+function Dashboard(props) {
+
+    // const [isDataLoad, setDataLoad] = useState(false);
+
+    // useEffect(() => {
+    //   let isMounted = true;
+  
+    //   const fetchData = async () => {
+    //     if (props.MobXStorage.SmartFundsOriginal.length === 0) {
+    //       // Get data for web3 off component
+    //       const smartFunds = await getFundsList();
+    //       props.MobXStorage.initSFList(smartFunds);
+    //     }
+  
+    //     if (isMounted) {
+    //       setDataLoad(true);
+    //     }
+    //   };
+  
+    //   fetchData();
+  
+    //   return () => {
+    //     isMounted = false;
+    //   };
+    // }, [props.MobXStorage]);
+  
+    // useEffect(() => {
+    //   if (props.web3) {
+    //     window.location = "/";
+    //   }
+    // }, [props.web3]);
+
+    const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
+    const boxBg = useColorModeValue("#F4F7FE", "#110938");
     return (
         <Box className='dashboard' style={{ padding: "10px", }}>
             <Header heading="Dashboard" />

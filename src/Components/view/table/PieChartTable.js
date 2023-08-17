@@ -103,7 +103,7 @@ function PieChartTable() {
                     if (item["percentInETH"] > 0) {
                       return (
                         <Tr key={key}>
-                          <Td sx={{ display: "flex",flexDirection:{base:"column",md:"row"}, color: { textColor }, fontWeight: "500" }}>
+                          <Td sx={{textTransform:"uppercase", display: "flex",flexDirection:{base:"column",md:"row"}, color: { textColor }, fontWeight: "500" }}>
                             {
                               <img
                                 style={{ height: "20px", width: "20px",}}
