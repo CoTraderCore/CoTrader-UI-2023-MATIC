@@ -11,7 +11,7 @@ import MobXStorage from './MobXStorage';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider MobXStorage={MobXStorage}>
-  <App/>
+    <App/>
   </Provider>
   
  

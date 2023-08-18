@@ -99,7 +99,7 @@
 //             },
 //         },
 //     };
-   
+
 
 //     const series = data.datasets.map(dataset => dataset.value);
 
@@ -117,7 +117,7 @@
 //                 <Box >
 //                 <Chart options={options} series={series} type="pie" width="300" />
 //                 </Box>
-               
+
 
 //                 <Flex direction={{ base: "column", md: "row" }} py='5px' me='10px' >
 //                     {
@@ -424,7 +424,7 @@ export const pieChartOptions = {
     },
 };
 
-export const pieChartData = [92.4844,7.5156 ];
+export const pieChartData = [92.4844, 7.5156];
 
 // Total Spent Default
 
@@ -481,7 +481,7 @@ export const lineChartOptionsTotalSpent = {
     },
     xaxis: {
         type: "numeric",
-        categories: ["SEP", "OCT", "NOV", "DEC", "JAN", "FEB"],
+        categories: ["SEP", "OCT", "NOV", "DEC", "JAN", "FEB",],
         labels: {
             style: {
                 colors: "#A3AED0",

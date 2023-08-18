@@ -7,6 +7,12 @@ import { MdAttachMoney } from 'react-icons/md'
 import Card from '../../Components/Card/Card';
 import BarChart from '../../Components/Chart/BarChart';
 import { Link } from 'react-router-dom';
+import DailyTraffic from '../../Components/Chart/DailyTrafic';
+import TotalSpent from '../../Variable/TotalSpent';
+import FundModal from '../../Components/actions/FundModal';
+import ManagerModal from '../../Components/actions/ManagerModal';
+
+
 
 function AllFunds() {
     const headingColor = useColorModeValue("#1B2559", "#F4F7FE");
@@ -66,40 +72,55 @@ function AllFunds() {
                 </SimpleGrid>
             </Box>
             <Card>
-                <Box sx={{ display: "flex", width: "100%" }}>
+                <SimpleGrid gap='20px'
+                    mb='20px'
+                    columns={{ base: 1, md: 2, lg: 2, }}
+                    sx={{ width: "100%", }} >
                     <BarChart />
-                </Box>
-               
+                    <DailyTraffic />
+                    <TotalSpent />
+                </SimpleGrid>
             </Card>
+            <SimpleGrid mt={5} gap={5}  columns={{base:1,md:2}}>
+                <Card textAlign="center">
+                    <FundModal />
+                </Card>
+                <Card textAlign="center">
+                    <ManagerModal />
+                </Card>
+            </SimpleGrid>
+
+
             <Box mt={4} display="flex" justifyContent="center">
-            <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
-                <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                    <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
-                        Deposit
-                    </Button>
-                </Tooltip>
-                <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                    <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
-                        Withdraw
-                    </Button>
-                </Tooltip>
-                <Tooltip hasArrow label="" bg={tooltipBg}>
-                   <Link to={"/web3off/fund/"}><Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
-                        Fund Page
-                    </Button>
-                    </Link> 
-                </Tooltip>
-                <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                    <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
-                        My Funds
-                    </Button>
-                </Tooltip>
-                <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                    <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
-                        Scan
-                    </Button>
-                </Tooltip>
-            </Box>
+                <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
+                    <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
+                        <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
+                            Deposit
+                        </Button>
+                    </Tooltip>
+                    <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
+                        <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
+                            Withdraw
+                        </Button>
+                    </Tooltip>
+                    <Tooltip hasArrow label="" bg={tooltipBg}>
+                        <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
+                            <Link to={"/web3off/fund/"} style={{ width: "100%",color:"white" }}>
+                                Fund Page
+                            </Link>
+                        </Button>
+                    </Tooltip>
+                    <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
+                        <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
+                            My Funds
+                        </Button>
+                    </Tooltip>
+                    <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
+                        <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
+                            Scan
+                        </Button>
+                    </Tooltip>
+                </Box>
             </Box>
             <Box>
                 <SimpleGrid

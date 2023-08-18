@@ -1,54 +1,60 @@
-import React from 'react'
-import { Box, Grid, GridItem, Stack, Icon, useColorModeValue, SimpleGrid,Button } from '@chakra-ui/react';
+import React, {useEffect } from 'react'
+import { Box,Text, Grid, GridItem, Stack, Icon, useColorModeValue, SimpleGrid, } from '@chakra-ui/react';
 import DashboardHeader from '../../Components/common/DashboardHeader'
 import Header from '../../Components/common/Header';
 import FilterSearch from '../../Components/Filter&Search/FilterSearch';
 import CreateFundButton from '../../Components/template/CreateFundButton';
 import ShadowBox from '../../Components/Cards/ShadowBox';
 import IconBox from '../../Components/Icons/IconBox';
-import {MdAttachMoney, } from "react-icons/md";
 import CardBox from '../../Components/Cards/CardBox';
 import HorizontalTabs from '../../Components/Tabs/HorizontalTabs';
 import { dashbordTabs } from '../../utils/sample';
 import SortFunds from '../../Components/navigation/SortFunds';
-// import getFundsList from '../../utils/getFundsList';
+import { MdOutlineBarChart } from 'react-icons/md'
+import { FcComboChart } from 'react-icons/fc'
+import { RiFundsBoxLine } from 'react-icons/ri'
+import getFundsList from '../../utils/getFundsList';
+import { useObserver } from 'mobx-react';
+import MobXStorage from '../../MobXStorage';
 
 
-function Dashboard(props) {
 
-    // const [isDataLoad, setDataLoad] = useState(false);
+function Dashboard({isDataLoad, web3, setIsDataLoad }) {
 
-    // useEffect(() => {
-    //   let isMounted = true;
-  
-    //   const fetchData = async () => {
-    //     if (props.MobXStorage.SmartFundsOriginal.length === 0) {
-    //       // Get data for web3 off component
-    //       const smartFunds = await getFundsList();
-    //       props.MobXStorage.initSFList(smartFunds);
-    //     }
-  
-    //     if (isMounted) {
-    //       setDataLoad(true);
-    //     }
-    //   };
-  
-    //   fetchData();
-  
-    //   return () => {
-    //     isMounted = false;
-    //   };
-    // }, [props.MobXStorage]);
-  
-    // useEffect(() => {
-    //   if (props.web3) {
-    //     window.location = "/";
-    //   }
-    // }, [props.web3]);
+    // console.log(MobXStorage, isDataLoad, web3,);
+    useEffect(() => {
+        let isMounted = true;
+        const fetchData = async () => {
+            if (MobXStorage?.SmartFundsOriginal.length === 0) {
+                try {
+                    const smartFunds = await getFundsList();
+                    MobXStorage?.initSFList(smartFunds);
+                } catch (error) {
+                    console.error('Error fetching smart funds:', error);
+                }
+            }
+            if (isMounted) {
+                setIsDataLoad(true);
+            }
+        };
+
+        fetchData();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [MobXStorage, isDataLoad]);
+
+    useEffect(() => {
+        if (web3) {
+            window.location = "/";
+        }
+    }, [web3]);
 
     const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
     const boxBg = useColorModeValue("#F4F7FE", "#110938");
-    return (
+    return useObserver(() => (
+<React.Fragment>
         <Box className='dashboard' style={{ padding: "10px", }}>
             <Header heading="Dashboard" />
             <DashboardHeader />
@@ -61,19 +67,79 @@ function Dashboard(props) {
                         <FilterSearch />
                     </GridItem>
                     <GridItem >
-                        <Button bg="#5E39FF" color={"#fff"} _hover={"none"} fontWeight="500"  textTransform={'uppercase'}>Total Funds: 30</Button>
-                    </GridItem>
-                    <GridItem >
-                        <Stack bg="#5E39FF"  sx={{color:"#fff",borderRadius:"8px",border:"none",_hover: { backgroundColor: "#7500ff"}}}>
-                            <SortFunds/>
+                        <Stack bg="#5E39FF" sx={{ color: "#fff", borderRadius: "8px", border: "none", _hover: { backgroundColor: "#7500ff" } }}>
+                            <SortFunds />
                         </Stack>
                     </GridItem>
                 </Grid>
             </CardBox>
             <Box>
+            
                 <SimpleGrid
-                width="100%"
-                    columns={{ base:1, md: 3, lg: 3,}}
+                    width="100%"
+                    columns={{ base: 1, md: 4, lg: 4, }}
+                    gap='20px'
+                    mb='20px'>
+
+                    <ShadowBox
+                        startContent={
+                            <IconBox
+                                w='56px'
+                                h='56px'
+                                bg={boxBg}
+                                icon={
+                                    <Icon w='32px' h='32px' as={RiFundsBoxLine} color={brandColor} />
+                                }
+                            />
+                        }
+                        name='Total Funds'
+                        value={MobXStorage?.SmartFundsOriginal.length}
+                    />
+                    <ShadowBox
+                        startContent={
+                            <IconBox
+                                w='56px'
+                                h='56px'
+                                bg={boxBg}
+                                icon={
+                                    <Icon w='32px' h='32px' as={FcComboChart} color={brandColor} />
+                                }
+                            />
+                        }
+                        name='Total value'
+                        value={`$ ${MobXStorage?.TotalValue}`}
+                    />
+                    <ShadowBox
+                        startContent={
+                            <IconBox
+                                w='56px'
+                                h='56px'
+                                bg={boxBg}
+                                icon={
+                                    <Icon w='32px' h='32px' as={MdOutlineBarChart} color={brandColor} />
+                                }
+                            />
+                        }
+                        name='Total profit'
+                        value={`$ ${MobXStorage?.TotalProfit}`}
+                    />
+                    <ShadowBox
+                        startContent={
+                            <IconBox
+                                w='56px'
+                                h='56px'
+                                bg={boxBg}
+                                icon={<Icon w='28px' h='28px' as={MdOutlineBarChart} color={brandColor} />}
+                            />
+                        }
+                        name='History total profit'
+                        value={`$ ${MobXStorage?.HistoryTotalProfit}`}
+                    />
+                </SimpleGrid>
+               <Text style={{ color: "green" }}>{MobXStorage?.FilterInfo}</Text>
+                <SimpleGrid
+                    width="100%"
+                    columns={{ base: 1, md: 4, lg: 4, }}
                     gap='20px'
                     mb='20px'>
                     <ShadowBox
@@ -83,12 +149,12 @@ function Dashboard(props) {
                                 h='56px'
                                 bg={boxBg}
                                 icon={
-                                    <Icon w='32px' h='32px' as={MdAttachMoney} color={brandColor} />
+                                    <Icon w='32px' h='32px' as={RiFundsBoxLine} color={brandColor} />
                                 }
                             />
                         }
-                        name='Total value'
-                        value='$350.4'
+                        name='Fund'
+                        value={`${MobXStorage?.SmartFunds.length} of ${MobXStorage?.SmartFundsOriginal.length} funds`}
                     />
                     <ShadowBox
                         startContent={
@@ -97,12 +163,26 @@ function Dashboard(props) {
                                 h='56px'
                                 bg={boxBg}
                                 icon={
-                                    <Icon w='32px' h='32px' as={MdAttachMoney} color={brandColor} />
+                                    <Icon w='32px' h='32px' as={FcComboChart} color={brandColor} />
+                                }
+                            />
+                        }
+                        name='Total value'
+                        value={`$ ${MobXStorage?.userTotalValue}`}
+                    />
+                    <ShadowBox
+                        startContent={
+                            <IconBox
+                                w='56px'
+                                h='56px'
+                                bg={boxBg}
+                                icon={
+                                    <Icon w='32px' h='32px' as={MdOutlineBarChart} color={brandColor} />
                                 }
                             />
                         }
                         name='Total profit'
-                        value='$642.39'
+                        value={`$ ${MobXStorage?.TotalProfit}`}
                     />
 
                     <ShadowBox
@@ -111,21 +191,24 @@ function Dashboard(props) {
                                 w='56px'
                                 h='56px'
                                 bg={boxBg}
-                                icon={<Icon w='28px' h='28px' as={MdAttachMoney} color={brandColor} />}
+                                icon={<Icon w='28px' h='28px' as={MdOutlineBarChart} color={brandColor} />}
                             />
                         }
                         name='History total profit'
-                        value='154'
+                        value={`$ ${MobXStorage?.HistoryTotalProfit}`}
                     />
+
 
                 </SimpleGrid>
             </Box>
 
             <SimpleGrid>
-                    <HorizontalTabs data={dashbordTabs} />
+                <HorizontalTabs data={dashbordTabs} />
             </SimpleGrid>
         </Box>
-    )
+        </React.Fragment>
+    ))
+
 }
 
 export default Dashboard
