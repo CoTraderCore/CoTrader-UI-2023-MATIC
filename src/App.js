@@ -1,19 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { ChakraProvider, } from '@chakra-ui/react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import Dashboard from './Pages/Dashboard';
-import About from './Pages/About/Index';
-import StackCot from './Pages/Stack/Index';
-import Buy from './Pages/Buy/Index';
-import Telegram from './Pages/Telegram/Index';
-import Twitter from './Pages/Twitter/Index';
-import DashboardLayout from './Layouts/DashboardLayout';
-import { DashboardPages } from './utils/Pages';
+import {  Pages } from './utils/Pages';
 import getWeb3 from './utils/getWeb3';
 import themes from './Theme/Theme';
 import ReactGA from 'react-ga'
 import getFundsList from './utils/getFundsList';
 import { SmartFundRegistryADDRESS } from './config';
+import Example from './Pages/Example';
+import MainLayout from './Layouts/MainLayout';
+import FundPage from './Layouts/FundPage';
 // card color  #181144
 // background color #110938
 function App(props) {
@@ -26,7 +22,7 @@ function App(props) {
   const [timeOut, setTimeOut] = useState(false);
   const [isDataLoad, setIsDataLoad] = useState(false);
   // const [themeType, setThemeType] = useState('light');
-  console.log(web3,"GOPIGPGOSPDFGFAGGDSA");
+  // console.log(web3,"GOPIGPGOSPDFGFAGGDSA");
 
   useEffect(() => {
     document.body.classList.add('light_theme');
@@ -175,36 +171,22 @@ function App(props) {
 
 
   const router = createBrowserRouter([
+ 
     {
-      path: "/",
-      element: <DashboardLayout />,
-      children: [
+      path : Pages.HOME,
+      element : <MainLayout />,
+      children : [
         {
-          path: DashboardPages.DASHBOARD,
-          element: <Dashboard {...props} web3={web3} isDataLoad={isDataLoad} setIsDataLoad={setIsDataLoad}/>
+          path: Pages.HOME,
+          element: <Example {...props} web3={web3} isDataLoad={isDataLoad} setIsDataLoad={setIsDataLoad}/>
         },
         {
-          path: DashboardPages.ABOUT,
-          element: <About {...props} web3={web3} />
-        },
-        {
-          path: DashboardPages.STACK,
-          element: <StackCot />
-        },
-        {
-          path: DashboardPages.BUY,
-          element: <Buy />
-        },
-        {
-          path: DashboardPages.TELEGRAM,
-          element: <Telegram />
-        },
-        {
-          path: DashboardPages.TWITTER,
-          element: <Twitter />
-        },
+          path:Pages.FUNDPAGES,
+          element:<FundPage/>
+        }
       ]
     },
+   
   ]);
   return (
     <React.Fragment>

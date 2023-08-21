@@ -4,47 +4,39 @@ import { BiSolidShareAlt, BiLogoTelegram } from 'react-icons/bi';
 import { AiOutlineTwitter } from "react-icons/ai"
 import { GiShoppingBag } from "react-icons/gi"
 import { BiSolidMessageAltDetail, } from 'react-icons/bi'
-import { AiFillHome } from 'react-icons/ai'
 import { ArrowRightIcon, ArrowLeftIcon } from '@chakra-ui/icons'
 import { Link } from 'react-router-dom';
-import { DashboardPages } from '../../utils/Pages';
 import { useLocation } from 'react-router-dom';
 const menuItems = [
     {
-        name: "Dashboard",
-        id: 0,
-        path: DashboardPages.DASHBOARD,
-        icon: AiFillHome
-    },
-    {
         name: "About",
         id: 0,
-        path: DashboardPages.ABOUT,
+        path:"https://cotrader.com/",
         icon: BiSolidMessageAltDetail
     },
     {
         name: "Stack COT",
         id: 0,
-        path: DashboardPages.STACK,
+        path: "https://cotrader.com/",
         icon: BiSolidShareAlt
     },
     {
         name: "Byu COT",
         id: 0,
-        path: DashboardPages.BUY,
+        path: "https://app.1inch.io/#/1/swap/ETH/COT",
         icon: GiShoppingBag
     },
 
     {
         name: "Telegram",
         id: 0,
-        path: DashboardPages.TELEGRAM,
+        path:"https://t.me/cotrader",
         icon: BiLogoTelegram
     },
     {
         name: "Twitter",
         id: 0,
-        path: DashboardPages.TWITTER,
+        path: "https://twitter.com/cotrader_com",
         icon: AiOutlineTwitter
     },
 ]
@@ -73,10 +65,10 @@ function Sidebar({ isOpen, onOpen, onClose, isChange }) {
                             }
                         </span>
                     </ListItem>
-                    {menuItems.map((item) => {
+                    {menuItems.map((item,key) => {
                         const isActive = location.pathname === item.path;
-                        return <ListItem>
-                            <Link to={item.path} style={{ ...Menu_style }}><item.icon style={{ fontSize: "1.7rem", color: isActive ? "#5E39FF" : "#A4ADC7", }} />
+                        return <ListItem key={key}> 
+                            <Link target='_blank' to={item.path} style={{ ...Menu_style }}><item.icon style={{ fontSize: "1.7rem", color: isActive ? "#5E39FF" : "#A4ADC7", }} />
                                 <span
                                     style={{ color: isActive ? "#CBC3E3" : "#A4ADC7" }}
                                     className={isOpen ? 'hidden-text' : 'show-text'}

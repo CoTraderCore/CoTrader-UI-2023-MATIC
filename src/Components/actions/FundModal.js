@@ -1,71 +1,50 @@
-import React, { Component } from 'react'
-import { Box, Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, } from "@chakra-ui/react"
-import { EtherscanLink } from '../../config.js'
-import { NavLink } from 'react-router-dom'
-import { inject, observer } from 'mobx-react'
+import React from 'react';
+import { Link, Text, Box, Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, ModalCloseButton, useDisclosure, useColorModeValue } from "@chakra-ui/react";
+import { NavLink } from 'react-router-dom';
+import { EtherscanLink } from '../../config.js';
+import { useObserver } from 'mobx-react-lite';
+import MobXStorage from '../../MobXStorage.js';
+const FundModal = ({ address }) => {
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const sliderBg = useColorModeValue("#fff", "#181144")
+    const modalfooterbg = useColorModeValue("gray.100", "#3D3762")
+    const btnColor = useColorModeValue("#7500FF", "#fff")
 
+    return useObserver(() => (
+        <Box>
+            <Text fontWeight={{ base: "700", md: "500" }} onClick={onOpen} cursor={'pointer'}>
+                Fund: <small style={{ color: "#7500FF", }}><strong >{String(address).replace(String(address).substring(4, 38), "...")}</strong></small>
+            </Text>
 
-class FundModal extends Component {
-    constructor(props, context) {
-        super(props, context);
-
-        this.state = {
-            Show: false,
-        }
-    }
-
-    getManagerFunds() {
-        this.props.MobXStorage.searchFundByManager(this.props.address)
-        this.setState({ Show: false })
-    }
-
-
-    render() {
-        let modalClose = () => this.setState({ Show: false });
-        // const headingColor = useColorModeValue("#1B2559", "#F4F7FE");
-        return (
-            <Box>
-                <Text fontWeight={500}  onClick={() => this.setState({ Show: true })}>
-                    Fund:
-                    {/*<Identicon size='10' string={this.props.address} /> */}
-                    &ensp;
-                    <small><strong>{String(this.props.address).replace(String(this.props.address).substring(4, 38), "...")}</strong></small>
-                </Text>
-
-                <Modal
-                    show={this.state.Show}
-                    onHide={modalClose}
-                    aria-labelledby="example-modal-sizes-title-sm"
-                >
-                    <ModalOverlay />
-                    <ModalHeader closeButton>
-                        View fund info
-                    </ModalHeader>
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent bg={sliderBg}>
+                    <ModalHeader>View fund info</ModalHeader>
+                    <ModalCloseButton />
                     <ModalBody>
-                        <ModalContent>
-                            {
-                                this.props.MobXStorage.web3
-                                    ?
-                                    (
-                                        <NavLink to={"/fund/" + this.props.address}><Button variant="outline-primary" className="buttonsAdditional">See fund details</Button></NavLink>
-                                    )
-                                    :
-                                    (
-                                        <NavLink to={"/web3off/fund/" + this.props.address}><Button variant="outline-primary" className="buttonsAdditional">See fund details</Button></NavLink>
-                                    )
-                            }
-                            <NavLink to={"/fund-txs/" + this.props.address}><Button variant="outline-primary">Get all txs</Button></NavLink>
-                            <Button  href={EtherscanLink + "address/" + this.props.address} target="_blank" rel="noopener noreferrer">See fund on Etherscan</Button>
-                        </ModalContent>
+                        <Box pb={5} display={'flex'} justifyContent={'space-around'}>
+                            {MobXStorage.web3 ? (
+                                <NavLink to={"/fund/" + address} style={{ background: "transparent", width: "100%" }}>
+                                    <Button color={btnColor} >See fund details</Button>
+                                </NavLink>
+                            ) : (
+                                <NavLink to={"/web3off/fund/" + address} width="100%">
+                                    <Button color={btnColor}>See fund details</Button>
+                                </NavLink>
+                            )}
+                            <NavLink to={"/fund-txs/" + address} width="100%">
+                                <Button width="100%" color={btnColor}>Get all txs</Button>
+                            </NavLink>
+                        </Box>
+                        <Button width="100%" ><Link href={EtherscanLink + "address/" + address} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: btnColor }}>See fund on Etherscan</Link></Button>
                     </ModalBody>
-                    <ModalFooter>
-                        Address: {this.props.address}
+                    <ModalFooter bg={modalfooterbg} borderBottomRadius={5}>
+                        <Text display="flex" fontSize="sm" fontWeight={500}> Address: {address}</Text>
                     </ModalFooter>
-                </Modal>
+                </ModalContent>
+            </Modal>
+        </Box>
+    ));
+};
 
-            </Box>
-        )
-    }
-}
-
-export default inject('MobXStorage')(observer(FundModal))
+export default FundModal;

@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import ShadowBox from '../../Components/Cards/ShadowBox'
 import { Box, SimpleGrid, Heading, useColorModeValue, Tooltip, Button } from '@chakra-ui/react'
 import IconBox from '../../Components/Icons/IconBox';
@@ -6,24 +7,31 @@ import { Icon } from '@chakra-ui/react';
 import { MdAttachMoney } from 'react-icons/md'
 import Card from '../../Components/Card/Card';
 import BarChart from '../../Components/Chart/BarChart';
-import { Link } from 'react-router-dom';
 import DailyTraffic from '../../Components/Chart/DailyTrafic';
 import TotalSpent from '../../Variable/TotalSpent';
 import FundModal from '../../Components/actions/FundModal';
 import ManagerModal from '../../Components/actions/ManagerModal';
-
-
+import MobXStorage from '../../MobXStorage';
+import EtherscanButton from '../../Components/actions/EtherscanButton';
+import { fromWei } from 'web3-utils';
+import PagePagination from '../../Components/navigation/Pagination/PagePagination';
+import { Pages } from '../../utils/Pages';
+ 
 
 function AllFunds() {
+
+    const navigate=useNavigate()
     const headingColor = useColorModeValue("#1B2559", "#F4F7FE");
     const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
     const boxBg = useColorModeValue("#F4F7FE", "#110938");
     const tooltipBg = useColorModeValue("black", "#A4ADC7")
-
     return (
         <React.Fragment>
+           {
+            MobXStorage.SmartFunds.map((item,key)=>
+            <Box key={item.address}>
             <Box mt={4} sx={{ borderRadius: "10px", }}>
-                <Heading textTransform={"uppercase"} fontSize={{ base: "2xl" }} color={headingColor} textAlign={'center'} p={2}>CAKE BUSD TVL ALGO FUND</Heading>
+                <Heading textTransform={"uppercase"} fontSize={{ base: "2xl" }} color={headingColor} textAlign={'center'} p={2}>{item.name}</Heading>
                 <SimpleGrid
                     width="100%"
                     columns={{ base: 1, md: 3, lg: 4, }}
@@ -31,42 +39,84 @@ function AllFunds() {
                     mb='20px'>
                     <ShadowBox
                         name='Type'
-                        value="full"
+                        value= {item.fundType}
                         shadow="1px 2px 3px 2px rgba(21,21,21,0.12)"
                     />
                     <ShadowBox
                         name='Core asset'
-                        value="USD"
+                        value={item.mainAsset}
                         shadow="1px 2px 3px 2px rgba(21,21,21,0.12)"
                     />
                     <ShadowBox
                         name='Version'
-                        value="9"
+                        value={String(item.version)}
                         shadow="1px 2px 3px 2px rgba(21,21,21,0.12)"
                     />
                     <ShadowBox
                         name='Manager fee'
-                        value="20%"
+                        value={Number(item.managerFee / 100).toFixed(2)+"%"}
                         shadow="1px 2px 3px 2px rgba(21,21,21,0.12)"
                     />
                     <ShadowBox
                         name='Total Assets'
-                        value="3"
+                        value=  {
+                            // get total assets count
+                            (() => {
+                              if (item && item.balance && item.hasOwnProperty('balance')) {
+                                try {
+                                  const addresses = JSON.parse(item.balance).map(i => i.address)
+                                  return addresses.length
+                                } catch (e) {
+                                  return 0
+                                }
+                              } else {
+                                return 0
+                              }
+                            })()
+                          }
                         shadow="1px 2px 3px 2px rgba(21,21,21,0.12)"
                     />
                     <ShadowBox
                         name='Active Assets'
-                        value="2"
+                        value=  {
+                            // get active assets count
+                            (() => {
+                              if (item && item.balance && item.hasOwnProperty('balance')) {
+                                try {
+                                  const addresses = JSON.parse(item.balance).filter(i => i.percentInETH > 0)
+                                  return addresses.length
+                                } catch (e) {
+                                  return 0
+                                }
+                              } else {
+                                return 0
+                              }
+                            })()
+                          }
                         shadow="1px 2px 3px 2px rgba(21,21,21,0.12)"
                     />
                     <ShadowBox
                         name='Investors'
-                        value="0"
+                        value= {
+                            // get total investors count
+                            (() => {
+                              if (item && item.shares && item.hasOwnProperty('shares')) {
+                                try {
+                                  const investors = JSON.parse(item.shares).map(i => i.user)
+                                  return investors.length
+                                } catch (e) {
+                                  return 0
+                                }
+                              } else {
+                                return 0
+                              }
+                            })()
+                          }
                         shadow="1px 2px 3px 2px rgba(21,21,21,0.12)"
                     />
                     <ShadowBox
                         name='Trade Varification'
-                        value="disabled"
+                        value={Number(item.tradeVerification) === 1 ? "enabled" : "disabled"}
                         shadow="1px 2px 3px 2px rgba(21,21,21,0.12)"
                     />
                 </SimpleGrid>
@@ -81,12 +131,12 @@ function AllFunds() {
                     <TotalSpent />
                 </SimpleGrid>
             </Card>
-            <SimpleGrid mt={5} gap={5}  columns={{base:1,md:2}}>
+            <SimpleGrid mt={5} gap={5} columns={{ base: 1, md: 2 }}>
                 <Card textAlign="center">
-                    <FundModal />
+                    <FundModal address={item.address}/>
                 </Card>
                 <Card textAlign="center">
-                    <ManagerModal />
+                    <ManagerModal address={item.owner} />
                 </Card>
             </SimpleGrid>
 
@@ -104,10 +154,10 @@ function AllFunds() {
                         </Button>
                     </Tooltip>
                     <Tooltip hasArrow label="" bg={tooltipBg}>
-                        <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
-                            <Link to={"/web3off/fund/"} style={{ width: "100%",color:"white" }}>
+                        <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }} onClick={()=>navigate(Pages.FUNDPAGES)}>
+                            
                                 Fund Page
-                            </Link>
+                            
                         </Button>
                     </Tooltip>
                     <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
@@ -115,11 +165,7 @@ function AllFunds() {
                             My Funds
                         </Button>
                     </Tooltip>
-                    <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                        <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
-                            Scan
-                        </Button>
-                    </Tooltip>
+                  <EtherscanButton address={item.address}/>
                 </Box>
             </Box>
             <Box>
@@ -141,7 +187,7 @@ function AllFunds() {
                             />
                         }
                         name='Fund profit in BNB'
-                        value=""
+                        value={fromWei(String(item.profitInETH), 'ether')}
                     />
                     <ShadowBox
                         startContent={
@@ -155,7 +201,7 @@ function AllFunds() {
                             />
                         }
                         name='Fund profit in USD'
-                        value=""
+                        value= {fromWei(String(item.profitInUSD), 'ether')}
                     />
                     <ShadowBox
                         startContent={
@@ -167,7 +213,7 @@ function AllFunds() {
                             />
                         }
                         name='Fund value in BNB'
-                        value=""
+                        value={fromWei(String(item.valueInETH), 'ether')}
                     />
                     <ShadowBox
                         startContent={
@@ -179,10 +225,19 @@ function AllFunds() {
                             />
                         }
                         name='Fund value in USD'
-                        value=""
+                        value={fromWei(String(item.valueInUSD), 'ether')}
                     />
                 </SimpleGrid>
             </Box>
+           
+            </Box>
+            )
+            
+           }
+        
+         
+            <PagePagination/>
+           
         </React.Fragment>
     )
 }

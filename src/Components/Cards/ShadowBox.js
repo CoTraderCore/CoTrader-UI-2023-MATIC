@@ -41,7 +41,7 @@ export default function ShadowBox(props) {
           <StatNumber
             color={textColor}
             fontSize={{
-              base: "sm",sm:"14px"
+              base: "12px",md:"12px"
             }}>
             {value}
           </StatNumber>

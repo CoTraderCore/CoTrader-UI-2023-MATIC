@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
+// import { DashboardPages, Pages } from '../../utils/Pages';
 import { Box, Text, Grid, GridItem, Stack, Icon, useColorModeValue, SimpleGrid, } from '@chakra-ui/react';
 import DashboardHeader from '../../Components/common/DashboardHeader'
-import Header from '../../Components/common/Header';
 import FilterSearch from '../../Components/Filter&Search/FilterSearch';
 import CreateFundButton from '../../Components/template/CreateFundButton';
 import ShadowBox from '../../Components/Cards/ShadowBox';
@@ -17,10 +17,9 @@ import getFundsList from '../../utils/getFundsList';
 import { useObserver } from 'mobx-react';
 import MobXStorage from '../../MobXStorage';
 
-
 function Dashboard({ isDataLoad, web3, setIsDataLoad }) {
 
-    // console.log(MobXStorage, isDataLoad, web3,);
+
     useEffect(() => {
         let isMounted = true;
         const fetchData = async () => {
@@ -53,11 +52,10 @@ function Dashboard({ isDataLoad, web3, setIsDataLoad }) {
     const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
     const boxBg = useColorModeValue("#F4F7FE", "#110938");
 
-    
+
     return useObserver(() => (
         <React.Fragment>
             <Box className='dashboard' style={{ padding: "10px", }}>
-                <Header heading="Dashboard" />
                 <DashboardHeader />
                 <CardBox p="10px" my="10px">
                     <Grid gap={4} templateColumns={['1fr', 'repeat(3, 1fr)']} sx={{ padding: "10px 0px ", borderRadius: "5px", display: "flex", justifyContent: "space-around", flexDirection: { base: "column", sm: "column", md: "row" }, textAlign: { base: "center", sm: "center" } }}>
@@ -213,7 +211,5 @@ function Dashboard({ isDataLoad, web3, setIsDataLoad }) {
 }
 
 export default Dashboard
-
-
 
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormControl, Select, useColorModeValue } from "@chakra-ui/react"
+import { FormControl, Select } from "@chakra-ui/react"
 import { inject, observer } from 'mobx-react'
 
 const changeHandler = (props, expression) => {
@@ -34,7 +34,7 @@ const changeHandler = (props, expression) => {
 }
 
 const SortFunds = ((props) => {
-    const selectColor = useColorModeValue("#000", "red")
+  
     return (
         <FormControl onChange={(e) => changeHandler(props, e.target.value)}>
             <Select placeholder='Short by' sx={{ fontWeight: "500" ,textTransform:"uppercase"}}>

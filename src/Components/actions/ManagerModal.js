@@ -1,61 +1,51 @@
-import React, { Component } from 'react'
-import { Box, Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from "@chakra-ui/react"
-import { EtherscanLink } from '../../config.js'
-import { NavLink } from 'react-router-dom'
-import { inject } from 'mobx-react'
-// import Identicon from 'react-identicons'
+import React from 'react';
+import { Box, Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, ModalCloseButton, useDisclosure, Text, Link, useColorModeValue, } from "@chakra-ui/react";
+import { NavLink } from 'react-router-dom';
+import { EtherscanLink } from '../../config.js';
+import { useObserver } from 'mobx-react-lite';
+import MobXStorage from '../../MobXStorage.js';
 
-class ManagerModal extends Component {
-    constructor(props, context) {
-        super(props, context);
+const ManagerModal = ({ address }) => {
+    const { isOpen, onOpen, onClose } = useDisclosure()
 
-        this.state = {
-            Show: false,
-        }
-    }
+    const getManagerFunds = () => {
+        MobXStorage.searchFundByManager(address);
+        onClose();
+    };
+    const sliderBg = useColorModeValue("#fff", "#181144")
+    const modalfooterbg = useColorModeValue("gray.100", "#3D3762")
+    const btnColor = useColorModeValue("#7500FF", "#fff")
 
-    getManagerFunds() {
-        this.props.MobXStorage.searchFundByManager(this.props.address)
-        this.setState({ Show: false })
-    }
-
-
-    render() {
-        let modalClose = () => this.setState({ Show: false });
-
-        return (
-            <Box>
-                <Text fontWeight={500}  onClick={() => this.setState({ Show: true })}>
-                    Manager:
-                    {/*<Identicon size='10' string={this.props.address} /> */}
-                    &ensp;
-                    <small><strong>{String(this.props.address).replace(String(this.props.address).substring(4, 38), "...")}</strong></small>
-                </Text>
-
-                <Modal
-                    show={this.state.Show}
-                    onHide={modalClose}
-                    aria-labelledby="example-modal-sizes-title-sm"
-                >
-                    <ModalOverlay />
-                    <ModalHeader closeButton>
-                        View manager info
-                    </ModalHeader>
+    return useObserver(() => (
+        <Box>
+            <Text cursor={'pointer'} fontWeight={500} onClick={onOpen}>
+                Manager: <small style={{ color: "#7500FF", }}><strong>{String(address).replace(String(address).substring(4, 38), "...")}</strong></small>
+            </Text>
+            <Modal isOpen={isOpen} onClose={onClose} aria-labelledby="example-modal-sizes-title-sm">
+                <ModalOverlay />
+                <ModalContent bg={sliderBg}>
+                    <ModalHeader>View Manager Info</ModalHeader>
+                    <ModalCloseButton />
                     <ModalBody>
-                        <ModalContent>
-                            <Button  onClick={() => this.getManagerFunds()}>Search all funds of this manager</Button>
-                            <NavLink to={"/user-txs/" + this.props.address}><Button>Get all txs</Button></NavLink>
-                            <Button variant="outline-primary" href={EtherscanLink + "address/" + this.props.address} target="_blank" rel="noopener noreferrer">Etherscan</Button>
-                        </ModalContent>
+                        <Button color={btnColor} width="100%" onClick={() => getManagerFunds()}>Search all funds of this manager</Button>
+                        <Box mt={5} style={{ display: "flex", justifyContent: "space-around" }}>
+                            <NavLink to={"/user-txs/" + address}>
+                                <Button color={btnColor}>Get all txs</Button>
+                            </NavLink>
+                            <Button>
+                                <Link style={{color:btnColor}} href={EtherscanLink + "address/" + address} target="_blank" rel="noopener noreferrer">Etherscan</Link>
+                            </Button>
+                        </Box>
                     </ModalBody>
-                    <ModalFooter>
-                        Address: {this.props.address}
+                    <ModalFooter bg={modalfooterbg} borderBottomRadius={5}>
+                        <Text fontSize="sm" fontWeight={500}>
+                            Address: {address}
+                        </Text>
                     </ModalFooter>
-                </Modal>
+                </ModalContent>
+            </Modal>
+        </Box>
+    ));
+};
 
-            </Box>
-        )
-    }
-}
-
-export default inject('MobXStorage')((ManagerModal));
+export default ManagerModal;

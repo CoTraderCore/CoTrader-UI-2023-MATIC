@@ -1,8 +1,12 @@
-export const DashboardPages = {
-    DASHBOARD : "/",
-    ABOUT : "/about",
-    STACK :"/stack",
-    BUY : "/buy",
-    TELEGRAM : "telegram",
-    TWITTER:"twitter"
+// export const DashboardPages = {
+//     ABOUT : "/dashboard/about",
+//     STACK :"/dashboard/stack",
+//     BUY : "/dashboard/buy",
+//     TELEGRAM : "/dashboard/telegram",
+//     TWITTER:"/dashboard/twitter"
+// }
+
+export const Pages = {
+    HOME : '/',
+    FUNDPAGES:'/fundpage'
 }

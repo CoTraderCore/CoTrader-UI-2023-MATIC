@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from 'react'
-import ShadowBox from '../../Components/Cards/ShadowBox'
-import IconBox from '../../Components/Icons/IconBox';
-import Header from '../../Components/common/Header';
-import DashboardHeader from '../../Components/common/DashboardHeader';
+import ShadowBox from '../Components/Cards/ShadowBox';
+import IconBox from '../Components/Icons/IconBox';
+import Header from '../Components/common/Header';
+import DashboardHeader from '../Components/common/DashboardHeader';
 import { Box, Heading, Icon, SimpleGrid, Button, Tooltip, List, ListItem, Progress, Stack, useColorModeValue } from '@chakra-ui/react'
 import { MdAttachMoney, } from "react-icons/md";
-import PieCard from '../../Components/Card/PieCard';
-import PieChartTable from '../../Components/view/table/PieChartTable';
-import Card from '../../Components/Card/Card';
-import Footer from '../../Components/common/footer/Footer';
-import getFundData from '../../utils/getFundData';
+import PieCard from '../Components/Card/PieCard';
+import PieChartTable from '../Components/view/table/PieChartTable';
+import Card from '../Components/Card/Card';
+import Footer from '../Components/common/footer/Footer';
+import getFundData from '../utils/getFundData';
+
 import { fromWei } from 'web3-utils';
 // import { NeworkID } from '../../config';
-import EtherscanButton from '../../Components/actions/EtherscanButton';
-import Loading from '../../Components/templates/spiners/Loading';
+import EtherscanButton from '../Components/actions/EtherscanButton';
+import Loading from '../Components/templates/spiners/Loading';
 
-function About() {
+function FundPage() {
 
     const address = "0x36BDe6F520613Ce99dAC0b255492c533Ca3Dd8e0"
     const [fundData, setFundData] = useState({
@@ -283,4 +284,4 @@ function About() {
     )
 }
 
-export default About
+export default FundPage;
