@@ -7,37 +7,43 @@ import { BiSolidMessageAltDetail, } from 'react-icons/bi'
 import { ArrowRightIcon, ArrowLeftIcon } from '@chakra-ui/icons'
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+
 const menuItems = [
     {
         name: "About",
         id: 0,
-        path:"https://cotrader.com/",
-        icon: BiSolidMessageAltDetail
+        path: "https://cotrader.com/",
+        icon: BiSolidMessageAltDetail,
+        title: "About"
     },
     {
         name: "Stack COT",
         id: 0,
         path: "https://cotrader.com/",
-        icon: BiSolidShareAlt
+        icon: BiSolidShareAlt,
+        title: "Stack Cot"
     },
     {
-        name: "Byu COT",
+        name: "Buy COT",
         id: 0,
         path: "https://app.1inch.io/#/1/swap/ETH/COT",
-        icon: GiShoppingBag
+        icon: GiShoppingBag,
+        title: "Buy Cot"
     },
 
     {
         name: "Telegram",
         id: 0,
-        path:"https://t.me/cotrader",
-        icon: BiLogoTelegram
+        path: "https://t.me/cotrader",
+        icon: BiLogoTelegram,
+        title: "Telegram"
     },
     {
         name: "Twitter",
         id: 0,
         path: "https://twitter.com/cotrader_com",
-        icon: AiOutlineTwitter
+        icon: AiOutlineTwitter,
+        title: "Twitter"
     },
 ]
 
@@ -58,19 +64,19 @@ function Sidebar({ isOpen, onOpen, onClose, isChange }) {
         <Grid w='100%'>
             <GridItem w="auto" height="90vh" bg={sliderBg} sx={{}}>
                 <List p={1} >
-                    <ListItem>
+                    <ListItem sx={{ borderBottom: "1px solid gray" }}>
                         <span style={{ padding: "10px 25px", display: "flex", justifyContent: "end" }} onClick={isOpen ? onClose : onOpen}>
                             {
                                 isOpen ? <ArrowLeftIcon color={ArrowBg} /> : <ArrowRightIcon color={ArrowBg} />
                             }
                         </span>
                     </ListItem>
-                    {menuItems.map((item,key) => {
+                    {menuItems.map((item, key) => {
                         const isActive = location.pathname === item.path;
-                        return <ListItem key={key}> 
-                            <Link target='_blank' to={item.path} style={{ ...Menu_style }}><item.icon style={{ fontSize: "1.7rem", color: isActive ? "#5E39FF" : "#A4ADC7", }} />
+                        return <ListItem key={key}>
+                            <Link target='_blank' to={item.path} style={{ ...Menu_style }}><item.icon title={item.title} style={{ fontSize: "1.7rem", color: isActive ? "#5E39FF" : "#A4ADC7", }} />
                                 <span
-                                    style={{ color: isActive ? "#CBC3E3" : "#A4ADC7" }}
+                                    style={{ color: isActive ? "#CBC3E3" : "#A4ADC7", }}
                                     className={isOpen ? 'hidden-text' : 'show-text'}
                                 >{item.name}</span>
                             </Link>

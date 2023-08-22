@@ -1,10 +1,13 @@
 import React from 'react';
 import { Link, Text, Box, Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, ModalCloseButton, useDisclosure, useColorModeValue } from "@chakra-ui/react";
-import { NavLink } from 'react-router-dom';
+import { NavLink, } from 'react-router-dom';
 import { EtherscanLink } from '../../config.js';
 import { useObserver } from 'mobx-react-lite';
 import MobXStorage from '../../MobXStorage.js';
-const FundModal = ({ address }) => {
+import { Pages } from '../../utils/Pages.js';
+
+
+const FundModal = ({ address,navigate }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const sliderBg = useColorModeValue("#fff", "#181144")
     const modalfooterbg = useColorModeValue("gray.100", "#3D3762")
@@ -24,12 +27,16 @@ const FundModal = ({ address }) => {
                     <ModalBody>
                         <Box pb={5} display={'flex'} justifyContent={'space-around'}>
                             {MobXStorage.web3 ? (
-                                <NavLink to={"/fund/" + address} style={{ background: "transparent", width: "100%" }}>
-                                    <Button color={btnColor} >See fund details</Button>
+                                <NavLink style={{ background: "transparent", width: "100%" }}>
+                                <Button   color={btnColor} onClick={() => navigate(Pages.VIEWFUNDWITHOUTWEB3 + "/" + address)}>
+                               See fund details
+                            </Button>
                                 </NavLink>
                             ) : (
-                                <NavLink to={"/web3off/fund/" + address} width="100%">
-                                    <Button color={btnColor}>See fund details</Button>
+                                <NavLink width="100%">
+                                <Button  color={btnColor} onClick={() => navigate(Pages.VIEWFUNDWITHOUTWEB3 + "/" + address)}>
+                                See fund details
+                             </Button>
                                 </NavLink>
                             )}
                             <NavLink to={"/fund-txs/" + address} width="100%">

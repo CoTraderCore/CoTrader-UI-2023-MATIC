@@ -1,21 +1,21 @@
 import * as contant from './constants'
-import myfund from "../Pages/MyFund/myfund";
-import myinvestment from "../Pages/MyInvestment/myinvestment";
-import AllFunds from '../Pages/AllFunds/AllFunds';
+import MyFund from '../Pages/MyFund';
+import MyInvestment from '../Pages/MyInvestment';
+import SmartFundListWithoutWeb3 from '../Pages/AllFunds';
 export const dashbordTabs = [
     {  
         label : "All funds",
         id : contant.ALL_FUNDS,
-        content : AllFunds,
+        content : SmartFundListWithoutWeb3,
     },
     {
         label : "My funds",
         id : contant.MY_FUNDS,
-        content : myfund,
+        content : MyFund,
     },
     {
         label : "My Investement",
         id : contant.MY_INVESTMENTS,
-        content : myinvestment,
+        content : MyInvestment,
     }
 ]

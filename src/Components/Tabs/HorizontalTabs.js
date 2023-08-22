@@ -1,11 +1,14 @@
 import React from 'react'
 import { Tabs, TabList, TabPanels, Tab, TabPanel, useColorModeValue } from '@chakra-ui/react'
 
+
 function HorizontalTabs({ data }) {
-    const tabColor=useColorModeValue( "#7500fe","#7500ff")
+  
+    const tabColor = useColorModeValue("#7500fe", "#7500ff")
     return (
         <Tabs>
             <TabList>
+
                 {data.map((tab, index) => (
                     <Tab color={tabColor} key={index}>{tab.label}</Tab>
                 ))}
@@ -23,3 +26,4 @@ function HorizontalTabs({ data }) {
 }
 
 export default HorizontalTabs
+

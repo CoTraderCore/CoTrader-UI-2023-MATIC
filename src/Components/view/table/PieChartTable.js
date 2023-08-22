@@ -1,73 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Box, Table, Thead, Tbody, Tr, Td, Th, Flex, Text, useColorModeValue } from '@chakra-ui/react'
 import UserInfo from '../../template/UserInfo';
-import getFundData from '../../../utils/getFundData';
 import { EtherscanLink } from '../../../config';
 import { fromWeiByDecimalsInput } from '../../../utils/weiByDecimals';
 
-function PieChartTable() {
-
-
+function PieChartTable({fundData}) {
   const headingColor = useColorModeValue("#1B2559", "#F4F7FE");
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const headerColor = useColorModeValue("#1B2559", "#CBC3E3");
 
-  const address = "0x36BDe6F520613Ce99dAC0b255492c533Ca3Dd8e0"
-  const [fundData, setFundData] = useState({
-    smartFundAddress: '',
-    name: '',
-    balance: [],
-    owner: '',
-    profitInETH: '0',
-    profitInUSD: '0',
-    valueInETH: '0',
-    valueInUSD: '0',
-    managerTotalCut: '0',
-    managerRemainingCut: '0',
-    shares: [],
-    isDataLoad: false,
-    mainAsset: '',
-    tradeVerification: 0,
-    fundSizeType: 'light',
-    version: 0,
-    managerFee: 0
-  });
-  useEffect(() => {
-    const getInitialData = async () => {
-      const fund = await getFundData(address)
-      setFundData({
-        smartFundAddress: fund?.data?.result?.address || "",
-        name: fund?.data?.result?.name,
-        balance: JSON.parse(fund?.data?.result?.balance || "[]"),
-        owner: fund?.data?.result?.owner,
-        profitInETH: fund?.data?.result?.profitInETH,
-        profitInUSD: fund?.data?.result?.profitInUSD,
-        valueInETH: fund?.data?.result?.valueInETH,
-        valueInUSD: fund?.data?.result?.valueInUSD,
-        managerTotalCut: fund?.data?.result?.managerTotalCut,
-        managerRemainingCut: fund?.data?.result?.managerRemainingCut,
-        shares: fund?.data?.result?.shares,
-        mainAsset: fund?.data?.result?.mainAsset,
-        isDataLoad: true,
-        tradeVerification: fund?.data?.result?.tradeVerification,
-        fundSizeType: fund?.data?.result?.fundType || "",
-        managerFee: fund?.data?.result?.managerFee,
-        version: fund?.data?.result?.version
-      })
-
-    }
-    getInitialData()
-
-  }, [address])
-
-  // helper for parse pool connectors data
   const parsePoolConnectors = (data) => {
     const poolConnectors = data.map((item) => item.symbol)
     return (
       <UserInfo info={`Pool tokens : ${poolConnectors}`} />
     )
   }
-
+  // console.log(fundData , "++++++++++fund data")
   return (
 
     <Box direction='column'

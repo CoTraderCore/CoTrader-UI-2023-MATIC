@@ -1,11 +1,11 @@
 import React from 'react'
 
-function Telegram() {
+function MyFund() {
   return (
     <div>
-      telegram
+      my funds
     </div>
   )
 }
 
-export default Telegram
+export default MyFund

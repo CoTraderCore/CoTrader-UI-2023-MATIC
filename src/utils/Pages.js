@@ -7,6 +7,6 @@
 // }
 
 export const Pages = {
-    HOME : '/',
-    FUNDPAGES:'/fundpage'
+    SMARTFUNDLISTWITHOUTWEB3 : '/',
+    VIEWFUNDWITHOUTWEB3:'/web3off/fund'
 }

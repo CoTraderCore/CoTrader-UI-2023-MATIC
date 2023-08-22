@@ -33,7 +33,7 @@ const ManagerModal = ({ address }) => {
                                 <Button color={btnColor}>Get all txs</Button>
                             </NavLink>
                             <Button>
-                                <Link style={{color:btnColor}} href={EtherscanLink + "address/" + address} target="_blank" rel="noopener noreferrer">Etherscan</Link>
+                                <Link style={{color:btnColor,textDecoration:"none"}} href={EtherscanLink + "address/" + address} target="_blank" rel="noopener noreferrer">Etherscan</Link>
                             </Button>
                         </Box>
                     </ModalBody>

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { fromWei } from 'web3-utils'
 import { FormLabel, Input, Button, FormControl, Box, NumberInput, NumberInputField, NumberIncrementStepper, NumberDecrementStepper, Select, NumberInputStepper, } from '@chakra-ui/react'
-
+import MobXStorage from '../../../MobXStorage'
 class FundFilter extends Component {
     constructor(props, context) {
         super(props, context)
@@ -18,8 +18,8 @@ class FundFilter extends Component {
             timeCreation: 0
         }
 
-        this.state = this.props.MobXStorage.filterOptions
-            ? this.props.MobXStorage.filterOptions
+        this.state = MobXStorage.filterOptions
+            ? MobXStorage.filterOptions
             : initialState
     }
 
@@ -34,7 +34,7 @@ class FundFilter extends Component {
         let filteredOptions = this.removeEmptyValue(filterOptions)
 
         // get cur funds
-        let currentFunds = this.props.MobXStorage.SmartFundsOriginal
+        let currentFunds = MobXStorage.SmartFundsOriginal
         let filtered
         let filterKeys = []
 
@@ -64,7 +64,7 @@ class FundFilter extends Component {
                 currentFunds = filtered
             }
             // update MobxStorage
-            this.props.MobXStorage.updateSmartFundsListByFilter(filtered, filterOptions, filterKeys)
+            MobXStorage.updateSmartFundsListByFilter(filtered, filterOptions, filterKeys)
         }
 
         this.props.onCloseModal()
@@ -114,7 +114,7 @@ class FundFilter extends Component {
     }
 
     resetFilter = () => {
-        this.props.MobXStorage.AllFunds()
+        MobXStorage.AllFunds()
         this.props.onCloseModal()
     }
 
@@ -149,32 +149,32 @@ class FundFilter extends Component {
                         Min value in BNB
                     </FormLabel>
                     <NumberInput
-                    name='valueInETH'
-                    value={this.state.valueInETH}
-                    onChange={(value) => this.setState({ valueInETH: value })}
-                >
-                    <NumberInputField />
-                    <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                    </NumberInputStepper>
-                </NumberInput>
+                        name='valueInETH'
+                        value={this.state.valueInETH}
+                        onChange={(value) => this.setState({ valueInETH: value })}
+                    >
+                        <NumberInputField />
+                        <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                        </NumberInputStepper>
+                    </NumberInput>
                 </FormControl>
                 <FormControl>
                     <FormLabel>
                         Min value in USD
                     </FormLabel>
                     <NumberInput
-                    name='valueInUSD'
-                    value={this.state.valueInUSD}
-                    onChange={(value) => this.setState({ valueInUSD: value })}
-                >
-                    <NumberInputField />
-                    <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                    </NumberInputStepper>
-                </NumberInput>
+                        name='valueInUSD'
+                        value={this.state.valueInUSD}
+                        onChange={(value) => this.setState({ valueInUSD: value })}
+                    >
+                        <NumberInputField />
+                        <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                        </NumberInputStepper>
+                    </NumberInput>
                 </FormControl>
                 <FormControl>
                     <FormLabel>
@@ -236,9 +236,9 @@ class FundFilter extends Component {
                 </FormControl>
 
                 <br />
-                <Box sx={{display:"flex",justifyContent:"space-between"}}>
-                    <Button bg="#5E39FF" sx={{_hover: { backgroundColor: "#7500ff"}}} onClick={() => this.multiFilter()}>Apply filter</Button>
-                    <Button bg="#5E39FF" sx={{_hover: { backgroundColor: "#7500ff"}}} onClick={() => this.resetFilter()}>Reset filter</Button>
+                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                    <Button bg="#5E39FF" sx={{ _hover: { backgroundColor: "#7500ff" } }} onClick={() => this.multiFilter()}>Apply filter</Button>
+                    <Button bg="#5E39FF" sx={{ _hover: { backgroundColor: "#7500ff" } }} onClick={() => this.resetFilter()}>Reset filter</Button>
                 </Box>
             </React.Fragment>
         )

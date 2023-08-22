@@ -37,7 +37,7 @@ const SortFunds = ((props) => {
   
     return (
         <FormControl onChange={(e) => changeHandler(props, e.target.value)}>
-            <Select placeholder='Short by' sx={{ fontWeight: "500" ,textTransform:"uppercase"}}>
+            <Select  sx={{ fontWeight: "500" ,textTransform:"uppercase"}}>
                 <option style={{ color: "black" }} >Higher value</option>
                 <option style={{ color: "black" }}>Lower value</option>
                 <option style={{ color: "black" }}>Higher profit</option>

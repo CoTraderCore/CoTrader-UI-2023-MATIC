@@ -6,15 +6,11 @@ import * as serviceWorker from './serviceWorker'
 import { Provider } from 'mobx-react';
 import MobXStorage from './MobXStorage';
 
-// ReactDOM.render(<Provider MobXStorage={MobXStorage}><App /></Provider>, document.getElementById('root'))
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider MobXStorage={MobXStorage}>
     <App/>
   </Provider>
-  
- 
 );
 serviceWorker.unregister()
 

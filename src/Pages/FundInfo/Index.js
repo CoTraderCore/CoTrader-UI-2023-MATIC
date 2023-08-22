@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import ShadowBox from '../../Components/Cards/ShadowBox'
+import ShadowBox from '../../Components/Cards/ShadowBox';
 import IconBox from '../../Components/Icons/IconBox';
 import Header from '../../Components/common/Header';
 import DashboardHeader from '../../Components/common/DashboardHeader';
-import { Box, Heading, Icon, SimpleGrid, Button, Tooltip, List, ListItem, Progress, Stack, useColorModeValue } from '@chakra-ui/react'
+import { Box, Heading, Icon, SimpleGrid, Button, Tooltip, List, ListItem, Progress, Stack, useColorModeValue, GridItem, Grid } from '@chakra-ui/react'
 import { MdAttachMoney, } from "react-icons/md";
 import PieCard from '../../Components/Card/PieCard';
 import PieChartTable from '../../Components/view/table/PieChartTable';
@@ -11,13 +11,16 @@ import Card from '../../Components/Card/Card';
 import Footer from '../../Components/common/footer/Footer';
 import getFundData from '../../utils/getFundData';
 import { fromWei } from 'web3-utils';
+import { EtherscanLink } from '../../config';
 // import { NeworkID } from '../../config';
 import EtherscanButton from '../../Components/actions/EtherscanButton';
 import Loading from '../../Components/templates/spiners/Loading';
+import { useParams } from 'react-router-dom';
+import { pieChartOptions } from '../../Variable/Chart';
 
-function About() {
 
-    const address = "0x36BDe6F520613Ce99dAC0b255492c533Ca3Dd8e0"
+function ViewFundWithoutWeb3() {
+    const { address } = useParams()
     const [fundData, setFundData] = useState({
         smartFundAddress: '',
         name: '',
@@ -65,8 +68,6 @@ function About() {
 
     }, [address])
 
-
-
     const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
     const boxBg = useColorModeValue("#F4F7FE", "#110938");
     const tooltipBg = useColorModeValue("black", "#A4ADC7")
@@ -76,13 +77,14 @@ function About() {
     const colorSchemeRed = useColorModeValue("red", "red")
     const remainingprogressBg = useColorModeValue("red.100", "#CBC3E3")
 
+
     return (
         <React.Fragment>
             {
                 fundData.isDataLoad ?
                     (
                         <Box p={4} background="" >
-                            <Header heading="All Funds" />
+                            <Header heading="Fund Info." />
                             <DashboardHeader />
                             <Box mt={4} sx={{ padding: "10px", borderRadius: "10px", }}>
                                 <Heading textTransform={"uppercase"} fontSize={{ base: "2xl" }} color={headingColor} textAlign={'center'} p={2}>{fundData.name}</Heading>
@@ -221,12 +223,61 @@ function About() {
                                     </Card>
                                     <Card width={{ base: "100%", md: "70%" }} >
                                         <Box sx={{ display: "flex", flexDirection: { base: "column", md: "row" } }}>
-                                            <PieChartTable />
-                                            <PieCard AssetsData={fundData.balance} version={fundData.version} />
+                                            <PieChartTable address={address} fundData={fundData} />
+                                            <PieCard fundData={fundData} version={fundData.version} address={address}
+
+                                                pieChartData={fundData.balance.map((item) => {
+                                                    return Number(item.assetValueInETHFromWei)
+                                                })}
+
+                                                pieChartOptions={
+                                                    {
+                                                        ...pieChartOptions,
+                                                        labels: fundData.balance.map((item) => {
+                                                            return item.symbol
+                                                        }),
+                                                        colors: ["#984cf1", "#7500FF", "#00E396", "#FF4560", "#775DD0"],
+                                                        chart: {
+                                                            width: "50px",
+                                                        },
+                                                        states: {
+                                                            hover: {
+                                                                filter: {
+                                                                    type: "none",
+                                                                },
+                                                            },
+                                                        },
+                                                        legend: {
+                                                            show: false,
+                                                        },
+                                                        dataLabels: {
+                                                            enabled: false,
+                                                        },
+                                                        hover: { mode: null },
+                                                        plotOptions: {
+                                                            donut: {
+                                                                expandOnClick: false,
+                                                                donut: {
+                                                                    labels: {
+                                                                        show: false,
+                                                                    },
+                                                                },
+                                                            },
+                                                        },
+                                                        fill: {
+                                                            colors: ["#984cf1", "#7500FF", "#00E396", "#FF4560", "#775DD0"],
+                                                        },
+                                                        tooltip: {
+                                                            enabled: true,
+                                                            theme: "dark",
+                                                        },
+                                                    }
+                                                }
+                                            />
                                             {/*
                                     NeworkID === 2 ?
                                         (
-                                            <PieCard AssetsData={fundData.balance} version={fundData.version} />
+                                              <PieCard fundData={fundData} version={fundData.version} address={address} />
                                         ) : null
                                         */ }
 
@@ -271,7 +322,19 @@ function About() {
                                     </Box>
                                 </Box>
                             </Box>
-                            <Footer smartFundAddress={fundData.smartFundAddress} owner={fundData.owner} />
+                            <Box>
+                                <Card mt={5}>
+                                    <Grid sx={{ display: "flex", justifyContent: "space-around", }} flexDirection={{ base: "column", md: "row" }} gap={{ base: "20px", md: "0" }}>
+                                        <GridItem fontWeight={600}>
+                                            Smart Fund: <a style={{ color: "#5E39FF", fontWeight: "500" }} href={EtherscanLink + "address/" + fundData.smartFundAddress} target="_blank" rel="noopener noreferrer">{String(fundData.smartFundAddress).replace(String(fundData.smartFundAddress).substring(6, 36), "...")}</a>
+                                        </GridItem>
+                                        <GridItem fontWeight={600}>
+                                            Owner: <a style={{ color: "#5E39FF", fontWeight: "500" }} href={EtherscanLink + "address/" + fundData.owner} target="_blank" rel="noopener noreferrer">{String(fundData.owner).replace(String(fundData.owner).substring(6, 36), "...")}</a>
+                                        </GridItem>
+                                    </Grid>
+                                </Card>
+                            </Box>
+                            <Footer/>
                         </Box>
                     ) :
                     (
@@ -283,4 +346,4 @@ function About() {
     )
 }
 
-export default About
+export default ViewFundWithoutWeb3;

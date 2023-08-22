@@ -1,6 +1,6 @@
 import React from 'react'
 
-function myinvestment() {
+function MyInvestment() {
   return (
     <div>
       my investment
@@ -8,4 +8,4 @@ function myinvestment() {
   )
 }
 
-export default myinvestment
+export default MyInvestment

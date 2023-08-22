@@ -20,10 +20,9 @@ class FundSearch extends Component {
             <React.Fragment>
                 <InputGroup>
                     <InputLeftElement
-                        pointerEvents="auto" // Allow pointer events on the icon
+                        pointerEvents="auto" 
                         cursor="pointer"
-                        children={<SearchIcon color="gray.300" />}
-                        onClick={() => this.redirectToUserPage()}
+                        children={<SearchIcon color="gray.300"  onClick={() => this.redirectToUserPage()}/>}
                     />
                     <Input
                         type="search"
