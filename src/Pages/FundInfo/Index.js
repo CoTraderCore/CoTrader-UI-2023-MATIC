@@ -14,10 +14,9 @@ import { fromWei } from 'web3-utils';
 import { EtherscanLink } from '../../config';
 // import { NeworkID } from '../../config';
 import EtherscanButton from '../../Components/actions/EtherscanButton';
-import Loading from '../../Components/templates/spiners/Loading';
+import Loading from '../../Components/template/spiners/Loading';
 import { useParams } from 'react-router-dom';
 import { pieChartOptions } from '../../Variable/Chart';
-
 
 function ViewFundWithoutWeb3() {
     const { address } = useParams()
@@ -325,8 +324,9 @@ function ViewFundWithoutWeb3() {
                             <Box>
                                 <Card mt={5}>
                                     <Grid sx={{ display: "flex", justifyContent: "space-around", }} flexDirection={{ base: "column", md: "row" }} gap={{ base: "20px", md: "0" }}>
-                                        <GridItem fontWeight={600}>
-                                            Smart Fund: <a style={{ color: "#5E39FF", fontWeight: "500" }} href={EtherscanLink + "address/" + fundData.smartFundAddress} target="_blank" rel="noopener noreferrer">{String(fundData.smartFundAddress).replace(String(fundData.smartFundAddress).substring(6, 36), "...")}</a>
+                                        <GridItem fontWeight={600} >
+                                        
+                                            Smart Fund: <a style={{ color: "#5E39FF", fontWeight: "500", }} href={EtherscanLink + "address/" + fundData.smartFundAddress} target="_blank" rel="noopener noreferrer">{String(fundData.smartFundAddress).replace(String(fundData.smartFundAddress).substring(6, 36), "...")}</a>
                                         </GridItem>
                                         <GridItem fontWeight={600}>
                                             Owner: <a style={{ color: "#5E39FF", fontWeight: "500" }} href={EtherscanLink + "address/" + fundData.owner} target="_blank" rel="noopener noreferrer">{String(fundData.owner).replace(String(fundData.owner).substring(6, 36), "...")}</a>

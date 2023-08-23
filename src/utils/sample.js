@@ -2,6 +2,7 @@ import * as contant from './constants'
 import MyFund from '../Pages/MyFund';
 import MyInvestment from '../Pages/MyInvestment';
 import SmartFundListWithoutWeb3 from '../Pages/AllFunds';
+
 export const dashbordTabs = [
     {  
         label : "All funds",
@@ -17,5 +18,6 @@ export const dashbordTabs = [
         label : "My Investement",
         id : contant.MY_INVESTMENTS,
         content : MyInvestment,
-    }
+    },
+  
 ]

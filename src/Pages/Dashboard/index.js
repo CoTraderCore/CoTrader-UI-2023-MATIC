@@ -15,11 +15,11 @@ import { RiFundsBoxLine } from 'react-icons/ri'
 import getFundsList from '../../utils/getFundsList';
 import { useObserver } from 'mobx-react';
 import MobXStorage from '../../MobXStorage';
-import Loading from '../../Components/templates/spiners/Loading';
+import Loading from '../../Components/template/spiners/Loading';
 import Footer from '../../Components/common/footer/Footer';
 
 function Dashboard({ isDataLoad, web3, setIsDataLoad }) {
-
+ 
     useEffect(() => {
         let isMounted = true;
         const fetchData = async () => {
@@ -27,8 +27,8 @@ function Dashboard({ isDataLoad, web3, setIsDataLoad }) {
                 try {
                     const smartFunds = await getFundsList();
                     MobXStorage?.initSFList(smartFunds);
-                } catch (error) {
-                    console.error('Error fetching smart funds:', error);
+                }catch (error) {
+                    console.error('Error fetching smart funds:',error  );
                 }
             }
             if (isMounted) {

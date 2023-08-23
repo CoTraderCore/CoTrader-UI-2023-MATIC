@@ -30,7 +30,7 @@ function SmartFundListWithoutWeb3() {
             <Box>
                 {
                     MobXStorage.SmartFunds.map((item, key) =>
-                        <Box key={item.address}>
+                        <Box key={key}>
                             <Box mt={4} sx={{ borderRadius: "10px", }}>
                                 <Heading textTransform={"uppercase"} fontSize={{ base: "2xl" }} color={headingColor} textAlign={'center'} p={2}>{item.name}</Heading>
                                 <SimpleGrid

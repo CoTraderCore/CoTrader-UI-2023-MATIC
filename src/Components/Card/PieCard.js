@@ -5,7 +5,6 @@ import PieChart from "../Chart/PieChart";
 import UserInfo from "../template/UserInfo";
 import { EtherscanLink } from "../../config";
 
-
 function PieCard(props) {
     const {fundData, pieChartData,  pieChartOptions, ...rest } = props;
     const textColor = useColorModeValue("secondaryGray.900", "white");
@@ -57,10 +56,11 @@ function PieCard(props) {
                         }).map((item, key) => {
                             if (item["percentInETH"] > 0) {
                                 return (
-                                    <Box align='center' key={key} >
+                                    <Box align='center' key={key}>
                                         <Text
                                             px={{ base: "0",sm:"10px", md: "10px" }}
                                             py={{ base: "5px", md: "0" }}
+                                         
                                             display={'flex'}
                                             textTransform={'uppercase'}
                                             gap={1}
@@ -82,7 +82,7 @@ function PieCard(props) {
                                             }
                                         </Text>
 
-                                        <Text fontSize={{base:"sm",md:"sm"}} color={textColor} fontWeight='700' py={{ base: "5px", md: "0" }} px={{ base: "0",sm:"10px", md: "10px" }}>
+                                        <Text  fontSize={{base:"sm",md:"sm"}} color={textColor} fontWeight='700' py={{ base: "5px", md: "0" }} px={{ base: "0",sm:"10px", md: "10px" }}>
                                             {item["percentInETH"] > 0 ? Number(item["percentInETH"]).toFixed(4) : 0} %
                                         </Text>
                                     </Box>

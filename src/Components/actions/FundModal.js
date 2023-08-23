@@ -39,8 +39,8 @@ const FundModal = ({ address,navigate }) => {
                              </Button>
                                 </NavLink>
                             )}
-                            <NavLink to={"/fund-txs/" + address} width="100%">
-                                <Button width="100%" color={btnColor}>Get all txs</Button>
+                            <NavLink width="100%">
+                                <Button width="100%" color={btnColor} onClick={() => navigate(Pages.VIEWFUNDTX + "/" + address)}>Get all txs</Button>
                             </NavLink>
                         </Box>
                         <Button width="100%" ><Link href={EtherscanLink + "address/" + address} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: btnColor }}>See fund on Etherscan</Link></Button>

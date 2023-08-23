@@ -1,94 +1,182 @@
 import React, { useState, useEffect } from 'react';
 import { ChakraProvider, } from '@chakra-ui/react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import {  Pages } from './utils/Pages';
+import { Pages } from './utils/Pages';
 import getWeb3 from './utils/getWeb3';
 import themes from './Theme/Theme';
 import ReactGA from 'react-ga'
 import getFundsList from './utils/getFundsList';
-// import { SmartFundRegistryADDRESS } from './config';
+import { SmartFundRegistryADDRESS } from './config';
 import Dashboard from './Pages/Dashboard';
 import MainLayout from './Layouts/MainLayout';
 import ViewFundWithoutWeb3 from './Pages/FundInfo/Index';
-
+import MobXStorage from './MobXStorage';
+import ViewFundTx from './Components/ViewFundTx/ViewFundTx';
 function App(props) {
 
   const [web3, setWeb3] = useState(null);
   const [accounts, setAccounts] = useState(null);
-  const [isReactGarbagetytyweyety, setIsReactGarbagetytyweyety] = useState(false);
+  const [isReactGarbage, setIsReactGarbage] = useState(false);
   const [network, setNetwork] = useState(0);
   const [isLoadNetID, setIsLoadNetID] = useState(false);
   const [timeOut, setTimeOut] = useState(false);
   const [isDataLoad, setIsDataLoad] = useState(false);
- 
+
   useEffect(() => {
+    const isMounted = true
     initializeReactGA();
-    
     setTimeout(() => {
       setTimeOut(true);
     }, 1000);
 
-    async function fetchData() {
-      try {
-        const web3Instance = await getWeb3();
-        const userAccounts = await web3Instance.eth.getAccounts();
+    initWeb3();
+    initData();
 
-        setWeb3(web3Instance);
-        setAccounts(userAccounts);
-
-        props.MobXStorage.initWeb3AndAccounts(web3Instance, userAccounts);
-      } catch (error) {
-        console.error(error);
-      }
-
-      initData();
-
-      // Get network ID
-      if (web3) {
-        web3.eth.net.getId().then((netId) => {
-          setNetwork(netId);
-          setIsLoadNetID(true);
-        });
-      }
-
-      if (window.ethereum) {
-        window.ethereum.on('accountsChanged', () => window.location.reload());
-      }
+    if (web3) {
+      web3.eth.net.getId().then(netId => {
+        setNetwork(netId);
+        setIsLoadNetID(true);
+      });
     }
-    fetchData();
-  }, [props.MobXStorage]);
 
-  function initializeReactGA() {
+    if (window.ethereum) {
+      window.ethereum.on('accountsChanged', () => window.location.reload());
+    }
+
+    return () => {
+      // componentWillUnmount logic
+      isMounted = false
+    };
+  }, []);
+
+  const initializeReactGA = () => {
     ReactGA.initialize('UA-141893089-1');
     ReactGA.pageview('/');
-  }
+  };
 
-  const initData = async () => {
-    if (props.MobXStorage?.SmartFundsOriginal.length === 0) {
-      const smartFunds = await getFundsList();
-      props.MobXStorage.initSFList(smartFunds);
-      // view current registry address
-      // console.log("SmartFundRegistryADDRESS: ", SmartFundRegistryADDRESS, "!___version 28/04/21___!");
-      setIsDataLoad(true);
+
+
+  const initWeb3 = async () => {
+    try {
+      const web3Instance = await getWeb3();
+      const userAccounts = await web3Instance.eth.getAccounts();
+
+      setWeb3(web3Instance);
+      setAccounts(userAccounts);
+      this.props.MobXStorage.initWeb3AndAccounts(web3Instance, userAccounts); // You may need to adapt this part
+    } catch (error) {
+      console.error("fetching error", error);
     }
   };
 
+  const initData = async () => {
+    if (!isDataLoad && MobXStorage.SmartFundsOriginal.length === 0) {
+      try {
+        const smartFunds = await getFundsList();
+        MobXStorage.initSFList(smartFunds);
+        console.log("SmartFundRegistryADDRESS: ", SmartFundRegistryADDRESS, "!___version 28/04/21___!");
+        setIsDataLoad(true);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  const checkWeb3OffRedirect = () => {
+    if (timeOut && !web3) {
+      const redirectOff = ['web3off', 'how-to-start', 'user-txs', 'fund-txs', 'user'];
+      const isIncludes = redirectOff.some(el => window.location.href.includes(el));
+
+      if (!isIncludes) {
+        const web3offAddress = window.location.href.replace('#/', '#/web3off/');
+        console.log(web3offAddress);
+        window.location = web3offAddress;
+      }
+    }
+  };
+
+
+  // const [web3, setWeb3] = useState(null);
+  // const [accounts, setAccounts] = useState(null);
+  // const [isReactGarbagetytyweyety, setIsReactGarbagetytyweyety] = useState(false);
+  // const [network, setNetwork] = useState(0);
+  // const [isLoadNetID, setIsLoadNetID] = useState(false);
+  // const [timeOut, setTimeOut] = useState(false);
+  // const [isDataLoad, setIsDataLoad] = useState(false);
+
+  // function initializeReactGA() {
+  //   ReactGA.initialize('UA-141893089-1');
+  //   ReactGA.pageview('/');
+  // }
+
+  // useEffect(() => {
+  //   const isMounted = true
+
+  //   initializeReactGA();
+  //   setTimeout(() => {
+  //     setTimeOut(true);
+  //   }, 1000);
+
+  //   async function fetchData() {
+  //     try {
+  //       const web3Instance = await getWeb3();
+  //       const userAccounts = await web3Instance.eth.getAccounts();
+  //       setWeb3(web3Instance);
+  //       setAccounts(userAccounts);
+  //       props.MobXStorage.initWeb3AndAccounts(web3Instance, userAccounts);
+  //     } catch (error) {
+  //       console.error("error", error);
+
+
+  //     }
+  //     initData();
+  //     // Get network ID
+  //     if (web3) {
+  //       web3.eth.net.getId().then((netId) => {
+  //         setNetwork(netId);
+  //         setIsLoadNetID(true);
+  //       });
+  //     }
+
+  //     if (window.ethereum) {
+  //       window.ethereum.on('accountsChanged', () => window.location.reload());
+  //     }
+  //   }
+  //   fetchData();
+  // }, [props.MobXStorage]);
+
+
+
+  // const initData = async () => {
+  //   if (props.MobXStorage?.SmartFundsOriginal.length === 0) {
+  //     const smartFunds = await getFundsList();
+  //     props.MobXStorage.initSFList(smartFunds);
+  //     // view current registry address
+  //     // console.log("SmartFundRegistryADDRESS: ", SmartFundRegistryADDRESS, "!___version 28/04/21___!");
+  //     setIsDataLoad(true);
+  //   }
+  // };
+
   const router = createBrowserRouter([
     {
-      path : Pages.SMARTFUNDLISTWITHOUTWEB3,
-      element : <MainLayout />,
-      children : [
+      path: Pages.SMARTFUNDLISTWITHOUTWEB3,
+      element: <MainLayout />,
+      children: [
         {
           path: Pages.SMARTFUNDLISTWITHOUTWEB3,
-          element: <Dashboard {...props} web3={web3} isDataLoad={isDataLoad} setIsDataLoad={setIsDataLoad}/>
+          element: <Dashboard {...props} web3={web3} isDataLoad={isDataLoad} setIsDataLoad={setIsDataLoad} />
         },
         {
-          path:Pages.VIEWFUNDWITHOUTWEB3 + '/:address',
-          element:<ViewFundWithoutWeb3/>
+          path: Pages.VIEWFUNDWITHOUTWEB3 + '/:address',
+          element: <ViewFundWithoutWeb3 />
+        },
+        {
+          path: Pages.VIEWFUNDTX + '/:address',
+          element: <ViewFundTx />
         }
       ]
     },
-   
+
   ]);
   return (
     <React.Fragment>
