@@ -1,115 +1,110 @@
-/*
-* Logic
-* 1) Get all users in fund
-* 2) get all tx from users
-* 3) render only tx for this fund
-*/
-
 import React, { useState, useEffect } from 'react'
 import getFundData from '../../utils/getFundData'
 import getUserData from '../../utils/getUserData'
 import { EtherscanLink } from '../../config'
-import { Select, Box, OrderedList, ListItem, Grid, GridItem, Text, SimpleGrid } from '@chakra-ui/react'
-import Card from '../Card/Card'
+import { Select, Box, OrderedList, ListItem, Grid, GridItem, SimpleGrid, useColorModeValue, Icon, } from '@chakra-ui/react'
 import { fromWei } from 'web3-utils'
-import { useParams } from 'react-router-dom'
 import Footer from '../common/footer/Footer'
+import { useParams } from 'react-router-dom'
+import IconBox from '../Icons/IconBox'
+import ShadowBox from '../Cards/ShadowBox'
+import { HiReceiptTax } from 'react-icons/hi'
+import Loading from '../template/spiners/Loading'
 
 const ETH_TOKEN = String("0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE").toLowerCase()
 
 function ViewManager() {
-    const { address } = useParams()
-    console.log(address, "+++++++++++++++++++++SSSSSSSSSSSSSS");
-    const [data, setData] = useState({
-        funds: [],
-        deposit: [],
-        trade: [],
-        withdraw: [],
-    });
+    const { address } = useParams();
+    const addressbg = useColorModeValue("#E6E6FA", "#181144")
+    const textColor = useColorModeValue("#A4ADC7", "white");
+    const iconColor = useColorModeValue("#244AFB", "#7500FF");
+    const BOXBG = useColorModeValue("#F4F7FE", "#110938");
+
+    const [funds, setFunds] = useState([]);
+    const [deposit, setDeposit] = useState([]);
+    const [trade, setTrade] = useState([]);
+    const [withdraw, setWithdraw] = useState([]);
     const [showFundsTX, setShowFundsTX] = useState(true);
     const [showDepositTX, setShowDepositTX] = useState(true);
     const [showTradeTX, setShowTradeTX] = useState(true);
     const [showWithdrawTX, setShowWithdrawTX] = useState(true);
 
+    const isMountedRef = React.useRef(null);
     useEffect(() => {
-        let isMounted = true;
+        isMountedRef.current = true;
+        getAllFundTxs();
 
-        const getAllFundTxs = async () => {
+        return () => {
+            isMountedRef.current = false;
+        };
+    }, []);
+
+    const getAllFundTxs = async () => {
+        if (isMountedRef.current) {
+            // Get all users in fund
             const data = await getFundData(address);
-            const owner = data.result.owner;
+            const owner = data.data.result.owner;
 
-            let users = []
-            let _users = data.result.shares
+            // Create users array
+            let users = [];
+            let _users = data.data.result.shares;
             if (_users) {
-                users = JSON.parse(_users)
-                users = users.map((index) => index.user)
-                users.push(owner)
-                // Remove duplicete in case if owner of fund make deposit
-                users = Array.from(new Set(users))
-            }
-            // In case if no shares
-            else {
-                users.push(owner)
+                users = JSON.parse(_users).map(index => index.user);
+                users.push(owner);
+                users = Array.from(new Set(users));
+            } else {
+                users.push(owner);
             }
 
             let fund = [];
             let deposit = [];
-            let withdarw = [];
+            let withdraw = [];
             let trade = [];
+
             // get all txs
             for (let i = 0; i < users.length; i++) {
-                const txData = await getUserData(users[i])
+                const txData = await getUserData(users[i]);
 
-                if (JSON.parse(txData.data.result[0].data.funds) !== null)
-                    fund.push([...JSON.parse(txData.data.result[0].data.funds)])
+                if (JSON.parse(txData.data.result[0].funds) !== null)
+                    fund.push([...JSON.parse(txData.data.result[0].funds)]);
 
-                if (JSON.parse(txData.data.result[0].data.withdraw) !== null)
-                    withdarw.push([...JSON.parse(txData.data.result[0].data.withdraw)])
+                if (JSON.parse(txData.data.result[0].withdraw) !== null)
+                    withdraw.push([...JSON.parse(txData.data.result[0].withdraw)]);
 
-                if (JSON.parse(txData.data.result[0].data.deposit) !== null)
-                    deposit.push([...JSON.parse(txData.data.result[0].data.deposit)])
+                if (JSON.parse(txData.data.result[0].deposit) !== null)
+                    deposit.push([...JSON.parse(txData.data.result[0].deposit)]);
 
-                if (JSON.parse(txData.data.result[0].data.trade) !== null)
-                    trade.push([...JSON.parse(txData.data.result[0].data.trade)])
+                if (JSON.parse(txData.data.result[0].trade) !== null)
+                    trade.push([...JSON.parse(txData.data.result[0].trade)]);
             }
 
-
-            if (isMounted) {
-                setData({
-                    funds: data.funds.flat(),
-                    deposit: data.deposit.flat(),
-                    trade: data.trade.flat(),
-                    withdraw: data.withdraw.flat(),
-                });
+            if (isMountedRef.current) {
+                setFunds(fund.flat());
+                setDeposit(deposit.flat());
+                setTrade(trade.flat());
+                setWithdraw(withdraw.flat());
             }
-        };
-
-        getAllFundTxs();
-
-        return () => {
-            isMounted = false;
-        };
-    }, [address]);
+        }
+    }
 
     const toggle = (name) => {
         switch (name) {
             case 'showFundsTX':
-                setShowFundsTX(!showFundsTX);
+                setShowFundsTX(prevState => !prevState);
                 break;
             case 'showDepositTX':
-                setShowDepositTX(!showDepositTX);
+                setShowDepositTX(prevState => !prevState);
                 break;
             case 'showTradeTX':
-                setShowTradeTX(!showTradeTX);
+                setShowTradeTX(prevState => !prevState);
                 break;
             case 'showWithdrawTX':
-                setShowWithdrawTX(!showWithdrawTX);
+                setShowWithdrawTX(prevState => !prevState);
                 break;
             default:
                 break;
         }
-    };
-
+    }
 
     const renderTx = (data, stateName) => {
         return (
@@ -124,7 +119,7 @@ function ViewManager() {
                                     item.fund === address
                                         ?
                                         (
-                                            <OrderedList key={item.transactionHash}>
+                                            <OrderedList key={item.transactionHash} sx={{ listStyle: "none", textTransform: "capitalize", color: textColor }}>
                                                 <ListItem>blockNumber: <a href={EtherscanLink + "/block/" + item.blockNumber} target="_blank" rel="noopener noreferrer">{item.blockNumber}</a></ListItem>
                                                 <ListItem>Tx hash: <a href={EtherscanLink + "/tx/" + item.transactionHash} target="_blank" rel="noopener noreferrer">{item.transactionHash}</a></ListItem>
                                                 <ListItem>Fund address: <a href={EtherscanLink + "/address/" + item.fund} target="_blank" rel="noopener noreferrer">{item.fund}</a></ListItem>
@@ -138,7 +133,7 @@ function ViewManager() {
                         )
                         :
                         (
-                            <OrderedList>
+                            <OrderedList sx={{ listStyle: "none", textTransform: "capitalize", fontWeight: "500", color: textColor }}>
                                 <ListItem>no tx</ListItem>
                             </OrderedList>
                         )
@@ -155,7 +150,7 @@ function ViewManager() {
             case 'deposit':
                 return (
                     <Box>
-                        <OrderedList>
+                        <OrderedList sx={{ listStyle: "none", textTransform: "capitalize", color: textColor }}>
                             <ListItem>Aditional data</ListItem>
                             <ListItem>Deposit amount: {fromWei(data.additionalData.amount)}</ListItem>
                             <ListItem>Total shares: {fromWei(data.additionalData.totalShares)} </ListItem>
@@ -167,7 +162,7 @@ function ViewManager() {
             case 'trade':
                 return (
                     <Box>
-                        <OrderedList>
+                        <OrderedList sx={{ listStyle: "none", textTransform: "capitalize", color: textColor }}>
                             <ListItem>Aditional data</ListItem>
                             <ListItem>src token address:
                                 {
@@ -208,7 +203,7 @@ function ViewManager() {
             case 'withdraw':
                 return (
                     <Box>
-                        <OrderedList>
+                        <OrderedList sx={{ listStyle: "none", textTransform: "capitalize", color: textColor }}>
                             <ListItem>Aditional data</ListItem>
                             <ListItem>Shares removed: {fromWei(data.additionalData.sharesRemoved)} </ListItem>
                             <ListItem>Total shares: {fromWei(data.additionalData.totalShares)} </ListItem>
@@ -220,78 +215,119 @@ function ViewManager() {
                 return null
         }
     }
+
     return (
-        <Box p={5}>
-            <Grid mt={4} sx={{ textAlign: 'center', fontWeight: "500" }}>
-                <GridItem style={{ borderRadius: "5px", padding: "10px 5px", boxShadow: "1px 1px 1px 1px gray", border: "1px solid white" }}>
-                    DeFi investment funds - create or join the best smart funds on the blockchain
-                </GridItem>
-            </Grid>
-            <Box mt={5}>
-                <Card>
-                    <Grid column={{ base: 1, md: 2 }} flexDirection={{ base: "column", md: "row" }} sx={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
+        <React.Fragment>
+            <Box p={5} >
+                <Grid mt={5} sx={{ textAlign: 'center', fontWeight: "500" }}>
+                    <GridItem style={{ borderRadius: "5px", padding: "10px 5px", boxShadow: "1px 1px 1px 1px gray", border: "1px solid white" }}>
+                        DeFi investment funds - create or join the best smart funds on the blockchain
+                    </GridItem>
+                </Grid>
+                <Box mt={5}>
+                    <Grid py={5} sx={{ display: "flex", alignItems: "center", }}>
                         <GridItem>
-                            <Select placeholder='Sorting tx'>
-                                <option onClick={() => toggle("showFundsTX")}>{showFundsTX ? "Disable" : "Enable"} funds tx</option>
-                                <option onClick={() => toggle("showDepositTX")}>{showDepositTX ? "Disable" : "Enable"} deposit tx</option>
-                                <option onClick={() => toggle("showTradeTX")}>{showTradeTX ? "Disable" : "Enable"} trade tx</option>
-                                <option onClick={() => toggle("showWithdrawTX")}>{showWithdrawTX ? "Disable" : "Enable"} withdraw tx</option>
+                            <Select onChange={(e) => toggle(e.target.value)}>
+                                <option value="showFundsTX">{showFundsTX ? "Disable" : "Enable"} funds tx</option>
+                                <option value="showDepositTX">{showDepositTX ? "Disable" : "Enable"} deposit tx</option>
+                                <option value="showTradeTX">{showTradeTX ? "Disable" : "Enable"} trade tx</option>
+                                <option value="showWithdrawTX">{showWithdrawTX ? "Disable" : "Enable"} withdraw tx</option>
                             </Select>
                         </GridItem>
-                        <GridItem>
-                            <strong style={{fontWeight:"500",}}>  All transactions for address : <small> <a style={{color:"#7500FF"}} href={EtherscanLink + "/address/" + address} target="_blank" rel="noopener noreferrer">{address}</a></small></strong>
-                        </GridItem>
                     </Grid>
-                </Card>
-                <SimpleGrid columns={{base:1,md:2}} spacing={{base:5,md:10}}>
-                    {
-                        showFundsTX ?
-                            (
-                                    <Card style={{marginTop:"20px"}}>
-                                        <Text sx={{fontWeight:"500",textTransform:"uppercase"}}>create fund tx</Text>
-                                        {renderTx(data.funds, "funds")}
-                                    </Card>
-                            )
-                            : (null)
-                    }
-                    {
-                        showDepositTX ?
-                            (
-                                <Card style={{marginTop:"20px"}}>
-                                    <Text sx={{fontWeight:"500",textTransform:"uppercase"}}>deposit tx</Text>
-                                    {renderTx(data.deposit, "deposit")}
-                                </Card>
-                            )
-                            : (null)
-                    }
 
-                    {
-                        showTradeTX ?
-                            (
-                                <Card style={{marginTop:"20px"}}>
-                                    <Text sx={{fontWeight:"500",textTransform:"uppercase"}}>trade tx</Text>
-                                    {renderTx(data.trade, "trade")}
-                                </Card>
-                            )
-                            : (null)
-                    }
-                    {
-                        showWithdrawTX ?
-                            (
-                                <Card style={{marginTop:"20px"}}>
-                                    <Text sx={{fontWeight:"500",textTransform:"uppercase"}}>withdarw tx</Text>
-                                    {renderTx(data.withdraw, "withdraw")}
+                    <Box sx={{ boxShadow: "0px 1px 1px 1px lightgray", borderRadius: "10px", }}>
+                        <h5 style={{ fontWeight: "500", textAlign: "center", backgroundColor: addressbg, padding: "10px 5px", borderTopLeftRadius: "10px", borderTopRightRadius: "10px" }}>  All transactions for address : <small> <a className='link' style={{ color: "#7500FF" }} href={EtherscanLink + "/address/" + address} target="_blank" rel="noopener noreferrer">{address}</a></small></h5>
+                        <SimpleGrid p={5} pb={5} columns={{ base: 1, md: 2 }} spacing={{ base: 5, md: 10 }}>
+                            {
+                                showFundsTX ?
+                                    (
+                                        <ShadowBox
+                                            startContent={
+                                                <IconBox
+                                                    w='56px'
+                                                    h='56px'
+                                                    bg={BOXBG}
+                                                    icon={
+                                                        <Icon w='32px' h='32px' as={HiReceiptTax} color={iconColor} />
+                                                    }
+                                                />
+                                            }
+                                            name='CREATE FUND TX'
+                                            value={renderTx(funds, "deposit")}
+                                        />
+                                    )
+                                    : (null)
+                            }
+                            {
+                                showDepositTX ?
+                                    (
+                                        <ShadowBox
+                                            startContent={
+                                                <IconBox
+                                                    w='56px'
+                                                    h='56px'
+                                                    bg={BOXBG}
+                                                    icon={
+                                                        <Icon w='32px' h='32px' as={HiReceiptTax} color={iconColor} />
+                                                    }
+                                                />
+                                            }
+                                            name='DEPOSITE TX'
+                                            value={renderTx(deposit, "deposit")}
+                                        />
+                                    )
+                                    : (null)
+                            }
 
-                                </Card>
-                            )
-                            : (null)
-                    }
-                </SimpleGrid>
-                <Footer />
+                            {
+                                showTradeTX ?
+                                    (
+                                        <ShadowBox
+                                            startContent={
+                                                <IconBox
+                                                    w='56px'
+                                                    h='56px'
+                                                    bg={BOXBG}
+                                                    icon={
+                                                        <Icon w='32px' h='32px' as={HiReceiptTax} color={iconColor} />
+                                                    }
+                                                />
+                                            }
+                                            name='TRADE TX'
+                                            value={renderTx(trade, "trade")}
+                                        />
+                                    )
+                                    : (null)
+                            }
+                            {
+                                showWithdrawTX ?
+                                    (
+                                        <ShadowBox
+                                            startContent={
+                                                <IconBox
+                                                    w='56px'
+                                                    h='56px'
+                                                    bg={BOXBG}
+                                                    icon={
+                                                        <Icon w='32px' h='32px' as={HiReceiptTax} color={iconColor} />
+                                                    }
+                                                />
+                                            }
+                                            name='WITHDRAW TX'
+                                            value={renderTx(withdraw, "withdraw")}
+                                        />
+                                    )
+                                    : (null)
+                            }
+                        </SimpleGrid>
+                    </Box>
+                    <Footer />
+                </Box>
             </Box>
-
-        </Box>
+        </React.Fragment>
     )
+
 }
 
 export default ViewManager

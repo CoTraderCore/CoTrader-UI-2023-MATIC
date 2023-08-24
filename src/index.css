@@ -136,3 +136,6 @@ body.fullWidth_container .MuiContainer-maxWidthMd {max-width: 1920px!important;}
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+.link:hover{
+  text-decoration: underline;
+}
