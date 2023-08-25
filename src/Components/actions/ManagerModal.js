@@ -4,8 +4,9 @@ import { NavLink } from 'react-router-dom';
 import { EtherscanLink } from '../../config.js';
 import { useObserver } from 'mobx-react-lite';
 import MobXStorage from '../../MobXStorage.js';
+import { Pages } from '../../utils/Pages.js';
 
-const ManagerModal = ({ address }) => {
+const ManagerModal = ({ address,navigate }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const getManagerFunds = () => {
@@ -29,8 +30,8 @@ const ManagerModal = ({ address }) => {
                     <ModalBody>
                         <Button color={btnColor} width="100%" onClick={() => getManagerFunds()}>Search all funds of this manager</Button>
                         <Box mt={5} style={{ display: "flex", justifyContent: "space-around" }}>
-                            <NavLink to={"/user-txs/" + address}>
-                                <Button color={btnColor}>Get all txs</Button>
+                            <NavLink >
+                                <Button color={btnColor} onClick={()=>navigate(Pages.VIEWUSERTX + "/" + address)}>Get all txs</Button>
                             </NavLink>
                             <Button>
                                 <Link style={{color:btnColor,textDecoration:"none"}} href={EtherscanLink + "address/" + address} target="_blank" rel="noopener noreferrer">Etherscan</Link>

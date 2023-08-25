@@ -43,9 +43,9 @@ function ViewFundWithoutWeb3() {
         const getInitialData = async () => {
             const fund = await getFundData(address)
             setFundData({
-                smartFundAddress: fund?.data?.result?.address || "",
+                smartFundAddress: fund?.data?.result?.address ,
                 name: fund?.data?.result?.name,
-                balance: JSON.parse(fund?.data?.result?.balance || "[]"),
+                balance: JSON.parse(fund?.data?.result?.balance ),
                 owner: fund?.data?.result?.owner,
                 profitInETH: fund?.data?.result?.profitInETH,
                 profitInUSD: fund?.data?.result?.profitInUSD,
@@ -202,7 +202,7 @@ function ViewFundWithoutWeb3() {
                                 </Box>
                             </Box>
                             <Box>
-                                <Box mt={5} gap={4} width={"100%"} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, }} >
+                                <Box mt={5} gap={4} width={"100%"} sx={{ display: "flex", flexDirection: { base: "column", md: "row" }, }} >
                                     <Card width={{ base: "100%", md: "30%" }} bg={"rgba(128, 144, 255,.1)"}>
                                         <Heading fontSize={{ base: "xl", md: "2xl" }} sx={{ textAlign: "center", textTransform: "uppercase", color: { headingColor }, padding: "10px 0px" }}>MANAGER INFO</Heading>
                                         <List p={5} width={{ base: "100%", md: "100%" }} textAlign={'center'} borderRadius={"10px"}>

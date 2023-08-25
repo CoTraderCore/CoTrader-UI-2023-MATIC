@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import {Button, HStack, Text } from '@chakra-ui/react';
+import {Button, HStack, Text, useColorModeValue } from '@chakra-ui/react';
 import isMobile from '../../../utils/isMobile';
 import MobXStorage from '../../../MobXStorage';
 import { useObserver } from 'mobx-react';
 
 const PagePagination = () => {
+  const colorScheme=useColorModeValue("red","green")
   const [currentPage, setCurrentPage] = useState(1);
   const perPage = isMobile() ? 5 : 10;
   const isMobileDevice = isMobile();
@@ -39,7 +40,7 @@ const PagePagination = () => {
     <Button
       key={number}
       variant={number === currentPage ? 'solid' : 'outline'}
-      colorScheme="green"
+      colorScheme={colorScheme}
       onClick={paginationClick}
       id={number}
     >

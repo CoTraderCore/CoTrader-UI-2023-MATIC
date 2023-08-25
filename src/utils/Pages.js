@@ -9,5 +9,6 @@
 export const Pages = {
     SMARTFUNDLISTWITHOUTWEB3 : '/',
     VIEWFUNDWITHOUTWEB3:'/web3off/fund',
-    VIEWFUNDTX:"/fund-txs"
+    VIEWFUNDTX:"/fund-txs",
+    VIEWUSERTX:"/user-txs"
 }

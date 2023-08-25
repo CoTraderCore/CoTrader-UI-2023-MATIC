@@ -1,25 +1,24 @@
-import React, { useState, useEffect } from 'react'
-import getFundData from '../../utils/getFundData'
-import getUserData from '../../utils/getUserData'
-import { EtherscanLink } from '../../config'
-import { Select, Box, OrderedList, ListItem, Grid, GridItem, SimpleGrid, useColorModeValue, Icon, } from '@chakra-ui/react'
-import { fromWei } from 'web3-utils'
-import Footer from '../common/footer/Footer'
-import { useParams } from 'react-router-dom'
-import IconBox from '../Icons/IconBox'
-import ShadowBox from '../Cards/ShadowBox'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
+import { Box, GridItem, Select, useColorModeValue, OrderedList, ListItem, Icon, Grid, SimpleGrid } from '@chakra-ui/react';
+import { EtherscanLink } from '../../config';
+import getUserData from '../../utils/getFundData';
+import { fromWei } from 'web3-utils';
 import { HiReceiptTax } from 'react-icons/hi'
-import Loading from '../template/spiners/Loading'
+import ShadowBox from '../../Components/Cards/ShadowBox';
+import IconBox from '../../Components/Icons/IconBox';
+import Footer from '../../Components/common/footer/Footer';
 
 const ETH_TOKEN = String("0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE").toLowerCase()
 
-function ViewManager() {
+function ViewUserTx() {
     const { address } = useParams();
     const addressbg = useColorModeValue("#E6E6FA", "#181144")
     const textColor = useColorModeValue("#A4ADC7", "white");
     const iconColor = useColorModeValue("#244AFB", "#7500FF");
     const BOXBG = useColorModeValue("#F4F7FE", "#110938");
 
+    const [data, setData] = useState([]);
     const [funds, setFunds] = useState([]);
     const [deposit, setDeposit] = useState([]);
     const [trade, setTrade] = useState([]);
@@ -29,116 +28,74 @@ function ViewManager() {
     const [showTradeTX, setShowTradeTX] = useState(true);
     const [showWithdrawTX, setShowWithdrawTX] = useState(true);
 
-    const isMountedRef = React.useRef(null);
     useEffect(() => {
-        isMountedRef.current = true;
-        getAllFundTxs();
+        let isMounted = true;
 
-        return () => {
-            isMountedRef.current = false;
-        };
-    }, []);
+        async function fetchData() {
+            try {
+                const userData = await getUserData(address);
 
-    const getAllFundTxs = async () => {
-        if (isMountedRef.current) {
-            // Get all users in fund
-            const data = await getFundData(address);
-            const owner = data.data.result.owner;
-
-            // Create users array
-            let users = [];
-            let _users = data.data.result.shares;
-            if (_users) {
-                users = JSON.parse(_users).map(index => index.user);
-                users.push(owner);
-                users = Array.from(new Set(users));
-            } else {
-                users.push(owner);
-            }
-
-            let fund = [];
-            let deposit = [];
-            let withdraw = [];
-            let trade = [];
-
-            // get all txs
-            for (let i = 0; i < users.length; i++) {
-                const txData = await getUserData(users[i]);
-
-                if (JSON.parse(txData.data.result[0].funds) !== null)
-                    fund.push([...JSON.parse(txData.data.result[0].funds)]);
-
-                if (JSON.parse(txData.data.result[0].withdraw) !== null)
-                    withdraw.push([...JSON.parse(txData.data.result[0].withdraw)]);
-
-                if (JSON.parse(txData.data.result[0].deposit) !== null)
-                    deposit.push([...JSON.parse(txData.data.result[0].deposit)]);
-
-                if (JSON.parse(txData.data.result[0].trade) !== null)
-                    trade.push([...JSON.parse(txData.data.result[0].trade)]);
-            }
-
-            if (isMountedRef.current) {
-                setFunds(fund.flat());
-                setDeposit(deposit.flat());
-                setTrade(trade.flat());
-                setWithdraw(withdraw.flat());
+                if (isMounted) {
+                    setData(userData.data.result[0]);
+                    setFunds(JSON.parse(userData.data.result[0].funds));
+                    setDeposit(JSON.parse(userData.data.result[0].deposit));
+                    setTrade(JSON.parse(userData.data.result[0].trade));
+                    setWithdraw(JSON.parse(userData.data.result[0].withdraw));
+                }
+            } catch (error) {
+                console.error("Error fetching user data:", error);
             }
         }
-    }
+
+        fetchData();
+    })
 
     const toggle = (name) => {
         switch (name) {
             case 'showFundsTX':
-                setShowFundsTX(prevState => !prevState);
+                setShowFundsTX(!showFundsTX);
                 break;
             case 'showDepositTX':
-                setShowDepositTX(prevState => !prevState);
+                setShowDepositTX(!showDepositTX);
                 break;
             case 'showTradeTX':
-                setShowTradeTX(prevState => !prevState);
+                setShowTradeTX(!showTradeTX);
                 break;
             case 'showWithdrawTX':
-                setShowWithdrawTX(prevState => !prevState);
+                setShowWithdrawTX(!showWithdrawTX);
                 break;
             default:
                 break;
         }
-    }
+    };
 
     const renderTx = (data, stateName) => {
         return (
-            <Box>
+            <React.Fragment>
                 {
                     data && data.length > 0
                         ?
                         (
-                            <Box>
+                            <React.Fragment>
                                 {data.map((item, key) =>
-
-                                    item.fund === address
-                                        ?
-                                        (
-                                            <OrderedList key={item.transactionHash} sx={{ listStyle: "none", textTransform: "capitalize", color: textColor }}>
-                                                <ListItem>blockNumber: <a href={EtherscanLink + "/block/" + item.blockNumber} target="_blank" rel="noopener noreferrer">{item.blockNumber}</a></ListItem>
-                                                <ListItem>Tx hash: <a href={EtherscanLink + "/tx/" + item.transactionHash} target="_blank" rel="noopener noreferrer">{item.transactionHash}</a></ListItem>
-                                                <ListItem>Fund address: <a href={EtherscanLink + "/address/" + item.fund} target="_blank" rel="noopener noreferrer">{item.fund}</a></ListItem>
-                                                {additionalData(item, stateName)}
-                                            </OrderedList>
-                                        )
-                                        : (null)
-
+                                    <OrderedList key={item.transactionHash} sx={{ listStyle: "none", textTransform: "capitalize", color: textColor }}>
+                                        <ListItem>blockNumber: <a href={EtherscanLink + "/block/" + item.blockNumber} target="_blank" rel="noopener noreferrer">{item.blockNumber}</a></ListItem>
+                                        <ListItem>Tx hash: <a href={EtherscanLink + "/tx/" + item.transactionHash} target="_blank" rel="noopener noreferrer">{item.transactionHash}</a></ListItem>
+                                        <ListItem>Fund address: <a href={EtherscanLink + "/address/" + item.fund} target="_blank" rel="noopener noreferrer">{item.fund}</a></ListItem>
+                                        {additionalData(item, stateName)}
+                                    </OrderedList>
                                 )}
-                            </Box>
+                            </React.Fragment>
                         )
                         :
                         (
-                            <OrderedList sx={{ listStyle: "none", textTransform: "capitalize", fontWeight: "500", color: textColor }}>
+                            <OrderedList sx={{ listStyle: "none", textTransform: "capitalize", color: textColor }}>
                                 <ListItem>no tx</ListItem>
                             </OrderedList>
+
                         )
                 }
-            </Box>
+            </React.Fragment>
         )
     }
 
@@ -149,72 +106,67 @@ function ViewManager() {
 
             case 'deposit':
                 return (
-                    <Box>
-                        <OrderedList sx={{ listStyle: "none", textTransform: "capitalize", color: textColor }}>
-                            <ListItem>Aditional data</ListItem>
-                            <ListItem>Deposit amount: {fromWei(data.additionalData.amount)}</ListItem>
-                            <ListItem>Total shares: {fromWei(data.additionalData.totalShares)} </ListItem>
-                            <ListItem>Shares received: {fromWei(data.additionalData.sharesReceived)} </ListItem>
-                        </OrderedList>
-                    </Box>
+                    <OrderedList sx={{ listStyle: "none", textTransform: "capitalize", color: textColor }}>
+                        <ListItem>Aditional data</ListItem>
+                        <ListItem>Deposit amount: {fromWei(data.additionalData.amount)} </ListItem>
+                        <ListItem>Total shares: {fromWei(data.additionalData.totalShares)} </ListItem>
+                        <ListItem>Shares received: {fromWei(data.additionalData.sharesReceived)} </ListItem>
+                    </OrderedList>
                 )
 
             case 'trade':
                 return (
-                    <Box>
-                        <OrderedList sx={{ listStyle: "none", textTransform: "capitalize", color: textColor }}>
-                            <ListItem>Aditional data</ListItem>
-                            <ListItem>src token address:
-                                {
-                                    String(data.additionalData.src).toLowerCase() === ETH_TOKEN
-                                        ?
-                                        (
-                                            <>BNB</>
-                                        )
-                                        :
-                                        (
-                                            <a href={EtherscanLink + "/token/" + data.additionalData.src} target="_blank" rel="noopener noreferrer">
-                                                {data.additionalData.src}
-                                            </a>
-                                        )
-                                }
-                            </ListItem>
-                            <ListItem>amount send: {fromWei(data.additionalData.srcAmount)} </ListItem>
-                            <ListItem>dest token address:
-                                {
-                                    String(data.additionalData.dest).toLowerCase() === ETH_TOKEN
-                                        ?
-                                        (
-                                            <>BNB</>
-                                        )
-                                        :
-                                        (
-                                            <a href={EtherscanLink + "/token/" + data.additionalData.dest} target="_blank" rel="noopener noreferrer">
-                                                {data.additionalData.dest}
-                                            </a>
-                                        )
-                                }
-                            </ListItem>
-                            <ListItem>dest recived amount: {fromWei(data.additionalData.destReceived)}</ListItem>
-                        </OrderedList>
-                    </Box>
+                    <OrderedList sx={{ listStyle: "none", textTransform: "capitalize", color: textColor }}>
+                        <ListItem>Aditional data</ListItem>
+                        <ListItem>src token address:
+                            {
+                                String(data.additionalData.src).toLowerCase() === ETH_TOKEN
+                                    ?
+                                    (
+                                        <>BNB</>
+                                    )
+                                    :
+                                    (
+                                        <a href={EtherscanLink + "/token/" + data.additionalData.src} target="_blank" rel="noopener noreferrer">
+                                            {data.additionalData.src}
+                                        </a>
+                                    )
+                            }
+                        </ListItem>
+                        <ListItem>amount send: {fromWei(data.additionalData.srcAmount)} </ListItem>
+                        <ListItem>dest token address:
+                            {
+                                String(data.additionalData.dest).toLowerCase() === ETH_TOKEN
+                                    ?
+                                    (
+                                        <>BNB</>
+                                    )
+                                    :
+                                    (
+                                        <a href={EtherscanLink + "/token/" + data.additionalData.dest} target="_blank" rel="noopener noreferrer">
+                                            {data.additionalData.dest}
+                                        </a>
+                                    )
+                            }
+                        </ListItem>
+                        <ListItem>dest recived amount: {fromWei(data.additionalData.destReceived)}</ListItem>
+                    </OrderedList>
                 )
 
             case 'withdraw':
                 return (
-                    <Box>
-                        <OrderedList sx={{ listStyle: "none", textTransform: "capitalize", color: textColor }}>
-                            <ListItem>Aditional data</ListItem>
-                            <ListItem>Shares removed: {fromWei(data.additionalData.sharesRemoved)} </ListItem>
-                            <ListItem>Total shares: {fromWei(data.additionalData.totalShares)} </ListItem>
-                        </OrderedList>
-                    </Box>
+                    <OrderedList sx={{ listStyle: "none", textTransform: "capitalize", color: textColor }}>
+                        <ListItem>Aditional data</ListItem>
+                        <ListItem>Shares removed: {fromWei(data.additionalData.sharesRemoved)} </ListItem>
+                        <ListItem>Total shares: {fromWei(data.additionalData.totalShares)} </ListItem>
+                    </OrderedList>
                 )
 
             default:
                 return null
         }
     }
+
 
     return (
         <React.Fragment>
@@ -228,6 +180,7 @@ function ViewManager() {
                     <Grid py={5} sx={{ display: "flex", alignItems: "center", }}>
                         <GridItem>
                             <Select onChange={(e) => toggle(e.target.value)}>
+                                <option value="" hidden>Sortin tx</option>
                                 <option value="showFundsTX">{showFundsTX ? "Disable" : "Enable"} funds tx</option>
                                 <option value="showDepositTX">{showDepositTX ? "Disable" : "Enable"} deposit tx</option>
                                 <option value="showTradeTX">{showTradeTX ? "Disable" : "Enable"} trade tx</option>
@@ -327,7 +280,6 @@ function ViewManager() {
             </Box>
         </React.Fragment>
     )
-
 }
 
-export default ViewManager
+export default ViewUserTx;

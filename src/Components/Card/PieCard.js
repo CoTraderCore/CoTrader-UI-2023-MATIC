@@ -82,7 +82,7 @@ function PieCard(props) {
                                             }
                                         </Text>
 
-                                        <Text  fontSize={{base:"sm",md:"sm"}} color={textColor} fontWeight='700' py={{ base: "5px", md: "0" }} px={{ base: "0",sm:"10px", md: "10px" }}>
+                                        <Text  fontSize={{base:"12px",md:"sm"}} color={textColor} fontWeight='700' py={{ base: "5px", md: "0" }} px={{ base: "0",sm:"10px", md: "10px" }}>
                                             {item["percentInETH"] > 0 ? Number(item["percentInETH"]).toFixed(4) : 0} %
                                         </Text>
                                     </Box>

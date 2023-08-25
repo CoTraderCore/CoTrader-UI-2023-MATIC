@@ -17,11 +17,11 @@ function PieChartTable({fundData}) {
   }
   // console.log(fundData , "++++++++++fund data")
   return (
-
-    <Box direction='column'
+    <Box 
+    className='table-box'
+    direction='column'
       w={{base:"100%",md:"60%"}}
-      px='0px'
-      overflowX={{ base: "scroll", md: "hidden" }}>
+      px='0px'>
       <Flex px='25px' justify='space-between' align='center'>
         <Text
           color={headingColor}
@@ -51,7 +51,7 @@ function PieChartTable({fundData}) {
                     if (item["percentInETH"] > 0) {
                       return (
                         <Tr key={key}>
-                          <Td sx={{textTransform:"uppercase", display: "flex",flexDirection:{base:"column",md:"row"}, color: { textColor }, fontWeight: "500" }}>
+                          <Td className='table-row' sx={{textTransform:"uppercase",flexDirection:{base:"column",sm:"column",md:"row"}, color: { textColor }, fontWeight: "500" }}>
                             {
                               <img
                                 style={{ height: "20px", width: "20px",}}

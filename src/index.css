@@ -139,3 +139,19 @@ body.fullWidth_container .MuiContainer-maxWidthMd {max-width: 1920px!important;}
 .link:hover{
   text-decoration: underline;
 }
+.table-row{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+
+@media only screen and (max-width:992px){
+  .table-row{
+    display: block;
+  }
+  .table-box{
+    overflow-x: scroll;
+  }
+}

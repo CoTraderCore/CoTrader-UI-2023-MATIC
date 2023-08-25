@@ -11,7 +11,9 @@ import Dashboard from './Pages/Dashboard';
 import MainLayout from './Layouts/MainLayout';
 import ViewFundWithoutWeb3 from './Pages/FundInfo/Index';
 import MobXStorage from './MobXStorage';
-import ViewFundTx from './Components/ViewFundTx/ViewFundTx';
+import ViewFundTx from './Pages/ViewFundTx';
+import ViewUserTx from './Pages/ViewUserTx'
+
 function App(props) {
   const [web3, setWeb3] = useState(null);
   const [accounts, setAccounts] = useState(null);
@@ -110,6 +112,10 @@ function App(props) {
         {
           path: Pages.VIEWFUNDTX + '/:address',
           element: <ViewFundTx {...props} isDataLoad={isDataLoad}/>
+        },
+        {
+          path: Pages.VIEWUSERTX + '/:address',
+          element: <ViewUserTx {...props} isDataLoad={isDataLoad}/>
         }
       ]
     },

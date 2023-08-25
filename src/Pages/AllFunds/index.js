@@ -6,9 +6,9 @@ import IconBox from '../../Components/Icons/IconBox';
 import { Icon } from '@chakra-ui/react';
 import { MdAttachMoney } from 'react-icons/md'
 import Card from '../../Components/Card/Card';
-import BarChart from '../../Components/Chart/BarChart';
-import DailyTraffic from '../../Components/Chart/DailyTrafic';
-import TotalSpent from '../../Variable/TotalSpent';
+// import BarChart from '../../Components/Chart/BarChart';
+// import DailyTraffic from '../../Components/Chart/DailyTrafic';
+// import TotalSpent from '../../Variable/TotalSpent';
 import FundModal from '../../Components/actions/FundModal';
 import ManagerModal from '../../Components/actions/ManagerModal';
 import MobXStorage from '../../MobXStorage';
@@ -122,22 +122,24 @@ function SmartFundListWithoutWeb3() {
                                     />
                                 </SimpleGrid>
                             </Box>
+                              { /* 
                             <Card>
                                 <SimpleGrid gap='20px'
                                     mb='20px'
                                     columns={{ base: 1, md: 2, lg: 2, }}
                                     sx={{ width: "100%", }} >
-                                    <BarChart />
+                                <BarChart />
                                     <DailyTraffic />
-                                    <TotalSpent />
+                                    <TotalSpent /> 
                                 </SimpleGrid>
                             </Card>
+                            */}
                             <SimpleGrid mt={5} gap={5} columns={{ base: 1, md: 2 }}>
                                 <Card textAlign="center">
                                     <FundModal address={item.address} navigate={navigate} />
                                 </Card>
                                 <Card textAlign="center">
-                                    <ManagerModal address={item.owner} />
+                                    <ManagerModal address={item.owner} navigate={navigate}/>
                                 </Card>
                             </SimpleGrid>
 
