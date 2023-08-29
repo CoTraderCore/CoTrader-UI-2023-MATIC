@@ -2,7 +2,7 @@ import React from 'react'
 import { Tabs, TabList, TabPanels, Tab, TabPanel, useColorModeValue } from '@chakra-ui/react'
 
 
-function HorizontalTabs({ data }) {
+function HorizontalTabs({ data,pending }) {
   
     const tabColor = useColorModeValue("#7500fe", "#7500ff")
     return (
@@ -17,7 +17,7 @@ function HorizontalTabs({ data }) {
             <TabPanels>
                 {data.map((tab) => {
                     return <TabPanel p={1} key={tab.id}>
-                        {<tab.content data={tab} />}
+                        {<tab.content data={tab} pending={pending} />}
                     </TabPanel>
                 })}
             </TabPanels>

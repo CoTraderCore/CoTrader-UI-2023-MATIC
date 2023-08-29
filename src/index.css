@@ -146,6 +146,10 @@ body.fullWidth_container .MuiContainer-maxWidthMd {max-width: 1920px!important;}
   text-align: center;
 }
 
+.range-100{
+  width: 100%;
+}
+
 
 @media only screen and (max-width:992px){
   .table-row{

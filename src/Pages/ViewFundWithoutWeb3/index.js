@@ -18,7 +18,8 @@ import MobXStorage from '../../MobXStorage';
 import Loading from '../../Components/template/spiners/Loading';
 import Footer from '../../Components/common/footer/Footer';
 
-function Dashboard({ isDataLoad, web3, setIsDataLoad }) {
+
+function AllFundWithoutWeb3({ isDataLoad, web3, setIsDataLoad }) {
  
     useEffect(() => {
         let isMounted = true;
@@ -219,6 +220,6 @@ function Dashboard({ isDataLoad, web3, setIsDataLoad }) {
 
 }
 
-export default Dashboard
+export default AllFundWithoutWeb3;
 
 

@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { ChakraProvider, } from '@chakra-ui/react';
-import { RouterProvider, createBrowserRouter,} from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, } from 'react-router-dom';
 import { Pages } from './utils/Pages';
 import getWeb3 from './utils/getWeb3';
 import themes from './Theme/Theme';
 import ReactGA from 'react-ga'
 import getFundsList from './utils/getFundsList';
 import { SmartFundRegistryADDRESS } from './config';
-import Dashboard from './Pages/Dashboard';
+import SmartFundListWithoutWeb3 from './Pages/ViewFundWithoutWeb3';
 import MainLayout from './Layouts/MainLayout';
 import ViewFundWithoutWeb3 from './Pages/FundInfo/Index';
+import SmartFundList from './Pages/SmartFundList/Index';
 import MobXStorage from './MobXStorage';
 import ViewFundTx from './Pages/ViewFundTx';
 import ViewUserTx from './Pages/ViewUserTx'
@@ -98,12 +99,16 @@ function App(props) {
 
   const router = createBrowserRouter([
     {
-      path: Pages.SMARTFUNDLISTWITHOUTWEB3,
+      path: Pages.SMARTFUNDLIST,
       element: <MainLayout />,
       children: [
         {
+          path: Pages.SMARTFUNDLIST,
+          element: <SmartFundList {...props} web3={web3} accounts={accounts} isDataLoad={isDataLoad} setIsDataLoad={setIsDataLoad} />
+        },
+        {
           path: Pages.SMARTFUNDLISTWITHOUTWEB3,
-          element: <Dashboard {...props} web3={web3} isDataLoad={isDataLoad} setIsDataLoad={setIsDataLoad} />
+          element: <SmartFundListWithoutWeb3 {...props} web3={web3} isDataLoad={isDataLoad} setIsDataLoad={setIsDataLoad} />
         },
         {
           path: Pages.VIEWFUNDWITHOUTWEB3 + '/:address',
@@ -111,11 +116,11 @@ function App(props) {
         },
         {
           path: Pages.VIEWFUNDTX + '/:address',
-          element: <ViewFundTx {...props} isDataLoad={isDataLoad}/>
+          element: <ViewFundTx {...props} isDataLoad={isDataLoad} />
         },
         {
           path: Pages.VIEWUSERTX + '/:address',
-          element: <ViewUserTx {...props} isDataLoad={isDataLoad}/>
+          element: <ViewUserTx {...props} isDataLoad={isDataLoad} />
         }
       ]
     },

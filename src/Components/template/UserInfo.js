@@ -8,7 +8,7 @@ class UserInfo extends Component {
     return (
       <Box>
         <Tooltip hasArrow label={this.props.info} bg='red.600'>
-          <Button>Info</Button>
+          <small style={{background:"#2F855A",padding:"1px 10px",borderRadius:"5px",marginLeft:"5px",color:"white"}}>Info</small>
         </Tooltip>
       </Box>
     )

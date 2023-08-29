@@ -18,7 +18,7 @@ import PagePagination from '../../Components/navigation/Pagination/PagePaginatio
 import { Pages } from '../../utils/Pages';
 
 
-function SmartFundListWithoutWeb3() {
+function AllFundWithoutWeb3() {
 
     const navigate = useNavigate()
     const headingColor = useColorModeValue("#1B2559", "#F4F7FE");
@@ -245,4 +245,4 @@ function SmartFundListWithoutWeb3() {
     )
 }
 
-export default SmartFundListWithoutWeb3
+export default AllFundWithoutWeb3;
