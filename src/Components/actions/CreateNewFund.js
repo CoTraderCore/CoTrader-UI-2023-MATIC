@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { APIEnpoint, SmartFundRegistryABIV9, SmartFundRegistryADDRESS } from '../../config.js'
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Button, Box, FormControl, Checkbox, CheckboxGroup, FormLabel, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Stack, Input, InputLeftAddon, useDisclosure, Select, } from '@chakra-ui/react'
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Button, Box, FormControl, Checkbox,  FormLabel, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Stack, Input, InputLeftAddon, InputGroup, Select, } from '@chakra-ui/react'
 import setPending from '../../utils/setPending'
 import UserInfo from '../template/UserInfo.js'
 import axios from 'axios'
@@ -9,12 +9,12 @@ const ETH_ADDRESS = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
 const USD_ADDRESS = '0xe9e7cea3dedca5984780bafc599bd69add087d56'
 
 function CreateNewFund(props) {
+
     const [show, setShow] = useState(false);
-    const [percent, setPercent] = useState(20);
+    const [percent, setPercent] = useState();
     const [fundAsset, setFundAsset] = useState('BNB');
     const [fundName, setFundName] = useState('');
     const [tradeVerification, setTradeVerification] = useState(true);
-
     const createNewFund = async () => {
         if (percent > 0 && percent <= 30) {
             const contract = new props.web3.eth.Contract(SmartFundRegistryABIV9, SmartFundRegistryADDRESS);
@@ -70,11 +70,16 @@ function CreateNewFund(props) {
                 setFundAsset(value);
                 break;
             case 'TradeVerification':
-                setTradeVerification(value === 'true');
+                setTradeVerification(!tradeVerification); // Negate the current value
                 break;
             default:
                 break;
         }
+    };
+
+
+    const modalOpen = () => {
+        setShow(true);
     };
 
     const modalClose = () => {
@@ -85,15 +90,15 @@ function CreateNewFund(props) {
         setTradeVerification(true);
     };
 
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    //buttoncolor #5E39FF
     return (
         <Box>
-            <Button bg="#5E39FF" sx={{ color: "#fff", textTransform: "uppercase", _hover: { backgroundColor: "#7500ff" } }} onClick={onOpen} >
+            <Button bg="#7500fe" sx={{ color: "#fff", textTransform: "uppercase", _hover: { backgroundColor: "#7500FF" }, width: { base: "100%", } }} onClick={modalOpen} >
                 Create fund
             </Button>
 
             <Modal
-                isOpen={isOpen} onClose={onClose}
+                isOpen={show} onClose={modalClose}
             >
                 <ModalOverlay />
                 <ModalContent>
@@ -103,37 +108,31 @@ function CreateNewFund(props) {
                     <ModalCloseButton />
                     <ModalBody>
                         <FormControl>
-                            <Input
-                                style={{ width: "100%" }}
-                                name="FundName"
-                                placeholder='Fund name'
-
-                                onChange={e => change(e)}
-                            />
-
-                            <FormLabel mt={5} display={'flex'}>Performance Fee % <UserInfo info="This is the % the fund manager earns for the profits earned, relative to main fund asset (BNB, USD or COT)." /></FormLabel>
-                            <NumberInput onChange={e => change(e)}>
-                                <NumberInputField
-                                    InputProps={{
-                                        inputProps: { min: 1 },
-                                        startAdornment: (
-                                            <>
-                                                <InputLeftAddon children='%' />
-                                                <Input type='number' placeholder='20' />
-                                            </>
-                                        )
-                                    }}
+                            <InputGroup width="100%">
+                                <Input
+                                    style={{ width: "100%" }}
+                                    name="FundName"
+                                    placeholder='Fund name'
+                                    value={fundName}
+                                    onChange={e => change(e)}
                                 />
-                                <NumberInputStepper>
-                                    <NumberIncrementStepper />
-                                    <NumberDecrementStepper />
-                                </NumberInputStepper>
-                            </NumberInput>
+                            </InputGroup>
+                            <FormLabel mt={5} display={'flex'}>Performance Fee % <UserInfo info="This is the % the fund manager earns for the profits earned, relative to main fund asset (BNB, USD or COT)." /></FormLabel>
+                            <InputGroup width="100%">
+                                <InputLeftAddon children="%" />
+                                <NumberInput width="100%" value={percent} onChange={(value) => setPercent(value)} min={1} >
+                                    <NumberInputField id="outlined-name" type="number" placeholder="20" name="Percent" sx={{ borderTopLeftRadius: "0", borderBottomLeftRadius: "0" }} />
+                                    <NumberInputStepper>
+                                        <NumberIncrementStepper />
+                                        <NumberDecrementStepper />
+                                    </NumberInputStepper>
+                                </NumberInput>
+                            </InputGroup>
                             <FormLabel mt={5} display={'flex'}>Main fund asset % <UserInfo info="With the help of this asset, investors will invest, calculate fund value ect" /></FormLabel>
-                            <FormControl as="select" name="FundAsset" onChange={e => change(e)}>
-                                <option >BNB</option>
-                                <option >USD</option>
-                            </FormControl>
+                            <Select name="FundAsset" onChange={change}>
+                                <option value="BNB">BNB</option>
+                                <option value="USD">USD</option>
+                            </Select>
                             <FormLabel mt={5} display={'flex'}>Limit Tokens <UserInfo info="This gives investors confidence that even if the trader's key is stolen, the worst a hacker can do is trade to legit tokens, not likely to a token just created by the trader to exit scam the fund, leaving it without value." /></FormLabel>
 
                             <Stack spacing={5} direction='row'>
@@ -146,7 +145,7 @@ function CreateNewFund(props) {
                             </Stack>
                             <Button
                                 mt={5}
-                                colorScheme='green'
+                                bg="#00C6C0"
                                 onClick={() => createNewFund()}
                             >
                                 Create

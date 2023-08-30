@@ -15,12 +15,12 @@ const ManagerModal = ({ address,navigate }) => {
     };
     const sliderBg = useColorModeValue("#fff", "#181144")
     const modalfooterbg = useColorModeValue("gray.100", "#3D3762")
-    const btnColor = useColorModeValue("#7500FF", "#fff")
+    const btnColor = useColorModeValue("#00C6C0", "#fff")
 
     return useObserver(() => (
         <Box>
             <Text cursor={'pointer'} fontWeight={500} onClick={onOpen}>
-                Manager: <small style={{ color: "#7500FF", }}><strong>{String(address).replace(String(address).substring(4, 38), "...")}</strong></small>
+                Manager: <small style={{ color: "#7500fe", }}><strong>{String(address).replace(String(address).substring(4, 38), "...")}</strong></small>
             </Text>
             <Modal isOpen={isOpen} onClose={onClose} aria-labelledby="example-modal-sizes-title-sm">
                 <ModalOverlay />

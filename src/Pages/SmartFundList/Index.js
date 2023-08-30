@@ -124,25 +124,27 @@ function SmartFundList(props) {
   }, [props.accounts, MobXStorage]);
 
 
-  const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
+  const brandColor = useColorModeValue("#7500fe", "##CBC3E3");
   const boxBg = useColorModeValue("#F4F7FE", "#110938");
   return (
     <React.Fragment>
       <Box className='dashboard' style={{ padding: "10px", }}>
-        <DashboardHeader />
+        <GridItem my={5} sx={{ fontWeight:"500",textAlign:"center", borderRadius: "5px", padding: "10px 5px", boxShadow: "1px 1px 1px 1px gray", border: "1px solid white" }}>
+          DeFi investment funds - create or join the best smart funds on the blockchain
+        </GridItem>
         <PopupMsg txName={txName} txHash={txHash} ref={_popupChild} />
         {
           pending ? (
             <>
-            <Box>
-            <small>
-            Pending transitions : {txCount}
-            </small>
-            <Pending/>
-            </Box>
+              <Box>
+                <small style={{ fontWeight:"500",textAlign:"center", borderRadius: "5px", padding: "10px 5px", boxShadow: "1px 1px 1px 1px gray", border: "1px solid white" }}>
+                  Pending transitions : {txCount}
+                </small>
+                <Pending />
+              </Box>
             </>
-          ):
-          (null)
+          ) :
+            (null)
         }
         <CardBox p="10px" my="10px">
           <Grid gap={4} templateColumns={['1fr', 'repeat(3, 1fr)']} sx={{ padding: "10px 0px ", borderRadius: "5px", display: "flex", justifyContent: "space-around", flexDirection: { base: "column", sm: "column", md: "row" }, textAlign: { base: "center", sm: "center" } }}>
@@ -153,7 +155,7 @@ function SmartFundList(props) {
               <FilterSearch />
             </GridItem>
             <GridItem >
-              <Stack bg="#5E39FF" sx={{ color: "#fff", borderRadius: "8px", border: "none", _hover: { backgroundColor: "#7500ff" } }}>
+              <Stack bg="#7500fe" sx={{ color: "#fff", borderRadius: "8px", border: "none", _hover: { backgroundColor: "#7500FF" } }}>
                 <SortFunds />
               </Stack>
             </GridItem>

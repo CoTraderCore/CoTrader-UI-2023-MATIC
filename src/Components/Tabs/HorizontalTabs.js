@@ -10,7 +10,7 @@ function HorizontalTabs({ data,pending }) {
             <TabList>
 
                 {data.map((tab, index) => (
-                    <Tab color={tabColor} key={index}>{tab.label}</Tab>
+                    <Tab color={tabColor} fontWeight={500} textTransform="uppercase" key={index}>{tab.label}</Tab>
                 ))}
             </TabList>
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Button, Checkbox, FormControl, FormLabel, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, RangeSlider, RangeSliderFilledTrack, RangeSliderThumb, RangeSliderTrack, Stack, Tooltip, useDisclosure } from '@chakra-ui/react'
+import { Box, Button, Checkbox, FormControl, FormLabel, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, RangeSlider, RangeSliderFilledTrack, RangeSliderThumb, RangeSliderTrack, Stack, Tooltip, useColorModeValue, useDisclosure } from '@chakra-ui/react'
 import axios from 'axios';
 import { APIEnpoint, SmartFundABIV7 } from '../../../config';
 import setPending from '../../../utils/setPending';
@@ -55,10 +55,12 @@ function Withdraw(props) {
     };
 
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const allbtnBg=useColorModeValue("#30106b","#7500FF")
+    
     return (
         <React.Fragment>
                 <Tooltip>
-                    <Button onClick={onOpen} flexGrow="1" minWidth={{ base: '100%', sm: "auto" }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>Withdraw</Button>
+                    <Button onClick={onOpen} flexGrow="1" minWidth={{ base: '100%', sm: "auto" }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>Withdraw</Button>
                 </Tooltip>
                 <Modal isOpen={isOpen} onClose={onClose}>
                     <ModalOverlay />

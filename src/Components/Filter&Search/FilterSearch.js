@@ -13,7 +13,7 @@ function FilterSearch() {
   return (
     <React.Fragment>
       <Box>
-          <Button ref={btnRef} onClick={onOpen} bg="#5E39FF" color={"#fff"} sx={{textTransform:"uppercase",width:{base:"100%",},_hover: { backgroundColor: "#7500ff" }}}>Filter Funds</Button>
+          <Button ref={btnRef} onClick={onOpen} bg="#7500fe" color={"#fff"} sx={{textTransform:"uppercase",width:{base:"100%",},_hover: { backgroundColor: "#7500FF" }}}>Filter Funds</Button>
       </Box>
       <Modal
       onClose={onClose}

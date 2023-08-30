@@ -6,7 +6,6 @@ import { GiShoppingBag } from "react-icons/gi"
 import { BiSolidMessageAltDetail, } from 'react-icons/bi'
 import { ArrowRightIcon, ArrowLeftIcon } from '@chakra-ui/icons'
 import { Link } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 
 const menuItems = [
     {
@@ -56,10 +55,11 @@ const Menu_style = {
     textDecoration: "none"
 }
 
-function Sidebar({ isOpen, onOpen, onClose, isChange }) {
-    const location = useLocation();
+function Sidebar({ isOpen, onOpen, onClose, }) {
+    
     const ArrowBg = useColorModeValue("black", "white");
     const sliderBg = useColorModeValue("#fff", "#181144")
+    const Iconcolor=useColorModeValue("#30106b","#FFF")
     return (
         <Grid w='100%'>
             <GridItem w="auto" height="90vh" bg={sliderBg} sx={{}}>
@@ -72,11 +72,11 @@ function Sidebar({ isOpen, onOpen, onClose, isChange }) {
                         </span>
                     </ListItem>
                     {menuItems.map((item, key) => {
-                        const isActive = location.pathname === item.path;
+                    
                         return <ListItem key={key}>
-                            <Link target='_blank' to={item.path} style={{ ...Menu_style }}><item.icon title={item.title} style={{ fontSize: "1.7rem", color: isActive ? "#5E39FF" : "#A4ADC7", }} />
+                            <Link target='_blank' to={item.path} style={{ ...Menu_style }}><item.icon title={item.title} style={{ fontSize: "1.7rem", color: Iconcolor }} />
                                 <span
-                                    style={{ color: isActive ? "#CBC3E3" : "#A4ADC7", }}
+                                    style={{ color:"#CBC3E3" }}
                                     className={isOpen ? 'hidden-text' : 'show-text'}
                                 >{item.name}</span>
                             </Link>

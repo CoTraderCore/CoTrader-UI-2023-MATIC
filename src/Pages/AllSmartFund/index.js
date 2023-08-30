@@ -1,7 +1,7 @@
 import React from 'react'
 import MobXStorage from '../../MobXStorage';
 import PagePagination from '../../Components/navigation/Pagination/PagePagination';
-import { Box, Button, ButtonGroup, Heading, Icon, SimpleGrid, Tooltip, useColorModeValue } from '@chakra-ui/react';
+import { Box, Button, Heading, Icon, SimpleGrid, Tooltip, useColorModeValue } from '@chakra-ui/react';
 import Card from '../../Components/Card/Card';
 import { MdAttachMoney } from 'react-icons/md'
 import { fromWei } from 'web3-utils';
@@ -14,16 +14,16 @@ import IconBox from '../../Components/Icons/IconBox';
 import { useNavigate } from 'react-router-dom';
 import Deposit from '../../Components/actions/Deposit/Deposit';
 import Withdraw from '../../Components/actions/Withdraw/Withdraw';
+import UserHoldings from '../../Components/actions/UserHoldings';
 
 function AllSmartFund(props) {
 
-  
+
   const navigate = useNavigate()
   const headingColor = useColorModeValue("#1B2559", "#F4F7FE");
   const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
   const boxBg = useColorModeValue("#F4F7FE", "#110938");
-  const tooltipBg = useColorModeValue("black", "#A4ADC7")
-
+  const allbtnBg = useColorModeValue("#30106b", "#7500FF")
 
   return (
     <React.Fragment>
@@ -146,33 +146,29 @@ function AllSmartFund(props) {
 
               <Box mt={4} display="flex" justifyContent="center">
                 <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
-                    <Deposit
-                      web3={props.web3}
-                      address={item.address}
-                      accounts={props.accounts}
-                      mainAsset={item.mainAsset}
-                      pending={props.pending}
-                      version={item.version}
-                    />
-                    <Withdraw
-                      web3={props.web3}
-                      address={item.address}
-                      accounts={props.accounts}
-                      pending={props.pending}
-                      version={item.version}
-                      mainAsset={item.mainAsset}
-                    />
-                    <Tooltip hasArrow label="" bg={tooltipBg}>
-                      <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }} onClick={() => navigate(Pages.VIEWFUNDWITHOUTWEB3 + "/" + item.address)}>
-                        Fund Page
-                      </Button>
-                    </Tooltip>
-                 
-                  <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                    <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
-                      My Funds
+                  <Deposit
+                    web3={props.web3}
+                    address={item.address}
+                    accounts={props.accounts}
+                    mainAsset={item.mainAsset}
+                    pending={props.pending}
+                    version={item.version}
+                  />
+                  <Withdraw
+                    web3={props.web3}
+                    address={item.address}
+                    accounts={props.accounts}
+                    pending={props.pending}
+                    version={item.version}
+                    mainAsset={item.mainAsset}
+                  />
+                  <Tooltip hasArrow>
+                    <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }} onClick={() => navigate(Pages.VIEWFUNDWITHOUTWEB3 + "/" + item.address)}>
+                      Fund Page
                     </Button>
                   </Tooltip>
+
+                  <UserHoldings web3={props.web3} address={item.address} accounts={props.accounts} />
                   <EtherscanButton address={item.address} />
                 </Box>
               </Box>

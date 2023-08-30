@@ -11,12 +11,12 @@ const FundModal = ({ address,navigate }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const sliderBg = useColorModeValue("#fff", "#181144")
     const modalfooterbg = useColorModeValue("gray.100", "#3D3762")
-    const btnColor = useColorModeValue("#7500FF", "#fff")
+    const btnColor = useColorModeValue("#00C6C0", "#fff")
 
     return useObserver(() => (
         <Box>
             <Text fontWeight={{ base: "700", md: "500" }} onClick={onOpen} cursor={'pointer'}>
-                Fund: <small style={{ color: "#7500FF", }}><strong >{String(address).replace(String(address).substring(4, 38), "...")}</strong></small>
+                Fund: <small style={{ color: "#7500fe", }}><strong >{String(address).replace(String(address).substring(4, 38), "...")}</strong></small>
             </Text>
 
             <Modal isOpen={isOpen} onClose={onClose}>

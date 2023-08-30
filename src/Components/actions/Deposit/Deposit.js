@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Modal, ModalOverlay, ModalBody, useDisclosure, Button, ModalContent, Box, ModalCloseButton, ModalHeader, OrderedList, ListIcon, ListItem, Stack, Checkbox, flexbox, Text, FormControl, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Tooltip } from '@chakra-ui/react'
+import { useColorModeValue,Modal, ModalOverlay, ModalBody, useDisclosure, Button, ModalContent, Box, ModalCloseButton, ModalHeader, OrderedList, ListIcon, ListItem, Stack, Checkbox, flexbox, Text, FormControl, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Tooltip } from '@chakra-ui/react'
 import DepositETH from './DepositETH'
 import DepositERC20 from './DepositERC20'
 
@@ -7,11 +7,12 @@ import DepositERC20 from './DepositERC20'
 function Deposit(props) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [agree, setAgree] = useState(false)
+    const allbtnBg=useColorModeValue("#30106b","#7500FF")
 
     return (
         <React.Fragment>
                 <Tooltip>
-                    <Button onClick={onOpen} flexGrow="1" minWidth={{ base: '100%',sm:"auto" }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>Deposit</Button>
+                    <Button onClick={onOpen} flexGrow="1" minWidth={{ base: '100%',sm:"auto" }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>Deposit</Button>
                 </Tooltip>
                 <Modal isOpen={isOpen} onClose={onClose}>
                     <ModalOverlay />
