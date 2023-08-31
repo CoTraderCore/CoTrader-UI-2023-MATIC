@@ -14,6 +14,7 @@ import SmartFundList from './Pages/SmartFundList/Index';
 import MobXStorage from './MobXStorage';
 import ViewFundTx from './Pages/ViewFundTx';
 import ViewUserTx from './Pages/ViewUserTx'
+import ViewFund from './Pages/ViewFund';
 
 function App(props) {
   const [web3, setWeb3] = useState(null);
@@ -121,6 +122,10 @@ function App(props) {
         {
           path: Pages.VIEWUSERTX + '/:address',
           element: <ViewUserTx {...props} isDataLoad={isDataLoad} />
+        },
+        {
+          path:Pages.VIEWFUND + '/:address',
+          element:<ViewFund {...props} web3={web3} accounts={accounts}  />
         }
       ]
     },

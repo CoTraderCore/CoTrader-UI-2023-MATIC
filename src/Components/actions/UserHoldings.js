@@ -1,7 +1,7 @@
-import React, {useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { SmartFundABIV7 } from '../../config.js';
-import {fromWei} from 'web3-utils'
-import { useDisclosure,Button, ListItem, ModalCloseButton, ModalContent, ModalOverlay, OrderedList, ModalBody, ModalHeader, Modal, Box, useColorModeValue } from '@chakra-ui/react';
+import { fromWei } from 'web3-utils'
+import { useDisclosure, Button, ListItem, ModalCloseButton, ModalContent, ModalOverlay, OrderedList, ModalBody, ModalHeader, Modal, Box, useColorModeValue, Tooltip } from '@chakra-ui/react';
 import Loading from '../template/spiners/Loading.js';
 
 function UserHoldings(props) {
@@ -21,24 +21,23 @@ function UserHoldings(props) {
 
                 setCalculateAddressValue(_calculateAddressValue.toString());
                 setCalculateAddressProfit(_calculateAddressProfit.toString());
-                setPercentOfFundValue(_fundValue.toString()); 
+                setPercentOfFundValue(_fundValue.toString());
 
                 setIsLoad(true);
             }
-            
+
         };
 
         fetchData();
     }, [isOpen, props]);
-    const allbtnBg=useColorModeValue("#30106b","#7500FF")
+    const allbtnBg = useColorModeValue("#30106b", "#7500FF")
 
 
     return (
         <div>
-            <Button bg={allbtnBg} sx={{ color: "#fff",width:{base:"100%"}, textTransform: "captlize", _hover: { backgroundColor: "#30108b" } }} onClick={onOpen}>
-                My Holdings
-            </Button>
-
+            <Tooltip>
+                <Button onClick={onOpen} flexGrow="1" width={{base:"100%",md:"auto"}} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>My Holding</Button>
+            </Tooltip>
             <Modal
                 isOpen={isOpen}
                 onClose={onClose}

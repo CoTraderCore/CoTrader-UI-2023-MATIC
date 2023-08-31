@@ -1,7 +1,7 @@
 import React from 'react'
 import MobXStorage from '../../MobXStorage';
 import PagePagination from '../../Components/navigation/Pagination/PagePagination';
-import { Box, Button, Heading, Icon, SimpleGrid, Tooltip, useColorModeValue } from '@chakra-ui/react';
+import { Box, Button, Heading, Icon, SimpleGrid, useColorModeValue } from '@chakra-ui/react';
 import Card from '../../Components/Card/Card';
 import { MdAttachMoney } from 'react-icons/md'
 import { fromWei } from 'web3-utils';
@@ -17,7 +17,6 @@ import Withdraw from '../../Components/actions/Withdraw/Withdraw';
 import UserHoldings from '../../Components/actions/UserHoldings';
 
 function AllSmartFund(props) {
-
 
   const navigate = useNavigate()
   const headingColor = useColorModeValue("#1B2559", "#F4F7FE");
@@ -162,13 +161,14 @@ function AllSmartFund(props) {
                     version={item.version}
                     mainAsset={item.mainAsset}
                   />
-                  <Tooltip hasArrow>
-                    <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }} onClick={() => navigate(Pages.VIEWFUNDWITHOUTWEB3 + "/" + item.address)}>
-                      Fund Page
-                    </Button>
-                  </Tooltip>
-
-                  <UserHoldings web3={props.web3} address={item.address} accounts={props.accounts} />
+                  <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }} onClick={() => navigate(Pages.VIEWFUND + "/" + item.address)}>
+                    Fund Page
+                  </Button>
+                  <UserHoldings
+                    web3={props.web3}
+                    address={item.address}
+                    accounts={props.accounts}
+                  />
                   <EtherscanButton address={item.address} />
                 </Box>
               </Box>
