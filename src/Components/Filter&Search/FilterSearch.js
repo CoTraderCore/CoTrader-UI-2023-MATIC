@@ -10,10 +10,11 @@ function FilterSearch() {
 
   const btnRef = React.useRef(null)
   const modalBg=useColorModeValue("white","#181144")
+  const allbtnBg = useColorModeValue("#30106b", "#7500FF")
   return (
     <React.Fragment>
       <Box>
-          <Button ref={btnRef} onClick={onOpen} bg="#7500fe" color={"#fff"} sx={{textTransform:"uppercase",width:{base:"100%",},_hover: { backgroundColor: "#7500FF" }}}>Filter Funds</Button>
+          <Button ref={btnRef} onClick={onOpen}bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" },padding:"0 50px" }}>Filter Funds</Button>
       </Box>
       <Modal
       onClose={onClose}

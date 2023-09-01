@@ -17,6 +17,7 @@ import {
 // import { Typeahead } from 'react-bootstrap-typeahead';
 import getTokenSymbolAndDecimals from '../../../utils/getTokenSymbolAndDecimals';
 import { isAddress } from 'web3-utils';
+// const isAddress = /^(0x)?[0-9a-fA-F]{40}$/i.test(props.selectedSymbol); 
 
 function SelectToken(props) {
     const [isModalOpen, setIsModalOpen] = useState(false);

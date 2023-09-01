@@ -126,6 +126,8 @@ function SmartFundList(props) {
 
   const brandColor = useColorModeValue("#7500fe", "##CBC3E3");
   const boxBg = useColorModeValue("#F4F7FE", "#110938");
+  const allbtnBg = useColorModeValue("#30106b", "#7500FF")
+
   return (
     <React.Fragment>
       <Box className='dashboard' style={{ padding: "10px", }}>
@@ -155,7 +157,7 @@ function SmartFundList(props) {
               <FilterSearch />
             </GridItem>
             <GridItem >
-              <Stack bg="#7500fe" sx={{ color: "#fff", borderRadius: "8px", border: "none", _hover: { backgroundColor: "#7500FF" } }}>
+              <Stack bg={allbtnBg} sx={{ color: "#fff", borderRadius: "8px", border: "none", _hover: { backgroundColor: "#30108b" } }}>
                 <SortFunds />
               </Stack>
             </GridItem>

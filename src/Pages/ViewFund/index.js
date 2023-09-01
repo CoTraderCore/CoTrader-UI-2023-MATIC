@@ -11,7 +11,7 @@ import Card from '../../Components/Card/Card';
 import Footer from '../../Components/common/footer/Footer';
 import getFundData from '../../utils/getFundData';
 import { fromWei } from 'web3-utils';
-import { EtherscanLink, APIEnpoint } from '../../config';
+import { EtherscanLink, APIEnpoint, NeworkID } from '../../config';
 // import { NeworkID } from '../../config';
 import EtherscanButton from '../../Components/actions/EtherscanButton';
 import Loading from '../../Components/template/spiners/Loading';
@@ -27,6 +27,8 @@ import Withdraw from '../../Components/actions/Withdraw/Withdraw';
 import UserHoldings from '../../Components/actions/UserHoldings';
 import { fromWeiByDecimalsInput } from '../../utils/weiByDecimals';
 import TradeModal from '../../Components/actions/TradeModal/TradeModal';
+import InvestorsAlocationChart from '../../Components/Chart/InvestorsAlocationChart';
+import AssetsAlocationChart from '../../Components/Chart/AssetsAlocationChart';
 
 function ViewFund(props) {
     const { address } = useParams();
@@ -172,15 +174,17 @@ function ViewFund(props) {
     }
 
 
-    const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
-    const boxBg = useColorModeValue("#F4F7FE", "#110938");
+    // const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
+    // const boxBg = useColorModeValue("#F4F7FE", "#110938");
     const tooltipBg = useColorModeValue("black", "#A4ADC7")
     const headingColor = useColorModeValue("#1B2559", "#F4F7FE");
     const totalprogressBg = useColorModeValue("green.100", "#CBC3E3")
     const colorSchemeGreen = useColorModeValue("green", "green")
     const colorSchemeRed = useColorModeValue("red", "red")
     const remainingprogressBg = useColorModeValue("red.100", "#CBC3E3")
-
+    const allbtnBg = useColorModeValue("#30106b", "#7500FF")
+    const tableHead = useColorModeValue("#1A202C", "#fff")
+    const chartbg = useColorModeValue("#fff", "#181144")
 
     return (
         <React.Fragment>
@@ -336,6 +340,27 @@ function ViewFund(props) {
                         </Box>
                     </Box>
                 </Box>
+                <Box mt={5} borderRadius="20px" bg={chartbg}>
+                    <SimpleGrid columns={{ base: 1, md: 2 }}>
+                        {
+                            shares ? (
+                                <GridItem>
+                                    <InvestorsAlocationChart Data={shares} />
+                                </GridItem>
+                            ) : null
+                        }
+                        {
+                            NeworkID === 56 ?
+                                (
+                                    <GridItem>
+                                        <AssetsAlocationChart AssetsData={balance} version={version} />
+                                    </GridItem>
+                                ) : null
+                        }
+
+                    </SimpleGrid>
+
+                </Box>
                 <Box>
                     <Box mt={5} gap={4} width={"100%"} sx={{ display: "flex", flexDirection: { base: "column", md: "row" }, }} >
                         <Card width={{ base: "100%", md: "30%" }} bg={"rgba(128, 144, 255,.1)"}>
@@ -355,10 +380,11 @@ function ViewFund(props) {
                                 </ListItem>
                             </List>
                         </Card>
+
                         <Card width={{ base: "100%", md: "70%" }} >
                             <Box sx={{ display: "flex", flexDirection: { base: "column", md: "row" } }}>
                                 <Box className='table-box' width="100%">
-                                    <Heading fontSize="xl">Fund balance</Heading>
+                                    <Heading fontSize="xl" color={tableHead}>Fund balance</Heading>
                                     <Table striped bordered hover style={{
                                         textAlign: "left"
                                     }}>
@@ -453,22 +479,22 @@ function ViewFund(props) {
                     <Box sx={{ display: "flex", justifyContent: "center" }}>
                         <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
                             <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
+                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
                                     Exchange
                                 </Button>
                             </Tooltip>
                             <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
+                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
                                     Pool
                                 </Button>
                             </Tooltip>
                             <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
+                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
                                     Take Cut
                                 </Button>
                             </Tooltip>
                             <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
+                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
                                     White List
                                 </Button>
                             </Tooltip>
@@ -476,7 +502,7 @@ function ViewFund(props) {
                                 mainAsset === "USD" ?
                                     (
                                         <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg="#5E39FF" color="#fff" sx={{ _hover: { backgroundColor: "#7500ff" } }}>
+                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
                                                 Stable Tokens
                                             </Button>
                                         </Tooltip>

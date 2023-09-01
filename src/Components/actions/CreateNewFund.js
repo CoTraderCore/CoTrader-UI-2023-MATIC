@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { APIEnpoint, SmartFundRegistryABIV9, SmartFundRegistryADDRESS } from '../../config.js'
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Button, Box, FormControl, Checkbox,  FormLabel, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Stack, Input, InputLeftAddon, InputGroup, Select, } from '@chakra-ui/react'
+import { useColorModeValue,Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Button, Box, FormControl, Checkbox,  FormLabel, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Stack, Input, InputLeftAddon, InputGroup, Select, } from '@chakra-ui/react'
 import setPending from '../../utils/setPending'
 import UserInfo from '../template/UserInfo.js'
 import axios from 'axios'
@@ -89,11 +89,11 @@ function CreateNewFund(props) {
         setFundName('');
         setTradeVerification(true);
     };
-
+    const allbtnBg = useColorModeValue("#30106b", "#7500FF")
     //buttoncolor #5E39FF
     return (
         <Box>
-            <Button bg="#7500fe" sx={{ color: "#fff", textTransform: "uppercase", _hover: { backgroundColor: "#7500FF" }, width: { base: "100%", } }} onClick={modalOpen} >
+            <Button bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" },padding:"0 50px" }} onClick={modalOpen} >
                 Create fund
             </Button>
 
