@@ -133,7 +133,7 @@ function App(props) {
   ]);
   return (
     <React.Fragment>
-      <ChakraProvider className="App" theme={themes}>
+      <ChakraProvider theme={themes}>
         <RouterProvider router={router} />
       </ChakraProvider>
     </React.Fragment>

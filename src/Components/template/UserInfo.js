@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-// import { OverlayTrigger, Tooltip, Badge } from "react-bootstrap"
-import { Tooltip, Box, Button } from '@chakra-ui/react'
+import { Tooltip, Box, } from '@chakra-ui/react'
 
 
 class UserInfo extends Component {

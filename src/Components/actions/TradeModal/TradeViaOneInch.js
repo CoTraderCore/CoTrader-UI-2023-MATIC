@@ -1,5 +1,3 @@
-// trade via 1 inch
-
 import React, { Component } from 'react'
 import {
     SmartFundABIV7,

@@ -21,7 +21,6 @@ function InvestorsAlocationChart(props) {
 
         const updateInvestorsData = async () => {
             const Data = props.Data;
-
             if (Data) {
                 try {
                     const parsedData = JSON.parse(Data);

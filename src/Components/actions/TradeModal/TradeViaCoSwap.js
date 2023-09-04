@@ -20,7 +20,7 @@ import checkTokensLimit from '../../../utils/checkTokensLimit'
 import Pending from '../../template/spiners/Pending.js'
 import BigNumber from 'bignumber.js'
 import SelectToken from './SelectToken'
-import { Button,Box, FormControl, FormLabel,Alert,InputGroup, } from '@chakra-ui/react'
+import { Button,Box, FormControl, FormLabel,Alert, } from '@chakra-ui/react'
 
 class TradeViaCoSwap extends Component {
   constructor(props, context) {
@@ -390,7 +390,7 @@ class TradeViaCoSwap extends Component {
           <>
           {/* SEND */}
           <FormLabel>Pay with</FormLabel>
-          <InputGroup className="mb-3">
+          
           <SelectToken
            web3={this.props.web3}
            symbols={this.state.symbols}
@@ -408,7 +408,7 @@ class TradeViaCoSwap extends Component {
           value={this.state.AmountSend}
           onChange={e => this.delayChange(e)}
           />
-          </InputGroup>
+       
           {
             this.state.slippageTo > 0
             ?
@@ -424,7 +424,7 @@ class TradeViaCoSwap extends Component {
 
           {/* RECEIVE */}
           <FormLabel>Receive</FormLabel>
-          <InputGroup className="mb-3">
+         
           <SelectToken
            web3={this.props.web3}
            symbols={this.state.symbols}
@@ -442,7 +442,7 @@ class TradeViaCoSwap extends Component {
           value={this.state.AmountRecive}
           onChange={e => this.delayChange(e)}
           />
-          </InputGroup>
+        
           {
             this.state.slippageFrom > 0
             ?

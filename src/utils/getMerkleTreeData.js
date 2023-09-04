@@ -1,8 +1,10 @@
-// // return merkle tree proof, positions for a certain token input
+// // // return merkle tree proof, positions for a certain token input
 
 // import MerkleTree from 'merkletreejs'
-// import keccak256 from 'keccak256'
+// // import keccak256 from 'keccak256'
+// import keccak256 from '@indeliblelabs/keccak256'
 // import WhiteListedTokens from '../Storage/WhiteListedTokens'
+
 
 // const buf2hex = x => '0x'+x.toString('hex')
 // const leaves = WhiteListedTokens.map(x => keccak256(x)).sort(Buffer.compare)
@@ -18,3 +20,11 @@
 // }
 
 // export default getMerkleTreeData
+
+
+  
+
+
+
+
+

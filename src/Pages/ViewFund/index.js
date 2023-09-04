@@ -2,11 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import ShadowBox from '../../Components/Cards/ShadowBox';
 import IconBox from '../../Components/Icons/IconBox';
 import Header from '../../Components/common/Header';
-import DashboardHeader from '../../Components/common/DashboardHeader';
 import { Box, Heading, Icon, SimpleGrid, Button, Tooltip, List, ListItem, Progress, Stack, useColorModeValue, GridItem, Grid, Table, Thead, Tr, Th, Td, Tbody, Text } from '@chakra-ui/react'
 import { MdAttachMoney, } from "react-icons/md";
-import PieCard from '../../Components/Card/PieCard';
-import PieChartTable from '../../Components/view/table/PieChartTable';
 import Card from '../../Components/Card/Card';
 import Footer from '../../Components/common/footer/Footer';
 import getFundData from '../../utils/getFundData';
@@ -16,7 +13,6 @@ import { EtherscanLink, APIEnpoint, NeworkID } from '../../config';
 import EtherscanButton from '../../Components/actions/EtherscanButton';
 import Loading from '../../Components/template/spiners/Loading';
 import { useParams } from 'react-router-dom';
-import { pieChartOptions } from '../../Variable/Chart';
 import MigrateToV9 from '../../Components/actions/MigrateToV9';
 import PopupMsg from '../../Components/template/PopupMsg';
 import { io } from 'socket.io-client';
@@ -29,6 +25,9 @@ import { fromWeiByDecimalsInput } from '../../utils/weiByDecimals';
 import TradeModal from '../../Components/actions/TradeModal/TradeModal';
 import InvestorsAlocationChart from '../../Components/Chart/InvestorsAlocationChart';
 import AssetsAlocationChart from '../../Components/Chart/AssetsAlocationChart';
+import WithdrawManager from '../../Components/actions/WithdrawManager';
+import WhiteList from '../../Components/actions/WhiteList';
+import UpdateUSDAsset from '../../Components/actions/UpdateUSDAsset';
 
 function ViewFund(props) {
     const { address } = useParams();
@@ -350,7 +349,7 @@ function ViewFund(props) {
                             ) : null
                         }
                         {
-                            NeworkID === 56 ?
+                            NeworkID === 56 && balance ?
                                 (
                                     <GridItem>
                                         <AssetsAlocationChart AssetsData={balance} version={version} />
@@ -467,33 +466,48 @@ function ViewFund(props) {
                     <Heading fontSize={{ base: "xl", md: "2xl" }} sx={{ textAlign: "center", textTransform: "uppercase", color: { headingColor }, padding: "10px 0px" }}>Manager actions</Heading>
                     <Box sx={{ display: "flex", justifyContent: "center" }}>
                         <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
-                            { /*<TradeModal
-                web3={props.web3}
-                accounts={props.accounts}
-                smartFundAddress={smartFundAddress}
-                pending={pending}
-                version={version}
-                                /> */}
+                            {/* <TradeModal
+                                web3={props.web3}
+                                accounts={props.accounts}
+                                smartFundAddress={smartFundAddress}
+                                pending={pending}
+                                version={version}
+                                    /> */}
+                            <WithdrawManager
+                                web3={props.web3}
+                                accounts={props.accounts}
+                                smartFundAddress={smartFundAddress}
+                                owner={owner}
+                                pending={pending}
+                                version={version}
+                            />
+                            <WhiteList
+                                web3={props.web3}
+                                accounts={props.accounts}
+                                smartFundAddress={smartFundAddress}
+                                owner={owner}
+                            />
+                            <UpdateUSDAsset
+                            web3={props.web3}
+                            accounts={props.accounts}
+                            smartFundAddress={smartFundAddress}
+                            version={version}
+                            />
                         </Box>
                     </Box>
                     <Box sx={{ display: "flex", justifyContent: "center" }}>
                         <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
-                            <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
+                            <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
                                 <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
                                     Exchange
                                 </Button>
                             </Tooltip>
-                            <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
-                                    Pool
-                                </Button>
-                            </Tooltip>
-                            <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
+                            <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
                                 <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
                                     Take Cut
                                 </Button>
                             </Tooltip>
-                            <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
+                            <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
                                 <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
                                     White List
                                 </Button>
@@ -501,7 +515,7 @@ function ViewFund(props) {
                             {
                                 mainAsset === "USD" ?
                                     (
-                                        <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
+                                        <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
                                             <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
                                                 Stable Tokens
                                             </Button>
