@@ -24,21 +24,25 @@ class DepositERC20 extends Component {
     }
 
     componentDidMount = async () => {
-        const fund = new this.props.web3.eth.Contract(SmartFundABIV7, this.props.address)
-        const ercAssetAddress = await fund.methods.coreFundAsset().call()
-        const ercAssetContract = new this.props.web3.eth.Contract(ERC20ABI, ercAssetAddress)
-        const symbol = await ercAssetContract.methods.symbol().call()
-        const decimals = await ercAssetContract.methods.decimals().call()
-        const tokenBalanceInWei = await ercAssetContract.methods.balanceOf(this.props.accounts[0]).call()
-        const tokenBalance = fromWeiByDecimalsInput(decimals, tokenBalanceInWei)
-
-        this.setState({
-            ercAssetAddress,
-            ercAssetContract,
-            symbol,
-            tokenBalanceInWei,
-            tokenBalance
-        })
+        if (this.props.web3 && this.props.accounts && this.props.accounts[0]) {
+            const fund = new this.props.web3.eth.Contract(SmartFundABIV7, this.props.address)
+            const ercAssetAddress = await fund.methods.coreFundAsset().call()
+            const ercAssetContract = new this.props.web3.eth.Contract(ERC20ABI, ercAssetAddress)
+            const symbol = await ercAssetContract.methods.symbol().call()
+            const decimals = await ercAssetContract.methods.decimals().call()
+            const tokenBalanceInWei = await ercAssetContract.methods.balanceOf(this.props.accounts[0]).call()
+            const tokenBalance = fromWeiByDecimalsInput(decimals, tokenBalanceInWei)
+            
+            this.setState({
+                ercAssetAddress,
+                ercAssetContract,
+                symbol,
+                tokenBalanceInWei,
+                tokenBalance
+            })
+        } else {
+            console.error("Web3 or accounts are not defined.");
+        }
     }
 
     componentDidUpdate = async (prevProps, prevState) => {
@@ -230,12 +234,14 @@ class DepositERC20 extends Component {
                             <Button
                                 mt={2}
                                 colorScheme="green"
+                                variant="outline"
                                 onClick={() => this.validation()}
                             >
                                 Deposit
                             </Button>
                         )
                 }
+
             </>
         )
     }

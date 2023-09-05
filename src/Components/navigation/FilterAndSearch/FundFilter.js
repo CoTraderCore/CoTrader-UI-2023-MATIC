@@ -237,8 +237,8 @@ class FundFilter extends Component {
 
                 <br />
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                    <Button bg="#5E39FF" sx={{ _hover: { backgroundColor: "#7500ff" } }} onClick={() => this.multiFilter()}>Apply filter</Button>
-                    <Button bg="#5E39FF" sx={{ _hover: { backgroundColor: "#7500ff" } }} onClick={() => this.resetFilter()}>Reset filter</Button>
+                    <Button colorScheme="teal" variant="outline" onClick={() => this.multiFilter()}>Apply filter</Button>
+                    <Button colorScheme="red" variant="outline"  onClick={() => this.resetFilter()}>Reset filter</Button>
                 </Box>
             </React.Fragment>
         )

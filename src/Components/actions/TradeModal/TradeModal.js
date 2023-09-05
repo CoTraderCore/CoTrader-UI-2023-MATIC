@@ -70,13 +70,13 @@ function TradeModal(props) {
         Exchange
       </Button>
 
-      <Modal isOpen={isOpen} onClose={onClose} size="xl">
+      <Modal isOpen={isOpen} onClose={onClose} size={{base:"lg",md:"xl"}}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Exchange</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Tabs defaultIndex={0} isFitted>
+            <Tabs defaultIndex={0}>
               <TabList>
                 <Tab>1 inch</Tab>
                 <Tab>CoSwap</Tab>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useColorModeValue,Modal, ModalOverlay, ModalBody, useDisclosure, Button, ModalContent, Box, ModalCloseButton, ModalHeader, OrderedList, ListIcon, ListItem, Stack, Checkbox, flexbox, Text, FormControl, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Tooltip } from '@chakra-ui/react'
+import { useColorModeValue,Modal, ModalOverlay, ModalBody, useDisclosure, Button, ModalContent, ModalCloseButton, ModalHeader, OrderedList,  ListItem, Stack, Checkbox,  Text, FormControl, Tooltip } from '@chakra-ui/react'
 import DepositETH from './DepositETH'
 import DepositERC20 from './DepositERC20'
 
@@ -9,12 +9,17 @@ function Deposit(props) {
     const [agree, setAgree] = useState(false)
     const allbtnBg=useColorModeValue("#30106b","#7500FF")
 
+    const toggleAgree = () => {
+        setAgree(!agree);
+      };
+    
+
     return (
         <React.Fragment>
                 <Tooltip>
                     <Button onClick={onOpen} flexGrow="1" minWidth={{ base: '100%',sm:"auto" }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>Deposit</Button>
                 </Tooltip>
-                <Modal isOpen={isOpen} onClose={onClose}>
+                <Modal isOpen={isOpen} onClose={onClose} size={{base:"lg",md:"xl"}}>
                     <ModalOverlay />
                     <ModalContent>
                         <ModalHeader>Terms and Conditions</ModalHeader>
@@ -27,7 +32,7 @@ function Deposit(props) {
                                 <ListItem>I understand I shouldn't deposit anything I can't afford to lose.</ListItem>
                             </OrderedList>
                             <Stack mt={2} spacing={[1]} direction={['column']}>
-                                <Checkbox size='md' colorScheme='red' onChange={() => setAgree({ Agree: !agree })} />
+                                <Checkbox size='md' colorScheme='red'  onChange={toggleAgree} checked={agree}/>
                                 <Text>I agree to the above Terms and Conditions to use this product. By cancelling you will not gain access to the service.</Text>
                             </Stack>
                             {

@@ -20,7 +20,7 @@ import checkTokensLimit from '../../../utils/checkTokensLimit'
 import Pending from '../../template/spiners/Pending.js'
 import BigNumber from 'bignumber.js'
 import SelectToken from './SelectToken'
-import { Button,Box, FormControl, FormLabel,Alert, } from '@chakra-ui/react'
+import { Button,Box, FormControl, FormLabel,Alert,Input } from '@chakra-ui/react'
 
 class TradeViaCoSwap extends Component {
   constructor(props, context) {
@@ -389,6 +389,7 @@ class TradeViaCoSwap extends Component {
         (
           <>
           {/* SEND */}
+          <FormControl>
           <FormLabel>Pay with</FormLabel>
           
           <SelectToken
@@ -400,7 +401,7 @@ class TradeViaCoSwap extends Component {
            currentSymbol={this.state.Send}
            pushNewTokenInList={this.pushNewTokenInList}
           />
-          <FormControl
+          <Input
           type="number"
           placeholder={this.state.AmountSend}
           min="0"
@@ -434,7 +435,7 @@ class TradeViaCoSwap extends Component {
            currentSymbol={this.state.Recive}
            pushNewTokenInList={this.pushNewTokenInList}
           />
-          <FormControl
+          <Input
           type="number"
           placeholder={this.state.AmountRecive}
           min="0"
@@ -460,7 +461,7 @@ class TradeViaCoSwap extends Component {
             this.props.exchangePortalAddress === ExchangePortalAddressLight
             ?
             (
-              <Button colorScheme="green" onClick={() => this.validation()}>Trade</Button>
+              <Button colorScheme="green" variant='outline' onClick={() => this.validation()}>Trade</Button>
             )
             :
             (
@@ -472,6 +473,7 @@ class TradeViaCoSwap extends Component {
           {
             this.state.prepareData ? (<small>Preparing transaction data, please wait ...</small>) : null
           }
+          </FormControl>
            </>
         )
         :

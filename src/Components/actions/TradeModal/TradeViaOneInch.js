@@ -462,6 +462,7 @@ class TradeViaOneInch extends Component {
                         (
                             <>
                                 {/* SEND */}
+                                <FormControl>
                                 <FormLabel>Pay with</FormLabel>
                                 <InputGroup >
                                     <SelectToken
@@ -473,7 +474,7 @@ class TradeViaOneInch extends Component {
                                         currentSymbol={this.state.Send}
                                         pushNewTokenInList={this.pushNewTokenInList}
                                     />
-                                    <FormControl
+                                    <Input
                                         type="number"
                                         placeholder={this.state.AmountSend}
                                         min="0"
@@ -529,11 +530,12 @@ class TradeViaOneInch extends Component {
 
                                 {/* Trigger tarde */}
                                 <br />
-                                <Button colorScheme='green' onClick={() => this.validation()}>Trade</Button>
+                                <Button colorScheme='green' variant='outline' onClick={() => this.validation()}>Trade</Button>
                                 <br />
                                 {
                                     this.state.prepareData ? (<small>Preparing transaction data, please wait ...</small>) : null
                                 }
+                                </FormControl>
                             </>
                         )
                         :

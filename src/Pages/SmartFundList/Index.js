@@ -186,7 +186,7 @@ function SmartFundList(props) {
                       />
                     }
                     name='Total Funds'
-                    value={MobXStorage?.SmartFundsOriginal.length}
+                    value={MobXStorage.SmartFundsOriginal.length}
                   />
                   <ShadowBox
                     startContent={
@@ -200,7 +200,7 @@ function SmartFundList(props) {
                       />
                     }
                     name='Total value'
-                    value={`$ ${MobXStorage?.TotalValue}`}
+                    value={`$ ${MobXStorage.TotalValue}`}
                   />
                   <ShadowBox
                     startContent={
@@ -214,7 +214,7 @@ function SmartFundList(props) {
                       />
                     }
                     name='Total profit'
-                    value={`$ ${MobXStorage?.TotalProfit}`}
+                    value={`$ ${MobXStorage.TotalProfit}`}
                   />
                   <ShadowBox
                     startContent={
@@ -226,13 +226,13 @@ function SmartFundList(props) {
                       />
                     }
                     name='History total profit'
-                    value={`$ ${MobXStorage?.HistoryTotalProfit}`}
+                    value={`$ ${MobXStorage.HistoryTotalProfit}`}
                   />
                 </SimpleGrid>
               ) :
               (
                 <Box>
-                  <Text style={{ color: "green" }}>{MobXStorage?.FilterInfo}</Text>
+                  <Text style={{ color: "green" }}>{MobXStorage.FilterInfo}</Text>
                   <SimpleGrid
                     width="100%"
                     columns={{ base: 1, md: 4, lg: 4, }}
@@ -250,7 +250,7 @@ function SmartFundList(props) {
                         />
                       }
                       name='Fund'
-                      value={`${MobXStorage?.SmartFunds.length} of ${MobXStorage?.SmartFundsOriginal.length} funds`}
+                      value={`${MobXStorage.SmartFunds.length} of ${MobXStorage.SmartFundsOriginal.length} funds`}
                     />
                     <ShadowBox
                       startContent={
@@ -264,7 +264,7 @@ function SmartFundList(props) {
                         />
                       }
                       name='Total value'
-                      value={`$ ${MobXStorage?.userTotalValue}`}
+                      value={`$ ${MobXStorage.userTotalValue}`}
                     />
                     <ShadowBox
                       startContent={
@@ -278,7 +278,7 @@ function SmartFundList(props) {
                         />
                       }
                       name='Total profit'
-                      value={`$ ${MobXStorage?.TotalProfit}`}
+                      value={`$ ${MobXStorage.TotalProfit}`}
                     />
                     <ShadowBox
                       startContent={
@@ -290,7 +290,7 @@ function SmartFundList(props) {
                         />
                       }
                       name='History total profit'
-                      value={`$ ${MobXStorage?.HistoryTotalProfit}`}
+                      value={`$ ${MobXStorage.HistoryTotalProfit}`}
                     />
                   </SimpleGrid>
                 </Box>

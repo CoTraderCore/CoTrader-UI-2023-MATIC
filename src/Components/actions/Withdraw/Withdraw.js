@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Button, Checkbox, FormControl, FormLabel, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, RangeSlider, RangeSliderFilledTrack, RangeSliderThumb, RangeSliderTrack, Stack, Tooltip, useColorModeValue, useDisclosure } from '@chakra-ui/react'
+import { Box, Button, Checkbox, FormControl, FormLabel, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay,Stack, Tooltip, useColorModeValue, useDisclosure } from '@chakra-ui/react'
 import axios from 'axios';
 import { APIEnpoint, SmartFundABIV7 } from '../../../config';
 import setPending from '../../../utils/setPending';
@@ -90,8 +90,7 @@ function Withdraw(props) {
                                     ):null
                                 }
                               
-                              
-                                    <Button mt={3} colorScheme='green' mr={3} onClick={() => {
+                                    <Button mt={3} colorScheme='green' variant='outline' mr={3} onClick={() => {
                                         withdraw(props.address, percent)
                                     }}>
                                         Withdraw

@@ -20,7 +20,7 @@ import Footer from '../../Components/common/footer/Footer';
 
 
 function AllFundWithoutWeb3({ isDataLoad, web3, setIsDataLoad }) {
- 
+
     useEffect(() => {
         let isMounted = true;
         const fetchData = async () => {
@@ -28,8 +28,8 @@ function AllFundWithoutWeb3({ isDataLoad, web3, setIsDataLoad }) {
                 try {
                     const smartFunds = await getFundsList();
                     MobXStorage?.initSFList(smartFunds);
-                }catch (error) {
-                    console.error('Error fetching smart funds:',error  );
+                } catch (error) {
+                    console.error('Error fetching smart funds:', error);
                 }
             }
             if (isMounted) {
@@ -52,6 +52,7 @@ function AllFundWithoutWeb3({ isDataLoad, web3, setIsDataLoad }) {
 
     const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
     const boxBg = useColorModeValue("#F4F7FE", "#110938");
+    const allbtnBg = useColorModeValue("#30106b", "#7500FF")
 
 
     return useObserver(() => (
@@ -70,7 +71,7 @@ function AllFundWithoutWeb3({ isDataLoad, web3, setIsDataLoad }) {
                                         <FilterSearch />
                                     </GridItem>
                                     <GridItem >
-                                        <Stack bg="#5E39FF" sx={{ color: "#fff", borderRadius: "8px", border: "none", _hover: { backgroundColor: "#7500ff" } }}>
+                                        <Stack bg={allbtnBg} sx={{ color: "#fff", borderRadius: "8px", border: "none", _hover: { backgroundColor: "#30108b" } }}>
                                             <SortFunds />
                                         </Stack>
                                     </GridItem>
@@ -78,131 +79,137 @@ function AllFundWithoutWeb3({ isDataLoad, web3, setIsDataLoad }) {
                             </CardBox>
                             <Box>
 
-                                <SimpleGrid
-                                    width="100%"
-                                    columns={{ base: 1, md: 4, lg: 4, }}
-                                    gap='20px'
-                                    mb='20px'>
+                                {
+                                    !MobXStorage.FilterActive ?
+                                        (
+                                            <SimpleGrid
+                                                width="100%"
+                                                columns={{ base: 1, md: 4, lg: 4, }}
+                                                gap='20px'
+                                                mb='20px'>
 
-                                    <ShadowBox
-                                        startContent={
-                                            <IconBox
-                                                w='56px'
-                                                h='56px'
-                                                bg={boxBg}
-                                                icon={
-                                                    <Icon w='32px' h='32px' as={RiFundsBoxLine} color={brandColor} />
-                                                }
-                                            />
-                                        }
-                                        name='Total Funds'
-                                        value={MobXStorage?.SmartFundsOriginal.length}
-                                    />
-                                    <ShadowBox
-                                        startContent={
-                                            <IconBox
-                                                w='56px'
-                                                h='56px'
-                                                bg={boxBg}
-                                                icon={
-                                                    <Icon w='32px' h='32px' as={FcComboChart} color={brandColor} />
-                                                }
-                                            />
-                                        }
-                                        name='Total value'
-                                        value={`$ ${MobXStorage?.TotalValue}`}
-                                    />
-                                    <ShadowBox
-                                        startContent={
-                                            <IconBox
-                                                w='56px'
-                                                h='56px'
-                                                bg={boxBg}
-                                                icon={
-                                                    <Icon w='32px' h='32px' as={MdOutlineBarChart} color={brandColor} />
-                                                }
-                                            />
-                                        }
-                                        name='Total profit'
-                                        value={`$ ${MobXStorage?.TotalProfit}`}
-                                    />
-                                    <ShadowBox
-                                        startContent={
-                                            <IconBox
-                                                w='56px'
-                                                h='56px'
-                                                bg={boxBg}
-                                                icon={<Icon w='28px' h='28px' as={MdOutlineBarChart} color={brandColor} />}
-                                            />
-                                        }
-                                        name='History total profit'
-                                        value={`$ ${MobXStorage?.HistoryTotalProfit}`}
-                                    />
-                                </SimpleGrid>
-                                <Text style={{ color: "green" }}>{MobXStorage?.FilterInfo}</Text>
-                                <SimpleGrid
-                                    width="100%"
-                                    columns={{ base: 1, md: 4, lg: 4, }}
-                                    gap='20px'
-                                    mb='20px'>
-                                    <ShadowBox
-                                        startContent={
-                                            <IconBox
-                                                w='56px'
-                                                h='56px'
-                                                bg={boxBg}
-                                                icon={
-                                                    <Icon w='32px' h='32px' as={RiFundsBoxLine} color={brandColor} />
-                                                }
-                                            />
-                                        }
-                                        name='Fund'
-                                        value={`${MobXStorage?.SmartFunds.length} of ${MobXStorage?.SmartFundsOriginal.length} funds`}
-                                    />
-                                    <ShadowBox
-                                        startContent={
-                                            <IconBox
-                                                w='56px'
-                                                h='56px'
-                                                bg={boxBg}
-                                                icon={
-                                                    <Icon w='32px' h='32px' as={FcComboChart} color={brandColor} />
-                                                }
-                                            />
-                                        }
-                                        name='Total value'
-                                        value={`$ ${MobXStorage?.userTotalValue}`}
-                                    />
-                                    <ShadowBox
-                                        startContent={
-                                            <IconBox
-                                                w='56px'
-                                                h='56px'
-                                                bg={boxBg}
-                                                icon={
-                                                    <Icon w='32px' h='32px' as={MdOutlineBarChart} color={brandColor} />
-                                                }
-                                            />
-                                        }
-                                        name='Total profit'
-                                        value={`$ ${MobXStorage?.TotalProfit}`}
-                                    />
+                                                <ShadowBox
+                                                    startContent={
+                                                        <IconBox
+                                                            w='56px'
+                                                            h='56px'
+                                                            bg={boxBg}
+                                                            icon={
+                                                                <Icon w='32px' h='32px' as={RiFundsBoxLine} color={brandColor} />
+                                                            }
+                                                        />
+                                                    }
+                                                    name='Total Funds'
+                                                    value={MobXStorage.SmartFundsOriginal.length}
+                                                />
+                                                <ShadowBox
+                                                    startContent={
+                                                        <IconBox
+                                                            w='56px'
+                                                            h='56px'
+                                                            bg={boxBg}
+                                                            icon={
+                                                                <Icon w='32px' h='32px' as={FcComboChart} color={brandColor} />
+                                                            }
+                                                        />
+                                                    }
+                                                    name='Total value'
+                                                    value={`$ ${MobXStorage.TotalValue}`}
+                                                />
+                                                <ShadowBox
+                                                    startContent={
+                                                        <IconBox
+                                                            w='56px'
+                                                            h='56px'
+                                                            bg={boxBg}
+                                                            icon={
+                                                                <Icon w='32px' h='32px' as={MdOutlineBarChart} color={brandColor} />
+                                                            }
+                                                        />
+                                                    }
+                                                    name='Total profit'
+                                                    value={`$ ${MobXStorage.TotalProfit}`}
+                                                />
+                                                <ShadowBox
+                                                    startContent={
+                                                        <IconBox
+                                                            w='56px'
+                                                            h='56px'
+                                                            bg={boxBg}
+                                                            icon={<Icon w='28px' h='28px' as={MdOutlineBarChart} color={brandColor} />}
+                                                        />
+                                                    }
+                                                    name='History total profit'
+                                                    value={`$ ${MobXStorage.HistoryTotalProfit}`}
+                                                />
+                                            </SimpleGrid>
+                                        ) :
+                                        (
+                                            <SimpleGrid
+                                                width="100%"
+                                                columns={{ base: 1, md: 4, lg: 4, }}
+                                                gap='20px'
+                                                mb='20px'>
+                                                <ShadowBox
+                                                    startContent={
+                                                        <IconBox
+                                                            w='56px'
+                                                            h='56px'
+                                                            bg={boxBg}
+                                                            icon={
+                                                                <Icon w='32px' h='32px' as={RiFundsBoxLine} color={brandColor} />
+                                                            }
+                                                        />
+                                                    }
+                                                    name='Fund'
+                                                    value={`${MobXStorage.SmartFunds.length} of ${MobXStorage.SmartFundsOriginal.length} funds`}
+                                                />
+                                                <Text style={{ color: "green" }}>{MobXStorage.FilterInfo}</Text>
+                                                <ShadowBox
+                                                    startContent={
+                                                        <IconBox
+                                                            w='56px'
+                                                            h='56px'
+                                                            bg={boxBg}
+                                                            icon={
+                                                                <Icon w='32px' h='32px' as={FcComboChart} color={brandColor} />
+                                                            }
+                                                        />
+                                                    }
+                                                    name='Total value'
+                                                    value={`$ ${MobXStorage.userTotalValue}`}
+                                                />
+                                                <ShadowBox
+                                                    startContent={
+                                                        <IconBox
+                                                            w='56px'
+                                                            h='56px'
+                                                            bg={boxBg}
+                                                            icon={
+                                                                <Icon w='32px' h='32px' as={MdOutlineBarChart} color={brandColor} />
+                                                            }
+                                                        />
+                                                    }
+                                                    name='Total profit'
+                                                    value={`$ ${MobXStorage.TotalProfit}`}
+                                                />
 
-                                    <ShadowBox
-                                        startContent={
-                                            <IconBox
-                                                w='56px'
-                                                h='56px'
-                                                bg={boxBg}
-                                                icon={<Icon w='28px' h='28px' as={MdOutlineBarChart} color={brandColor} />}
-                                            />
-                                        }
-                                        name='History total profit'
-                                        value={`$ ${MobXStorage?.HistoryTotalProfit}`}
-                                    />
+                                                <ShadowBox
+                                                    startContent={
+                                                        <IconBox
+                                                            w='56px'
+                                                            h='56px'
+                                                            bg={boxBg}
+                                                            icon={<Icon w='28px' h='28px' as={MdOutlineBarChart} color={brandColor} />}
+                                                        />
+                                                    }
+                                                    name='History total profit'
+                                                    value={`$ ${MobXStorage.HistoryTotalProfit}`}
+                                                />
+                                            </SimpleGrid>
+                                        )
+                                }
 
-
-                                </SimpleGrid>
                             </Box>
 
                             <SimpleGrid>

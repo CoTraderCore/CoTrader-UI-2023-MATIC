@@ -65,7 +65,7 @@ function MigrateToNewPortal(props) {
                 <strong>Your trade portal version is deprecated, please update for get best options</strong>
                 <hr />
                 <Button
-                  colorScheme='red'
+                  colorScheme='teal' variant='outline'
                   size="sm"
                   onClick={() => verifyСompatibility(
                     props.web3,

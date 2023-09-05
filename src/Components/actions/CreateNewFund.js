@@ -145,7 +145,8 @@ function CreateNewFund(props) {
                             </Stack>
                             <Button
                                 mt={5}
-                                bg="#00C6C0"
+                               colorScheme='green'
+                               variant='outline'
                                 onClick={() => createNewFund()}
                             >
                                 Create

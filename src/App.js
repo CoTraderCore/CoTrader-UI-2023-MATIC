@@ -9,7 +9,7 @@ import getFundsList from './utils/getFundsList';
 import { SmartFundRegistryADDRESS } from './config';
 import SmartFundListWithoutWeb3 from './Pages/ViewFundWithoutWeb3';
 import MainLayout from './Layouts/MainLayout';
-import ViewFundWithoutWeb3 from './Pages/FundInfo/Index';
+import ViewFundWithoutWeb3 from './Pages/FundInfoWithoutWeb3/Index';
 import SmartFundList from './Pages/SmartFundList/Index';
 import MobXStorage from './MobXStorage';
 import ViewFundTx from './Pages/ViewFundTx';
@@ -44,6 +44,7 @@ function App(props) {
     }
     initWeb3();
     initData();
+    checkWeb3OffRedirect();
     return () => {
       //component unmount
       isMounted = false

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
     Box,
+    Text,
     Button,
     Flex,
     Image,
@@ -17,9 +18,11 @@ import {
 
 import getTokenSymbolAndDecimals from '../../../utils/getTokenSymbolAndDecimals';
 import { isAddress } from 'web3-utils';
-// const isAddress = /^(0x)?[0-9a-fA-F]{40}$/i.test(props.selectedSymbol); 
+
+
 
 function SelectToken(props) {
+    // const isAddress = /^(0x)?[0-9a-fA-F]{40}$/i.test(props.selectedSymbol); 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [symbol, setSymbol] = useState('');
     const [decimals, setDecimals] = useState(0);
@@ -70,8 +73,9 @@ function SelectToken(props) {
     };
     const options = props.symbols;
     return (
-        <div>
+        <Box>
             <Button
+            colorScheme="red"
                 variant="outline"
                 onClick={() => setIsModalOpen(true)}
                 minWidth="160px"
@@ -118,12 +122,12 @@ function SelectToken(props) {
                                 <br />
                             </>
                         ) : (
-                            <p>Load data</p>
+                            <Text>Load data</Text>
                         )}
                     </ModalBody>
                 </ModalContent>
             </Modal>
-        </div>
+        </Box>
     );
 }
 
