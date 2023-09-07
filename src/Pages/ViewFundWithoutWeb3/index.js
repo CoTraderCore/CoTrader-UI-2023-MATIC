@@ -17,6 +17,7 @@ import { useObserver } from 'mobx-react';
 import MobXStorage from '../../MobXStorage';
 import Loading from '../../Components/template/spiners/Loading';
 import Footer from '../../Components/common/footer/Footer';
+import Web3Allert from '../../Components/Web3Off/Web3Alert';
 
 
 function AllFundWithoutWeb3({ isDataLoad, web3, setIsDataLoad }) {
@@ -60,8 +61,13 @@ function AllFundWithoutWeb3({ isDataLoad, web3, setIsDataLoad }) {
             {
                 isDataLoad ?
                     (
-                        <Box className='dashboard' style={{ padding: "10px", }}>
-                            <DashboardHeader />
+                        <Box className='dashboard' px={4}>
+                            <Grid gap={5}  sx={{ textAlign: 'center', fontWeight: "500" }}>
+                            <DashboardHeader/>
+                                <GridItem style={{ borderRadius: "5px", boxShadow: "1px 1px 1px 1px gray", border: "1px solid white" }} >
+                                    <Web3Allert />
+                                </GridItem>
+                            </Grid>
                             <CardBox p="10px" my="10px">
                                 <Grid gap={4} templateColumns={['1fr', 'repeat(3, 1fr)']} sx={{ padding: "10px 0px ", borderRadius: "5px", display: "flex", justifyContent: "space-around", flexDirection: { base: "column", sm: "column", md: "row" }, textAlign: { base: "center", sm: "center" } }}>
                                     <GridItem >

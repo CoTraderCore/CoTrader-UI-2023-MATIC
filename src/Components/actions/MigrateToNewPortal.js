@@ -8,7 +8,7 @@ import {
   WETH
 } from '../../config.js'
 
-import { Alert, Box, Button } from '@chakra-ui/react'
+import { Alert, AlertIcon, Box, Button } from '@chakra-ui/react'
 
 
 async function verifyConnector(tokenTo, web3) {
@@ -60,32 +60,36 @@ function MigrateToNewPortal(props) {
           ?
           (
             <Box>
-              <br />
-              <Alert variant="warning">
-                <strong>Your trade portal version is deprecated, please update for get best options</strong>
-                <hr />
-                <Button
-                  colorScheme='teal' variant='outline'
-                  size="sm"
-                  onClick={() => verifyСompatibility(
-                    props.web3,
-                    props.accounts,
-                    props.smartFundAddress,
-                    props.closeModal,
-                    setIssueAddresses
-                  )}
-                >
-                  Update
-                </Button>
-                <hr />
-                <small style={{ color: "red" }}><strong>NOTE: If your update transaction was confirmed, but you still see this message, please reload the page</strong></small>
+
+              <Alert status="warning">
+                <Box sx={{ display: "flex", flexDirection: "column" }}>
+                  <strong>Your trade portal version is deprecated, please update for get best options</strong>
+                  <hr />
+                  <Button
+                    my={2}
+                    colorScheme='red'
+                    size="sm"
+                    onClick={() => verifyСompatibility(
+                      props.web3,
+                      props.accounts,
+                      props.smartFundAddress,
+                      props.closeModal,
+                      setIssueAddresses
+                    )}
+                  >
+                    Update
+                  </Button>
+                  <hr />
+                  <small style={{ color: "red" }}><strong>NOTE: If your update transaction was confirmed, but you still see this message, please reload the page</strong></small>
+                </Box>
               </Alert>
 
               {
                 issueAddresses.length > 0
                   ?
                   (
-                    <Alert status="warning">
+                    <Alert status="error">
+                      <AlertIcon />
                       New portal not support this tokens, please sell, then update
                       <hr />
                       {issueAddresses.map((item, key) => <p key={key}>{item}</p>)}

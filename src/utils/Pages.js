@@ -6,5 +6,7 @@ export const Pages = {
     VIEWFUNDWITHOUTWEB3:'/web3off/fund',
     VIEWFUNDTX:"/fund-txs",
     VIEWUSERTX:"/user-txs",
-    VIEWFUND:"/fund"
+    VIEWFUND:"/fund",
+    VIEWUSER:"/user",
+    HOWTOSTART:"/how-to-start"
 }

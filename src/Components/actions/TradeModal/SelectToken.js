@@ -17,7 +17,9 @@ import {
 
 
 import getTokenSymbolAndDecimals from '../../../utils/getTokenSymbolAndDecimals';
-import { isAddress } from 'web3-utils';
+// import { isAddress } from 'web3-utils';
+import { isAddress } from 'web3-validator';
+
 
 
 
@@ -31,7 +33,7 @@ function SelectToken(props) {
 
     const getTokenAddressBySymbol = (symbol) => {
         const foundToken = props.tokens.find(item => item.symbol === symbol);
-        return String(foundToken.address).toLowerCase();
+        return String(foundToken?.address).toLowerCase();
     };
 
     const closeModal = () => {
@@ -92,14 +94,13 @@ function SelectToken(props) {
                     <ModalBody>
                         {props.tokens ? (
                             <>
-                                <br />
+                               
                                 {detectNewToken ? (
-                                    <Button colorScheme="blue" onClick={addNewToken}>
+                                    <Button colorScheme="red" variant="outline" onClick={addNewToken}>
                                         Import {symbol} to list
                                     </Button>
                                 ) : null}
-                                <br />
-                                <br />
+                               
                                 <Box>
                                     <Flex alignItems="center">
                                         <Image
@@ -108,7 +109,7 @@ function SelectToken(props) {
                                             src={`https://tokens.1inch.exchange/${getTokenAddressBySymbol(options)}.png`}
                                             alt="TOKEN"
                                         />
-                                        <Box marginLeft="2">
+                                        <Box ml={4}>
                                             <Input
                                                 value={props.selectedSymbol}
                                                 onChange={(event) => props.onChangeTypeHead(props.direction, event.target.value)}
@@ -118,8 +119,6 @@ function SelectToken(props) {
                                         </Box>
                                     </Flex>
                                 </Box>
-                                <br />
-                                <br />
                             </>
                         ) : (
                             <Text>Load data</Text>

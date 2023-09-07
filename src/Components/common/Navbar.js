@@ -2,35 +2,10 @@ import React from 'react';
 import { Box, Flex, Heading,  Image, } from '@chakra-ui/react';
 import { MdDarkMode } from 'react-icons/md'
 import { BsFillSunFill } from "react-icons/bs"
-// import { IoMdTabletLandscape, IoMdLaptop } from 'react-icons/io'
-// import { MdOutlineDesktopMac } from "react-icons/md"
-// import { useTheme } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
+import MobXStorage from '../../MobXStorage';
 
-
-const Navbar = ({ isChange , changeTheme,colorMode,toggleColorMode}) => {
-    // function fullWidth() {
-    //     if (!document.body.classList.contains('fullWidth_container')) {
-    //         document.body.classList.remove('tablet_container');
-    //         document.body.classList.remove('laptop_container');
-    //         document.body.classList.add('fullWidth_container');
-    //     }
-    // }
-
-    // function laptopWidth() {
-    //     if (!document.body.classList.contains('laptop_container')) {
-    //         document.body.classList.remove('fullWidth_container');
-    //         document.body.classList.remove('tablet_container');
-    //         document.body.classList.add('laptop_container');
-    //     }
-    // }
-
-    // function tabletWidth() {
-    //     if (!document.body.classList.contains('tablet_container')) {
-    //         document.body.classList.remove('fullWidth_container');
-    //         document.body.classList.remove('laptop_container');
-    //         document.body.classList.add('tablet_container');
-    //     }
-    // }
+const Navbar = ({toggleColorMode}) => {
 
 
     return (
@@ -39,7 +14,7 @@ const Navbar = ({ isChange , changeTheme,colorMode,toggleColorMode}) => {
                 <Flex justifyContent="space-between">
                     <Box display="flex" alignItems="center" gap={4} >
                         <Heading as="h1" size="lg" cursor={'pointer'}>
-                            <Image src='/logo.png' alt='' height="24px" />
+                          <Link to={MobXStorage.web3? "/" : "/web3off"}><Image src='/logo.png' alt='CoTrader' height="24px" /></Link>
                         </Heading>
                     </Box>
                     <Box display="flex" alignItems="center" fontSize="2xl" cursor={'pointer'} gap={2}>

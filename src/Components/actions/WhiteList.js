@@ -80,7 +80,7 @@ const WhiteList = (props) => {
     const modalClose = () => setShow(false);
     const allbtnBg = useColorModeValue("#30106b", "#7500FF")
     return (
-        <Box>
+        <>
             <Tooltip label="This function allows the fund manager to add a user to the white list or remove them.">
                 <Button flexGrow="1" minWidth={{ base: '100%', md: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }} onClick={() => setShow(true)}>
                     White list
@@ -150,7 +150,7 @@ const WhiteList = (props) => {
                     </ModalBody>
                 </ModalContent>
             </Modal>
-        </Box>
+        </>
     );
 }
 

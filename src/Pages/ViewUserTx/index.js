@@ -8,6 +8,7 @@ import { HiReceiptTax } from 'react-icons/hi'
 import ShadowBox from '../../Components/Cards/ShadowBox';
 import IconBox from '../../Components/Icons/IconBox';
 import Footer from '../../Components/common/footer/Footer';
+import Header from '../../Components/common/Header';
 
 const ETH_TOKEN = String("0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE").toLowerCase()
 
@@ -171,11 +172,7 @@ function ViewUserTx() {
     return (
         <React.Fragment>
             <Box p={5} >
-                <Grid mt={5} sx={{ textAlign: 'center', fontWeight: "500" }}>
-                    <GridItem style={{ borderRadius: "5px", padding: "10px 5px", boxShadow: "1px 1px 1px 1px gray", border: "1px solid white" }}>
-                        DeFi investment funds - create or join the best smart funds on the blockchain
-                    </GridItem>
-                </Grid>
+            <Header heading="View-User-Tx"/>
                 <Box mt={5}>
                     <Grid py={5} sx={{ display: "flex", alignItems: "center", }}>
                         <GridItem>

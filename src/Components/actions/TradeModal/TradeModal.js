@@ -65,12 +65,12 @@ function TradeModal(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const allbtnBg = useColorModeValue("#30106b", "#7500FF")
   return (
-    <Box>
-      <Button flexGrow="1" minWidth={{ base: '100%', md: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }} onClick={onOpen}>
+    <>
+      <Button flexGrow="1" width={{base:"100%",md:"auto"}} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }} onClick={onOpen}>
         Exchange
       </Button>
 
-      <Modal isOpen={isOpen} onClose={onClose} size={{base:"lg",md:"xl"}}>
+      <Modal isOpen={isOpen} onClose={onClose} size={{base:"lg",md:"2xl"}}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Exchange</ModalHeader>
@@ -123,7 +123,7 @@ function TradeModal(props) {
           <ModalFooter />
         </ModalContent>
       </Modal>
-    </Box>
+    </>
   );
 }
 

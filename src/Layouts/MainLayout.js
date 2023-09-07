@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
 import Navbar from '../Components/common/Navbar'
 import Sidebar from '../Components/common/Sidebar'
-import { Box, Grid, GridItem, useColorMode, useColorModeValue, useDisclosure } from '@chakra-ui/react';
+import { Alert, AlertIcon, Box, Button, Grid, GridItem, useColorMode, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import { Outlet } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
+import WalletInfo from '../Components/common/WalletInfo';
+import DashboardHeader from '../Components/common/DashboardHeader';
+import { NeworkID } from '../config';
 // import { useLocation } from 'react-router-dom';
 
-function MainLayout({ component, }) {
+function MainLayout(props) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [isChange, setIsChange] = useState(false)
     const { colorMode, toggleColorMode } = useColorMode(false)
@@ -34,12 +37,25 @@ function MainLayout({ component, }) {
                 position: "relative"
             }}
         >
-            <Navbar isOpen onOpen onClose isChange={isChange} setIsChange changeTheme={changeTheme} toggleColorMode={toggleColorMode} colorMode={colorMode} />
+            <Navbar isOpen onOpen onClose isChange={isChange} setIsChange changeTheme={changeTheme} toggleColorMode={toggleColorMode} colorMode={colorMode} web3={props.web3} />
             <Grid style={{ display: 'flex', flexWrap: "nowrap", overflow: "auto", height: "90vh", }} >
                 <GridItem >
-                    <Sidebar isOpen={isOpen} onOpen={onOpen} onClose={onClose} component={component} isChange={isChange} />
+                    <Sidebar isOpen={isOpen} onOpen={onOpen} onClose={onClose} isChange={isChange} />
                 </GridItem>
                 <GridItem className='example' bg={Boxbg} style={{ flexGrow: 1, overflow: "auto", }}>
+                    <WalletInfo props={props} />
+                    {
+                        NeworkID !== props.network && props.isLoadNetID && props.web3 ?
+                            (
+                                <Alert status='error' fontWeight={'500'}>
+                                    <AlertIcon />
+                                    Wrong network ID
+                                </Alert>
+                            ) :
+                            (
+                                null
+                            )
+                    }
                     <Outlet />
                 </GridItem>
             </Grid>

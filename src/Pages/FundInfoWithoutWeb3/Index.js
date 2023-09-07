@@ -17,6 +17,7 @@ import EtherscanButton from '../../Components/actions/EtherscanButton';
 import Loading from '../../Components/template/spiners/Loading';
 import { useParams } from 'react-router-dom';
 import { pieChartOptions } from '../../Variable/Chart';
+import Web3Allert from '../../Components/Web3Off/Web3Alert';
 
 function ViewFundWithoutWeb3() {
     const { address } = useParams()
@@ -43,9 +44,9 @@ function ViewFundWithoutWeb3() {
         const getInitialData = async () => {
             const fund = await getFundData(address)
             setFundData({
-                smartFundAddress: fund?.data?.result?.address ,
+                smartFundAddress: fund?.data?.result?.address,
                 name: fund?.data?.result?.name,
-                balance: JSON.parse(fund?.data?.result?.balance ),
+                balance: JSON.parse(fund?.data?.result?.balance),
                 owner: fund?.data?.result?.owner,
                 profitInETH: fund?.data?.result?.profitInETH,
                 profitInUSD: fund?.data?.result?.profitInUSD,
@@ -75,7 +76,7 @@ function ViewFundWithoutWeb3() {
     const colorSchemeGreen = useColorModeValue("green", "green")
     const colorSchemeRed = useColorModeValue("red", "red")
     const remainingprogressBg = useColorModeValue("red.100", "#CBC3E3")
-    const allbtnBg=useColorModeValue("#30106b","#7500FF")
+    const allbtnBg = useColorModeValue("#30106b", "#7500FF")
 
 
     return (
@@ -83,9 +84,14 @@ function ViewFundWithoutWeb3() {
             {
                 fundData.isDataLoad ?
                     (
-                        <Box p={4} background="" >
+                        <Box px={4} background="" >
                             <Header heading="Fund Info." />
-                            <DashboardHeader />
+                            <Grid gap={5} sx={{ textAlign: 'center', fontWeight: "500" }}>
+                            <DashboardHeader />    
+                            <GridItem style={{ borderRadius: "5px", boxShadow: "1px 1px 1px 1px gray", border: "1px solid white" }} >
+                                    <Web3Allert />
+                                </GridItem>
+                            </Grid>
                             <Box mt={4} sx={{ padding: "10px", borderRadius: "10px", }}>
                                 <Heading textTransform={"uppercase"} fontSize={{ base: "2xl" }} color={headingColor} textAlign={'center'} p={2}>{fundData.name}</Heading>
                                 <SimpleGrid
@@ -326,7 +332,7 @@ function ViewFundWithoutWeb3() {
                                 <Card mt={5}>
                                     <Grid sx={{ display: "flex", justifyContent: "space-around", }} flexDirection={{ base: "column", md: "row" }} gap={{ base: "20px", md: "0" }}>
                                         <GridItem fontWeight={600} >
-                                        
+
                                             Smart Fund: <a style={{ color: "#5E39FF", fontWeight: "500", }} href={EtherscanLink + "address/" + fundData.smartFundAddress} target="_blank" rel="noopener noreferrer">{String(fundData.smartFundAddress).replace(String(fundData.smartFundAddress).substring(6, 36), "...")}</a>
                                         </GridItem>
                                         <GridItem fontWeight={600}>
@@ -335,7 +341,7 @@ function ViewFundWithoutWeb3() {
                                     </Grid>
                                 </Card>
                             </Box>
-                            <Footer/>
+                            <Footer />
                         </Box>
                     ) :
                     (

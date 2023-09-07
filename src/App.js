@@ -15,18 +15,23 @@ import MobXStorage from './MobXStorage';
 import ViewFundTx from './Pages/ViewFundTx';
 import ViewUserTx from './Pages/ViewUserTx'
 import ViewFund from './Pages/ViewFund';
+import ViewUser from './Pages/ViewUser';
+import HowToStart from './Pages/HowToStart';
+
+
 
 function App(props) {
   const [web3, setWeb3] = useState(null);
   const [accounts, setAccounts] = useState(null);
-  const [isReactGarbage, setIsReactGarbage] = useState(false);
+  // const [isReactGarbage, setIsReactGarbage] = useState(false);
   const [network, setNetwork] = useState(0);
   const [isLoadNetID, setIsLoadNetID] = useState(false);
   const [timeOut, setTimeOut] = useState(false);
   const [isDataLoad, setIsDataLoad] = useState(false);
 
+  let isMounted = false
   useEffect(() => {
-    const isMounted = true
+    isMounted = true
     initializeReactGA();
     setTimeout(() => {
       setTimeOut(true);
@@ -45,18 +50,19 @@ function App(props) {
     initWeb3();
     initData();
     checkWeb3OffRedirect();
+
     return () => {
       //component unmount
       isMounted = false
     };
 
   }, [web3]);
+   
 
   const initializeReactGA = () => {
     ReactGA.initialize('UA-141893089-1');
     ReactGA.pageview('/');
   };
-
 
 
   const initWeb3 = async () => {
@@ -73,7 +79,7 @@ function App(props) {
   };
 
   const initData = async () => {
-    if (!isDataLoad && MobXStorage.SmartFundsOriginal.length === 0) {
+    if (isMounted && MobXStorage.SmartFundsOriginal.length === 0) {
       try {
         const smartFunds = await getFundsList();
         MobXStorage.initSFList(smartFunds);
@@ -102,11 +108,11 @@ function App(props) {
   const router = createBrowserRouter([
     {
       path: Pages.SMARTFUNDLIST,
-      element: <MainLayout />,
+      element: <MainLayout {...props} web3={web3} accounts={accounts} network={network} isLoadNetID={isLoadNetID} />,
       children: [
         {
           path: Pages.SMARTFUNDLIST,
-          element: <SmartFundList {...props} web3={web3} accounts={accounts} isDataLoad={isDataLoad} setIsDataLoad={setIsDataLoad} />
+          element: <SmartFundList {...props} web3={web3} accounts={accounts} isDataLoad={isDataLoad} setIsDataLoad={setIsDataLoad} />,
         },
         {
           path: Pages.SMARTFUNDLISTWITHOUTWEB3,
@@ -125,8 +131,16 @@ function App(props) {
           element: <ViewUserTx {...props} isDataLoad={isDataLoad} />
         },
         {
-          path:Pages.VIEWFUND + '/:address',
-          element:<ViewFund {...props} web3={web3} accounts={accounts}  />
+          path: Pages.VIEWFUND + '/:address',
+          element: <ViewFund {...props} web3={web3} accounts={accounts} />
+        },
+        {
+          path: Pages.VIEWUSER + '/:address',
+          element: <ViewUser {...props} />
+        },
+        {
+          path: Pages.HOWTOSTART,
+          element: <HowToStart {...props} />
         }
       ]
     },

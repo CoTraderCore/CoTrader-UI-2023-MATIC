@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom'
 import IconBox from '../../Components/Icons/IconBox'
 import ShadowBox from '../../Components/Cards/ShadowBox'
 import { HiReceiptTax } from 'react-icons/hi'
+import Header from '../../Components/common/Header'
 
 const ETH_TOKEN = String("0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE").toLowerCase()
 
@@ -217,11 +218,7 @@ function ViewManager() {
     return (
         <React.Fragment>
             <Box p={5} >
-                <Grid mt={5} sx={{ textAlign: 'center', fontWeight: "500" }}>
-                    <GridItem style={{ borderRadius: "5px", padding: "10px 5px", boxShadow: "1px 1px 1px 1px gray", border: "1px solid white" }}>
-                        DeFi investment funds - create or join the best smart funds on the blockchain
-                    </GridItem>
-                </Grid>
+              <Header heading="View-Fund-Tx" />
                 <Box mt={5}>
                     <Grid py={5} sx={{ display: "flex", alignItems: "center", }}>
                         <GridItem>

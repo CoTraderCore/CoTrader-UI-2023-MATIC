@@ -20,7 +20,7 @@ import checkTokensLimit from '../../../utils/checkTokensLimit'
 import Pending from '../../template/spiners/Pending.js'
 import BigNumber from 'bignumber.js'
 import SelectToken from './SelectToken'
-import { Button,Box, FormControl, FormLabel,Alert,Input } from '@chakra-ui/react'
+import { Button,Box, FormControl, FormLabel,Alert,Input, InputGroup, Text } from '@chakra-ui/react'
 
 class TradeViaCoSwap extends Component {
   constructor(props, context) {
@@ -391,7 +391,7 @@ class TradeViaCoSwap extends Component {
           {/* SEND */}
           <FormControl>
           <FormLabel>Pay with</FormLabel>
-          
+          <InputGroup>
           <SelectToken
            web3={this.props.web3}
            symbols={this.state.symbols}
@@ -409,7 +409,7 @@ class TradeViaCoSwap extends Component {
           value={this.state.AmountSend}
           onChange={e => this.delayChange(e)}
           />
-       
+          </InputGroup>
           {
             this.state.slippageTo > 0
             ?
@@ -425,7 +425,7 @@ class TradeViaCoSwap extends Component {
 
           {/* RECEIVE */}
           <FormLabel>Receive</FormLabel>
-         
+         <InputGroup>
           <SelectToken
            web3={this.props.web3}
            symbols={this.state.symbols}
@@ -443,12 +443,13 @@ class TradeViaCoSwap extends Component {
           value={this.state.AmountRecive}
           onChange={e => this.delayChange(e)}
           />
-        
+          </InputGroup>
+          <Text mt={1} sx={{color:"red"}}>Slippage: {String(this.state.slippageFrom)} %</Text>
           {
             this.state.slippageFrom > 0
             ?
             (
-              <small style={{color:"blue"}}>Slippage: {String(this.state.slippageFrom)} %</small>
+              <Text mt={1} sx={{color:"blue"}}>Slippage: {String(this.state.slippageFrom)} %</Text>
             ):null
           }
 
@@ -461,11 +462,11 @@ class TradeViaCoSwap extends Component {
             this.props.exchangePortalAddress === ExchangePortalAddressLight
             ?
             (
-              <Button colorScheme="green" variant='outline' onClick={() => this.validation()}>Trade</Button>
+              <Button mt={5}  colorScheme="green"  onClick={() => this.validation()}>Trade</Button>
             )
             :
             (
-              <Alert status='warning'  >Please update portal to latest version, for enable CoSwap DEX in your fund</Alert>
+              <Alert status='success'  >Please update portal to latest version, for enable CoSwap DEX in your fund</Alert>
             )
           }
 

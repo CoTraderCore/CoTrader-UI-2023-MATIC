@@ -80,7 +80,7 @@ function WithdrawManager(props) {
   const allbtnBg = useColorModeValue("#30106b", "#7500FF")
 
   return (
-    <Box>
+    <>
       <Button   flexGrow="1" minWidth={{ base: '100%', md: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }} onClick={onOpen}>
         Take cut
       </Button>
@@ -117,7 +117,7 @@ function WithdrawManager(props) {
           </ModalBody>
         </ModalContent>
       </Modal>
-    </Box>
+    </>
   );
 }
 

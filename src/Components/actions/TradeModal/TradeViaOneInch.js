@@ -11,7 +11,7 @@ import {
     PricePortalPancakeABI,
     WETH
 } from '../../../config.js'
-import {Text, Button, FormControl,InputGroup, Alert, AlertIcon, FormLabel, Box, Input, } from '@chakra-ui/react'
+import { Button, FormControl, InputGroup, Alert, AlertIcon, FormLabel, Box, Input, Text, } from '@chakra-ui/react'
 
 import setPending from '../../../utils/setPending.js'
 import getMerkleTreeData from '../../../utils/getMerkleTreeData'
@@ -453,97 +453,86 @@ class TradeViaOneInch extends Component {
 
     render() {
         return (
-            <Box>
-                <br />
-                <br />
-                {
-                    this.state.tokens
-                        ?
-                        (
-                            <>
-                                {/* SEND */}
-                                <FormControl>
-                                <FormLabel>Pay with</FormLabel>
-                                <InputGroup >
-                                    <SelectToken
-                                        web3={this.props.web3}
-                                        symbols={this.state.symbols}
-                                        tokens={this.state.tokens}
-                                        onChangeTypeHead={this.onChangeTypeHead}
-                                        direction="Send"
-                                        currentSymbol={this.state.Send}
-                                        pushNewTokenInList={this.pushNewTokenInList}
-                                    />
-                                    <Input
-                                        type="number"
-                                        placeholder={this.state.AmountSend}
-                                        min="0"
-                                        name="AmountSend"
-                                        value={this.state.AmountSend}
-                                        onChange={e => this.delayChange(e)}
-                                    />
-                                </InputGroup>
-                                {
-                                    this.state.slippageTo > 0
-                                        ?
-                                        (
-                                            <small style={{ color: "blue" }}>Slippage: {String(this.state.slippageTo)} %</small>
-                                        ) : null
-                                }
+            <>
+                <Box>
+                    {/* SEND */}
+                    <FormControl>
+                        <FormLabel>Pay with</FormLabel>
+                        <InputGroup >
+                            <SelectToken
+                                web3={this.props.web3}
+                                symbols={this.state.symbols}
+                                tokens={this.state.tokens}
+                                onChangeTypeHead={this.onChangeTypeHead}
+                                direction="Send"
+                                currentSymbol={this.state.Send}
+                                pushNewTokenInList={this.pushNewTokenInList}
+                            />
+                            <Input
+                                type="number"
+                                placeholder={this.state.AmountSend}
+                                min="0"
+                                name="AmountSend"
+                                value={this.state.AmountSend}
+                                onChange={e => this.delayChange(e)}
+                            />
+                        </InputGroup>
+                        {
+                            this.state.slippageTo > 0
+                                ?
+                                (
+                                    <small style={{ color: "blue" }}>Slippage: {String(this.state.slippageTo)} %</small>
+                                ) : null
+                        }
 
-                                {
-                                    this.state.shouldUpdatePrice ? (<Pending />) : null
-                                }
-                                <br />
+                        {
+                            this.state.shouldUpdatePrice ? (<Pending />) : null
+                        }
+                        <br />
 
-                                {/* RECEIVE */}
-                                <FormLabel>Receive</FormLabel>
-                                <InputGroup >
-                                    <SelectToken
-                                        web3={this.props.web3}
-                                        symbols={this.state.symbols}
-                                        tokens={this.state.tokens}
-                                        onChangeTypeHead={this.onChangeTypeHead}
-                                        direction="Recive"
-                                        currentSymbol={this.state.Recive}
-                                        pushNewTokenInList={this.pushNewTokenInList}
-                                    />
-                                    <Input
-                                        type="number"
-                                        placeholder={this.state.AmountRecive}
-                                        min="0"
-                                        name="AmountRecive"
-                                        value={this.state.AmountRecive}
-                                        onChange={e => this.delayChange(e)}
-                                    />
-                                </InputGroup>
-                                {
-                                    this.state.slippageFrom > 0
-                                        ?
-                                        (
-                                            <small style={{ color: "#7500FF" }}>Slippage: {String(this.state.slippageFrom)} %</small>
-                                        ) : null
-                                }
+                        {/* RECEIVE */}
+                        <FormLabel>Receive</FormLabel>
+                        <InputGroup >
+                            <SelectToken
+                                web3={this.props.web3}
+                                symbols={this.state.symbols}
+                                tokens={this.state.tokens}
+                                onChangeTypeHead={this.onChangeTypeHead}
+                                direction="Recive"
+                                currentSymbol={this.state.Recive}
+                                pushNewTokenInList={this.pushNewTokenInList}
+                            />
+                            <Input
+                                type="number"
+                                placeholder={this.state.AmountRecive}
+                                min="0"
+                                name="AmountRecive"
+                                value={this.state.AmountRecive}
+                                onChange={e => this.delayChange(e)}
+                            />
+                        </InputGroup>
+                        {
+                            this.state.slippageFrom > 0
+                                ?
+                                (
+                                    <small style={{ color: "#7500FF" }}>Slippage: {String(this.state.slippageFrom)} %</small>
+                                ) : null
+                        }
 
-                                {/* Display error */}
-                                {this.ErrorMsg()}
+                        {/* Display error */}
+                        {this.ErrorMsg()}
 
-                                {/* Trigger tarde */}
-                                <br />
-                                <Button colorScheme='green' variant='outline' onClick={() => this.validation()}>Trade</Button>
-                                <br />
-                                {
-                                    this.state.prepareData ? (<small>Preparing transaction data, please wait ...</small>) : null
-                                }
-                                </FormControl>
-                            </>
-                        )
-                        :
-                        (
-                            <Text>Load data</Text>
-                        )
-                }
-            </Box>
+                        {/* Trigger tarde */}
+                        
+                        <Button mt={5} colorScheme='green'  onClick={() => this.validation()}>Trade</Button>
+                        
+                        {
+                            this.state.prepareData ? (<Text mt={1}>Preparing transaction data, please wait ...</Text>) : null
+                        }
+                    </FormControl>
+                </Box>
+
+            </>
         )
     }
 }
