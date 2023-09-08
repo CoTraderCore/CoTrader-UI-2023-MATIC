@@ -22,6 +22,7 @@ import { APIEnpoint } from '../../config';
 import getFundData from '../../utils/getFundData';
 import getFundsList from '../../utils/getFundsList';
 import Pending from '../../Components/template/spiners/Pending';
+import { useObserver } from 'mobx-react';
 
 function SmartFundList(props) {
 
@@ -34,7 +35,7 @@ function SmartFundList(props) {
   const [txCount, setTxCount] = useState(0);
 
   const _isMounted = useRef(true);
-
+ 
   useEffect(() => {
     const initSocket = () => {
       const socket = io(APIEnpoint);
@@ -128,11 +129,8 @@ function SmartFundList(props) {
   const boxBg = useColorModeValue("#F4F7FE", "#110938");
   const allbtnBg = useColorModeValue("#30106b", "#7500FF")
 
-  return (
+  return useObserver(() => (
     <React.Fragment>
-      {
-        props.isDataLoad ?
-          (
             <Box className='dashboard' style={{ padding: "10px", }}>
             <DashboardHeader />
               <PopupMsg txName={txName} txHash={txHash} ref={_popupChild} />
@@ -165,8 +163,6 @@ function SmartFundList(props) {
                 </Grid>
               </CardBox>
               <Box>
-
-
                 {
                   !MobXStorage.FilterActive ?
                     (
@@ -305,14 +301,9 @@ function SmartFundList(props) {
               <Footer />
             </Box>
 
-          ) :
-          (
-            <Loading />
-          )
-      }
 
     </React.Fragment>
-  );
+          ));
 
 }
 

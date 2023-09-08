@@ -1,10 +1,12 @@
+import { Box } from '@chakra-ui/react'
 import React from 'react'
+
 
 function MyInvestment() {
   return (
-    <div>
-      my investment
-    </div>
+    <Box>
+     
+    </Box>
   )
 }
 

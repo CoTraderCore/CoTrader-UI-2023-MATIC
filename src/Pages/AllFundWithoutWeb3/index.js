@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import ShadowBox from '../../Components/Cards/ShadowBox'
 import { Box, SimpleGrid, Heading, useColorModeValue, Tooltip, Button } from '@chakra-ui/react'
 import IconBox from '../../Components/Icons/IconBox';
@@ -12,8 +12,7 @@ import MobXStorage from '../../MobXStorage';
 import EtherscanButton from '../../Components/actions/EtherscanButton';
 import { fromWei } from 'web3-utils';
 import PagePagination from '../../Components/navigation/Pagination/PagePagination';
-import { Pages } from '../../utils/Pages';
-
+import { useState } from 'react';
 
 function AllFundWithoutWeb3() {
 
@@ -23,11 +22,12 @@ function AllFundWithoutWeb3() {
     const boxBg = useColorModeValue("#F4F7FE", "#110938");
     const tooltipBg = useColorModeValue("black", "#A4ADC7")
     const allbtnBg=useColorModeValue("#30106b","#7500FF")
+const [currentPage,setCurrentPage]=useState(1)
     return (
         <React.Fragment>
             <Box>
                 {
-                        MobXStorage.SmartFunds.map((item, key) =>
+                 MobXStorage.SmartFunds.map((item, key) =>
                             <Box key={item.address}>
                                 <Box mt={4} sx={{ borderRadius: "10px", }}>
                                     <Heading textTransform={"uppercase"} fontSize={{ base: "2xl" }} color={headingColor} textAlign={'center'} p={2}>{item.name}</Heading>
@@ -131,6 +131,7 @@ function AllFundWithoutWeb3() {
                                 </SimpleGrid>
 
 
+
                                 <Box mt={4} display="flex" justifyContent="center">
                                     <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
                                         <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
@@ -144,8 +145,8 @@ function AllFundWithoutWeb3() {
                                             </Button>
                                         </Tooltip>
                                         <Tooltip hasArrow label="" bg={tooltipBg}>
-                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }} onClick={() => navigate(Pages.VIEWFUNDWITHOUTWEB3 + "/" + item.address)}>
-                                                Fund Page
+                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
+                                              <NavLink to={"/web3off/fund/" + item.address}>Fund Page</NavLink>
                                             </Button>
                                         </Tooltip>
                                         <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
@@ -219,11 +220,10 @@ function AllFundWithoutWeb3() {
                                 </Box>
                             </Box>
                         )
-                   
                 }
                 {
                     !MobXStorage.FilterActive ? (
-                        <PagePagination />
+                        <PagePagination currentPage={currentPage} setCurrentPage={setCurrentPage} />
                     ) : (
                         null
                     )

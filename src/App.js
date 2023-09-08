@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChakraProvider, } from '@chakra-ui/react';
-import { RouterProvider, createBrowserRouter, } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, redirect, useNavigate } from 'react-router-dom';
 import { Pages } from './utils/Pages';
 import getWeb3 from './utils/getWeb3';
 import themes from './Theme/Theme';
@@ -17,7 +17,6 @@ import ViewUserTx from './Pages/ViewUserTx'
 import ViewFund from './Pages/ViewFund';
 import ViewUser from './Pages/ViewUser';
 import HowToStart from './Pages/HowToStart';
-
 
 
 function App(props) {
@@ -49,15 +48,15 @@ function App(props) {
     }
     initWeb3();
     initData();
-    checkWeb3OffRedirect();
+  
 
     return () => {
       //component unmount
       isMounted = false
     };
 
-  }, [web3]);
-   
+  },[]);
+
 
   const initializeReactGA = () => {
     ReactGA.initialize('UA-141893089-1');
@@ -91,18 +90,28 @@ function App(props) {
     }
   };
 
+ 
   const checkWeb3OffRedirect = () => {
+    // Redirect to web3off version if the client has no web3
     if (timeOut && !web3) {
+      // If the current location is web3off, how-to-start no need to redirect to web3 off
       const redirectOff = ['web3off', 'how-to-start', 'user-txs', 'fund-txs', 'user'];
-      const isIncludes = redirectOff.some(el => window.location.href.includes(el));
-
-      if (!isIncludes) {
-        const web3offAddress = window.location.href.replace('#/', '#/web3off/');
-        console.log(web3offAddress);
-        window.location = web3offAddress;
+      const currentPath = window.location.pathname;
+  
+      if (!redirectOff.some(el => currentPath.includes(el))) {
+        // Construct the new path with 'web3off' and replace the current URL
+        const newPath = currentPath.replace('/', '/web3off/');
+        const newURL = window.location.origin + newPath;
+        window.location.replace(newURL);
       }
     }
-  };
+  };  
+
+
+  
+  useEffect(()=>{
+    checkWeb3OffRedirect()
+  },[!props.MobXStorage?.web3])
 
 
   const router = createBrowserRouter([
@@ -113,29 +122,30 @@ function App(props) {
         {
           path: Pages.SMARTFUNDLIST,
           element: <SmartFundList {...props} web3={web3} accounts={accounts} isDataLoad={isDataLoad} setIsDataLoad={setIsDataLoad} />,
+          exact:true
         },
         {
           path: Pages.SMARTFUNDLISTWITHOUTWEB3,
           element: <SmartFundListWithoutWeb3 {...props} web3={web3} isDataLoad={isDataLoad} setIsDataLoad={setIsDataLoad} />
         },
         {
-          path: Pages.VIEWFUNDWITHOUTWEB3 + '/:address',
+          path: Pages.VIEWFUNDWITHOUTWEB3 ,
           element: <ViewFundWithoutWeb3 />
         },
         {
-          path: Pages.VIEWFUNDTX + '/:address',
+          path: Pages.VIEWFUNDTX ,
           element: <ViewFundTx {...props} isDataLoad={isDataLoad} />
         },
         {
-          path: Pages.VIEWUSERTX + '/:address',
+          path: Pages.VIEWUSERTX ,
           element: <ViewUserTx {...props} isDataLoad={isDataLoad} />
         },
         {
-          path: Pages.VIEWFUND + '/:address',
+          path: Pages.VIEWFUND,
           element: <ViewFund {...props} web3={web3} accounts={accounts} />
         },
         {
-          path: Pages.VIEWUSER + '/:address',
+          path: Pages.VIEWUSER ,
           element: <ViewUser {...props} />
         },
         {

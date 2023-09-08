@@ -14,11 +14,13 @@ export const dashbordTabs = [
         label : "My funds",
         id : contant.MY_FUNDS,
         content : MyFund,
+        disabled: true,
     },
     {
         label : "My Investement",
         id : contant.MY_INVESTMENTS,
         content : MyInvestment,
+        disabled: true,
     },
   
 ]
@@ -34,11 +36,13 @@ export const smartfundlist = [
         label : "My funds",
         id : contant.MY_FUNDS,
         content : MyFund,
+        disabled: true,
     },
     {
         label : "My Investement",
         id : contant.MY_INVESTMENTS,
         content : MyInvestment,
+        disabled: true,
     },
   
 ]

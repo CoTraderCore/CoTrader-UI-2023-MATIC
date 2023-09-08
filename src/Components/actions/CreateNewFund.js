@@ -92,8 +92,8 @@ function CreateNewFund(props) {
     const allbtnBg = useColorModeValue("#30106b", "#7500FF")
     //buttoncolor #5E39FF
     return (
-        <Box>
-            <Button bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" },padding:"0 50px" }} onClick={modalOpen} >
+        <>
+            <Button bg={allbtnBg} color="#fff" width={{base:"100%",md:"auto"}} sx={{ _hover: { backgroundColor: "#30108b" },padding:"0 50px" }} onClick={modalOpen} >
                 Create fund
             </Button>
 
@@ -155,7 +155,7 @@ function CreateNewFund(props) {
                     </ModalBody>
                 </ModalContent>
             </Modal>
-        </Box>
+        </>
     )
 }
 

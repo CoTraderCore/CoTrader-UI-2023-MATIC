@@ -14,7 +14,6 @@
     "apexcharts": "^3.41.1",
     "axios": "^1.4.0",
     "bignumber.js": "^9.1.1",
-    "buffer": "^6.0.3",
     "chakra-paginator": "^0.7.3",
     "crypto-js": "^4.1.1",
     "ethereumjs-util": "^7.1.5",

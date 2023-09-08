@@ -1,5 +1,6 @@
 import React from 'react'
-import { Tabs, TabList, TabPanels, Tab, TabPanel, useColorModeValue } from '@chakra-ui/react'
+import { Tabs, TabList, TabPanels, Tab, TabPanel, useColorModeValue, Tooltip } from '@chakra-ui/react'
+import MobXStorage from '../../MobXStorage'
 
 
 function HorizontalTabs({ data,pending }) {
@@ -8,12 +9,17 @@ function HorizontalTabs({ data,pending }) {
     return (
         <Tabs>
             <TabList>
-
                 {data.map((tab, index) => (
-                    <Tab color={tabColor} fontWeight={500} textTransform="uppercase" key={index}>{tab.label}</Tab>
+                    <Tooltip
+                    key={index}
+                    label={MobXStorage.web3 ? '' : 'Please connect to web3'}
+                    aria-label="Tab Tooltip"
+                    isDisabled={MobXStorage.web3 ? tab.enable : !tab.disabled} // Enable the tooltip only for disabled tabs
+                  >
+                    <Tab color={tabColor} fontWeight={500}  isDisabled={tab.disabled}  textTransform="uppercase" key={index}>{tab.label}</Tab>
+                    </Tooltip>
                 ))}
             </TabList>
-
             <TabPanels>
                 {data.map((tab) => {
                     return <TabPanel p={1} key={tab.id}>

@@ -43,8 +43,9 @@ function AllFundWithoutWeb3({ isDataLoad, web3, setIsDataLoad }) {
         return () => {
             isMounted = false;
         };
-    });
+    },[]);
 
+     // if coonected to web3 go out from web3off
     useEffect(() => {
         if (web3) {
             window.location = "/";

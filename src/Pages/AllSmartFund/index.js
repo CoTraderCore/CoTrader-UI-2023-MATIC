@@ -5,20 +5,21 @@ import { Box, Button, Heading, Icon, SimpleGrid, useColorModeValue } from '@chak
 import Card from '../../Components/Card/Card';
 import { MdAttachMoney } from 'react-icons/md'
 import { fromWei } from 'web3-utils';
-import { Pages } from '../../utils/Pages';
 import ShadowBox from '../../Components/Cards/ShadowBox';
 import ManagerModal from '../../Components/actions/ManagerModal';
 import FundModal from '../../Components/actions/FundModal';
 import EtherscanButton from '../../Components/actions/EtherscanButton';
 import IconBox from '../../Components/Icons/IconBox';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import Deposit from '../../Components/actions/Deposit/Deposit';
 import Withdraw from '../../Components/actions/Withdraw/Withdraw';
 import UserHoldings from '../../Components/actions/UserHoldings';
+import { useState } from 'react';
 
 
 function AllSmartFund(props) {
 
+  const [currentPage,setCurrentPage]=useState(1)
   const navigate = useNavigate()
   const headingColor = useColorModeValue("#1B2559", "#F4F7FE");
   const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
@@ -29,8 +30,7 @@ function AllSmartFund(props) {
     <React.Fragment>
       <Box>
         {
-          MobXStorage.SmartFunds.length > 0 ?
-            (
+          MobXStorage.SmartFunds.length > 0 ? (
               MobXStorage.SmartFunds.map((item, key) =>
                 <Box key={item.address}>
                   <Box mt={4} sx={{ borderRadius: "10px", }}>
@@ -152,8 +152,8 @@ function AllSmartFund(props) {
                         version={item.version}
                         mainAsset={item.mainAsset}
                       />
-                      <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }} onClick={() => navigate(Pages.VIEWFUND + "/" + item.address)}>
-                        Fund Page
+                      <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
+                      <NavLink to={"/fund/" + item.address}>Fund Page</NavLink>
                       </Button>
                       <UserHoldings
                         web3={props.web3}
@@ -234,7 +234,7 @@ function AllSmartFund(props) {
       </Box>
       {
         !MobXStorage.FilterActive ? (
-          <PagePagination />
+          <PagePagination  currentPage={currentPage} setCurrentPage={setCurrentPage}/>
         ) : (
           null
         )
