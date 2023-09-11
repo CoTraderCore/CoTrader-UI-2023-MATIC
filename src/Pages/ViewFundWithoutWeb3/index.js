@@ -43,14 +43,27 @@ function AllFundWithoutWeb3({ isDataLoad, web3, setIsDataLoad }) {
         return () => {
             isMounted = false;
         };
-    },[]);
+    }, []);
 
-     // if coonected to web3 go out from web3off
+    // if coonected to web3 go out from web3off
+    // useEffect(() => {
+    //     if (web3) {
+    //         window.location = "/";
+    //     }
+    // }, [web3]);
+    
     useEffect(() => {
-        if (web3) {
-            window.location = "/";
+        web3redirect()
+    }, [web3])
+
+    const web3redirect = () => {
+        const currentPath = window.location.pathname;
+        if (currentPath === '/web3off/' && web3) {
+            const newPath = '/';
+            const newURL = window.location.origin + newPath;
+            window.history.replaceState({}, document.title, newURL);
         }
-    }, [web3]);
+    }
 
     const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
     const boxBg = useColorModeValue("#F4F7FE", "#110938");
@@ -63,8 +76,8 @@ function AllFundWithoutWeb3({ isDataLoad, web3, setIsDataLoad }) {
                 isDataLoad ?
                     (
                         <Box className='dashboard' px={4}>
-                            <Grid gap={5}  sx={{ textAlign: 'center', fontWeight: "500" }}>
-                            <DashboardHeader/>
+                            <Grid gap={5} sx={{ textAlign: 'center', fontWeight: "500" }}>
+                                <DashboardHeader />
                                 <GridItem style={{ borderRadius: "5px", boxShadow: "1px 1px 1px 1px gray", border: "1px solid white" }} >
                                     <Web3Allert />
                                 </GridItem>

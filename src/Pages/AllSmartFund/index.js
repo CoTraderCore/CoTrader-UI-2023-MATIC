@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{ useState } from 'react'
 import MobXStorage from '../../MobXStorage';
 import PagePagination from '../../Components/navigation/Pagination/PagePagination';
 import { Box, Button, Heading, Icon, SimpleGrid, useColorModeValue } from '@chakra-ui/react';
@@ -14,13 +14,14 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import Deposit from '../../Components/actions/Deposit/Deposit';
 import Withdraw from '../../Components/actions/Withdraw/Withdraw';
 import UserHoldings from '../../Components/actions/UserHoldings';
-import { useState } from 'react';
+
 
 
 function AllSmartFund(props) {
 
   const [currentPage,setCurrentPage]=useState(1)
   const navigate = useNavigate()
+  
   const headingColor = useColorModeValue("#1B2559", "#F4F7FE");
   const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
   const boxBg = useColorModeValue("#F4F7FE", "#110938");
@@ -31,7 +32,7 @@ function AllSmartFund(props) {
       <Box>
         {
           MobXStorage.SmartFunds.length > 0 ? (
-              MobXStorage.SmartFunds.map((item, key) =>
+            MobXStorage.SmartFunds.map((item, key) =>
                 <Box key={item.address}>
                   <Box mt={4} sx={{ borderRadius: "10px", }}>
                     <Heading textTransform={"uppercase"} fontSize={{ base: "2xl" }} color={headingColor} textAlign={'center'} p={2}>Fund name: {item.name}</Heading>

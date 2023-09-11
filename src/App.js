@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChakraProvider, } from '@chakra-ui/react';
-import { RouterProvider, createBrowserRouter, redirect, useNavigate } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, } from 'react-router-dom';
 import { Pages } from './utils/Pages';
 import getWeb3 from './utils/getWeb3';
 import themes from './Theme/Theme';
@@ -11,7 +11,7 @@ import SmartFundListWithoutWeb3 from './Pages/ViewFundWithoutWeb3';
 import MainLayout from './Layouts/MainLayout';
 import ViewFundWithoutWeb3 from './Pages/FundInfoWithoutWeb3/Index';
 import SmartFundList from './Pages/SmartFundList/Index';
-// import MobXStorage from './MobXStorage';
+import MobXStorage from './MobXStorage';
 import ViewFundTx from './Pages/ViewFundTx';
 import ViewUserTx from './Pages/ViewUserTx'
 import ViewFund from './Pages/ViewFund';
@@ -28,7 +28,7 @@ function App(props) {
   const [timeOut, setTimeOut] = useState(false);
   const [isDataLoad, setIsDataLoad] = useState(false);
 
-  
+
   let isMounted = false
   useEffect(() => {
     isMounted = true
@@ -44,23 +44,20 @@ function App(props) {
       });
     }
 
-    if (window.ethereum){
-    window.ethereum.on('accountsChanged', () => window.location.reload())
+    if (window.ethereum) {
+      window.ethereum.on('accountsChanged', () => window.location.reload());
     }
-
-    initWeb3();
+    
     initData();
+    fetchData()
+
+    checkWeb3OffRedirect()
     return () => {
       //component unmount
-      // isMounted = false
+      isMounted = false
     };
 
-  },[props.MobXStorage,timeOut,web3]);
-
-
-  useEffect(() => {
-    checkWeb3OffRedirect()
-  }, [timeOut,web3]);
+  }, [MobXStorage, timeOut, web3]);
 
 
   const initializeReactGA = () => {
@@ -68,25 +65,34 @@ function App(props) {
     ReactGA.pageview('/');
   };
 
-
-  const initWeb3 = async () => {
+  const fetchData = async () => {
     try {
+      // Get network provider and web3 instance.
       const web3Instance = await getWeb3();
-      const userAccounts = await web3Instance.eth.getAccounts(); 
 
+      // Use web3 to get the user's accounts.
+      const userAccounts = await web3Instance.eth.getAccounts();
+
+      // Set web3 and accounts to the state
       setWeb3(web3Instance);
       setAccounts(userAccounts);
-      this.props.MobXStorage.initWeb3AndAccounts(web3Instance, userAccounts); // You may need to adapt this part
+
+      MobXStorage.initWeb3AndAccounts(web3Instance, userAccounts);
     } catch (error) {
-      console.error("fetching error", error);
+      // Catch any errors for any of the above operations.
+      // alert(
+      //   `Failed to load web3, accounts, or contract. Check console for details.`,
+      // )
+      console.error('Fetching error', error);
     }
+
   };
 
   const initData = async () => {
-    if (isMounted && props.MobXStorage?.SmartFundsOriginal.length === 0) {
+    if (isMounted && MobXStorage.SmartFundsOriginal.length === 0) {
       try {
         const smartFunds = await getFundsList();
-        props.MobXStorage?.initSFList(smartFunds);
+        MobXStorage.initSFList(smartFunds);
         console.log("SmartFundRegistryADDRESS: ", SmartFundRegistryADDRESS, "!___version 28/04/21___!");
         setIsDataLoad(true);
       } catch (error) {
@@ -94,15 +100,16 @@ function App(props) {
       }
     }
   };
- 
-  const checkWeb3OffRedirect=()=>{
+
+  const checkWeb3OffRedirect = () => {
     // Replace the path when the page is loaded for the first time
     const currentPath = window.location.pathname;
     if (currentPath === '/' && !web3) {
-      const newPath = '/web3off/'; 
+      const newPath = '/web3off/';
       const newURL = window.location.origin + newPath;
-      window.history.replaceState({}, document.title, newURL);  
- }}
+      window.history.replaceState({}, document.title, newURL);
+    }
+  }
 
 
   const router = createBrowserRouter([
@@ -113,22 +120,22 @@ function App(props) {
         {
           path: Pages.SMARTFUNDLIST,
           element: <SmartFundList {...props} web3={web3} accounts={accounts} isDataLoad={isDataLoad} setIsDataLoad={setIsDataLoad} />,
-          exact:true
+          exact: true
         },
         {
           path: Pages.SMARTFUNDLISTWITHOUTWEB3,
           element: <SmartFundListWithoutWeb3 {...props} web3={web3} isDataLoad={isDataLoad} setIsDataLoad={setIsDataLoad} />
         },
         {
-          path: Pages.VIEWFUNDWITHOUTWEB3 ,
+          path: Pages.VIEWFUNDWITHOUTWEB3,
           element: <ViewFundWithoutWeb3 />
         },
         {
-          path: Pages.VIEWFUNDTX ,
+          path: Pages.VIEWFUNDTX,
           element: <ViewFundTx {...props} isDataLoad={isDataLoad} />
         },
         {
-          path: Pages.VIEWUSERTX ,
+          path: Pages.VIEWUSERTX,
           element: <ViewUserTx {...props} isDataLoad={isDataLoad} />
         },
         {
@@ -136,7 +143,7 @@ function App(props) {
           element: <ViewFund {...props} web3={web3} accounts={accounts} />
         },
         {
-          path: Pages.VIEWUSER ,
+          path: Pages.VIEWUSER,
           element: <ViewUser {...props} />
         },
         {

@@ -23,6 +23,7 @@ import getFundData from '../../utils/getFundData';
 import getFundsList from '../../utils/getFundsList';
 import Pending from '../../Components/template/spiners/Pending';
 import { useObserver } from 'mobx-react';
+import AllSmartFund from '../AllSmartFund';
 
 function SmartFundList(props) {
 
@@ -73,11 +74,7 @@ function SmartFundList(props) {
       }
     };
 
-    const pending = (_bool, _txCount) => {
-      setPending(_bool);
-      setTxCount(_txCount);
-    };
-
+  
     const checkPending = async () => {
       if (props.accounts) {
         let txCount = await axios.get(APIEnpoint + 'api/user-pending-count/' + props.accounts[0]);
@@ -123,6 +120,11 @@ function SmartFundList(props) {
       _isMounted.current = false;
     };
   }, [props.accounts, MobXStorage]);
+
+  const pendingg = (_bool, _txCount) => {
+    setPending(_bool);
+    setTxCount(_txCount);
+  };
 
 
   const brandColor = useColorModeValue("#7500fe", "##CBC3E3");
@@ -296,7 +298,7 @@ function SmartFundList(props) {
 
               </Box>
               <SimpleGrid>
-                <HorizontalTabs data={smartfundlist} pending={pending} />
+                <HorizontalTabs data={smartfundlist} pending={pendingg} />
               </SimpleGrid>
               <Footer />
             </Box>
