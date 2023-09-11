@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tabs, TabList, TabPanels, Tab, TabPanel, useColorModeValue, Tooltip } from '@chakra-ui/react'
+import { Tabs, TabList, TabPanels, Tab, TabPanel, useColorModeValue, Tooltip, Box } from '@chakra-ui/react'
 import MobXStorage from '../../MobXStorage'
 
 
@@ -7,7 +7,7 @@ function HorizontalTabs({ data,pending }) {
   
     const tabColor = useColorModeValue("#7500fe", "#7500ff")
     return (
-        <Tabs>
+        <Tabs width="100%" overflowX="hidden">
             <TabList>
                 {data.map((tab, index) => (
                     <Tooltip
@@ -16,7 +16,7 @@ function HorizontalTabs({ data,pending }) {
                     aria-label="Tab Tooltip"
                     isDisabled={MobXStorage.web3 ? tab.enable : !tab.disabled} // Enable the tooltip only for disabled tabs
                   >
-                    <Tab color={tabColor} fontWeight={500}  isDisabled={tab.disabled}  textTransform="uppercase" key={index}>{tab.label}</Tab>
+                    <Tab color={tabColor} fontWeight={{base:"400",md:"500"}} fontSize={{base:"10px",md:"16px"}}   isDisabled={tab.disabled}  textTransform="uppercase" key={index}>{tab.label}</Tab>
                     </Tooltip>
                 ))}
             </TabList>

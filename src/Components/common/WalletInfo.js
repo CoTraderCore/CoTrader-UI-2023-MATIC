@@ -18,7 +18,7 @@ const WalletInfo = (props) => {
     }, [])
 
     return (
-        <Box p={5}>
+        <Box px={4} py={1}>
             {
                 props.accounts && props.web3 ?
                     (

@@ -448,6 +448,9 @@ body.fullWidth_container .MuiContainer-maxWidthMd {
 }
 
 
+.tabs::-webkit-scrollbar {
+  display: none;
+}
 
 @media only screen and (max-width:992px) {
   .table-row {
@@ -459,4 +462,14 @@ body.fullWidth_container .MuiContainer-maxWidthMd {
     overflow-x: scroll;
   }
 
+}
+
+.tabs{
+  background-color: gray;
+}
+@media only screen and (max-width:600px) {
+  .tabs {
+    overflow-x: scroll;
+
+  }
 }

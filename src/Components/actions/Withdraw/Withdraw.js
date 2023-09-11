@@ -56,7 +56,7 @@ function Withdraw(props) {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
     const allbtnBg=useColorModeValue("#30106b","#7500FF")
-    
+    const sliderBg = useColorModeValue("#fff", "#181144")
     return (
         <React.Fragment>
                 <Tooltip>
@@ -64,7 +64,7 @@ function Withdraw(props) {
                 </Tooltip>
                 <Modal isOpen={isOpen} onClose={onClose}>
                     <ModalOverlay />
-                    <ModalContent>
+                    <ModalContent bg={sliderBg}>
                         <ModalHeader> Withdraw from smart fund</ModalHeader>
                         <ModalCloseButton />
                         <ModalBody>

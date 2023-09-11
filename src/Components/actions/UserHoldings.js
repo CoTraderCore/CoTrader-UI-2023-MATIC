@@ -31,7 +31,7 @@ function UserHoldings(props) {
         fetchData();
     }, [isOpen, props]);
     const allbtnBg = useColorModeValue("#30106b", "#7500FF")
-
+    const sliderBg = useColorModeValue("#fff", "#181144")
 
     return (
         <>
@@ -41,7 +41,7 @@ function UserHoldings(props) {
                 onClose={onClose}
             >
                 <ModalOverlay />
-                <ModalContent>
+                <ModalContent bg={sliderBg}>
                     <ModalHeader closeButton>
                         My funds
                     </ModalHeader>

@@ -12,6 +12,7 @@ import {
     ModalContent,
     ModalHeader,
     ModalOverlay,
+    useColorModeValue,
 } from '@chakra-ui/react';
 
 
@@ -73,6 +74,7 @@ function SelectToken(props) {
         props.onChangeTypeHead(props.direction, symbol);
         closeModal();
     };
+    const sliderBg = useColorModeValue("#fff", "#181144")
     const options = props.symbols;
     return (
         <Box>
@@ -88,7 +90,7 @@ function SelectToken(props) {
 
             <Modal isOpen={isModalOpen} onClose={closeModal}>
                 <ModalOverlay />
-                <ModalContent>
+                <ModalContent  bg={sliderBg}>
                     <ModalHeader>Exchange</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>

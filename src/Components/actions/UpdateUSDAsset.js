@@ -86,7 +86,7 @@ const UpdateUSDAsset = (props) => {
 
     let modalClose = () => setShow(false);
     const allbtnBg = useColorModeValue("#30106b", "#7500FF")
-    
+    const sliderBg = useColorModeValue("#fff", "#181144")
     return (
         <>
             <Button flexGrow="1" minWidth={{ base: '100%', md: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }} onClick={() => setShow(true)}>
@@ -95,7 +95,7 @@ const UpdateUSDAsset = (props) => {
 
             <Modal isOpen={show} onClose={modalClose}>
                 <ModalOverlay />
-                <ModalContent>
+                <ModalContent bg={sliderBg} >
                     <ModalHeader>
                         Update USD asset
                     </ModalHeader>

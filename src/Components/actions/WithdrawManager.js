@@ -78,7 +78,7 @@ function WithdrawManager(props) {
     onClose(); // Close the modal when the action is complete
   };
   const allbtnBg = useColorModeValue("#30106b", "#7500FF")
-
+  const sliderBg = useColorModeValue("#fff", "#181144")
   return (
     <>
       <Button   flexGrow="1" minWidth={{ base: '100%', md: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }} onClick={onOpen}>
@@ -87,7 +87,7 @@ function WithdrawManager(props) {
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bg={sliderBg}>
           <ModalHeader>Take cut from smart fund</ModalHeader>
           <ModalCloseButton />
           <ModalBody>

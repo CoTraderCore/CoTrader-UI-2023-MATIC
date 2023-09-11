@@ -3,8 +3,6 @@ import isMobile from './utils/isMobile'
 import { fromWei, toNumber } from 'web3-utils'
 import BigNumber from 'bignumber.js'
 
-
-
 class MOBXStorage {
   web3 = null
   account = null
@@ -189,19 +187,6 @@ class MOBXStorage {
   }
 }
 
-
-// decorate(MOBXStorage, {
-//     SmartFunds: observable,
-//     SmartFundsOriginal: observable,
-//     FilterInfo: observable,
-//     FilterActive:observable,
-//     initSFList: action,
-//     initWeb3AndAccounts:action,
-//     paginationChange: action,
-//     myInvestments:action,
-//     myFunds: action,
-//     updateSmartFundsList:action
-// })
 
 const MobXStorage = new MOBXStorage()
 

@@ -11,7 +11,7 @@ import SmartFundListWithoutWeb3 from './Pages/ViewFundWithoutWeb3';
 import MainLayout from './Layouts/MainLayout';
 import ViewFundWithoutWeb3 from './Pages/FundInfoWithoutWeb3/Index';
 import SmartFundList from './Pages/SmartFundList/Index';
-import MobXStorage from './MobXStorage';
+// import MobXStorage from './MobXStorage';
 import ViewFundTx from './Pages/ViewFundTx';
 import ViewUserTx from './Pages/ViewUserTx'
 import ViewFund from './Pages/ViewFund';
@@ -28,6 +28,7 @@ function App(props) {
   const [timeOut, setTimeOut] = useState(false);
   const [isDataLoad, setIsDataLoad] = useState(false);
 
+  
   let isMounted = false
   useEffect(() => {
     isMounted = true
@@ -43,19 +44,23 @@ function App(props) {
       });
     }
 
-    if (window.ethereum) {
-      window.ethereum.on('accountsChanged', () => window.location.reload());
+    if (window.ethereum){
+    window.ethereum.on('accountsChanged', () => window.location.reload())
     }
+
     initWeb3();
     initData();
-  
-
     return () => {
       //component unmount
-      isMounted = false
+      // isMounted = false
     };
 
-  },[]);
+  },[props.MobXStorage,timeOut,web3]);
+
+
+  useEffect(() => {
+    checkWeb3OffRedirect()
+  }, [timeOut,web3]);
 
 
   const initializeReactGA = () => {
@@ -67,7 +72,7 @@ function App(props) {
   const initWeb3 = async () => {
     try {
       const web3Instance = await getWeb3();
-      const userAccounts = await web3Instance.eth.getAccounts();
+      const userAccounts = await web3Instance.eth.getAccounts(); 
 
       setWeb3(web3Instance);
       setAccounts(userAccounts);
@@ -78,10 +83,10 @@ function App(props) {
   };
 
   const initData = async () => {
-    if (isMounted && MobXStorage.SmartFundsOriginal.length === 0) {
+    if (isMounted && props.MobXStorage?.SmartFundsOriginal.length === 0) {
       try {
         const smartFunds = await getFundsList();
-        MobXStorage.initSFList(smartFunds);
+        props.MobXStorage?.initSFList(smartFunds);
         console.log("SmartFundRegistryADDRESS: ", SmartFundRegistryADDRESS, "!___version 28/04/21___!");
         setIsDataLoad(true);
       } catch (error) {
@@ -89,29 +94,15 @@ function App(props) {
       }
     }
   };
-
  
-  const checkWeb3OffRedirect = () => {
-    // Redirect to web3off version if the client has no web3
-    if (timeOut && !web3) {
-      // If the current location is web3off, how-to-start no need to redirect to web3 off
-      const redirectOff = ['web3off', 'how-to-start', 'user-txs', 'fund-txs', 'user'];
-      const currentPath = window.location.pathname;
-  
-      if (!redirectOff.some(el => currentPath.includes(el))) {
-        // Construct the new path with 'web3off' and replace the current URL
-        const newPath = currentPath.replace('/', '/web3off/');
-        const newURL = window.location.origin + newPath;
-        window.location.replace(newURL);
-      }
-    }
-  };  
-
-
-  
-  useEffect(()=>{
-    checkWeb3OffRedirect()
-  },[!props.MobXStorage?.web3])
+  const checkWeb3OffRedirect=()=>{
+    // Replace the path when the page is loaded for the first time
+    const currentPath = window.location.pathname;
+    if (currentPath === '/' && !web3) {
+      const newPath = '/web3off/'; 
+      const newURL = window.location.origin + newPath;
+      window.history.replaceState({}, document.title, newURL);  
+ }}
 
 
   const router = createBrowserRouter([

@@ -9,7 +9,7 @@ function FilterSearch() {
 
 
   const btnRef = React.useRef(null)
-  const modalBg=useColorModeValue("white","#181144")
+  const sliderBg = useColorModeValue("#fff", "#181144")
   const allbtnBg = useColorModeValue("#30106b", "#7500FF")
   return (
     <React.Fragment>
@@ -23,7 +23,7 @@ function FilterSearch() {
    
     >
       <ModalOverlay />
-      <ModalContent style={{background:modalBg}}>
+      <ModalContent bg={sliderBg}>
         <ModalHeader textTransform={"capitalize"}>Filter and search smart funds</ModalHeader>
         <ModalCloseButton/>
         <ModalBody >

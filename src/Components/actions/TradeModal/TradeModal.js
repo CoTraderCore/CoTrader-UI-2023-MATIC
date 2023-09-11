@@ -63,6 +63,7 @@ function TradeModal(props) {
   };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const sliderBg = useColorModeValue("#fff", "#181144")
   const allbtnBg = useColorModeValue("#30106b", "#7500FF")
   return (
     <>
@@ -72,7 +73,7 @@ function TradeModal(props) {
 
       <Modal isOpen={isOpen} onClose={onClose} size={{base:"lg",md:"2xl"}}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bg={sliderBg}>
           <ModalHeader>Exchange</ModalHeader>
           <ModalCloseButton />
           <ModalBody>

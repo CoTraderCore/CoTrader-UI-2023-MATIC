@@ -79,6 +79,7 @@ const WhiteList = (props) => {
 
     const modalClose = () => setShow(false);
     const allbtnBg = useColorModeValue("#30106b", "#7500FF")
+    const sliderBg = useColorModeValue("#fff", "#181144")
     return (
         <>
             <Tooltip label="This function allows the fund manager to add a user to the white list or remove them.">
@@ -88,7 +89,7 @@ const WhiteList = (props) => {
             </Tooltip>
             <Modal isOpen={show} onClose={modalClose} isCentered>
                 <ModalOverlay />
-                <ModalContent>
+                <ModalContent bg={sliderBg}>
                     <ModalHeader>
                         White list
                     </ModalHeader>
