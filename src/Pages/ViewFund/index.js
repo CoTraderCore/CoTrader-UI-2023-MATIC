@@ -193,9 +193,7 @@ function ViewFund(props) {
                 accounts={props.accounts}
                 smartFundAddress={smartFundAddress}
             />
-            {
-                props.web3 && isDataLoad ?
-                    (
+           
                         <React.Fragment>
 
                             <Box>
@@ -466,9 +464,7 @@ function ViewFund(props) {
                                 </Box>
                                 <Box pt={5}>
                                     <Heading fontSize={{ base: "xl", md: "2xl" }} sx={{ textAlign: "center", textTransform: "uppercase", color: { headingColor }, padding: "10px 0px" }}>Manager actions</Heading>
-                                    {
-                                        props.accounts === owner ?
-                                            (
+                                 
                                                 <Box sx={{ display: "flex", justifyContent: "center" }}>
                                                     <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
                                                         <TradeModal
@@ -507,40 +503,9 @@ function ViewFund(props) {
 
                                                     </Box>
                                                 </Box>
-                                            ) :
-                                            (
-                                                <Box sx={{ display: "flex", justifyContent: "center" }}>
-                                                    <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
-                                                        <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
-                                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
-                                                                Exchange
-                                                            </Button>
-                                                        </Tooltip>
-                                                        <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
-                                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
-                                                                Take Cut
-                                                            </Button>
-                                                        </Tooltip>
-                                                        <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
-                                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
-                                                                White List
-                                                            </Button>
-                                                        </Tooltip>
-                                                        {
-                                                            mainAsset === "USD" ?
-                                                                (
-                                                                    <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
-                                                                        <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
-                                                                            Stable Tokens
-                                                                        </Button>
-                                                                    </Tooltip>
-                                                                ) : null
-                                                        }
-                                                    </Box>
-                                                </Box>
-                                            )
-                                    }
-
+                                           
+                                            
+                                   
                                 </Box>
                                 <Box>
                                     <Card mt={5}>
@@ -558,11 +523,7 @@ function ViewFund(props) {
                                 <Footer />
                             </Box>
                         </React.Fragment>
-                    ) :
-                    (
-                        <Loading />
-                    )
-            }
+               
 
 
 

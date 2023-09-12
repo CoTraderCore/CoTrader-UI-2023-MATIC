@@ -280,12 +280,7 @@ function ViewFundWithoutWeb3() {
                                                     }
                                                 }
                                             />
-                                            {/*
-                                    NeworkID === 2 ?
-                                        (
-                                              <PieCard fundData={fundData} version={fundData.version} address={address} />
-                                        ) : null
-                                        */ }
+                                         
 
                                         </Box>
                                     </Card>
@@ -298,11 +293,6 @@ function ViewFundWithoutWeb3() {
                                         <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
                                             <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
                                                 Exchange
-                                            </Button>
-                                        </Tooltip>
-                                        <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
-                                                Pool
                                             </Button>
                                         </Tooltip>
                                         <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>

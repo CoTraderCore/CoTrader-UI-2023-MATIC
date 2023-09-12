@@ -51,7 +51,7 @@ function App(props) {
     initData();
     fetchData()
 
-    checkWeb3OffRedirect()
+    // checkWeb3OffRedirect()
     return () => {
       //component unmount
       isMounted = false
@@ -101,15 +101,15 @@ function App(props) {
     }
   };
 
-  const checkWeb3OffRedirect = () => {
-    // Replace the path when the page is loaded for the first time
-    const currentPath = window.location.pathname;
-    if (currentPath === '/' && !web3) {
-      const newPath = '/web3off/';
-      const newURL = window.location.origin + newPath;
-      window.history.replaceState({}, document.title, newURL);
-    }
-  }
+  // const checkWeb3OffRedirect = () => {
+  //   // Replace the path when the page is loaded for the first time
+  //   const currentPath = window.location.pathname;
+  //   if (currentPath === '/' && !web3) {
+  //     const newPath = '/web3off/';
+  //     const newURL = window.location.origin + newPath;
+  //     window.history.replaceState({}, document.title, newURL);
+  //   }
+  // }
 
 
   const router = createBrowserRouter([
