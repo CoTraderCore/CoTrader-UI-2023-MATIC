@@ -1,11 +1,22 @@
-// For fully-onchain based funds
+import React, { Component } from 'react';
+import { APIEnpoint, SmartFundABIV7, ERC20ABI } from '../../../config.js';
+import {
+    Button,
+    FormControl,
+    Alert,
+    FormLabel,
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    NumberIncrementStepper,
+    NumberDecrementStepper,
+    AlertIcon,
+    AlertDescription,
+} from '@chakra-ui/react';
+import setPending from '../../../utils/setPending.js';
+import { toWeiByDecimalsInput, fromWeiByDecimalsInput } from '../../../utils/weiByDecimals';
+import axios from 'axios';
 
-import React, { Component } from 'react'
-import { APIEnpoint, SmartFundABIV7, ERC20ABI } from '../../../config.js'
-import { Button, FormControl, Alert, FormLabel, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, AlertIcon, AlertDescription } from '@chakra-ui/react'
-import setPending from '../../../utils/setPending.js'
-import { toWeiByDecimalsInput, fromWeiByDecimalsInput } from '../../../utils/weiByDecimals'
-import axios from 'axios'
 
 class DepositERC20 extends Component {
     constructor(props, context) {
@@ -13,35 +24,38 @@ class DepositERC20 extends Component {
 
         this.state = {
             DepositValue: 0,
-            ValueError: "",
+            ValueError: '',
             ercAssetAddress: null,
             ercAssetContract: null,
             userWalletBalance: '0',
-            isApproved: true,
-            aprovePending: false,
+            isApproved: false,
+            approvePending: false,
             symbol: '...',
-            tokenBalance: 0
-        }
+            tokenBalance: 0,
+        };
     }
 
     componentDidMount = async () => {
         try {
             if (this.props.web3 && this.props.accounts && this.props.accounts[0]) {
-                const fund = new this.props.web3.eth.Contract(SmartFundABIV7, this.props.address)
-                const ercAssetAddress = await fund.methods.coreFundAsset().call()
-                const ercAssetContract = new this.props.web3.eth.Contract(ERC20ABI, ercAssetAddress)
-                const symbol = await ercAssetContract.methods.symbol().call()
-                const decimals = await ercAssetContract.methods.decimals().call()
-                const tokenBalanceInWei = await ercAssetContract.methods.balanceOf(this.props.accounts[0]).call()
-                const tokenBalance = fromWeiByDecimalsInput(decimals, tokenBalanceInWei)
+                const fund = new this.props.web3.eth.Contract(SmartFundABIV7, this.props.address);
+                const ercAssetAddress = await fund.methods.coreFundAsset().call();
+                const ercAssetContract = new this.props.web3.eth.Contract(ERC20ABI, ercAssetAddress);
+                const symbol = await ercAssetContract.methods.symbol().call();
+                const decimals = await ercAssetContract.methods.decimals().call();
+                const tokenBalanceInWei = await ercAssetContract.methods.balanceOf(this.props.accounts[0]).call();
+                const tokenBalance = fromWeiByDecimalsInput(decimals, tokenBalanceInWei);
 
                 this.setState({
                     ercAssetAddress,
                     ercAssetContract,
                     symbol,
                     tokenBalanceInWei,
-                    tokenBalance
-                })
+                    tokenBalance,
+                });
+
+                // Check if the smart contract is approved on component mount
+                await this.updateAllowance();
             } else {
                 console.error("Web3 or accounts are not defined.");
             }
@@ -52,64 +66,63 @@ class DepositERC20 extends Component {
 
     componentDidUpdate = async (prevProps, prevState) => {
         if (prevState.DepositValue !== this.state.DepositValue) {
-            await this.updateAllowance()
+            await this.updateAllowance();
         }
     }
 
     checkAllowanceInterval() {
         let timerId = setInterval(async () => {
-            const isApproved = await this.updateAllowance()
-            console.log("isApproved", isApproved)
+            const isApproved = await this.updateAllowance();
+            console.log("isApproved", isApproved);
             if (isApproved) {
-                clearInterval(timerId)
-                this.setState({ aprovePending: false })
+                clearInterval(timerId);
+                this.setState({ approvePending: false });
             }
-        }, 3000)
+        }, 3000);
     }
 
     validation = async () => {
         try {
-          if (this.state.DepositValue <= 0) {
-            this.setState({ ValueError: "Value can't be 0 or less" });
-            return;
-          }
-          const ercAssetDecimals = await this.state.ercAssetContract.methods.decimals().call();
-          const userWalletBalance = await this.state.ercAssetContract.methods.balanceOf(
-            this.props.accounts[0]
-          ).call();
-          const userBalanceFromWei = fromWeiByDecimalsInput(ercAssetDecimals, userWalletBalance);
-      
-          if (this.state.DepositValue > userBalanceFromWei) {
-            this.setState({ ValueError: `Not enough ${this.state.symbol}` });
-            return;
-          }
-      
-          this.depositERC20();
+            if (this.state.DepositValue <= 0) {
+                this.setState({ ValueError: "Value can't be 0.01 or less" });
+                return;
+            }
+            const ercAssetDecimals = await this.state.ercAssetContract.methods.decimals().call();
+            const userWalletBalance = await this.state.ercAssetContract.methods.balanceOf(
+                this.props.accounts[0]
+            ).call();
+            const userBalanceFromWei = fromWeiByDecimalsInput(ercAssetDecimals, userWalletBalance);
+
+            if (this.state.DepositValue > userBalanceFromWei) {
+                this.setState({ ValueError: `Not enough ${this.state.symbol}` });
+                return;
+            }
+
+            this.depositERC20();
         } catch (error) {
-          console.error("Error", error);
+            console.error("Error", error);
         }
-      }
-      
+    }
 
     updateAllowance = async () => {
         try {
             const allowance = await this.state.ercAssetContract.methods.allowance(
                 this.props.accounts[0],
                 this.props.address
-            ).call()
+            ).call();
 
             const allowanceFromWei = fromWeiByDecimalsInput(
                 await this.state.ercAssetContract.methods.decimals().call(),
                 allowance
-            )
+            );
 
-            const isApproved = Number(allowanceFromWei) > Number(this.state.DepositValue)
+            const isApproved = Number(allowanceFromWei) >= Number(this.state.DepositValue);
 
             this.setState({
                 isApproved
-            })
+            });
 
-            return isApproved
+            return isApproved;
         } catch (error) {
             console.log("error", error);
             return false;
@@ -119,10 +132,10 @@ class DepositERC20 extends Component {
     unlockERC20 = async () => {
         try {
             // get cur tx count
-            let txCount = await axios.get(APIEnpoint + 'api/user-pending-count/' + this.props.accounts[0])
-            txCount = txCount.data.result
+            let txCount = await axios.get(APIEnpoint + 'api/user-pending-count/' + this.props.accounts[0]);
+            txCount = txCount.data.result;
 
-            let block = await this.props.web3.eth.getBlockNumber()
+            let block = await this.props.web3.eth.getBlockNumber();
 
             // Approve max ERC to smart fund
             this.state.ercAssetContract.methods.approve(
@@ -131,59 +144,59 @@ class DepositERC20 extends Component {
             )
                 .send({ from: this.props.accounts[0] })
                 .on('transactionHash', (hash) => {
-                    // pending status for spiner
-                    this.props.pending(true, txCount + 1)
+                    // pending status for spinner
+                    this.props.pending(true, txCount + 1);
                     // pending status for DB
-                    setPending(this.props.address, 1, this.props.accounts[0], block, hash, "Deposit")
+                    setPending(this.props.address, 1, this.props.accounts[0], block, hash, "Deposit");
                     // run interval
-                    this.checkAllowanceInterval()
+                    this.checkAllowanceInterval();
                     // show pending
-                    this.setState({ aprovePending: true })
-                })
+                    this.setState({ approvePending: true });
+                });
         }
         catch (e) {
-            alert("Can not verify transaction data, please try again in a minute")
-            console.log("err: ", e)
+            alert("Can not verify transaction data, please try again in a minute");
+            console.log("err: ", e);
         }
     }
-
 
     depositERC20 = async () => {
         try {
             // convert input to wei by decimals
-            const ercAssetDecimals = await this.state.ercAssetContract.methods.decimals().call()
-            const amount = toWeiByDecimalsInput(ercAssetDecimals, this.state.DepositValue)
+            const ercAssetDecimals = await this.state.ercAssetContract.methods.decimals().call();
+            const amount = toWeiByDecimalsInput(ercAssetDecimals, this.state.DepositValue);
 
             // get fund contract
-            const fundERC20 = new this.props.web3.eth.Contract(SmartFundABIV7, this.props.address)
+            const fundERC20 = new this.props.web3.eth.Contract(SmartFundABIV7, this.props.address);
 
             // get cur tx count
-            let txCount = await axios.get(APIEnpoint + 'api/user-pending-count/' + this.props.accounts[0])
-            txCount = txCount.data.result
+            let txCount = await axios.get(APIEnpoint + 'api/user-pending-count/' + this.props.accounts[0]);
+            txCount = txCount.data.result;
 
-            let block = await this.props.web3.eth.getBlockNumber()
+            let block = await this.props.web3.eth.getBlockNumber();
 
-            this.props.modalClose()
+            this.props.modalClose();
 
             // Deposit ERC20
             fundERC20.methods.deposit(amount)
                 .send({ from: this.props.accounts[0] })
                 .on('transactionHash', (hash) => {
-                    // pending status for spiner
-                    this.props.pending(true, txCount + 1)
+                    // pending status for spinner
+                    this.props.pending(true, txCount + 1);
                     // pending status for DB
-                    setPending(this.props.address, 1, this.props.accounts[0], block, hash, "Deposit")
-                })
+                    setPending(this.props.address, 1, this.props.accounts[0], block, hash, "Deposit");
+                });
         }
         catch (e) {
-            alert("Can not verify transaction data, please try again in a minute")
-            console.log("err: ", e)
+            alert("Can not verify transaction data, please try again in a minute");
+            console.log("err: ", e);
         }
     }
 
     modalClose = () => this.setState({ Show: false, Agree: false });
 
     render() {
+        
         return (
             <>
                 <FormControl>
@@ -198,8 +211,11 @@ class DepositERC20 extends Component {
                             (balance:{this.state.tokenBalance})
                         </p>
                     </FormLabel>
-                    <NumberInput  defaultValue={this.state.DepositValue}  min={0} >
-                        <NumberInputField placeholder='Amount'  onChange={e => this.setState({ DepositValue: e.target.defaultValue })} />
+                    <NumberInput defaultValue={this.state.DepositValue} min={0}>
+                        <NumberInputField
+                            placeholder='Amount'
+                            onChange={e => this.setState({ DepositValue: e.target.value })}
+                        />
                         <NumberInputStepper>
                             <NumberIncrementStepper />
                             <NumberDecrementStepper />
@@ -207,24 +223,22 @@ class DepositERC20 extends Component {
                     </NumberInput>
                     {
                         this.state.ValueError !== ""
-                            ?
-                            (
+                            ? (
                                 <Alert status='error'>
                                     <AlertIcon />
                                     <AlertDescription>{this.state.ValueError}</AlertDescription>
                                 </Alert>
                             )
-                            :
-                            (null)
+                            : null
                     }
                 </FormControl>
 
                 {
                     !this.state.isApproved
-                        ?
-                        (
+                        ? (
                             <>
                                 <Button
+                                    mt={2}
                                     colorScheme='red'
                                     onClick={() => this.unlockERC20()}
                                 >
@@ -233,18 +247,15 @@ class DepositERC20 extends Component {
                                 <br />
                                 <br />
                                 {
-                                    this.state.aprovePending
-                                        ?
-                                        (
+                                    this.state.approvePending
+                                        ? (
                                             <small>Please wait for the transaction to be confirmed ...</small>
                                         )
-                                        :
-                                        null
+                                        : null
                                 }
                             </>
                         )
-                        :
-                        (
+                        : (
                             <Button
                                 mt={2}
                                 colorScheme="green"
@@ -255,10 +266,9 @@ class DepositERC20 extends Component {
                             </Button>
                         )
                 }
-
             </>
-        )
+        );
     }
 }
 
-export default DepositERC20
+export default DepositERC20;

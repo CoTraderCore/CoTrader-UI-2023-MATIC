@@ -3,7 +3,7 @@ import { SmartFundABIV7 } from '../../config.js';
 import { fromWei } from 'web3-utils'
 import { useDisclosure, Button, ListItem, ModalCloseButton, ModalContent, ModalOverlay, OrderedList, ModalBody, ModalHeader, Modal, Box, useColorModeValue, Tooltip } from '@chakra-ui/react';
 import Loading from '../template/spiners/Loading.js';
-
+import Web3 from 'web3';
 function UserHoldings(props) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [calculateAddressValue, setCalculateAddressValue] = useState(null);
@@ -27,7 +27,7 @@ function UserHoldings(props) {
                 setIsLoad(true);
             }
         }catch(e){
-            console.log("error",e);
+            console.log("error");
         }
 
         };
@@ -51,17 +51,15 @@ function UserHoldings(props) {
                     </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        {isLoad ? (
+                       
                             <React.Fragment>
                                 <OrderedList>
-                                    <ListItem>My deposit in BNB value: {fromWei(calculateAddressValue)}</ListItem>
-                                    <ListItem>My profit : {fromWei(calculateAddressProfit)}</ListItem>
-                                    <ListItem>My holding in fund value: {fromWei(percentOfFundValue)}</ListItem>
+                                    <ListItem>My deposit in BNB value: {calculateAddressValue}</ListItem>
+                                    <ListItem>My profit : {calculateAddressProfit}</ListItem>
+                                    <ListItem>My holding in fund value: {percentOfFundValue}</ListItem>
                                 </OrderedList>
                             </React.Fragment>
-                        ) : (
-                            <Loading />
-                        )}
+                       
                     </ModalBody>
                 </ModalContent>
             </Modal>
