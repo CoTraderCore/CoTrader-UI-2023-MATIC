@@ -14,6 +14,7 @@ class DepositERC20 extends Component {
         this.state = {
             DepositValue: 0,
             ValueError: "",
+            ercAssetAddress: null,
             ercAssetContract: null,
             userWalletBalance: '0',
             isApproved: true,
@@ -24,24 +25,28 @@ class DepositERC20 extends Component {
     }
 
     componentDidMount = async () => {
-        if (this.props.web3 && this.props.accounts && this.props.accounts[0]) {
-            const fund = new this.props.web3.eth.Contract(SmartFundABIV7, this.props.address)
-            const ercAssetAddress = await fund.methods.coreFundAsset().call()
-            const ercAssetContract = new this.props.web3.eth.Contract(ERC20ABI, ercAssetAddress)
-            const symbol = await ercAssetContract.methods.symbol().call()
-            const decimals = await ercAssetContract.methods.decimals().call()
-            const tokenBalanceInWei = await ercAssetContract.methods.balanceOf(this.props.accounts[0]).call()
-            const tokenBalance = fromWeiByDecimalsInput(decimals, tokenBalanceInWei)
-            
-            this.setState({
-                ercAssetAddress,
-                ercAssetContract,
-                symbol,
-                tokenBalanceInWei,
-                tokenBalance
-            })
-        } else {
-            console.error("Web3 or accounts are not defined.");
+        try {
+            if (this.props.web3 && this.props.accounts && this.props.accounts[0]) {
+                const fund = new this.props.web3.eth.Contract(SmartFundABIV7, this.props.address)
+                const ercAssetAddress = await fund.methods.coreFundAsset().call()
+                const ercAssetContract = new this.props.web3.eth.Contract(ERC20ABI, ercAssetAddress)
+                const symbol = await ercAssetContract.methods.symbol().call()
+                const decimals = await ercAssetContract.methods.decimals().call()
+                const tokenBalanceInWei = await ercAssetContract.methods.balanceOf(this.props.accounts[0]).call()
+                const tokenBalance = fromWeiByDecimalsInput(decimals, tokenBalanceInWei)
+
+                this.setState({
+                    ercAssetAddress,
+                    ercAssetContract,
+                    symbol,
+                    tokenBalanceInWei,
+                    tokenBalance
+                })
+            } else {
+                console.error("Web3 or accounts are not defined.");
+            }
+        } catch (error) {
+            console.log("Error", error);
         }
     }
 
@@ -63,43 +68,52 @@ class DepositERC20 extends Component {
     }
 
     validation = async () => {
-        if (this.state.DepositValue <= 0) {
-            this.setState({ ValueError: "Value can't be 0 or less" })
-            return
-        }
-
-        const ercAssetDecimals = await this.state.ercAssetContract.methods.decimals().call()
-        const userWalletBalance = await this.state.ercAssetContract.methods.balanceOf(
+        try {
+          if (this.state.DepositValue <= 0) {
+            this.setState({ ValueError: "Value can't be 0 or less" });
+            return;
+          }
+          const ercAssetDecimals = await this.state.ercAssetContract.methods.decimals().call();
+          const userWalletBalance = await this.state.ercAssetContract.methods.balanceOf(
             this.props.accounts[0]
-        ).call()
-        const userBalanceFromWei = fromWeiByDecimalsInput(ercAssetDecimals, userWalletBalance)
-
-        if (this.state.DepositValue > userBalanceFromWei) {
-            this.setState({ ValueError: `Not enough ${this.state.symbol}` })
-            return
+          ).call();
+          const userBalanceFromWei = fromWeiByDecimalsInput(ercAssetDecimals, userWalletBalance);
+      
+          if (this.state.DepositValue > userBalanceFromWei) {
+            this.setState({ ValueError: `Not enough ${this.state.symbol}` });
+            return;
+          }
+      
+          this.depositERC20();
+        } catch (error) {
+          console.error("Error", error);
         }
-
-        this.depositERC20()
-    }
+      }
+      
 
     updateAllowance = async () => {
-        const allowance = await this.state.ercAssetContract.methods.allowance(
-            this.props.accounts[0],
-            this.props.address
-        ).call()
+        try {
+            const allowance = await this.state.ercAssetContract.methods.allowance(
+                this.props.accounts[0],
+                this.props.address
+            ).call()
 
-        const allowanceFromWei = fromWeiByDecimalsInput(
-            await this.state.ercAssetContract.methods.decimals().call(),
-            allowance
-        )
+            const allowanceFromWei = fromWeiByDecimalsInput(
+                await this.state.ercAssetContract.methods.decimals().call(),
+                allowance
+            )
 
-        const isApproved = Number(allowanceFromWei) > Number(this.state.DepositValue)
+            const isApproved = Number(allowanceFromWei) > Number(this.state.DepositValue)
 
-        this.setState({
-            isApproved
-        })
+            this.setState({
+                isApproved
+            })
 
-        return isApproved
+            return isApproved
+        } catch (error) {
+            console.log("error", error);
+            return false;
+        }
     }
 
     unlockERC20 = async () => {
@@ -184,8 +198,8 @@ class DepositERC20 extends Component {
                             (balance:{this.state.tokenBalance})
                         </p>
                     </FormLabel>
-                    <NumberInput defaultValue={this.state.DepositValue} min={0} >
-                        <NumberInputField onChange={e => this.setState({ DepositValue: e.target.defaultValue })} />
+                    <NumberInput  defaultValue={this.state.DepositValue}  min={0} >
+                        <NumberInputField placeholder='Amount'  onChange={e => this.setState({ DepositValue: e.target.defaultValue })} />
                         <NumberInputStepper>
                             <NumberIncrementStepper />
                             <NumberDecrementStepper />

@@ -23,7 +23,7 @@ function HorizontalTabs({ data,pending }) {
             <TabPanels>
                 {data.map((tab) => {
                     return <TabPanel p={1} key={tab.id}>
-                        {<tab.content data={tab} pending={pending} />}
+                        {<tab.content data={tab} pending={pending}  />}
                     </TabPanel>
                 })}
             </TabPanels>

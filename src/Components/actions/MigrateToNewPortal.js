@@ -12,14 +12,19 @@ import { Alert, AlertIcon, Box, Button } from '@chakra-ui/react'
 
 
 async function verifyConnector(tokenTo, web3) {
+  try{
   const pricePortal = new web3.eth.Contract(PricePortalPancakeABI, PricePortalPancake)
   const connector = await pricePortal.methods.findConnector(tokenTo).call()
   return connector
+  }catch(e){
+    console.log("eth error",e);
+  }
 }
 
 async function verifyСompatibility(web3, accounts, smartFundAddress, closeModal, setIssueAddresses) {
   const zerroAddress = "0x0000000000000000000000000000000000000000"
   const ethAddress = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
+ try{
   const fund = new web3.eth.Contract(SmartFundABIV7, smartFundAddress)
   const tokens = await fund.methods.getAllTokenAddresses().call()
 
@@ -42,6 +47,9 @@ async function verifyСompatibility(web3, accounts, smartFundAddress, closeModal
   } else {
     setIssueAddresses(issueAddresses)
   }
+}catch(e){
+  console.log(e);
+}
 }
 // provide to fund latest version of trade portal
 function updateTradePortal(web3, accounts, smartFundAddress, closeModal) {

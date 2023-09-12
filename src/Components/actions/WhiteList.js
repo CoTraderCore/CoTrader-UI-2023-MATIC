@@ -19,6 +19,7 @@ import {
     useColorModeValue
 } from '@chakra-ui/react'
 import UserInfo from "../template/UserInfo";
+import { errors } from "web3";
 
 const WhiteList = (props) => {
     const [show, setShow] = useState(false);
@@ -28,52 +29,58 @@ const WhiteList = (props) => {
     const [userWhiteListAddress, setUserWhiteListAddress] = useState('');
     const [userStatus, setUserStatus] = useState(true);
 
-
     useEffect(() => {
         let isMounted = true;
 
-        async function fetchData() {
-            const contract = new props.web3.eth.Contract(SmartFundABIV7, props.smartFundAddress);
-            const status = await contract.methods.onlyWhitelist().call();
-
-            if (isMounted) {
-                setWhiteListStatus(status);
-                setContract(contract);
-                setIsDataLoading(true);
+        const fetchData = async () => {
+            try {
+                const contractInstance = new props.web3.eth.Contract(SmartFundABIV7, props.smartFundAddress);
+                const status = await contractInstance.methods.onlyWhitelist().call();
+                if (isMounted) {
+                    setWhiteListStatus(status);
+                    setContract(contractInstance);
+                    setIsDataLoading(true);
+                }
+            } catch (error) {
+                console.log(error);
             }
-        }
+        };
 
         fetchData();
 
         return () => {
             isMounted = false;
         };
-    }, [props.web3, props.smartFundAddress]);
+    }, [props.smartFundAddress, props.web3]);
 
-    const change = (e) => {
+    const change = e => {
         const { name, value } = e.target;
-        if (name === 'UserStatus') {
-            setUserStatus(value === 'true');
+        if (name === "UserStatus") {
+            setUserStatus(value === "true");
         } else {
             setUserWhiteListAddress(value);
         }
     };
 
-    const setWhitelistOnly = (_bool) => {
-        if (contract) { 
-            contract.methods.setWhitelistOnly(_bool).send({ from: props.accounts[0] });
+    const setWhitelistOnly = async (_bool) => {
+        try {
+            await contract.methods.setWhitelistOnly(_bool).send({ from: props.accounts[0] });
             setShow(false);
+        } catch (error) {
+            console.log(error);
         }
     };
 
-    const addToWhitelistOnly = (_bool) => {
+    const addToWhitelistOnly = async () => {
         if (props.web3.utils.isAddress(userWhiteListAddress)) {
-            contract.methods
-                .setWhitelistAddress(userWhiteListAddress, userStatus)
-                .send({ from: props.accounts[0] });
-            setShow(false);
+            try {
+                await contract.methods.setWhitelistAddress(userWhiteListAddress, userStatus).send({ from: props.accounts[0] });
+                setShow(false);
+            } catch (error) {
+                console.log(error);
+            }
         } else {
-            alert('Not correct address');
+            console.log('Not a correct address');
         }
     };
 
@@ -96,58 +103,58 @@ const WhiteList = (props) => {
                     <ModalCloseButton />
 
                     <ModalBody>
-                       {
-                        whiteListStatus && isDataLoading ?
-                        (
-                            <FormControl>
-                                <InputGroup display="flex" flexDirection="column">
-                                    <FormLabel>User :</FormLabel>
-                                  
-                                    <Input
-                                        type="text"
-                                        placeholder="ETH address"
-                                        name="UserWhiteListAddress"
-                                        value={userWhiteListAddress}
-                                        onChange={(e) => change(e)}
-                                    />
-                                </InputGroup>
-                                <br/>
-                                <Box>
-                                    <FormLabel display="flex">
-                                        Add to white list <UserInfo info="if true, the address will be added to the whitelist users who can do deposits; if false, the address will be removed" /> :
-                                    </FormLabel>
-                                
-                                    <Select name="UserStatus" value={userStatus} onChange={(e) => change(e)}>
-                                        <option value="true">True</option>
-                                        <option value="false">False</option>
-                                    </Select>
-                                </Box>
-                                <Button mt={2} colorScheme="green" onClick={() => addToWhitelistOnly()}>
-                                    Send
-                                </Button>
-                                <br />
-                                <br />
-                                <InputGroup>
-                                    <Checkbox
-                                        colorScheme='green'
-                                        onChange={() => setWhitelistOnly(false)}
-                                    >
-                                        Turn off the white list
-                                    </Checkbox>
-                                </InputGroup>
-                            </FormControl>
-    ):(
-                            <FormControl>
-                                <InputGroup>
-                                    <Checkbox
-                                        colorScheme='red'
-                                        onChange={() => setWhitelistOnly(true)}
-                                    >
-                                        Turn on the white list
-                                    </Checkbox>
-                                </InputGroup>
-                            </FormControl>
-    )}
+                        {
+                            whiteListStatus && isDataLoading ?
+                                (
+                                    <FormControl>
+                                        <InputGroup display="flex" flexDirection="column">
+                                            <FormLabel>User :</FormLabel>
+
+                                            <Input
+                                                type="text"
+                                                placeholder="ETH address"
+                                                name="UserWhiteListAddress"
+                                                value={userWhiteListAddress}
+                                                onChange={(e) => change(e)}
+                                            />
+                                        </InputGroup>
+                                        <br />
+                                        <Box>
+                                            <FormLabel display="flex">
+                                                Add to white list <UserInfo info="if true, the address will be added to the whitelist users who can do deposits; if false, the address will be removed" /> :
+                                            </FormLabel>
+
+                                            <Select name="UserStatus" value={userStatus} onChange={(e) => change(e)}>
+                                                <option value="true">True</option>
+                                                <option value="false">False</option>
+                                            </Select>
+                                        </Box>
+                                        <Button mt={2} colorScheme="green" onClick={() => addToWhitelistOnly()}>
+                                            Send
+                                        </Button>
+                                        <br />
+                                        <br />
+                                        <InputGroup>
+                                            <Checkbox
+                                                colorScheme='green'
+                                                onChange={() => setWhitelistOnly(false)}
+                                            >
+                                                Turn off the white list
+                                            </Checkbox>
+                                        </InputGroup>
+                                    </FormControl>
+                                ) : (
+                                    <FormControl>
+                                        <InputGroup>
+                                            <Checkbox
+                                                colorScheme='red'
+                                                onChange={() => setWhitelistOnly(true)}
+                                            >
+                                                Turn on the white list
+                                            </Checkbox>
+                                        </InputGroup>
+                                    </FormControl>
+                                )}
                     </ModalBody>
                 </ModalContent>
             </Modal>

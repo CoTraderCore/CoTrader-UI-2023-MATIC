@@ -37,6 +37,7 @@ function TradeModal(props) {
     let isMounted = true;
 
     const initData = async () => {
+      try{
       const { exchangePortalAddress, exchangePortalVersion } = await getExchangePortalVersion(
         props.smartFundAddress
       );
@@ -45,6 +46,9 @@ function TradeModal(props) {
         setExchangePortalAddress(exchangePortalAddress);
         setExchangePortalVersion(exchangePortalVersion);
       }
+    }catch(e){
+      console.log("error",e);
+    }
     };
 
     initData();
@@ -55,11 +59,15 @@ function TradeModal(props) {
   }, [props.smartFundAddress]);
 
   const getExchangePortalVersion = async (fundAddress) => {
+    try{
     const smartFund = new props.web3.eth.Contract(SmartFundABIV7, fundAddress);
     const exchangePortalAddress = await smartFund.methods.exchangePortal().call();
     const exchangePortal = new props.web3.eth.Contract(ExchangePortalABIV6, exchangePortalAddress);
     const exchangePortalVersion = Number(await exchangePortal.methods.version().call());
     return { exchangePortalAddress, exchangePortalVersion };
+    }catch(e){
+      console.log("error",e);
+    }
   };
 
   const { isOpen, onOpen, onClose } = useDisclosure();

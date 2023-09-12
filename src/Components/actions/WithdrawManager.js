@@ -23,25 +23,23 @@ import { fromWei } from 'web3-utils';
 function WithdrawManager(props) {
   const [isConvert, setIsConvert] = useState(false);
   const [managerCut, setManagerCut] = useState(0);
-  
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     let isMounted = true;
-
     const fetchData = async () => {
-      const contract = new props.web3.eth.Contract(SmartFundABIV7, props.smartFundAddress);
-      let managerCut = 0;
-
       try {
+        const contract = new props.web3.eth.Contract(SmartFundABIV7, props.smartFundAddress);
+        let managerCut = 0;
         const { fundManagerRemainingCut } = await contract.methods.calculateFundManagerCut().call();
         managerCut = parseFloat(fromWei(String(fundManagerRemainingCut)));
+        if (isMounted) {
+          setManagerCut(managerCut);
+        }
       } catch (e) {
-        managerCut = 0;
-      }
-
-      if (isMounted) {
-        setManagerCut(managerCut);
+        // managerCut = 0;
+        console.log("error", e);
       }
     };
 
@@ -81,7 +79,7 @@ function WithdrawManager(props) {
   const sliderBg = useColorModeValue("#fff", "#181144")
   return (
     <>
-      <Button   flexGrow="1" minWidth={{ base: '100%', md: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }} onClick={onOpen}>
+      <Button flexGrow="1" minWidth={{ base: '100%', md: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }} onClick={onOpen}>
         Take cut
       </Button>
 

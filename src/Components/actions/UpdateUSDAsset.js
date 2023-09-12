@@ -36,8 +36,8 @@ const UpdateUSDAsset = (props) => {
 
     useEffect(() => {
         let isMounted = true;
-
         const initData = async () => {
+            try{
             const contract = new props.web3.eth.Contract(SmartFundABIV7, props.smartFundAddress);
             const currentTokenAddress = await contract.methods.coreFundAsset().call();
 
@@ -54,6 +54,9 @@ const UpdateUSDAsset = (props) => {
                 setFundContract(contract);
                 setTotalWeiDeposited(totalWeiDeposited);
             }
+        }catch(e){
+            console.log("error",e);
+        }
         };
 
         if (isMounted) {

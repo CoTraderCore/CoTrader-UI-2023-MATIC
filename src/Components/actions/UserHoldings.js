@@ -13,6 +13,7 @@ function UserHoldings(props) {
 
     useEffect(() => {
         const fetchData = async () => {
+            try{
             if (isOpen && props.address && !isLoad) {
                 const fund = new props.web3.eth.Contract(SmartFundABIV7, props.address);
                 const _calculateAddressValue = await fund.methods.calculateAddressValue(props.accounts[0]).call();
@@ -25,6 +26,9 @@ function UserHoldings(props) {
 
                 setIsLoad(true);
             }
+        }catch(e){
+            console.log("error",e);
+        }
 
         };
 

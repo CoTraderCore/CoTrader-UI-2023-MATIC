@@ -70,10 +70,13 @@ class TradeViaOneInch extends Component {
         const tokenTo = String(_tokenTo).toLowerCase() === "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
             ? WETH
             : _tokenTo
-
-        const pricePortal = new this.props.web3.eth.Contract(PricePortalPancakeABI, PricePortalPancake)
-        const data = await pricePortal.methods.findConnector(tokenTo).call()
-        return data[0]
+        try {
+            const pricePortal = new this.props.web3.eth.Contract(PricePortalPancakeABI, PricePortalPancake)
+            const data = await pricePortal.methods.findConnector(tokenTo).call()
+            return data[0]
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     // get tokens addresses and symbols from paraswap api
@@ -132,74 +135,81 @@ class TradeViaOneInch extends Component {
     checkFundBalance = async () => {
         let fundBalance
         let result = false
+        try {
+            if (String(this.state.sendFrom).toLowerCase() === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
+                fundBalance = await this.props.web3.eth.getBalance(this.props.smartFundAddress)
+                fundBalance = this.props.web3.utils.fromWei(fundBalance)
+            }
+            else {
+                const ERC20 = new this.props.web3.eth.Contract(ERC20ABI, this.state.sendFrom)
+                fundBalance = await ERC20.methods.balanceOf(this.props.smartFundAddress).call()
+                fundBalance = fromWeiByDecimalsInput(this.state.decimalsFrom, fundBalance)
+            }
+            if (parseFloat(fundBalance) >= parseFloat(this.state.AmountSend))
+                result = true
 
-        if (String(this.state.sendFrom).toLowerCase() === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
-            fundBalance = await this.props.web3.eth.getBalance(this.props.smartFundAddress)
-            fundBalance = this.props.web3.utils.fromWei(fundBalance)
+            return result
+        } catch (e) {
+            console.log(e);
         }
-        else {
-            const ERC20 = new this.props.web3.eth.Contract(ERC20ABI, this.state.sendFrom)
-            fundBalance = await ERC20.methods.balanceOf(this.props.smartFundAddress).call()
-            fundBalance = fromWeiByDecimalsInput(this.state.decimalsFrom, fundBalance)
-        }
-        if (parseFloat(fundBalance) >= parseFloat(this.state.AmountSend))
-            result = true
-
-        return result
     }
 
 
     // helper for update state
     change = async e => {
         // Update rate in correct direction order and set state
-        if (e.target.name === "AmountSend") {
-            this.setState({ shouldUpdatePrice: true, slippageTo: 0, slippageFrom: 0 })
-            // get data
-            const targetName = e.target.name
-            const targerValue = e.target.value
-            const { sendFrom, sendTo, decimalsFrom, decimalsTo } = this.getDirectionInfo()
-            // get rate and slippage in current order
-            const amountRecive = await this.setRate(sendFrom, sendTo, targerValue, "AmountRecive", decimalsFrom, decimalsTo)
-            const slippageFrom = await this.getSlippage(sendFrom, sendTo, targerValue, amountRecive, decimalsFrom, decimalsTo)
-            // update states
-            this.setState({
-                [targetName]: targerValue,
-                sendFrom,
-                sendTo,
-                decimalsFrom,
-                decimalsTo,
-                slippageFrom,
-                slippageTo: 0,
-                shouldUpdatePrice: false
-            })
-        }
-        // Update rate in reverse order direction and set state
-        else if (e.target.name === "AmountRecive") {
-            this.setState({ shouldUpdatePrice: true, slippageTo: 0, slippageFrom: 0 })
-            // get data
-            const targetName = e.target.name
-            const targerValue = e.target.value
-            const { sendFrom, sendTo, decimalsFrom, decimalsTo } = this.getDirectionInfo()
-            // update rate and slippage in vice versa order
-            const amountRecive = await this.setRate(sendTo, sendFrom, targerValue, "AmountSend", decimalsTo, decimalsFrom)
-            const slippageTo = await this.getSlippage(sendTo, sendFrom, targerValue, amountRecive, decimalsTo, decimalsFrom)
-            // update states
-            this.setState({
-                [targetName]: targerValue,
-                sendFrom,
-                sendTo,
-                decimalsFrom,
-                decimalsTo,
-                slippageFrom: 0,
-                slippageTo,
-                shouldUpdatePrice: false
-            })
-        }
-        // Just set state by input
-        else {
-            this.setState({
-                [e.target.name]: e.target.value
-            })
+        try {
+            if (e.target.name === "AmountSend") {
+                this.setState({ shouldUpdatePrice: true, slippageTo: 0, slippageFrom: 0 })
+                // get data
+                const targetName = e.target.name
+                const targerValue = e.target.value
+                const { sendFrom, sendTo, decimalsFrom, decimalsTo } = this.getDirectionInfo()
+                // get rate and slippage in current order
+                const amountRecive = await this.setRate(sendFrom, sendTo, targerValue, "AmountRecive", decimalsFrom, decimalsTo)
+                const slippageFrom = await this.getSlippage(sendFrom, sendTo, targerValue, amountRecive, decimalsFrom, decimalsTo)
+                // update states
+                this.setState({
+                    [targetName]: targerValue,
+                    sendFrom,
+                    sendTo,
+                    decimalsFrom,
+                    decimalsTo,
+                    slippageFrom,
+                    slippageTo: 0,
+                    shouldUpdatePrice: false
+                })
+            }
+            // Update rate in reverse order direction and set state
+            else if (e.target.name === "AmountRecive") {
+                this.setState({ shouldUpdatePrice: true, slippageTo: 0, slippageFrom: 0 })
+                // get data
+                const targetName = e.target.name
+                const targerValue = e.target.value
+                const { sendFrom, sendTo, decimalsFrom, decimalsTo } = this.getDirectionInfo()
+                // update rate and slippage in vice versa order
+                const amountRecive = await this.setRate(sendTo, sendFrom, targerValue, "AmountSend", decimalsTo, decimalsFrom)
+                const slippageTo = await this.getSlippage(sendTo, sendFrom, targerValue, amountRecive, decimalsTo, decimalsFrom)
+                // update states
+                this.setState({
+                    [targetName]: targerValue,
+                    sendFrom,
+                    sendTo,
+                    decimalsFrom,
+                    decimalsTo,
+                    slippageFrom: 0,
+                    slippageTo,
+                    shouldUpdatePrice: false
+                })
+            }
+            // Just set state by input
+            else {
+                this.setState({
+                    [e.target.name]: e.target.value
+                })
+            }
+        } catch (e) {
+            console.log(e);
         }
     }
 
@@ -523,9 +533,9 @@ class TradeViaOneInch extends Component {
                         {this.ErrorMsg()}
 
                         {/* Trigger tarde */}
-                        
-                        <Button mt={5} colorScheme='green'  onClick={() => this.validation()}>Trade</Button>
-                        
+
+                        <Button mt={5} colorScheme='green' onClick={() => this.validation()}>Trade</Button>
+
                         {
                             this.state.prepareData ? (<Text mt={1}>Preparing transaction data, please wait ...</Text>) : null
                         }

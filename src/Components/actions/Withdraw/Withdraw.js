@@ -1,21 +1,23 @@
 import React, { useState } from 'react'
-import { Box, Button, Checkbox, FormControl, FormLabel, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay,Stack, Tooltip, useColorModeValue, useDisclosure } from '@chakra-ui/react'
+import { Box, Button, Checkbox, FormControl, FormLabel, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Stack, Tooltip, useColorModeValue, useDisclosure } from '@chakra-ui/react'
 import axios from 'axios';
 import { APIEnpoint, SmartFundABIV7 } from '../../../config';
 import setPending from '../../../utils/setPending';
+
 function Withdraw(props) {
     const [show, setShow] = useState(false);
     const [percent, setPercent] = useState(50);
     const [isConvert, setIsConvert] = useState(false);
 
     const withdraw = async (address, percent) => {
-        if (percent >= 0 && percent <= 100) {
-            const contractABI = SmartFundABIV7;
-            const contract = new props.web3.eth.Contract(contractABI, address);
-            const shares = await contract.methods.balanceOf(props.accounts[0]).call();
+        try {
+            if (percent >= 0 && percent <= 100) {
+                const contractABI = SmartFundABIV7;
+                const contract = new props.web3.eth.Contract(contractABI, address);
+                const shares = await contract.methods.balanceOf(props.accounts[0]).call();
 
-            if (shares > 0) {
-                try {
+                if (shares > 0) {
+
                     const totalPercentage = await contract.methods.TOTAL_PERCENTAGE().call();
                     const currentPercent = (totalPercentage / 100) * percent;
 
@@ -35,12 +37,13 @@ function Withdraw(props) {
                             props.pending(true, txCount + 1);
                             setPending(address, 1, props.accounts[0], block, hash, "Withdraw");
                         });
-                } catch (e) {
-                    alert('Can not verify transaction data, please try again in a minute');
+
+                } else {
+                    alert('Empty deposit');
                 }
-            } else {
-                alert('Empty deposit');
             }
+        } catch (e) {
+            alert('Can not verify transaction data, please try again in a minute');
         }
     };
 
@@ -55,51 +58,51 @@ function Withdraw(props) {
     };
 
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const allbtnBg=useColorModeValue("#30106b","#7500FF")
+    const allbtnBg = useColorModeValue("#30106b", "#7500FF")
     const sliderBg = useColorModeValue("#fff", "#181144")
     return (
         <React.Fragment>
-                <Tooltip>
-                    <Button onClick={onOpen} flexGrow="1" minWidth={{ base: '100%', sm: "auto" }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>Withdraw</Button>
-                </Tooltip>
-                <Modal isOpen={isOpen} onClose={onClose}>
-                    <ModalOverlay />
-                    <ModalContent bg={sliderBg}>
-                        <ModalHeader> Withdraw from smart fund</ModalHeader>
-                        <ModalCloseButton />
-                        <ModalBody>
-                            <FormControl>
-                                <FormLabel>Percent {percent} %</FormLabel>
-                                <input
-                                    className='range-100'
-                                    type='range'
-                                    value={percent}
-                                    min="1"
-                                    name='Percent'
-                                    max="100"
-                                    onChange={(e) => change(e)}
-                                />
-                                {
-                                    props.version === 6 ?
+            <Tooltip>
+                <Button onClick={onOpen} flexGrow="1" minWidth={{ base: '100%', sm: "auto" }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>Withdraw</Button>
+            </Tooltip>
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent bg={sliderBg}>
+                    <ModalHeader> Withdraw from smart fund</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <FormControl>
+                            <FormLabel>Percent {percent} %</FormLabel>
+                            <input
+                                className='range-100'
+                                type='range'
+                                value={percent}
+                                min="1"
+                                name='Percent'
+                                max="100"
+                                onChange={(e) => change(e)}
+                            />
+                            {
+                                props.version === 6 ?
                                     (
                                         <Stack mt={2} spacing={5} direction='row'>
-                                        <Checkbox colorScheme='red' checked={isConvert} onChange={() => setIsConvert({ isConvert: isConvert })}>
-                                            {`Try convert assets to ${props.mainAsset}`}
-                                        </Checkbox>
-                                    </Stack>
-                                    ):null
-                                }
-                              
-                                    <Button mt={3} colorScheme='green' variant='outline' mr={3} onClick={() => {
-                                        withdraw(props.address, percent)
-                                    }}>
-                                        Withdraw
-                                    </Button>
-                              
-                            </FormControl>
-                        </ModalBody>
-                    </ModalContent>
-                </Modal>
+                                            <Checkbox colorScheme='red' checked={isConvert} onChange={() => setIsConvert({ isConvert: isConvert })}>
+                                                {`Try convert assets to ${props.mainAsset}`}
+                                            </Checkbox>
+                                        </Stack>
+                                    ) : null
+                            }
+
+                            <Button mt={3} colorScheme='green' variant='outline' mr={3} onClick={() => {
+                                withdraw(props.address, percent)
+                            }}>
+                                Withdraw
+                            </Button>
+
+                        </FormControl>
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
         </React.Fragment>
     )
 }
