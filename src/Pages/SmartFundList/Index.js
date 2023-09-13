@@ -298,7 +298,7 @@ function SmartFundList(props) {
 
               </Box>
               <SimpleGrid>
-                <HorizontalTabs data={smartfundlist} pending={pendingg} />
+                <HorizontalTabs data={smartfundlist} pending={pendingg} web3={MobXStorage.web3} />
               </SimpleGrid>
               <Footer />
             </Box>

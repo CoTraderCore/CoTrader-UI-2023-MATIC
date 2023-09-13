@@ -60,7 +60,7 @@ function TradeModal(props) {
 
   const getExchangePortalVersion = async (fundAddress) => {
     try{
-    const smartFund = new props.web3.eth.Contract(SmartFundABIV7, fundAddress);
+    const smartFund = props.web3? new props.web3.eth.Contract(SmartFundABIV7, fundAddress) : null;
     const exchangePortalAddress = await smartFund.methods.exchangePortal().call();
     const exchangePortal = new props.web3.eth.Contract(ExchangePortalABIV6, exchangePortalAddress);
     const exchangePortalVersion = Number(await exchangePortal.methods.version().call());

@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Heading,useColorModeValue } from '@chakra-ui/react';
+import { Box, Heading, useColorModeValue } from '@chakra-ui/react';
 import { fromWei } from 'web3-utils';
 import ReactApexChart from 'react-apexcharts';
 import Card from '../Card/Card';
 
-function InvestorsAlocationChart(props) {
+function InvestorsAlocationChart({ Data }) {
     const [chartData, setChartData] = useState({
         options: {
             labels: [],
             colors: ["#984cf1", "#7500FF", "#00E396", "#FF4560", "#775DD0"],
             dataLabels: {
-                enabled: false, 
+                enabled: false,
             },
         },
         series: [],
@@ -20,7 +20,7 @@ function InvestorsAlocationChart(props) {
         let isMounted = true;
 
         const updateInvestorsData = async () => {
-            const Data = props.Data;
+            // const Data = props.Data;
             if (Data) {
                 try {
                     const parsedData = JSON.parse(Data);
@@ -35,7 +35,8 @@ function InvestorsAlocationChart(props) {
                         let balance = filteredData.map(item => {
                             return Number(fromWei(String(item["shares"]))).toFixed(6);
                         });
-
+                        // console.log(labels);
+                        // console.log(balance);
                         if (isMounted) {
                             setChartData({
                                 options: {
@@ -65,21 +66,21 @@ function InvestorsAlocationChart(props) {
         return () => {
             isMounted = false;
         };
-    }, [props.Data]);
+    }, [Data]);
 
     const allbtnBg = useColorModeValue("#1A202C", "#fff")
     return (
         <React.Fragment>
-        {chartData.labels && chartData.labels.length > 0 ? (
+            {chartData.labels && chartData.labels.length > 0 ? (
                 <Card>
-                <Box>
-                    <Heading mb={5} fontSize="xl" fontWeight="700" color={allbtnBg} textTransform="capitalize">Investors shares</Heading>
-                    <ReactApexChart options={chartData.options} series={chartData.series} type="pie" height="220" />
-                </Box>
-            </Card>
-            ):null
-        }
-           
+                    <Box>
+                        <Heading mb={5} fontSize="xl" fontWeight="700" color={allbtnBg} textTransform="capitalize">Investors shares</Heading>
+                        <ReactApexChart options={chartData.options} series={chartData.series} type="pie" height="220" />
+                    </Box>
+                </Card>
+            ) : null
+            }
+
 
         </React.Fragment>
     );

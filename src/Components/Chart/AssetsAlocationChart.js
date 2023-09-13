@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Heading, Box, useColorModeValue } from '@chakra-ui/react';
 import ApexChart from 'react-apexcharts';
 import Card from '../Card/Card';
-import MobXStorage from '../../MobXStorage';
 
-const AssetsAlocationChart = () => {
+
+const AssetsAlocationChart = ({ AssetsData, version }) => {
     const [chartData, setChartData] = useState({
         labels: [],
         dataLabels: {
@@ -18,55 +18,61 @@ const AssetsAlocationChart = () => {
 
     useEffect(() => {
         updateAssetsData();
-    }, [MobXStorage.AssetsData]);
+    }, [AssetsData]);
 
     const updateAssetsData = () => {
-        const AssetsData = MobXStorage.AssetsData;
+        const assetsData = AssetsData;
 
-        if (AssetsData) {
-            const filterData = AssetsData.filter((item) => parseFloat(item.assetValueInETHFromWei) > 0);
+        if (assetsData) {
+            const filterData = assetsData.filter((item) => parseFloat(item.assetValueInETHFromWei) > 0);
 
             const labels = filterData.map((item) => {
                 return item.symbol;
+              
             });
 
-            const series = filterData.map((item) => item.assetValueInETHFromWei);
+            const series = filterData.map((item) => {
+                return item.assetValueInETHFromWei;
+        })
+     console.log(series);
 
-            setChartData({
-                labels,
-                dataLabels: {
-                    enabled: false,
-                },
-                series,
-            });
-        }
-    };
-    const allbtnBg = useColorModeValue("#1A202C", "#fff")
-    return (
-        <React.Fragment>
-            {
+        setChartData({
+            labels,
+            dataLabels: {
+                enabled: false,
+            },
+            series,    
+        });
+    }
+
+};
+
+const allbtnBg = useColorModeValue("#1A202C", "#fff")
+return (
+    <React.Fragment>
+        {
             chartData.labels && chartData.labels.length > 0 ? (
-                        <Card>
-                            <Box>
-                                <Heading mb={5} fontSize="xl" fontWeight="700" color={allbtnBg} textTransform="capitalize">Asset allocation in BNB value</Heading>
-                                <ApexChart
-                                    options={{
-                                        labels: chartData.labels,
-                                        dataLabels: {
-                                            enabled: chartData.dataLabels.enabled,
-                                        },
-                                    }}
-                                    series={chartData.series}
-                                    type="pie"
-                                    height="220"
-                                />
-                            </Box>
-                        </Card>
-                    ) : null
-            }
+                <Card>
+                    <Box>
+                        <Heading mb={5} fontSize="xl" fontWeight="700" color={allbtnBg} textTransform="capitalize">Asset allocation in BNB value</Heading>
+                        <ApexChart
+                            options={{
+                                labels: chartData.labels,
+                                dataLabels: {
+                                    enabled: chartData.dataLabels.enabled,
+                                },
+                            }}
+                            series={chartData.series}
+                            type="pie"
+                            height="220"
+                        />
+                    </Box>
+                </Card>
+            ) : null
+        }
 
-        </React.Fragment>
-    );
+    </React.Fragment>
+);
 };
 
 export default AssetsAlocationChart;

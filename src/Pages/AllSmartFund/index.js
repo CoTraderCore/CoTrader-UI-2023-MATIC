@@ -14,7 +14,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import Deposit from '../../Components/actions/Deposit/Deposit';
 import Withdraw from '../../Components/actions/Withdraw/Withdraw';
 import UserHoldings from '../../Components/actions/UserHoldings';
-
+import { useObserver } from 'mobx-react';
 
 
 function AllSmartFund(props) {
@@ -27,7 +27,7 @@ function AllSmartFund(props) {
   const boxBg = useColorModeValue("#F4F7FE", "#110938");
   const allbtnBg = useColorModeValue("#30106b", "#7500FF")
 
-  return (
+  return  useObserver(()=>(
     <React.Fragment>
       <Box>
         {
@@ -243,6 +243,6 @@ function AllSmartFund(props) {
 
 
     </React.Fragment>
-  )
+  ))
 }
 export default AllSmartFund

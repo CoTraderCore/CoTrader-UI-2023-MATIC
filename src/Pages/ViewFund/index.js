@@ -173,6 +173,11 @@ function ViewFund(props) {
             _popupChild.current.show()
     }
 
+    const profitInEth=fromWei(String(profitInETH),'ether')
+    const profitInUsd=fromWei(String(profitInUSD),'ether')
+    const valueInEth=fromWei(String(valueInETH),'ether')
+    const valueInUsd=fromWei(String(valueInUSD),'ether')
+
     const tooltipBg = useColorModeValue("black", "#A4ADC7")
     const headingColor = useColorModeValue("#1B2559", "#F4F7FE");
     const totalprogressBg = useColorModeValue("green.100", "#CBC3E3")
@@ -268,7 +273,7 @@ function ViewFund(props) {
                                 />
                             }
                             name='Fund profit in BNB'
-                            value={profitInETH}
+                            value={profitInEth}
                         />
                         <ShadowBox
                             startContent={
@@ -282,7 +287,7 @@ function ViewFund(props) {
                                 />
                             }
                             name='Fund profit in USD'
-                            value={profitInUSD}
+                            value={profitInUsd}
                         />
                         <ShadowBox
                             startContent={
@@ -294,7 +299,7 @@ function ViewFund(props) {
                                 />
                             }
                             name='Fund value in BNB'
-                            value={valueInETH}
+                            value={valueInEth}
                         />
                         <ShadowBox
                             startContent={
@@ -306,7 +311,7 @@ function ViewFund(props) {
                                 />
                             }
                             name='Fund value in USD'
-                            value={valueInUSD}
+                            value={valueInUsd}
                         />
                     </SimpleGrid>}
                     <Box>

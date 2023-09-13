@@ -5,23 +5,22 @@ import { APIEnpoint, SmartFundABIV7 } from '../../../config';
 import setPending from '../../../utils/setPending';
 
 function Withdraw(props) {
-    const [show, setShow] = useState(false);
+
     const [percent, setPercent] = useState(50);
     const [isConvert, setIsConvert] = useState(false);
 
     const withdraw = async (address, percent) => {
-        try {
-            if (percent >= 0 && percent <= 100) {
-                const contractABI = SmartFundABIV7;
-                const contract = new props.web3.eth.Contract(contractABI, address);
-                const shares = await contract.methods.balanceOf(props.accounts[0]).call();
 
+        if (percent >= 0 && percent <= 100) {
+            const contractABI = SmartFundABIV7;
+            const contract = props.web3 ? new props.web3.eth.Contract(contractABI, address) : null;
+            // const contract = new props.web3.eth.Contract(contractABI, address);
+            const shares = await contract?.methods.balanceOf(props.accounts[0]).call();
+            try {
                 if (shares > 0) {
 
                     const totalPercentage = await contract.methods.TOTAL_PERCENTAGE().call();
                     const currentPercent = (totalPercentage / 100) * percent;
-
-                    setShow(false);
 
                     const block = await props.web3.eth.getBlockNumber();
 
@@ -41,22 +40,17 @@ function Withdraw(props) {
                 } else {
                     alert('Empty deposit');
                 }
+            } catch (e) {
+                alert('Can not verify transaction data, please try again in a minute');
             }
-        } catch (e) {
-            alert('Can not verify transaction data, please try again in a minute');
+
         }
+
     };
 
     const change = (e) => {
-        if (e.target.name === 'Show') {
-            onOpen(e.target.value);
-        } else if (e.target.name === 'Percent') {
-            setPercent(e.target.value);
-        } else if (e.target.name === 'isConvert') {
-            setIsConvert(e.target.value);
-        }
+        setPercent(e.target.value);
     };
-
     const { isOpen, onOpen, onClose } = useDisclosure()
     const allbtnBg = useColorModeValue("#30106b", "#7500FF")
     const sliderBg = useColorModeValue("#fff", "#181144")
@@ -86,7 +80,7 @@ function Withdraw(props) {
                                 props.version === 6 ?
                                     (
                                         <Stack mt={2} spacing={5} direction='row'>
-                                            <Checkbox colorScheme='red' checked={isConvert} onChange={() => setIsConvert({ isConvert: isConvert })}>
+                                            <Checkbox colorScheme='red' checked={isConvert} onChange={() => setIsConvert(!isConvert)}>
                                                 {`Try convert assets to ${props.mainAsset}`}
                                             </Checkbox>
                                         </Stack>

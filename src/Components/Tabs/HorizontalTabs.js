@@ -3,7 +3,7 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel, useColorModeValue, Tooltip, Bo
 import MobXStorage from '../../MobXStorage'
 
 
-function HorizontalTabs({ data,pending }) {
+function HorizontalTabs({ data,pending,web3 }) {
   
     const tabColor = useColorModeValue("#7500fe", "#7500ff")
     return (
@@ -23,7 +23,7 @@ function HorizontalTabs({ data,pending }) {
             <TabPanels>
                 {data.map((tab) => {
                     return <TabPanel p={1} key={tab.id}>
-                        {<tab.content data={tab} pending={pending}  />}
+                        {<tab.content data={tab} pending={pending} web3={web3} />}
                     </TabPanel>
                 })}
             </TabPanels>

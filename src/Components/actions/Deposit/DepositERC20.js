@@ -17,7 +17,6 @@ import setPending from '../../../utils/setPending.js';
 import { toWeiByDecimalsInput, fromWeiByDecimalsInput } from '../../../utils/weiByDecimals';
 import axios from 'axios';
 
-
 class DepositERC20 extends Component {
     constructor(props, context) {
         super(props, context);
@@ -37,10 +36,9 @@ class DepositERC20 extends Component {
 
     componentDidMount = async () => {
         try {
-            if (this.props.web3 && this.props.accounts && this.props.accounts[0]) {
-                const fund = new this.props.web3.eth.Contract(SmartFundABIV7, this.props.address);
+                const fund =this.props.web3 ? new this.props.web3.eth.Contract(SmartFundABIV7, this.props.address) : null ;
                 const ercAssetAddress = await fund.methods.coreFundAsset().call();
-                const ercAssetContract = new this.props.web3.eth.Contract(ERC20ABI, ercAssetAddress);
+                const ercAssetContract =this.props.web3 ? new this.props.web3.eth.Contract(ERC20ABI, ercAssetAddress) : null ;
                 const symbol = await ercAssetContract.methods.symbol().call();
                 const decimals = await ercAssetContract.methods.decimals().call();
                 const tokenBalanceInWei = await ercAssetContract.methods.balanceOf(this.props.accounts[0]).call();
@@ -53,12 +51,6 @@ class DepositERC20 extends Component {
                     tokenBalanceInWei,
                     tokenBalance,
                 });
-
-                // Check if the smart contract is approved on component mount
-                await this.updateAllowance();
-            } else {
-                console.error("Web3 or accounts are not defined.");
-            }
         } catch (error) {
             console.log("Error", error);
         }
@@ -196,7 +188,7 @@ class DepositERC20 extends Component {
     modalClose = () => this.setState({ Show: false, Agree: false });
 
     render() {
-        
+        const { mainAssets } = this.props;
         return (
             <>
                 <FormControl>
@@ -234,7 +226,7 @@ class DepositERC20 extends Component {
                 </FormControl>
 
                 {
-                    !this.state.isApproved
+                    this.state.isApproved && mainAssets === "BNB" 
                         ? (
                             <>
                                 <Button
