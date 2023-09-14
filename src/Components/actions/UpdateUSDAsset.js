@@ -19,7 +19,7 @@ import {
     useColorModeValue, FormLabel
 } from '@chakra-ui/react'
 
-const symblols = ['BDAI', 'BUSD'];
+const symbols = ['BDAI', 'BUSD'];
 const assets = {
     BDAI: '0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3',
     BUSD: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
@@ -29,7 +29,7 @@ const UpdateUSDAsset = (props) => {
     const [newUSDTokenAddress, setNewUSDTokenAddress] = useState('');
     const [currentUSDTokenAddress, setCurrentUSDTokenAddress] = useState('');
     const [currentUSDTokenSymbol, setCurrentUSDTokenSymbol] = useState('');
-    const [symblolsArray, setSymblolsArray] = useState([]);
+    const [symbolsArray, setSymbolsArray] = useState([]);
     const [fundContract, setFundContract] = useState(null);
     const [show, setShow] = useState(false);
     const [showSuccessMsg, setShowSuccessMsg] = useState(false);
@@ -42,32 +42,33 @@ const UpdateUSDAsset = (props) => {
                 const contract = new props.web3.eth.Contract(SmartFundABIV7, props.smartFundAddress);
                 const currentTokenAddress = await contract.methods.coreFundAsset().call();
 
-                const totalWeiDepositedInWei = await contract.methods.totalWeiDeposited.call();
+                const totalWeiDepositedInWei = await contract.methods.totalWeiDeposited().call();
                 const totalWeiDeposited = Number(fromWei(String(totalWeiDepositedInWei)));
                 const currentTokenSymbol = Object.keys(assets).find(
                     (k) => assets[k].toLowerCase() === currentTokenAddress.toLowerCase()
                 );
-
+                
                 if (isMounted) {
                     setCurrentUSDTokenAddress(currentTokenAddress);
                     setCurrentUSDTokenSymbol(currentTokenSymbol);
-                    setSymblolsArray(symblols);
+                    setSymbolsArray(symbols);
                     setFundContract(contract);
                     setTotalWeiDeposited(totalWeiDeposited);
                 }
-            } catch (e) {
-                console.log("error", e);
+            } catch (error) {
+                console.error("Error initializing data: ", error);
             }
         };
 
-        if (isMounted) {
-            initData();
-        }
-
+        initData();
         return () => {
             isMounted = false;
         };
     }, [props.smartFundAddress, props.web3]);
+
+    console.log(symbolsArray,"---")
+
+
 
     const setAddressBySymbol = (e) => {
         for (let [key, value] of Object.entries(assets)) {
@@ -77,20 +78,23 @@ const UpdateUSDAsset = (props) => {
 
     const changeUSDToken = async () => {
         if (isAddress(newUSDTokenAddress)) {
-            fundContract.methods
-                .changeStableCoinAddress(newUSDTokenAddress)
-                .send({ from: props.accounts[0] })
-                .on('transactionHash', (hash) => {
-                    setShowSuccessMsg(true);
-                });
+            try {
+                await fundContract.methods
+                    .changeStableCoinAddress(newUSDTokenAddress)
+                    .send({ from: props.accounts[0] });
+                setShowSuccessMsg(true);
+            } catch (error) {
+                console.error("Error changing USD token: ", error);
+            }
         } else {
-            alert('Please select a token');
+            alert('Please select a valid token address');
         }
     };
 
     let modalClose = () => setShow(false);
     const allbtnBg = useColorModeValue("#30106b", "#7500FF")
     const sliderBg = useColorModeValue("#fff", "#181144")
+    
     return (
         <>
             <Button flexGrow="1" minWidth={{ base: '100%', md: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }} onClick={() => setShow(true)}>
@@ -122,19 +126,19 @@ const UpdateUSDAsset = (props) => {
                                 <Text >
                                     <FormLabel >Set new USD token</FormLabel>
                                 </Text>
-                                <Select
-                                    onChange={(e) => setAddressBySymbol(e)}
-                                >
-                                    <option>...</option>
-                                    {symblolsArray.map((item, key) => (
-                                        <option value={item} key={key}>{item}</option>
+                                <Select onChange={(e) => setAddressBySymbol(e)}>
+                                    <option value="...">...</option>
+                                    {symbolsArray.map((item, key) => (
+                                        <option value={assets[item]} key={key}>
+                                            {item}
+                                        </option>
                                     ))}
                                 </Select>
                             </InputGroup>
 
                             {!totalWeiDeposited === 0 ?
                                 (
-                                    <Button mt={3} colorScheme='green' variant="outline"  onClick={() => changeUSDToken()}>
+                                    <Button mt={3} colorScheme='green' variant="outline" onClick={() => changeUSDToken()}>
                                         Set new token
                                     </Button>
                                 ) : (

@@ -28,7 +28,6 @@ function App(props) {
   const [timeOut, setTimeOut] = useState(false);
   const [isDataLoad, setIsDataLoad] = useState(false);
 
-
   let isMounted = false
   useEffect(() => {
     isMounted = true
@@ -72,7 +71,6 @@ function App(props) {
 
       // Use web3 to get the user's accounts.
       const userAccounts = await web3Instance.eth.getAccounts();
-
       // Set web3 and accounts to the state
       setWeb3(web3Instance);
       setAccounts(userAccounts);

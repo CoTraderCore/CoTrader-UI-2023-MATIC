@@ -10,11 +10,11 @@ const AssetsAlocationChart = ({ AssetsData, version }) => {
         dataLabels: {
             enabled: false
         },
-        colors: ["#984cf1", "#7500FF", "#00E396", "#FF4560", "#775DD0"],
+        colors: ["#00E396","#984cf1", "#7500FF",  "#FF4560", "#775DD0"],
         series: [],
     });
 
-    // const eth_token = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE';
+    const eth_token = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE';
 
     useEffect(() => {
         updateAssetsData();
@@ -31,16 +31,16 @@ const AssetsAlocationChart = ({ AssetsData, version }) => {
               
             });
 
-            const series = filterData.map((item) => {
-                return item.assetValueInETHFromWei;
-        })
-     console.log(series);
+            const series = filterData.map((item) => parseFloat(item.assetValueInETHFromWei));
+   
+        // console.log(series);
 
         setChartData({
             labels,
             dataLabels: {
                 enabled: false,
             },
+            colors: ["#00E396", "#984cf1", "#7500FF", "#00E396", "#FF4560", "#775DD0"],
             series,    
         });
     }
@@ -53,7 +53,7 @@ return (
         {
             chartData.labels && chartData.labels.length > 0 ? (
                 <Card>
-                    <Box>
+                    <Box >
                         <Heading mb={5} fontSize="xl" fontWeight="700" color={allbtnBg} textTransform="capitalize">Asset allocation in BNB value</Heading>
                         <ApexChart
                             options={{
@@ -64,7 +64,7 @@ return (
                             }}
                             series={chartData.series}
                             type="pie"
-                            height="220"
+                            height="220px"
                         />
                     </Box>
                 </Card>

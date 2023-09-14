@@ -37,18 +37,16 @@ function TradeModal(props) {
     let isMounted = true;
 
     const initData = async () => {
-      try{
-      const { exchangePortalAddress, exchangePortalVersion } = await getExchangePortalVersion(
-        props.smartFundAddress
-      );
+
+      const exchangePortalVersion = await getExchangePortalVersion(props.smartFundAddress);
+
+      const exchangePortalAddress = await getExchangePortalVersion(props.smartFundAddress)
 
       if (isMounted) {
         setExchangePortalAddress(exchangePortalAddress);
         setExchangePortalVersion(exchangePortalVersion);
       }
-    }catch(e){
-      console.log("error",e);
-    }
+
     };
 
     initData();
@@ -59,14 +57,14 @@ function TradeModal(props) {
   }, [props.smartFundAddress]);
 
   const getExchangePortalVersion = async (fundAddress) => {
-    try{
-    const smartFund = props.web3? new props.web3.eth.Contract(SmartFundABIV7, fundAddress) : null;
-    const exchangePortalAddress = await smartFund.methods.exchangePortal().call();
-    const exchangePortal = new props.web3.eth.Contract(ExchangePortalABIV6, exchangePortalAddress);
-    const exchangePortalVersion = Number(await exchangePortal.methods.version().call());
-    return { exchangePortalAddress, exchangePortalVersion };
-    }catch(e){
-      console.log("error",e);
+    try {
+      const smartFund = props.web3 ? new props.web3.eth.Contract(SmartFundABIV7, fundAddress) : null;
+      const exchangePortalAddress = await smartFund.methods.exchangePortal().call();
+      const exchangePortal = new props.web3.eth.Contract(ExchangePortalABIV6, exchangePortalAddress);
+      const exchangePortalVersion = Number(await exchangePortal.methods.version().call());
+      return { exchangePortalAddress, exchangePortalVersion };
+    } catch (e) {
+      console.log("error", e);
     }
   };
 
@@ -75,11 +73,11 @@ function TradeModal(props) {
   const allbtnBg = useColorModeValue("#30106b", "#7500FF")
   return (
     <>
-      <Button flexGrow="1" width={{base:"100%",md:"auto"}} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }} onClick={onOpen}>
+      <Button flexGrow="1" width={{ base: "100%", md: "auto" }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }} onClick={onOpen}>
         Exchange
       </Button>
 
-      <Modal isOpen={isOpen} onClose={onClose} size={{base:"lg",md:"2xl"}}>
+      <Modal isOpen={isOpen} onClose={onClose} size={{ base: "lg", md: "2xl" }}>
         <ModalOverlay />
         <ModalContent bg={sliderBg}>
           <ModalHeader>Exchange</ModalHeader>

@@ -5,6 +5,7 @@ import { APIEnpoint, SmartFundABI } from '../../../config.js'
 import { Button, FormControl, Alert, FormLabel, AlertIcon, AlertDescription, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from '@chakra-ui/react'
 import setPending from '../../../utils/setPending.js'
 import { fromWei, toWei } from 'web3-utils'
+import MobXStorage from '../../../MobXStorage.js'
 
 import axios from 'axios'
 
@@ -21,22 +22,24 @@ class DepositETH extends Component {
   }
 
   componentDidMount = async () => {
-    try{
-    const ethBalanceInWei = await this.props.web3.eth.getBalance(this.props.accounts[0])
-    const ethBalance = fromWei(ethBalanceInWei)
-
-    this.setState({
-      ethBalance
-    })
-  }catch(e){
-    console.log(e,"Error");
+    try {
+      const ethBalanceInWei = await this.props.web3.eth.getBalance(MobXStorage.accounts[0])
+      const ethBalance = fromWei(ethBalanceInWei)
+  
+      this.setState({
+        ethBalance
+      }, () => {
+        console.log("ethBalance:", this.state.ethBalance); // Check if ethBalance is correctly set
+      });
+    } catch (e) {
+      console.error(e, "Error");
+    }
   }
-  }
-
+  
   validation = async () => {
     try{
     if (this.state.DepositValue <= 0) {
-      this.setState({ ValueError: "Value can't be 0 or less" })
+      this.setState({ ValueError: "Value can't be 0.01 or less" })
       return
     }
 
@@ -79,7 +82,7 @@ class DepositETH extends Component {
 
 
   render() {
-    console.log(this.state.DepositValue)
+  
     return (
       <>
         <FormControl>
@@ -95,7 +98,7 @@ class DepositETH extends Component {
             </p>
           </FormLabel>
           <NumberInput defaultValue={this.state.DepositValue} min={0} >
-            <NumberInputField onChange={e => this.setState({ DepositValue: e.target.defaultValue })} />
+            <NumberInputField onChange={e => this.setState({ DepositValue: e.target.value })}  />
             <NumberInputStepper>
               <NumberIncrementStepper />
               <NumberDecrementStepper />

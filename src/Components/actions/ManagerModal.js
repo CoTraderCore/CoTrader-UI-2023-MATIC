@@ -2,7 +2,6 @@ import React from 'react';
 import { Box, Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, ModalCloseButton, useDisclosure, Text, Link, useColorModeValue, } from "@chakra-ui/react";
 import { NavLink } from 'react-router-dom';
 import { EtherscanLink } from '../../config.js';
-import { useObserver } from 'mobx-react-lite';
 import MobXStorage from '../../MobXStorage.js';
 
 
@@ -17,7 +16,7 @@ const ManagerModal = ({ address,}) => {
     const modalfooterbg = useColorModeValue("gray.100", "#3D3762")
     const btnColor = useColorModeValue("#00C6C0", "#fff")
 
-    return useObserver(() => (
+    return  (
         <Box>
             <Text cursor={'pointer'} fontWeight={500} onClick={onOpen}>
                 Manager: <small style={{ color: "#7500fe", }}><strong>{String(address).replace(String(address).substring(4, 38), "...")}</strong></small>
@@ -46,7 +45,7 @@ const ManagerModal = ({ address,}) => {
                 </ModalContent>
             </Modal>
         </Box>
-    ));
+    );
 };
 
 export default ManagerModal;

@@ -22,8 +22,8 @@ import { APIEnpoint } from '../../config';
 import getFundData from '../../utils/getFundData';
 import getFundsList from '../../utils/getFundsList';
 import Pending from '../../Components/template/spiners/Pending';
-import { useObserver } from 'mobx-react';
-import AllSmartFund from '../AllSmartFund';
+// import { useObserver } from 'mobx-react';
+
 
 function SmartFundList(props) {
 
@@ -131,7 +131,7 @@ function SmartFundList(props) {
   const boxBg = useColorModeValue("#F4F7FE", "#110938");
   const allbtnBg = useColorModeValue("#30106b", "#7500FF")
 
-  return useObserver(() => (
+  return(
     <React.Fragment>
             <Box className='dashboard' style={{ padding: "10px", }}>
             <DashboardHeader />
@@ -298,14 +298,14 @@ function SmartFundList(props) {
 
               </Box>
               <SimpleGrid>
-                <HorizontalTabs data={smartfundlist} pending={pendingg} web3={MobXStorage.web3} />
+                <HorizontalTabs data={smartfundlist} pending={pendingg} web3={props.web3} accounts={props.accounts} />
               </SimpleGrid>
               <Footer />
             </Box>
 
 
     </React.Fragment>
-          ));
+          );
 
 }
 

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import ShadowBox from '../../Components/Cards/ShadowBox';
 import IconBox from '../../Components/Icons/IconBox';
 import Header from '../../Components/common/Header';
-import { Box, Heading, Icon, SimpleGrid, Button, Tooltip, List, ListItem, Progress, Stack, useColorModeValue, GridItem, Grid, Table, Thead, Tr, Th, Td, Tbody, Text } from '@chakra-ui/react'
+import { Box, Heading, Icon, SimpleGrid, Button, Tooltip, List, ListItem, Progress, Stack, useColorModeValue, GridItem, Grid, Table, Thead, Tr, Th, Td, Tbody, Text, flexbox } from '@chakra-ui/react'
 import { MdAttachMoney, } from "react-icons/md";
 import Card from '../../Components/Card/Card';
 import Footer from '../../Components/common/footer/Footer';
@@ -178,19 +178,20 @@ function ViewFund(props) {
     const valueInEth=fromWei(String(valueInETH),'ether')
     const valueInUsd=fromWei(String(valueInUSD),'ether')
 
-    const tooltipBg = useColorModeValue("black", "#A4ADC7")
+    // const tooltipBg = useColorModeValue("black", "#A4ADC7")
     const headingColor = useColorModeValue("#1B2559", "#F4F7FE");
     const totalprogressBg = useColorModeValue("green.100", "#CBC3E3")
     const colorSchemeGreen = useColorModeValue("green", "green")
     const colorSchemeRed = useColorModeValue("red", "red")
     const remainingprogressBg = useColorModeValue("red.100", "#CBC3E3")
-    const allbtnBg = useColorModeValue("#30106b", "#7500FF")
+    // const allbtnBg = useColorModeValue("#30106b", "#7500FF")
     const tableHead = useColorModeValue("#1A202C", "#fff")
-    const chartbg = useColorModeValue("#fff", "#181144")
+    // const chartbg = useColorModeValue("#fff", "#181144")
     const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
     const boxBg = useColorModeValue("#F4F7FE", "#110938");
+
     return (
-        <Box px={5}>
+        <Box px={5} overflow="hidden">
             <MigrateToV9
                 version={version}
                 owner={owner}
@@ -344,8 +345,8 @@ function ViewFund(props) {
                             </Box>
                         </Box>
                     </Box>
-                    <Box mt={5} borderRadius="20px" bg={chartbg}>
-                        <SimpleGrid columns={{ base: 1, md: 2 }}>
+                    <Box mt={5} borderRadius="20px">
+                        <SimpleGrid gap={2} columns={{ base: 1, md:2}}>
                             {
                                 shares ? (
                                     <GridItem>

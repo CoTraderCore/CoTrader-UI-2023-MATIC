@@ -12,6 +12,7 @@ import {
     NumberDecrementStepper,
     AlertIcon,
     AlertDescription,
+    Text,
 } from '@chakra-ui/react';
 import setPending from '../../../utils/setPending.js';
 import { toWeiByDecimalsInput, fromWeiByDecimalsInput } from '../../../utils/weiByDecimals';
@@ -27,7 +28,7 @@ class DepositERC20 extends Component {
             ercAssetAddress: null,
             ercAssetContract: null,
             userWalletBalance: '0',
-            isApproved: false,
+            isApproved: true,
             approvePending: false,
             symbol: '...',
             tokenBalance: 0,
@@ -36,26 +37,27 @@ class DepositERC20 extends Component {
 
     componentDidMount = async () => {
         try {
-                const fund =this.props.web3 ? new this.props.web3.eth.Contract(SmartFundABIV7, this.props.address) : null ;
-                const ercAssetAddress = await fund.methods.coreFundAsset().call();
-                const ercAssetContract =this.props.web3 ? new this.props.web3.eth.Contract(ERC20ABI, ercAssetAddress) : null ;
-                const symbol = await ercAssetContract.methods.symbol().call();
-                const decimals = await ercAssetContract.methods.decimals().call();
-                const tokenBalanceInWei = await ercAssetContract.methods.balanceOf(this.props.accounts[0]).call();
-                const tokenBalance = fromWeiByDecimalsInput(decimals, tokenBalanceInWei);
-
-                this.setState({
-                    ercAssetAddress,
-                    ercAssetContract,
-                    symbol,
-                    tokenBalanceInWei,
-                    tokenBalance,
-                });
+            const fund = new this.props.web3.eth.Contract(SmartFundABIV7, this.props.address);
+            const ercAssetAddress = await fund.methods.coreFundAsset().call();
+            const ercAssetContract = new this.props.web3.eth.Contract(ERC20ABI, ercAssetAddress);
+            const symboll = await ercAssetContract.methods.symbol().call();
+            const decimals = await ercAssetContract.methods.decimals().call();
+            const tokenBalanceInWei = await ercAssetContract.methods.balanceOf(this.props.accounts[0]).call();
+            const tokenBalancee = fromWeiByDecimalsInput(decimals, tokenBalanceInWei);
+    
+            this.setState({
+                ercAssetAddress,
+                ercAssetContract,
+                symboll,
+                tokenBalanceInWei,
+                tokenBalancee,
+            });
+           
         } catch (error) {
-            console.log("Error", error);
+            console.error("Error", error);
         }
     }
-
+    
     componentDidUpdate = async (prevProps, prevState) => {
         if (prevState.DepositValue !== this.state.DepositValue) {
             await this.updateAllowance();
@@ -188,20 +190,20 @@ class DepositERC20 extends Component {
     modalClose = () => this.setState({ Show: false, Agree: false });
 
     render() {
-        const { mainAssets } = this.props;
+      
         return (
             <>
                 <FormControl>
                     <FormLabel>
                         Enter {this.state.symbol}
-                        <p
+                        <Text
                             style={{ color: 'blue' }}
                             onClick={() => this.setState({
                                 DepositValue: this.state.tokenBalance
                             })}
                         >
                             (balance:{this.state.tokenBalance})
-                        </p>
+                        </Text>
                     </FormLabel>
                     <NumberInput defaultValue={this.state.DepositValue} min={0}>
                         <NumberInputField
@@ -226,7 +228,7 @@ class DepositERC20 extends Component {
                 </FormControl>
 
                 {
-                    this.state.isApproved && mainAssets === "BNB" 
+                    this.state.isApproved 
                         ? (
                             <>
                                 <Button

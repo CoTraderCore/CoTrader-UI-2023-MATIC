@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import Navbar from '../Components/common/Navbar'
 import Sidebar from '../Components/common/Sidebar'
-import { Alert, AlertIcon, Box, Button, Grid, GridItem, useColorMode, useColorModeValue, useDisclosure } from '@chakra-ui/react';
+import { Alert, AlertIcon, Box, Grid, GridItem, useColorMode, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import { Outlet } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
 import WalletInfo from '../Components/common/WalletInfo';
-import DashboardHeader from '../Components/common/DashboardHeader';
 import { NeworkID } from '../config';
 // import { useLocation } from 'react-router-dom';
 
@@ -27,6 +26,7 @@ function MainLayout(props) {
         }
         setIsChange(!isChange)
     }
+
     return (
         <Box
             style={{

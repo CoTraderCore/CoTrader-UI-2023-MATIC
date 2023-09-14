@@ -2,7 +2,6 @@ import React from 'react';
 import { Link, Text, Box, Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, ModalCloseButton, useDisclosure, useColorModeValue } from "@chakra-ui/react";
 import { NavLink, } from 'react-router-dom';
 import { EtherscanLink } from '../../config.js';
-import { useObserver } from 'mobx-react-lite';
 import MobXStorage from '../../MobXStorage.js';
 
 const FundModal = ({ address, }) => {
@@ -11,7 +10,7 @@ const FundModal = ({ address, }) => {
     const modalfooterbg = useColorModeValue("gray.100", "#3D3762")
     const btnColor = useColorModeValue("#00C6C0", "#fff")
 
-    return useObserver(() => (
+    return (
         <Box>
             <Text fontWeight={{ base: "700", md: "500" }} onClick={onOpen} cursor={'pointer'}>
                 Fund: <small style={{ color: "#7500fe", }}><strong >{String(address).replace(String(address).substring(4, 38), "...")}</strong></small>
@@ -48,7 +47,7 @@ const FundModal = ({ address, }) => {
                 </ModalContent>
             </Modal>
         </Box>
-    ));
+    );
 };
 
 export default FundModal;

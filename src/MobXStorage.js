@@ -1,7 +1,9 @@
-import { observable, action, makeObservable } from 'mobx'
+import { observable, action, decorate } from 'mobx'
 import isMobile from './utils/isMobile'
 import { fromWei, toNumber } from 'web3-utils'
 import BigNumber from 'bignumber.js'
+
+
 
 class MOBXStorage {
   web3 = null
@@ -19,20 +21,6 @@ class MOBXStorage {
   userHistoryTotalProfit = 0
   filterOptions = null
 
-  constructor() {
-    makeObservable(this, {
-      SmartFunds: observable,
-      SmartFundsOriginal: observable,
-      FilterInfo: observable,
-      FilterActive: observable,
-      initSFList: action,
-      initWeb3AndAccounts:action,
-      paginationChange: action,
-      myInvestments:action,
-      myFunds: action,
-    })
-}
-
   // Initializers
   initWeb3AndAccounts(_web3, accounts){
     this.web3 = _web3
@@ -40,14 +28,14 @@ class MOBXStorage {
   }
 
   initSFList(_newList) {
-    
     const initPageNumber = (isMobile()) ? 5 : 10
-    
+
     this.SmartFundsOriginal = this.sortSFByValue(_newList)
     this.SmartFundsCurrentPage = this.sortSFByValue(_newList).slice(0, initPageNumber)
     this.SmartFunds = this.sortSFByValue(_newList).slice(0, initPageNumber)
-    
+
     const { totalValue, totalProfit, historyTotalProfit } = this.calculateValueAndProfit(this.SmartFundsOriginal)
+    console.log("SmartFundsSmartFunds")
     this.TotalValue = totalValue
     this.TotalProfit = totalProfit
     this.HistoryTotalProfit = historyTotalProfit
@@ -114,7 +102,6 @@ class MOBXStorage {
 
   myInvestments(address){
     this.SmartFunds = this.SmartFundsOriginal.filter(fund => fund.shares && fund.shares.includes(address))
-    console.log(this.SmartFunds,"SmartFunds")
     this.FilterActive = true
     this.FilterInfo = "Filter funds by investor: " + address.slice(0,-35) + "..."
 
@@ -139,9 +126,8 @@ class MOBXStorage {
   }
 
   // internal helper
-    calculateValueAndProfit(SmartFunds){
-    // console.log("SmartFundsSmartFunds",SmartFunds)
-
+  calculateValueAndProfit(SmartFunds){
+    console.log("SmartFundsSmartFunds",SmartFunds)
     if(SmartFunds.length > 0){
       const reducer = (accumulator, currentValue) => BigNumber(accumulator).plus(currentValue)
       // get value
@@ -187,6 +173,19 @@ class MOBXStorage {
   }
 }
 
+
+decorate(MOBXStorage, {
+    SmartFunds: observable,
+    SmartFundsOriginal: observable,
+    FilterInfo: observable,
+    FilterActive:observable,
+    initSFList: action,
+    initWeb3AndAccounts:action,
+    paginationChange: action,
+    myInvestments:action,
+    myFunds: action,
+    updateSmartFundsList:action
+})
 
 const MobXStorage = new MOBXStorage()
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, HStack, Text, useColorModeValue } from '@chakra-ui/react';
 import isMobile from '../../../utils/isMobile';
 import MobXStorage from '../../../MobXStorage';
-import { useObserver } from 'mobx-react';
+
 
 const PagePagination = ({ currentPage, setCurrentPage }) => {
   const colorScheme = useColorModeValue("red", "green")
@@ -49,7 +49,7 @@ const PagePagination = ({ currentPage, setCurrentPage }) => {
     </Button>
   ));
 
-  return useObserver(() => (
+  return (
     <HStack>
       {!isMobileDevice ? (
         <React.Fragment>{renderPageNumbers}</React.Fragment>
@@ -68,7 +68,7 @@ const PagePagination = ({ currentPage, setCurrentPage }) => {
       )}
      
     </HStack>
-  ));
+  );
 };
 
 export default PagePagination

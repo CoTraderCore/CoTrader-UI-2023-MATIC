@@ -13,7 +13,7 @@ import { MdOutlineBarChart } from 'react-icons/md'
 import { FcComboChart } from 'react-icons/fc'
 import { RiFundsBoxLine } from 'react-icons/ri'
 import getFundsList from '../../utils/getFundsList';
-import { useObserver } from 'mobx-react';
+// import { useObserver } from 'mobx-react';
 import MobXStorage from '../../MobXStorage';
 import Loading from '../../Components/template/spiners/Loading';
 import Footer from '../../Components/common/footer/Footer';
@@ -70,7 +70,7 @@ function AllFundWithoutWeb3({ isDataLoad, web3, setIsDataLoad }) {
     const allbtnBg = useColorModeValue("#30106b", "#7500FF")
 
 
-    return useObserver(() => (
+    return (
         <React.Fragment>
             {
                 isDataLoad ?
@@ -243,7 +243,7 @@ function AllFundWithoutWeb3({ isDataLoad, web3, setIsDataLoad }) {
             }
             <Footer />
         </React.Fragment>
-    ));
+    );
 
 }
 
