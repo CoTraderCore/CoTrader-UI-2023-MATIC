@@ -11,13 +11,12 @@ import SmartFundListWithoutWeb3 from './Pages/ViewFundWithoutWeb3';
 import MainLayout from './Layouts/MainLayout';
 import ViewFundWithoutWeb3 from './Pages/FundInfoWithoutWeb3/Index';
 import SmartFundList from './Pages/SmartFundList/Index';
-import MobXStorage from './MobXStorage';
 import ViewFundTx from './Pages/ViewFundTx';
 import ViewUserTx from './Pages/ViewUserTx'
 import ViewFund from './Pages/ViewFund';
 import ViewUser from './Pages/ViewUser';
 import HowToStart from './Pages/HowToStart';
-
+import { inject } from 'mobx-react'
 
 function App(props) {
   const [web3, setWeb3] = useState(null);
@@ -28,35 +27,31 @@ function App(props) {
   const [timeOut, setTimeOut] = useState(false);
   const [isDataLoad, setIsDataLoad] = useState(false);
 
-  let isMounted = false
   useEffect(() => {
-    isMounted = true
-    initializeReactGA();
-    setTimeout(() => {
-      setTimeOut(true);
-    }, 1000);
+    async function load(){
+      initializeReactGA();
+      setTimeout(() => {
+        setTimeOut(true);
+      }, 1000);
 
-    if (web3) {
-      web3.eth.net.getId().then(netId => {
-        setNetwork(netId);
-        setIsLoadNetID(true);
-      });
+      await initData();
+      await fetchData()
+
+      if (web3) {
+        web3.eth.net.getId().then(netId => {
+          setNetwork(netId);
+          setIsLoadNetID(true);
+        });
+      }
+
+      if (window.ethereum) {
+        window.ethereum.on('accountsChanged', () => window.location.reload());
+      }
     }
 
-    if (window.ethereum) {
-      window.ethereum.on('accountsChanged', () => window.location.reload());
-    }
-    
-    initData();
-    fetchData()
+    load()
 
-    // checkWeb3OffRedirect()
-    return () => {
-      //component unmount
-      isMounted = false
-    };
-
-  }, [MobXStorage, timeOut, web3]);
+  }, [props.MobXStorage, timeOut, web3]);
 
 
   const initializeReactGA = () => {
@@ -65,17 +60,19 @@ function App(props) {
   };
 
   const fetchData = async () => {
+    console.log("Test")
     try {
       // Get network provider and web3 instance.
       const web3Instance = await getWeb3();
 
       // Use web3 to get the user's accounts.
       const userAccounts = await web3Instance.eth.getAccounts();
+      console.log("userAccounts", userAccounts)
       // Set web3 and accounts to the state
       setWeb3(web3Instance);
       setAccounts(userAccounts);
 
-      MobXStorage.initWeb3AndAccounts(web3Instance, userAccounts);
+      props.MobXStorage.initWeb3AndAccounts(web3Instance, userAccounts);
     } catch (error) {
       // Catch any errors for any of the above operations.
       // alert(
@@ -87,10 +84,10 @@ function App(props) {
   };
 
   const initData = async () => {
-    if (isMounted && MobXStorage.SmartFundsOriginal.length === 0) {
+    if (props.MobXStorage.SmartFundsOriginal.length === 0) {
       try {
         const smartFunds = await getFundsList();
-        MobXStorage.initSFList(smartFunds);
+        props.MobXStorage.initSFList(smartFunds);
         console.log("SmartFundRegistryADDRESS: ", SmartFundRegistryADDRESS, "!___version 28/04/21___!");
         setIsDataLoad(true);
       } catch (error) {
@@ -161,4 +158,4 @@ function App(props) {
   );
 }
 
-export default App;
+export default inject('MobXStorage')(App);
