@@ -7,9 +7,8 @@ import FilterSearch from '../../Components/Filter&Search/FilterSearch';
 import SortFunds from '../../Components/navigation/SortFunds';
 import IconBox from '../../Components/Icons/IconBox';
 import Footer from '../../Components/common/footer/Footer';
-import MobXStorage from '../../MobXStorage';
 import Loading from '../../Components/template/spiners/Loading';
-import HorizontalTabs from '../../Components/Tabs/HorizontalTabs';
+import { SmartfundTabs } from '../../Components/Tabs/SmartFundTabs';
 import { smartfundlist } from '../../utils/sample';
 import { MdOutlineBarChart } from 'react-icons/md'
 import { FcComboChart } from 'react-icons/fc'
@@ -22,8 +21,6 @@ import { APIEnpoint } from '../../config';
 import getFundData from '../../utils/getFundData';
 import getFundsList from '../../utils/getFundsList';
 import Pending from '../../Components/template/spiners/Pending';
-// import { useObserver } from 'mobx-react';
-
 
 function SmartFundList(props) {
 
@@ -57,7 +54,7 @@ function SmartFundList(props) {
 
     const updateSFList = async () => {
       const smartFunds = await getFundsList();
-      MobXStorage.initSFList(smartFunds);
+      props.MobXStorage.initSFList(smartFunds);
       checkPending();
     };
 
@@ -94,7 +91,7 @@ function SmartFundList(props) {
     };
 
     const txUpdate = (txName, address, user, hash) => {
-      if (MobXStorage.account[0] === user && lastHash !== hash) {
+      if (props.MobXStorage.account[0] === user && lastHash !== hash) {
         if (_isMounted.current) {
           setLastHash(hash);
           setTxName(txName);
@@ -119,7 +116,7 @@ function SmartFundList(props) {
     return () => {
       _isMounted.current = false;
     };
-  }, [props.accounts, MobXStorage]);
+  }, [props.accounts, props.MobXStorage]);
 
   const pendingg = (_bool, _txCount) => {
     setPending(_bool);
@@ -166,7 +163,7 @@ function SmartFundList(props) {
               </CardBox>
               <Box>
                 {
-                  !MobXStorage.FilterActive ?
+                  !props.MobXStorage.FilterActive ?
                     (
                       <SimpleGrid
                         width="100%"
@@ -185,7 +182,7 @@ function SmartFundList(props) {
                             />
                           }
                           name='Total Funds'
-                          value={MobXStorage.SmartFundsOriginal.length}
+                          value={props.MobXStorage.SmartFundsOriginal.length}
                         />
                         <ShadowBox
                           startContent={
@@ -199,7 +196,7 @@ function SmartFundList(props) {
                             />
                           }
                           name='Total value'
-                          value={`$ ${MobXStorage.TotalValue}`}
+                          value={`$ ${props.MobXStorage.TotalValue}`}
                         />
                         <ShadowBox
                           startContent={
@@ -213,7 +210,7 @@ function SmartFundList(props) {
                             />
                           }
                           name='Total profit'
-                          value={`$ ${MobXStorage.TotalProfit}`}
+                          value={`$ ${props.MobXStorage.TotalProfit}`}
                         />
                         <ShadowBox
                           startContent={
@@ -225,13 +222,13 @@ function SmartFundList(props) {
                             />
                           }
                           name='History total profit'
-                          value={`$ ${MobXStorage.HistoryTotalProfit}`}
+                          value={`$ ${props.MobXStorage.HistoryTotalProfit}`}
                         />
                       </SimpleGrid>
                     ) :
                     (
                       <Box>
-                        <Text style={{ color: "green" }}>{MobXStorage.FilterInfo}</Text>
+                        <Text style={{ color: "green" }}>{props.MobXStorage.FilterInfo}</Text>
                         <SimpleGrid
                           width="100%"
                           columns={{ base: 1, md: 4, lg: 4, }}
@@ -249,7 +246,7 @@ function SmartFundList(props) {
                               />
                             }
                             name='Fund'
-                            value={`${MobXStorage.SmartFunds.length} of ${MobXStorage.SmartFundsOriginal.length} funds`}
+                            value={`${props.MobXStorage.SmartFunds.length} of ${props.MobXStorage.SmartFundsOriginal.length} funds`}
                           />
                           <ShadowBox
                             startContent={
@@ -263,7 +260,7 @@ function SmartFundList(props) {
                               />
                             }
                             name='Total value'
-                            value={`$ ${MobXStorage.userTotalValue}`}
+                            value={`$ ${props.MobXStorage.userTotalValue}`}
                           />
                           <ShadowBox
                             startContent={
@@ -277,7 +274,7 @@ function SmartFundList(props) {
                               />
                             }
                             name='Total profit'
-                            value={`$ ${MobXStorage.TotalProfit}`}
+                            value={`$ ${props.MobXStorage.TotalProfit}`}
                           />
                           <ShadowBox
                             startContent={
@@ -289,7 +286,7 @@ function SmartFundList(props) {
                               />
                             }
                             name='History total profit'
-                            value={`$ ${MobXStorage.HistoryTotalProfit}`}
+                            value={`$ ${props.MobXStorage.HistoryTotalProfit}`}
                           />
                         </SimpleGrid>
                       </Box>
@@ -298,7 +295,7 @@ function SmartFundList(props) {
 
               </Box>
               <SimpleGrid>
-                <HorizontalTabs data={smartfundlist} pending={pendingg} web3={props.web3} accounts={props.accounts} />
+                <SmartfundTabs {...props} data={smartfundlist} pending={pendingg}  />
               </SimpleGrid>
               <Footer />
             </Box>

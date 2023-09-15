@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Heading, Box, useColorModeValue } from '@chakra-ui/react';
 import ApexChart from 'react-apexcharts';
+import 'apexcharts/dist/apexcharts.css';
 import Card from '../Card/Card';
 
 
@@ -41,7 +42,8 @@ const AssetsAlocationChart = ({ AssetsData, version }) => {
                 enabled: false,
             },
             colors: ["#00E396", "#984cf1", "#7500FF", "#00E396", "#FF4560", "#775DD0"],
-            series,    
+            series, 
+            
         });
     }
 
@@ -60,6 +62,13 @@ return (
                                 labels: chartData.labels,
                                 dataLabels: {
                                     enabled: chartData.dataLabels.enabled,
+                                },
+                                legend: {
+                                    show: true,
+                                    position: 'bottom',
+                                    labels: {
+                                        colors: [ allbtnBg,allbtnBg],
+                                    },
                                 },
                             }}
                             series={chartData.series}

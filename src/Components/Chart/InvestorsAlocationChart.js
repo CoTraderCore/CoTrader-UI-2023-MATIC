@@ -12,7 +12,7 @@ const InvestorsAllocationChart = ({ Data }) => {
 
     useEffect(() => {
         updateInvestorsData();
-    }, [Data]);
+    }, []);
 
     const updateInvestorsData = () => {
         try {
@@ -23,8 +23,7 @@ const InvestorsAllocationChart = ({ Data }) => {
 
                 const labels = filteredData.map((item) => String(item["user"]).replace(String(item["user"]).substring(6, 36), "..."));
                 const balance = filteredData.map((item) => Number(fromWei(String(item["shares"]))).toFixed(6));
-                console.log(balance);
-                console.log(labels);
+              
                 setChartData({
                     labels,
                     series: balance,
@@ -42,7 +41,6 @@ const InvestorsAllocationChart = ({ Data }) => {
     };
 
     const allbtnBg = useColorModeValue("#1A202C", "#fff")
-
     return (
         <React.Fragment>
             {
@@ -54,6 +52,13 @@ const InvestorsAllocationChart = ({ Data }) => {
                                 <ApexChart
                                     options={{
                                         labels: chartData.labels,
+                                        legend: {
+                                            show: true,
+                                            position: 'bottom',
+                                            labels: {
+                                                colors: [ allbtnBg,allbtnBg],
+                                            },
+                                        },
                                     }}
                                     series={chartData.series}
                                     type="pie"

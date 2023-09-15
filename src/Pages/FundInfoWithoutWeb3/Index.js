@@ -11,13 +11,16 @@ import Card from '../../Components/Card/Card';
 import Footer from '../../Components/common/footer/Footer';
 import getFundData from '../../utils/getFundData';
 import { fromWei } from 'web3-utils';
-import { EtherscanLink } from '../../config';
+import { EtherscanLink, NeworkID } from '../../config';
 // import { NeworkID } from '../../config';
 import EtherscanButton from '../../Components/actions/EtherscanButton';
 import Loading from '../../Components/template/spiners/Loading';
 import { useParams } from 'react-router-dom';
 import { pieChartOptions } from '../../Variable/Chart';
 import Web3Allert from '../../Components/Web3Off/Web3Alert';
+import _ from 'lodash';
+import InvestorsAllocationChart from '../../Components/Chart/InvestorsAlocationChart';
+import AssetsAlocationChart from '../../Components/Chart/AssetsAlocationChart';
 
 function ViewFundWithoutWeb3() {
     const { address } = useParams()
@@ -78,7 +81,6 @@ function ViewFundWithoutWeb3() {
     const remainingprogressBg = useColorModeValue("red.100", "#CBC3E3")
     const allbtnBg = useColorModeValue("#30106b", "#7500FF")
 
-
     return (
         <React.Fragment>
             {
@@ -87,8 +89,8 @@ function ViewFundWithoutWeb3() {
                         <Box px={4} background="" >
                             <Header heading="Fund Info." />
                             <Grid gap={5} sx={{ textAlign: 'center', fontWeight: "500" }}>
-                            <DashboardHeader />    
-                            <GridItem style={{ borderRadius: "5px", boxShadow: "1px 1px 1px 1px gray", border: "1px solid white" }} >
+                                <DashboardHeader />
+                                <GridItem style={{ borderRadius: "5px", boxShadow: "1px 1px 1px 1px gray", border: "1px solid white" }} >
                                     <Web3Allert />
                                 </GridItem>
                             </Grid>
@@ -208,6 +210,25 @@ function ViewFundWithoutWeb3() {
                                     </Box>
                                 </Box>
                             </Box>
+                            <Box mt={5} borderRadius="20px">
+                                        <SimpleGrid gap={2} columns={{ base: 1, md: 2 }}>
+                                          
+                                                    <GridItem>
+                                                        <InvestorsAllocationChart Data={fundData.shares} />
+                                                    </GridItem>
+                                            
+                                            {
+                                                NeworkID === 2 && !_.isEmpty(fundData.balance) ?
+                                                    (
+                                                        <GridItem>
+                                                            <AssetsAlocationChart AssetsData={fundData.balance} version={fundData.version} />
+                                                        </GridItem>
+                                                    ) : null
+                                            }
+
+                                        </SimpleGrid>
+
+                                    </Box>
                             <Box>
                                 <Box mt={5} gap={4} width={"100%"} sx={{ display: "flex", flexDirection: { base: "column", md: "row" }, }} >
                                     <Card width={{ base: "100%", md: "30%" }} bg={"rgba(128, 144, 255,.1)"}>
@@ -227,6 +248,7 @@ function ViewFundWithoutWeb3() {
                                             </ListItem>
                                         </List>
                                     </Card>
+                                    
                                     <Card width={{ base: "100%", md: "70%" }} >
                                         <Box sx={{ display: "flex", flexDirection: { base: "column", md: "row" } }}>
                                             <PieChartTable address={address} fundData={fundData} />
@@ -280,7 +302,7 @@ function ViewFundWithoutWeb3() {
                                                     }
                                                 }
                                             />
-                                         
+
 
                                         </Box>
                                     </Card>

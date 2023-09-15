@@ -6,7 +6,7 @@ import CreateFundButton from '../../Components/template/CreateFundButton';
 import ShadowBox from '../../Components/Cards/ShadowBox';
 import IconBox from '../../Components/Icons/IconBox';
 import CardBox from '../../Components/Cards/CardBox';
-import HorizontalTabs from '../../Components/Tabs/HorizontalTabs';
+import { FundWithoutWeb3Tabs } from '../../Components/Tabs/FundWithoutWeb3Tab';
 import { dashbordTabs } from '../../utils/sample';
 import SortFunds from '../../Components/navigation/SortFunds';
 import { MdOutlineBarChart } from 'react-icons/md'
@@ -20,7 +20,7 @@ import Footer from '../../Components/common/footer/Footer';
 import Web3Allert from '../../Components/Web3Off/Web3Alert';
 
 
-function AllFundWithoutWeb3({ isDataLoad, web3, setIsDataLoad }) {
+function ViewFundWithoutWeb3({props,web3,isDataLoad,setIsDataLoad}) {
 
     useEffect(() => {
         let isMounted = true;
@@ -73,7 +73,7 @@ function AllFundWithoutWeb3({ isDataLoad, web3, setIsDataLoad }) {
     return (
         <React.Fragment>
             {
-                isDataLoad ?
+              isDataLoad ?
                     (
                         <Box className='dashboard' px={4}>
                             <Grid gap={5} sx={{ textAlign: 'center', fontWeight: "500" }}>
@@ -85,7 +85,7 @@ function AllFundWithoutWeb3({ isDataLoad, web3, setIsDataLoad }) {
                             <CardBox p="10px" my="10px">
                                 <Grid gap={4} templateColumns={['1fr', 'repeat(3, 1fr)']} sx={{ padding: "10px 0px ", borderRadius: "5px", display: "flex", justifyContent: "space-around", flexDirection: { base: "column", sm: "column", md: "row" }, textAlign: { base: "center", sm: "center" } }}>
                                     <GridItem >
-                                        <CreateFundButton buttonName={"Create Funds"} info={"Connect to web3"} />
+                                        <CreateFundButton buttonName={"Create Funds"} info={"Please Connect to web3"} />
                                     </GridItem>
                                     <GridItem >
                                         <FilterSearch />
@@ -233,7 +233,7 @@ function AllFundWithoutWeb3({ isDataLoad, web3, setIsDataLoad }) {
                             </Box>
 
                             <SimpleGrid>
-                                <HorizontalTabs data={dashbordTabs} />
+                                <FundWithoutWeb3Tabs {...props}  />
                             </SimpleGrid>
                         </Box>
                     ) :
@@ -247,6 +247,6 @@ function AllFundWithoutWeb3({ isDataLoad, web3, setIsDataLoad }) {
 
 }
 
-export default AllFundWithoutWeb3;
+export default ViewFundWithoutWeb3;
 
 

@@ -52,7 +52,7 @@ class DepositERC20 extends Component {
                 tokenBalanceInWei,
                 tokenBalancee,
             });
-           
+           console.log(symboll,"symbolllll");
         } catch (error) {
             console.error("Error", error);
         }

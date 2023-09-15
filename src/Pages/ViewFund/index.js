@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import ShadowBox from '../../Components/Cards/ShadowBox';
 import IconBox from '../../Components/Icons/IconBox';
 import Header from '../../Components/common/Header';
-import { Box, Heading, Icon, SimpleGrid, Button, Tooltip, List, ListItem, Progress, Stack, useColorModeValue, GridItem, Grid, Table, Thead, Tr, Th, Td, Tbody, Text, flexbox } from '@chakra-ui/react'
+import { Box, Heading, Icon, SimpleGrid, List, ListItem, Progress, Stack, useColorModeValue, GridItem, Grid, Table, Thead, Tr, Th, Td, Tbody, Text,  } from '@chakra-ui/react'
 import { MdAttachMoney, } from "react-icons/md";
 import Card from '../../Components/Card/Card';
 import Footer from '../../Components/common/footer/Footer';
@@ -31,6 +31,7 @@ import UpdateUSDAsset from '../../Components/actions/UpdateUSDAsset';
 import DashboardHeader from '../../Components/common/DashboardHeader';
 import { fromWei } from 'web3-utils';
 import _ from 'lodash';
+
 
 function ViewFund(props) {
     const { address } = useParams();
@@ -347,6 +348,7 @@ function ViewFund(props) {
                     </Box>
                     <Box mt={5} borderRadius="20px">
                         <SimpleGrid gap={2} columns={{ base: 1, md:2}}>
+                       
                             {
                                 shares ? (
                                     <GridItem>

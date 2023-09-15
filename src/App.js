@@ -36,6 +36,7 @@ function App(props) {
 
       await initData();
       await fetchData()
+      // checkWeb3OffRedirect()
 
       if (web3) {
         web3.eth.net.getId().then(netId => {
@@ -71,7 +72,7 @@ function App(props) {
       // Set web3 and accounts to the state
       setWeb3(web3Instance);
       setAccounts(userAccounts);
-
+      
       props.MobXStorage.initWeb3AndAccounts(web3Instance, userAccounts);
     } catch (error) {
       // Catch any errors for any of the above operations.
@@ -80,7 +81,7 @@ function App(props) {
       // )
       console.error('Fetching error', error);
     }
-
+   
   };
 
   const initData = async () => {
