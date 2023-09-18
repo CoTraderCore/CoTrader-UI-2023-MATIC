@@ -8,9 +8,7 @@ import Card from '../../Components/Card/Card';
 import Footer from '../../Components/common/footer/Footer';
 import getFundData from '../../utils/getFundData';
 import { EtherscanLink, APIEnpoint, NeworkID } from '../../config';
-// import { NeworkID } from '../../config';
 import EtherscanButton from '../../Components/actions/EtherscanButton';
-import Loading from '../../Components/template/spiners/Loading';
 import { useParams } from 'react-router-dom';
 import MigrateToV9 from '../../Components/actions/MigrateToV9';
 import PopupMsg from '../../Components/template/PopupMsg';
@@ -559,10 +557,6 @@ function ViewFund(props) {
                     <Footer />
                 </Box>
             </React.Fragment>
-
-
-
-
         </Box>
     )
 }

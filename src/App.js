@@ -83,7 +83,7 @@ function App(props) {
     }
    
   };
-
+console.log(accounts,web3,"web3 and account =======================");
   const initData = async () => {
     if (props.MobXStorage.SmartFundsOriginal.length === 0) {
       try {

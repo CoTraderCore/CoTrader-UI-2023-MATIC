@@ -3,6 +3,7 @@ import { Link, Text, Box, Button, Modal, ModalBody, ModalContent, ModalFooter, M
 import { NavLink, } from 'react-router-dom';
 import { EtherscanLink } from '../../config.js';
 import MobXStorage from '../../MobXStorage.js';
+import { Observer, inject, observer } from 'mobx-react';
 
 const FundModal = ({ address, }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -11,6 +12,7 @@ const FundModal = ({ address, }) => {
     const btnColor = useColorModeValue("#00C6C0", "#fff")
 
     return (
+       
         <Box>
             <Text fontWeight={{ base: "700", md: "500" }} onClick={onOpen} cursor={'pointer'}>
                 Fund: <small style={{ color: "#7500fe", }}><strong >{String(address).replace(String(address).substring(4, 38), "...")}</strong></small>
@@ -47,7 +49,8 @@ const FundModal = ({ address, }) => {
                 </ModalContent>
             </Modal>
         </Box>
+   
     );
 };
 
-export default FundModal;
+export default inject('MobXStorage')(FundModal);

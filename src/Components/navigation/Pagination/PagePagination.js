@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, HStack, Text, useColorModeValue } from '@chakra-ui/react';
 import isMobile from '../../../utils/isMobile';
 import MobXStorage from '../../../MobXStorage';
+import { inject } from 'mobx-react';
 
 
 const PagePagination = ({ currentPage, setCurrentPage }) => {
@@ -71,6 +72,6 @@ const PagePagination = ({ currentPage, setCurrentPage }) => {
   );
 };
 
-export default PagePagination
+export default inject('MobXStorage')(PagePagination);
 
 

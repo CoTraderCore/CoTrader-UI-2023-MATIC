@@ -5,7 +5,7 @@ import { APIEnpoint, SmartFundABI } from '../../../config.js'
 import { Button, FormControl, Alert, FormLabel, AlertIcon, AlertDescription, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from '@chakra-ui/react'
 import setPending from '../../../utils/setPending.js'
 import { fromWei, toWei } from 'web3-utils'
-import MobXStorage from '../../../MobXStorage.js'
+// import MobXStorage from '../../../MobXStorage.js'
 
 import axios from 'axios'
 
@@ -23,26 +23,24 @@ class DepositETH extends Component {
 
   componentDidMount = async () => {
     try {
-      const ethBalanceInWei = await this.props.web3.eth.getBalance(MobXStorage.accounts[0])
+      const ethBalanceInWei = await this.props.web3.eth.getBalance(this.props.accounts[0])
       const ethBalance = fromWei(ethBalanceInWei)
   
       this.setState({
         ethBalance
-      }, () => {
-        console.log("ethBalance:", this.state.ethBalance); // Check if ethBalance is correctly set
-      });
+      })
     } catch (e) {
       console.error(e, "Error");
     }
   }
   
   validation = async () => {
-    try{
-    if (this.state.DepositValue <= 0) {
-      this.setState({ ValueError: "Value can't be 0.01 or less" })
-      return
+   
+      if (this.state.DepositValue <= 0) {
+        this.setState({ ValueError: "Value can't be 0.01 or less" });
+        return;
     }
-
+   
     const userBalance = await this.props.web3.eth.getBalance(this.props.accounts[0])
     if (Number(this.state.DepositValue) > Number(fromWei(userBalance))) {
       this.setState({ ValueError: `Not enough ${this.props.mainAsset}` })
@@ -50,9 +48,7 @@ class DepositETH extends Component {
     }
 
     this.depositETH()
-  }catch(e){
-    console.log(e,"error");
-  }
+ 
   }
 
   depositETH = async () => {

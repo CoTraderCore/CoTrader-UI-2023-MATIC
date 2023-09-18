@@ -1,9 +1,7 @@
 import { observable, action, decorate } from 'mobx'
 import isMobile from './utils/isMobile'
-import { fromWei, toNumber } from 'web3-utils'
+import { fromWei, toNumber} from 'web3-utils'
 import BigNumber from 'bignumber.js'
-
-
 
 class MOBXStorage {
   web3 = null

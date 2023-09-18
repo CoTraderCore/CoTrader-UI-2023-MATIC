@@ -3,8 +3,9 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel, useColorModeValue, Tooltip, Bo
 import AllFundWithoutWeb3 from '../../Pages/AllFundWithoutWeb3'
 import MyFund from '../../Pages/MyFund'
 import MyInvestment from '../../Pages/MyInvestment'
+import { inject } from 'mobx-react'
 
-export const FundWithoutWeb3Tabs = (props) => {
+ const FundWithoutWeb3Tabs = (props) => {
     const tabColor = useColorModeValue("#7500fe", "#7500ff")
     return (
         <Tabs width="100%" overflowX="hidden">
@@ -42,4 +43,4 @@ export const FundWithoutWeb3Tabs = (props) => {
         </Tabs >
     )
 }
-
+export default inject('MobXStorage')(FundWithoutWeb3Tabs)

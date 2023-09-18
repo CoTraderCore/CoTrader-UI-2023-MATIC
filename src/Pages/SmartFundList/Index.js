@@ -7,8 +7,7 @@ import FilterSearch from '../../Components/Filter&Search/FilterSearch';
 import SortFunds from '../../Components/navigation/SortFunds';
 import IconBox from '../../Components/Icons/IconBox';
 import Footer from '../../Components/common/footer/Footer';
-import Loading from '../../Components/template/spiners/Loading';
-import { SmartfundTabs } from '../../Components/Tabs/SmartFundTabs';
+import SmartfundTabs from '../../Components/Tabs/SmartFundTabs'
 import { smartfundlist } from '../../utils/sample';
 import { MdOutlineBarChart } from 'react-icons/md'
 import { FcComboChart } from 'react-icons/fc'
@@ -21,19 +20,18 @@ import { APIEnpoint } from '../../config';
 import getFundData from '../../utils/getFundData';
 import getFundsList from '../../utils/getFundsList';
 import Pending from '../../Components/template/spiners/Pending';
+import { Observer, inject} from 'mobx-react';
 
 function SmartFundList(props) {
-
-  const _popupChild = useRef(null);
-
   const [pending, setPending] = useState(false);
   const [txName, setTxName] = useState('');
   const [txHash, setTxHash] = useState('');
   const [lastHash, setLastHash] = useState('');
   const [txCount, setTxCount] = useState(0);
 
+  const _popupChild = useRef(null);
   const _isMounted = useRef(true);
- 
+
   useEffect(() => {
     const initSocket = () => {
       const socket = io(APIEnpoint);
@@ -71,7 +69,7 @@ function SmartFundList(props) {
       }
     };
 
-  
+
     const checkPending = async () => {
       if (props.accounts) {
         let txCount = await axios.get(APIEnpoint + 'api/user-pending-count/' + props.accounts[0]);
@@ -128,18 +126,21 @@ function SmartFundList(props) {
   const boxBg = useColorModeValue("#F4F7FE", "#110938");
   const allbtnBg = useColorModeValue("#30106b", "#7500FF")
 
-  return(
-    <React.Fragment>
+  return (
+    <Observer>
+      {() => {
+        return (
+          <React.Fragment>
             <Box className='dashboard' style={{ padding: "10px", }}>
-            <DashboardHeader />
+              <DashboardHeader />
               <PopupMsg txName={txName} txHash={txHash} ref={_popupChild} />
               {
                 pending ? (
                   <>
                     <Box>
-                      <small style={{ fontWeight: "500", textAlign: "center", borderRadius: "5px", padding: "10px 5px", boxShadow: "1px 1px 1px 1px gray", border: "1px solid white" }}>
+                      <Text mt={4} sx={{ fontWeight: "500", textAlign: "center", borderRadius: "5px", padding: "10px 5px", boxShadow: "1px 1px 1px 1px gray", border: "1px solid white" }}>
                         Pending transitions : {txCount}
-                      </small>
+                      </Text>
                       <Pending />
                     </Box>
                   </>
@@ -295,15 +296,19 @@ function SmartFundList(props) {
 
               </Box>
               <SimpleGrid>
-                <SmartfundTabs {...props} data={smartfundlist} pending={pendingg}  />
+                <SmartfundTabs {...props} data={smartfundlist} pending={pendingg} />
               </SimpleGrid>
               <Footer />
             </Box>
 
 
-    </React.Fragment>
-          );
+          </React.Fragment>
+        )
+      }}
+    </Observer>
+  );
 
 }
 
-export default SmartFundList;
+// export default SmartFundList;
+export default inject('MobXStorage')(SmartFundList);
