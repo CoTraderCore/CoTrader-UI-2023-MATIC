@@ -13,8 +13,7 @@ function Withdraw(props) {
 
         if (percent >= 0 && percent <= 100) {
             const contractABI = SmartFundABIV7;
-            const contract = props.web3 ? new props.web3.eth.Contract(contractABI, address) : null;
-            // const contract = new props.web3.eth.Contract(contractABI, address);
+            const contract = new props.web3.eth.Contract(contractABI, address);
             const shares = await contract?.methods.balanceOf(props.accounts[0]).call();
             try {
                 if (shares > 0) {

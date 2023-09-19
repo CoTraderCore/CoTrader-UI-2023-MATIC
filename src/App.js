@@ -28,7 +28,7 @@ function App(props) {
   const [isDataLoad, setIsDataLoad] = useState(false);
 
   useEffect(() => {
-    async function load(){
+    async function load() {
       initializeReactGA();
       setTimeout(() => {
         setTimeOut(true);
@@ -72,18 +72,18 @@ function App(props) {
       // Set web3 and accounts to the state
       setWeb3(web3Instance);
       setAccounts(userAccounts);
-      
+
       props.MobXStorage.initWeb3AndAccounts(web3Instance, userAccounts);
     } catch (error) {
       // Catch any errors for any of the above operations.
       // alert(
       //   `Failed to load web3, accounts, or contract. Check console for details.`,
       // )
-      console.error('Fetching error', error);
+      console.log('Fetching error', error);
     }
-   
+
   };
-console.log(accounts,web3,"web3 and account =======================");
+
   const initData = async () => {
     if (props.MobXStorage.SmartFundsOriginal.length === 0) {
       try {
@@ -92,11 +92,11 @@ console.log(accounts,web3,"web3 and account =======================");
         console.log("SmartFundRegistryADDRESS: ", SmartFundRegistryADDRESS, "!___version 28/04/21___!");
         setIsDataLoad(true);
       } catch (error) {
-        console.error(error);
+        console.log("error:", error);
       }
     }
   };
-
+  
   // const checkWeb3OffRedirect = () => {
   //   // Replace the path when the page is loaded for the first time
   //   const currentPath = window.location.pathname;

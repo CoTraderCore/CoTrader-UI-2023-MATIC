@@ -32,6 +32,7 @@ const getWeb3 = () =>
         console.log("No web3 instance injected, using Local web3.")
         resolve(web3)
       }
+     
     })
   })
 

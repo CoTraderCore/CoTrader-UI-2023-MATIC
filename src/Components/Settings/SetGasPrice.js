@@ -60,27 +60,28 @@ class SetGasPrice extends Component {
 
     render() {
         return (
-            <Box align="center">
-                <Text>select gas price</Text>
-                <br />
-                <ButtonGroup size="sm">
+            <Box textAlign="center">
+                <Text fontWeight="500" sx={{textDecoration:"underline",textTransform:"uppercase"}}>Select gas price</Text>
+                <ButtonGroup mt={1} size="md">
                     <Button
-                        colorScheme={this.state.gasPriceState === "high" ? "blue" : "green"}
+                        colorScheme={this.state.gasPriceState === "high" ? "orange" : "green"}
+                        variant="outline"
                         onClick={() => this.setGasPrice("high")}
                     >High</Button>
 
                     <Button
-                        colorScheme={this.state.gasPriceState === "average" ? "blue" : "green"}
+                        colorScheme={this.state.gasPriceState === "average" ? "orange" : "green"}
+                        variant="outline"
                         onClick={() => this.setGasPrice("average")}
                     >Average</Button>
 
                     <Button
-                        colorScheme={this.state.gasPriceState === "low" ? "blue" : "green"}
+                        colorScheme={this.state.gasPriceState === "low" ? "orange" : "green"}
+                        variant="outline"
                         onClick={() => this.setGasPrice("low")}
                     >Low</Button>
                 </ButtonGroup>
-                <br />
-                <small>current {this.state.gasPrice / 1000000000} gwei</small>
+                <Text mt={2} borderRadius={5} sx={{background:"lightgray",width:"100%",color:"#fff",fontWeight:"500",fontsize:"10px"}}>Current {this.state.gasPrice / 1000000000} gwei</Text>
             </Box>
         )
     }

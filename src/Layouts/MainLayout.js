@@ -3,7 +3,7 @@ import Navbar from '../Components/common/Navbar'
 import Sidebar from '../Components/common/Sidebar'
 import { Alert, AlertIcon, Box, Grid, GridItem, useColorMode, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import { Outlet } from 'react-router-dom';
-import { useTheme } from '@emotion/react';
+// import { useTheme } from '@emotion/react';
 import WalletInfo from '../Components/common/WalletInfo';
 import { NeworkID } from '../config';
 // import { useLocation } from 'react-router-dom';
@@ -12,9 +12,9 @@ function MainLayout(props) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [isChange, setIsChange] = useState(false)
     const { colorMode, toggleColorMode } = useColorMode(false)
-    const theme = useTheme()
+    // const theme = useTheme()
     const Boxbg = useColorModeValue("#F3F6FD", "#110938");
-    console.log(theme);
+    // console.log(theme);
 
     function changeTheme() {
         if (document.body.classList.contains('dark_theme')) {

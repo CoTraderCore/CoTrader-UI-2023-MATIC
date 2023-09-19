@@ -3,7 +3,6 @@ import { SmartFundABIV7, EtherscanLink } from '../../config';
 import { fromWei } from 'web3-utils';
 import { isAddress } from 'web3-validator';
 import {
-    Box,
     Button,
     Modal,
     ModalOverlay,
@@ -47,7 +46,6 @@ const UpdateUSDAsset = (props) => {
                 const currentTokenSymbol = Object.keys(assets).find(
                     (k) => assets[k].toLowerCase() === currentTokenAddress.toLowerCase()
                 );
-                
                 if (isMounted) {
                     setCurrentUSDTokenAddress(currentTokenAddress);
                     setCurrentUSDTokenSymbol(currentTokenSymbol);
@@ -56,7 +54,7 @@ const UpdateUSDAsset = (props) => {
                     setTotalWeiDeposited(totalWeiDeposited);
                 }
             } catch (error) {
-                console.error("Error initializing data: ", error);
+                console.log("Error initializing data: ", error);
             }
         };
 
@@ -65,9 +63,6 @@ const UpdateUSDAsset = (props) => {
             isMounted = false;
         };
     }, [props.smartFundAddress, props.web3]);
-
-    console.log(symbolsArray,"---")
-
 
 
     const setAddressBySymbol = (e) => {
@@ -94,7 +89,7 @@ const UpdateUSDAsset = (props) => {
     let modalClose = () => setShow(false);
     const allbtnBg = useColorModeValue("#30106b", "#7500FF")
     const sliderBg = useColorModeValue("#fff", "#181144")
-    
+
     return (
         <>
             <Button flexGrow="1" minWidth={{ base: '100%', md: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }} onClick={() => setShow(true)}>
@@ -136,7 +131,7 @@ const UpdateUSDAsset = (props) => {
                                 </Select>
                             </InputGroup>
 
-                            {!totalWeiDeposited === 0 ?
+                            {totalWeiDeposited === 0 ?
                                 (
                                     <Button mt={3} colorScheme='green' variant="outline" onClick={() => changeUSDToken()}>
                                         Set new token

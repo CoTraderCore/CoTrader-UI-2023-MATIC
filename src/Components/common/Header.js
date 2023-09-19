@@ -10,11 +10,11 @@ function Header({ heading }) {
   return (
 
     <Grid p={2}
-      style={{
+      sx={{
         position: "sticky",
         top: "0px",
         borderRadius: "5px",
-        zIndex: "100",
+        zIndex: "1000",
         backdropFilter: "blur(10px)",
         backgroundColor: "#F4F7FE0",
       }}>

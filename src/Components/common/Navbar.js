@@ -3,9 +3,9 @@ import { Box, Flex, Heading,  Image, } from '@chakra-ui/react';
 import { MdDarkMode } from 'react-icons/md'
 import { BsFillSunFill } from "react-icons/bs"
 import { Link } from 'react-router-dom';
-import MobXStorage from '../../MobXStorage';
 
-const Navbar = ({toggleColorMode}) => {
+
+const Navbar = (props) => {
 
 
     return (
@@ -14,12 +14,12 @@ const Navbar = ({toggleColorMode}) => {
                 <Flex justifyContent="space-between">
                     <Box display="flex" alignItems="center" gap={4} >
                         <Heading as="h1" size="lg" cursor={'pointer'}>
-                          <Link to={MobXStorage.web3? "/" : "/web3off"}><Image src='/logo.png' alt='CoTrader' height="24px" /></Link>
+                          <Link to={props.web3? "/" : "/web3off"}><Image src='/logo.png' alt='CoTrader' height="24px" /></Link>
                         </Heading>
                     </Box>
                     <Box display="flex" alignItems="center" fontSize="2xl" cursor={'pointer'} gap={2}>
-                        <span onClick={toggleColorMode} style={{ display: "flex", alignItems: "center" }}>        
-                        <BsFillSunFill title='Light' /> / <MdDarkMode title='Dark'/>           
+                        <span onClick={props.toggleColorMode} style={{ display: "flex", alignItems: "center" }}>        
+                        <BsFillSunFill title='Light'/> / <MdDarkMode title='Dark'/>           
                         </span>
                     </Box>
                 </Flex>

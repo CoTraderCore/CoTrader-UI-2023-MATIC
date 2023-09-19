@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { SmartFundABIV7 } from '../../config.js';
 import { useDisclosure, Button, ListItem, ModalCloseButton, ModalContent, ModalOverlay, OrderedList, ModalBody, ModalHeader, Modal, Box, useColorModeValue, Tooltip } from '@chakra-ui/react';
-import Loading from '../template/spiners/Loading.js';
+// import Loading from '../template/spiners/Loading.js';
 import { fromWei } from 'web3-utils'
 
 function UserHoldings(props) {

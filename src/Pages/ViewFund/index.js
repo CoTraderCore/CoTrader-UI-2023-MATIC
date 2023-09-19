@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import ShadowBox from '../../Components/Cards/ShadowBox';
 import IconBox from '../../Components/Icons/IconBox';
 import Header from '../../Components/common/Header';
-import { Box, Heading, Icon, SimpleGrid, List, ListItem, Progress, Stack, useColorModeValue, GridItem, Grid, Table, Thead, Tr, Th, Td, Tbody, Text,  } from '@chakra-ui/react'
+import { Box, Heading, Icon, SimpleGrid, List, ListItem, Progress, Stack, useColorModeValue, GridItem, Grid, Table, Thead, Tr, Th, Td, Tbody, Text, } from '@chakra-ui/react'
 import { MdAttachMoney, } from "react-icons/md";
 import Card from '../../Components/Card/Card';
 import Footer from '../../Components/common/footer/Footer';
@@ -33,9 +33,6 @@ import _ from 'lodash';
 
 function ViewFund(props) {
     const { address } = useParams();
-    const _popupChild = useRef();
-    const _isMounted = useRef(false);
-
     const [smartFundAddress, setSmartFundAddress] = useState('');
     const [name, setName] = useState('');
     const [balance, setBalance] = useState(null);
@@ -59,8 +56,10 @@ function ViewFund(props) {
     const [managerFee, setManagerFee] = useState(0);
     const [tradeVerification, setTradeVerification] = useState(1);
 
+    const _popupChild = useRef(null);
+    const _isMounted = useRef(true);
+
     useEffect(() => {
-        _isMounted.current = true;
         loadData();
         initSocket();
         checkPending();
@@ -70,7 +69,6 @@ function ViewFund(props) {
         };
     }, []);
 
-    // init socket listener
     const initSocket = () => {
         const socket = io(APIEnpoint);
         socket.on('connect', () => {
@@ -88,24 +86,20 @@ function ViewFund(props) {
         });
     };
 
-    // helper for update by socket events
     const txUpdate = (txName, address, hash) => {
-        if (address === address && lastHash !== hash) {
-            if (_isMounted.current) {
-                setLastHash(hash);
-                setTxName(txName);
-                setTxHash(hash);
-                updateBalance();
-                checkPending();
+        if (address === address && lastHash !== hash && _isMounted.current) {
+            setLastHash(hash);
+            setTxName(txName);
+            setTxHash(hash);
+            updateBalance();
+            checkPending();
 
-                if (_popupChild.current) {
-                    showPopup();
-                }
+            if (_popupChild.current) {
+                showPopup();
             }
         }
     };
 
-    // get data from api
     const loadData = async () => {
         const fund = await getFundData(address);
 
@@ -129,11 +123,11 @@ function ViewFund(props) {
             setTradeVerification(fund.data.result.tradeVerification);
         }
     };
-    // helper for update balance by socket event
-    const updateBalance = async () => {
-        const fund = await getFundData(address)
 
-        if (_isMounted) {
+    const updateBalance = async () => {
+        const fund = await getFundData(address);
+
+        if (_isMounted.current) {
             setBalance(JSON.parse(fund.data.result.balance));
             setProfitInETH(fund.data.result.profitInETH);
             setProfitInUSD(fund.data.result.profitInUSD);
@@ -141,41 +135,40 @@ function ViewFund(props) {
             setValueInUSD(fund.data.result.valueInUSD);
             setManagerTotalCut(fund.data.result.managerTotalCut);
             setManagerRemainingCut(fund.data.result.managerRemainingCut);
-
+            setShares(fund.data.result.shares);
         }
-    }
-    // prop for components Deposit, Withdraw, Trade, FundManagerWinthdraw
-    const pendingg = (_bool, _txCount) => {
-        setPending({ pending: _bool, txCount: _txCount })
-    }
-    // check if there are no more transactions hide pending info
+    };
+
+    const pendingHandler = (bool, txCount) => {
+        setPending(bool);
+        setTxCount(txCount);
+    };
+
     const checkPending = async () => {
         if (props.accounts) {
-            let txCount = await axios.get(APIEnpoint + 'api/user-pending-count/' + props.accounts[0])
-            txCount = txCount.data.result
-
-            const pending = Number(txCount) === 0 ? false : true
-            if (_isMounted)
-                setPending({ pending, txCount })
+            let txCount = await axios.get(APIEnpoint + 'api/user-pending-count/' + props.accounts[0]);
+            txCount = txCount.data.result;
+            const isPending = Number(txCount) !== 0;
+            if (_isMounted.current) {
+                setPending(isPending);
+                setTxCount(txCount);
+            }
         }
-    }
-    // helper for parse pool connectors data
-    const parsePoolConnectors = (data) => {
-        const poolConnectors = data.map((item) => item.symbol)
-        return (
-            <UserInfo info={`Pool tokens : ${poolConnectors}`} />
-        )
-    }
-    // show toast info
-    function showPopup() {
-        if (_popupChild.current)
-            _popupChild.current.show()
-    }
+    };
 
-    const profitInEth=fromWei(String(profitInETH),'ether')
-    const profitInUsd=fromWei(String(profitInUSD),'ether')
-    const valueInEth=fromWei(String(valueInETH),'ether')
-    const valueInUsd=fromWei(String(valueInUSD),'ether')
+    const parsePoolConnectors = (data) => {
+        const poolConnectors = data.map((item) => item.symbol);
+        return <UserInfo info={`Pool tokens : ${poolConnectors}`} />;
+    };
+
+    const showPopup = () => {
+        if (_popupChild.current) _popupChild.current.show();
+    };
+
+    const profitInEth = fromWei(String(profitInETH), 'ether')
+    const profitInUsd = fromWei(String(profitInUSD), 'ether')
+    const valueInEth = fromWei(String(valueInETH), 'ether')
+    const valueInUsd = fromWei(String(valueInUSD), 'ether')
 
     // const tooltipBg = useColorModeValue("black", "#A4ADC7")
     const headingColor = useColorModeValue("#1B2559", "#F4F7FE");
@@ -190,7 +183,11 @@ function ViewFund(props) {
     const boxBg = useColorModeValue("#F4F7FE", "#110938");
 
     return (
-        <Box px={5} overflow="hidden">
+        <Box px={4} overflow="hidden">
+            <Header heading="Fund Detail" />
+            <Grid mt={2}>
+                <DashboardHeader />
+            </Grid>
             <MigrateToV9
                 version={version}
                 owner={owner}
@@ -203,24 +200,25 @@ function ViewFund(props) {
 
                 <Box>
                     <PopupMsg txName={txName} txHash={txHash} ref={_popupChild} />
-                    {
-                        pending ? (
-                            <>
-                                <Box>
-                                    <small>Pending transition : {txCount}</small>
+                    {pending ? (
+                        <>
+                            <Box>
+                                <Text mt={4} sx={{ fontWeight: "500", textAlign: "center", borderRadius: "5px", padding: "10px 5px", boxShadow: "1px 1px 1px 1px gray", border: "1px solid white" }}>
+                                    Pending transitions : {txCount}
+                                </Text>
 
-                                </Box>
-                                <Pending />
-                            </>
-                        ) : (
-                            null
-                        )
+                            </Box>
+                            <Pending />
+                        </>
+                    ) : (
+                        null
+                    )
                     }
+
+
                 </Box>
 
-                <Box background="" >
-                    <Header heading="Fund Detail" />
-                    <DashboardHeader />
+                <Box>
                     <Box mt={4} sx={{ padding: "10px", borderRadius: "10px", }}>
                         <Heading textTransform={"uppercase"} fontSize={{ base: "2xl" }} color={headingColor} textAlign={'center'} p={2}>Fund Name: {name}</Heading>
                         <SimpleGrid
@@ -323,7 +321,7 @@ function ViewFund(props) {
                                     address={smartFundAddress}
                                     accounts={props.accounts}
                                     mainAsset={mainAsset}
-                                    pending={pendingg}
+                                    pending={pendingHandler}
                                     version={version}
                                 />
                                 <Withdraw
@@ -332,21 +330,21 @@ function ViewFund(props) {
                                     accounts={props.accounts}
                                     version={version}
                                     mainAsset={mainAsset}
-                                    pending={pendingg}
+                                    pending={pendingHandler}
                                 />
                                 <UserHoldings
                                     web3={props.web3}
                                     address={smartFundAddress}
                                     accounts={props.accounts}
-                                    pending={pendingg}
+                                    pending={pendingHandler}
                                 />
                                 <EtherscanButton address={smartFundAddress} />
                             </Box>
                         </Box>
                     </Box>
                     <Box mt={5} borderRadius="20px">
-                        <SimpleGrid gap={2} columns={{ base: 1, md:2}}>
-                       
+                        <SimpleGrid gap={2} columns={{ base: 1, md: 2 }}>
+
                             {
                                 shares ? (
                                     <GridItem>
@@ -477,7 +475,7 @@ function ViewFund(props) {
                                     web3={props.web3}
                                     accounts={props.accounts}
                                     smartFundAddress={smartFundAddress}
-                                    pending={pendingg}
+                                    pending={pendingHandler}
                                     version={version}
                                 />
 
@@ -486,7 +484,7 @@ function ViewFund(props) {
                                     accounts={props.accounts}
                                     smartFundAddress={smartFundAddress}
                                     owner={owner}
-                                    pending={pendingg}
+                                    pending={pendingHandler}
                                     version={version}
                                 />
                                 <WhiteList

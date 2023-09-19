@@ -72,15 +72,17 @@ const WhiteList = (props) => {
     };
 
     const addToWhitelistOnly = async () => {
-        if (props.web3.utils.isAddress(userWhiteListAddress)) {
-            try {
+        try {
+            if (props.web3.utils.isAddress(userWhiteListAddress)) {
+
                 await contract.methods.setWhitelistAddress(userWhiteListAddress, userStatus).send({ from: props.accounts[0] });
                 setShow(false);
-            } catch (error) {
-                console.log(error);
+
+            } else {
+                console.log('Not a correct address');
             }
-        } else {
-            console.log('Not a correct address');
+        } catch (error) {
+            console.log(error);
         }
     };
 

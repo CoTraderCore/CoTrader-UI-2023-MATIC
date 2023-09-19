@@ -131,6 +131,7 @@ function SmartFundList(props) {
       {() => {
         return (
           <React.Fragment>
+        
             <Box className='dashboard' style={{ padding: "10px", }}>
               <DashboardHeader />
               <PopupMsg txName={txName} txHash={txHash} ref={_popupChild} />

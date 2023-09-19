@@ -125,7 +125,7 @@ class MOBXStorage {
 
   // internal helper
   calculateValueAndProfit(SmartFunds){
-    console.log("SmartFundsSmartFunds",SmartFunds)
+    // console.log("SmartFundsSmartFunds",SmartFunds)
     if(SmartFunds.length > 0){
       const reducer = (accumulator, currentValue) => BigNumber(accumulator).plus(currentValue)
       // get value

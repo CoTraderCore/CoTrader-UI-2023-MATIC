@@ -76,7 +76,7 @@ function Sidebar({ isOpen, onOpen, onClose, }) {
                         return <ListItem key={key}>
                             <Link target='_blank' to={item.path} style={{ ...Menu_style }}><item.icon title={item.title} style={{ fontSize: "1.7rem", color: Iconcolor }} />
                                 <span
-                                    style={{ color:"#CBC3E3" }}
+                                    style={{ color:"gray" }}
                                     className={isOpen ? 'hidden-text' : 'show-text'}
                                 >{item.name}</span>
                             </Link>
