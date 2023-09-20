@@ -16,7 +16,7 @@ function Deposit(props) {
     const toggleAgree = () => {
         setAgree(!agree);
     };
-
+    console.log("props.accounts", props.accounts)
     return (
         <React.Fragment>
             <Tooltip>

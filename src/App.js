@@ -24,19 +24,24 @@ function App(props) {
   // const [isReactGarbage, setIsReactGarbage] = useState(false);
   const [network, setNetwork] = useState(0);
   const [isLoadNetID, setIsLoadNetID] = useState(false);
-  const [timeOut, setTimeOut] = useState(false);
+  const [timeOut, setTimeOutF] = useState(false);
   const [isDataLoad, setIsDataLoad] = useState(false);
 
   useEffect(() => {
+    setTimeout(() => {
+      setTimeOutF(true);
+    }, 3000);
+
+    if (window.ethereum) {
+      window.ethereum.on('accountsChanged', () => window.location.reload());
+    }
+
     async function load() {
       initializeReactGA();
-      setTimeout(() => {
-        setTimeOut(true);
-      }, 1000);
 
-      await initData();
-      await fetchData()
-      // checkWeb3OffRedirect()
+      initData();
+      fetchWeb3()
+
 
       if (web3) {
         web3.eth.net.getId().then(netId => {
@@ -44,15 +49,16 @@ function App(props) {
           setIsLoadNetID(true);
         });
       }
-
-      if (window.ethereum) {
-        window.ethereum.on('accountsChanged', () => window.location.reload());
-      }
     }
 
     load()
+  }, []);
 
-  }, [props.MobXStorage, timeOut, web3]);
+
+  useEffect(() => {
+    if(timeOut)
+      checkWeb3OffRedirect()
+  }, [timeOut]);
 
 
   const initializeReactGA = () => {
@@ -60,7 +66,7 @@ function App(props) {
     ReactGA.pageview('/');
   };
 
-  const fetchData = async () => {
+  const fetchWeb3 = async () => {
     console.log("Test")
     try {
       // Get network provider and web3 instance.
@@ -89,23 +95,22 @@ function App(props) {
       try {
         const smartFunds = await getFundsList();
         props.MobXStorage.initSFList(smartFunds);
-        console.log("SmartFundRegistryADDRESS: ", SmartFundRegistryADDRESS, "!___version 28/04/21___!");
         setIsDataLoad(true);
       } catch (error) {
         console.log("error:", error);
       }
     }
   };
-  
-  // const checkWeb3OffRedirect = () => {
-  //   // Replace the path when the page is loaded for the first time
-  //   const currentPath = window.location.pathname;
-  //   if (currentPath === '/' && !web3) {
-  //     const newPath = '/web3off/';
-  //     const newURL = window.location.origin + newPath;
-  //     window.history.replaceState({}, document.title, newURL);
-  //   }
-  // }
+
+  const checkWeb3OffRedirect = () => {
+    // Replace the path when the page is loaded for the first time
+    const currentPath = window.location.pathname;
+    if (timeOut && !web3) {
+      const newPath = '/web3off/';
+      const newURL = window.location.origin + newPath;
+      window.history.replaceState({}, document.title, newURL);
+    }
+  }
 
   const router = createBrowserRouter([
     {

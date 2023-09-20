@@ -25,7 +25,7 @@ function AllSmartFund(props) {
   const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
   const boxBg = useColorModeValue("#F4F7FE", "#110938");
   const allbtnBg = useColorModeValue("#30106b", "#7500FF")
-
+  console.log("props.MobXStorage", props.MobXStorage)
   return (
     <Observer>
       {() => {
@@ -140,17 +140,17 @@ function AllSmartFund(props) {
                       <Box mt={4} display="flex" justifyContent="center">
                         <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
                           <Deposit
-                            web3={props.web3}
+                            web3={props.MobXStorage.web3}
                             address={item.address}
-                            accounts={props.accounts}
+                            accounts={props.MobXStorage.accounts}
                             mainAsset={item.mainAsset}
                             pending={props.pending}
                             version={item.version}
                           />
                           <Withdraw
-                            web3={props.web3}
+                            web3={props.MobXStorage.web3}
                             address={item.address}
-                            accounts={props.accounts}
+                            accounts={props.MobXStorage.accounts}
                             pending={props.pending}
                             version={item.version}
                             mainAsset={item.mainAsset}
