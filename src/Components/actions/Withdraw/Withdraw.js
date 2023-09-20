@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Button, Checkbox, FormControl, FormLabel, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Stack, Tooltip, useColorModeValue, useDisclosure } from '@chakra-ui/react'
+import { Button, Checkbox, FormControl, FormLabel, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Stack, Tooltip, useColorModeValue, useDisclosure } from '@chakra-ui/react'
 import axios from 'axios';
 import { APIEnpoint, SmartFundABIV7 } from '../../../config';
 import setPending from '../../../utils/setPending';
@@ -13,9 +13,10 @@ function Withdraw(props) {
 
         if (percent >= 0 && percent <= 100) {
             const contractABI = SmartFundABIV7;
+            try {
             const contract = new props.web3.eth.Contract(contractABI, address);
             const shares = await contract?.methods.balanceOf(props.accounts[0]).call();
-            try {
+           
                 if (shares > 0) {
 
                     const totalPercentage = await contract.methods.TOTAL_PERCENTAGE().call();

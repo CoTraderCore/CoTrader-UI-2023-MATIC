@@ -183,7 +183,8 @@ function ViewFund(props) {
     const boxBg = useColorModeValue("#F4F7FE", "#110938");
 
     return (
-        <Box px={4} overflow="hidden">
+        <>
+        <Box px={4}>
             <Header heading="Fund Detail" />
             <Grid mt={2}>
                 <DashboardHeader />
@@ -556,6 +557,7 @@ function ViewFund(props) {
                 </Box>
             </React.Fragment>
         </Box>
+        </>
     )
 }
 

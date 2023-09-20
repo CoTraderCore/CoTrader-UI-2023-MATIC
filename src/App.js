@@ -107,7 +107,6 @@ function App(props) {
   //   }
   // }
 
-
   const router = createBrowserRouter([
     {
       path: Pages.SMARTFUNDLIST,

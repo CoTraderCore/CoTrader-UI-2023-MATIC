@@ -12,28 +12,27 @@ import { MdOutlineBarChart } from 'react-icons/md'
 import { FcComboChart } from 'react-icons/fc'
 import { RiFundsBoxLine } from 'react-icons/ri'
 import getFundsList from '../../utils/getFundsList';
-import MobXStorage from '../../MobXStorage';
 import Loading from '../../Components/template/spiners/Loading';
 import Footer from '../../Components/common/footer/Footer';
 import Web3Allert from '../../Components/Web3Off/Web3Alert';
-import { inject, observer, Observer } from 'mobx-react';
+import { inject, Observer } from 'mobx-react';
 
 
-function ViewFundWithoutWeb3({ props, web3, isDataLoad, setIsDataLoad }) {
+function ViewFundWithoutWeb3(props) {
 
     useEffect(() => {
         let isMounted = true;
         const fetchData = async () => {
-            if (MobXStorage?.SmartFundsOriginal.length === 0) {
+            if (props.MobXStorage?.SmartFundsOriginal.length === 0) {
                 try {
                     const smartFunds = await getFundsList();
-                    MobXStorage?.initSFList(smartFunds);
+                    props.MobXStorage?.initSFList(smartFunds);
                 } catch (error) {
                     console.error('Error fetching smart funds:', error);
                 }
             }
             if (isMounted) {
-                setIsDataLoad(true);
+                props.setIsDataLoad(true);
             }
         };
 
@@ -46,18 +45,18 @@ function ViewFundWithoutWeb3({ props, web3, isDataLoad, setIsDataLoad }) {
 
     // if coonected to web3 go out from web3off
     // useEffect(() => {
-    //     if (web3) {
+    //     if (props.web3) {
     //         window.location = "/";
     //     }
     // }, [web3]);
 
     useEffect(() => {
         web3redirect()
-    }, [web3])
+    }, [props.web3])
 
     const web3redirect = () => {
         const currentPath = window.location.pathname;
-        if (currentPath === '/web3off/' && web3) {
+        if (currentPath === '/web3off/' && props.web3) {
             const newPath = '/';
             const newURL = window.location.origin + newPath;
             window.history.replaceState({}, document.title, newURL);
@@ -68,14 +67,14 @@ function ViewFundWithoutWeb3({ props, web3, isDataLoad, setIsDataLoad }) {
     const boxBg = useColorModeValue("#F4F7FE", "#110938");
     const allbtnBg = useColorModeValue("#30106b", "#7500FF")
 
-
+console.log(props.web3,"::::::::::::::::::");
     return (
         <Observer>
             {() => {
                 return (
                     <React.Fragment>
                         {
-                            isDataLoad ?
+                            props.isDataLoad ?
                                 (
                                     <Box className='dashboard' px={4}>
                                         <Grid gap={5} sx={{ textAlign: 'center', fontWeight: "500" }}>
@@ -102,7 +101,7 @@ function ViewFundWithoutWeb3({ props, web3, isDataLoad, setIsDataLoad }) {
                                         <Box>
 
                                             {
-                                                !MobXStorage.FilterActive ?
+                                                !props.MobXStorage.FilterActive ?
                                                     (
                                                         <SimpleGrid
                                                             width="100%"
@@ -122,7 +121,7 @@ function ViewFundWithoutWeb3({ props, web3, isDataLoad, setIsDataLoad }) {
                                                                     />
                                                                 }
                                                                 name='Total Funds'
-                                                                value={MobXStorage.SmartFundsOriginal.length}
+                                                                value={props.MobXStorage.SmartFundsOriginal.length}
                                                             />
                                                             <ShadowBox
                                                                 startContent={
@@ -136,7 +135,7 @@ function ViewFundWithoutWeb3({ props, web3, isDataLoad, setIsDataLoad }) {
                                                                     />
                                                                 }
                                                                 name='Total value'
-                                                                value={`$ ${MobXStorage.TotalValue}`}
+                                                                value={`$ ${props.MobXStorage.TotalValue}`}
                                                             />
                                                             <ShadowBox
                                                                 startContent={
@@ -150,7 +149,7 @@ function ViewFundWithoutWeb3({ props, web3, isDataLoad, setIsDataLoad }) {
                                                                     />
                                                                 }
                                                                 name='Total profit'
-                                                                value={`$ ${MobXStorage.TotalProfit}`}
+                                                                value={`$ ${props.MobXStorage.TotalProfit}`}
                                                             />
                                                             <ShadowBox
                                                                 startContent={
@@ -162,11 +161,13 @@ function ViewFundWithoutWeb3({ props, web3, isDataLoad, setIsDataLoad }) {
                                                                     />
                                                                 }
                                                                 name='History total profit'
-                                                                value={`$ ${MobXStorage.HistoryTotalProfit}`}
+                                                                value={`$ ${props.MobXStorage.HistoryTotalProfit}`}
                                                             />
                                                         </SimpleGrid>
                                                     ) :
                                                     (
+                                                        <Box>
+                                                        <Text bg="lightgray" sx={{textTransform:"capitalize",fontWeight:"bold",color:"#7500ff",textAlign:"center"}}>{props.MobXStorage.FilterInfo}</Text>
                                                         <SimpleGrid
                                                             width="100%"
                                                             columns={{ base: 1, md: 4, lg: 4, }}
@@ -184,9 +185,9 @@ function ViewFundWithoutWeb3({ props, web3, isDataLoad, setIsDataLoad }) {
                                                                     />
                                                                 }
                                                                 name='Fund'
-                                                                value={`${MobXStorage.SmartFunds.length} of ${MobXStorage.SmartFundsOriginal.length} funds`}
+                                                                value={`${props.MobXStorage.SmartFunds.length} of ${props.MobXStorage.SmartFundsOriginal.length} funds`}
                                                             />
-                                                            <Text style={{ color: "green" }}>{MobXStorage.FilterInfo}</Text>
+                                                            <Text style={{ color: "green" }}>{props.MobXStorage.FilterInfo}</Text>
                                                             <ShadowBox
                                                                 startContent={
                                                                     <IconBox
@@ -199,7 +200,7 @@ function ViewFundWithoutWeb3({ props, web3, isDataLoad, setIsDataLoad }) {
                                                                     />
                                                                 }
                                                                 name='Total value'
-                                                                value={`$ ${MobXStorage.userTotalValue}`}
+                                                                value={`$ ${props.MobXStorage.userTotalValue}`}
                                                             />
                                                             <ShadowBox
                                                                 startContent={
@@ -213,7 +214,7 @@ function ViewFundWithoutWeb3({ props, web3, isDataLoad, setIsDataLoad }) {
                                                                     />
                                                                 }
                                                                 name='Total profit'
-                                                                value={`$ ${MobXStorage.TotalProfit}`}
+                                                                value={`$ ${props.MobXStorage.TotalProfit}`}
                                                             />
 
                                                             <ShadowBox
@@ -226,16 +227,17 @@ function ViewFundWithoutWeb3({ props, web3, isDataLoad, setIsDataLoad }) {
                                                                     />
                                                                 }
                                                                 name='History total profit'
-                                                                value={`$ ${MobXStorage.HistoryTotalProfit}`}
+                                                                value={`$ ${props.MobXStorage.HistoryTotalProfit}`}
                                                             />
                                                         </SimpleGrid>
+                                                        </Box>
                                                     )
                                             }
 
                                         </Box>
 
                                         <SimpleGrid>
-                                            <FundWithoutWeb3Tabs {...props} />
+                                            <FundWithoutWeb3Tabs {...props} MobXStorage={props.MobXStorage} />
                                         </SimpleGrid>
                                     </Box>
                                 ) :

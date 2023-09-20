@@ -86,7 +86,7 @@ function ViewFundWithoutWeb3() {
             {
                 fundData.isDataLoad ?
                     (
-                        <Box px={4} background="" >
+                        <Box px={4}>
                             <Header heading="Fund Info." />
                             <Grid gap={5} sx={{ textAlign: 'center', fontWeight: "500" }}>
                                 <DashboardHeader />

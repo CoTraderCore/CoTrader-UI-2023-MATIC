@@ -2,10 +2,9 @@ import React from 'react';
 import { Link, Text, Box, Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, ModalCloseButton, useDisclosure, useColorModeValue } from "@chakra-ui/react";
 import { NavLink, } from 'react-router-dom';
 import { EtherscanLink } from '../../config.js';
-import MobXStorage from '../../MobXStorage.js';
-import { Observer, inject, observer } from 'mobx-react';
+import { inject,} from 'mobx-react';
 
-const FundModal = ({ address, }) => {
+const FundModal = ({ address,MobXStorage }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const sliderBg = useColorModeValue("#fff", "#181144")
     const modalfooterbg = useColorModeValue("gray.100", "#3D3762")

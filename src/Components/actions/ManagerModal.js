@@ -2,11 +2,10 @@ import React from 'react';
 import { Box, Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, ModalCloseButton, useDisclosure, Text, Link, useColorModeValue, } from "@chakra-ui/react";
 import { NavLink } from 'react-router-dom';
 import { EtherscanLink } from '../../config.js';
-import MobXStorage from '../../MobXStorage.js';
 import { inject, Observer } from 'mobx-react';
 
 
-const ManagerModal = ({ address, }) => {
+const ManagerModal = ({ address, MobXStorage}) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const getManagerFunds = () => {

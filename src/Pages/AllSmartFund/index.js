@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import MobXStorage from '../../MobXStorage';
 import PagePagination from '../../Components/navigation/Pagination/PagePagination';
 import { Box, Button, Heading, Icon, SimpleGrid, useColorModeValue } from '@chakra-ui/react';
 import Card from '../../Components/Card/Card';
@@ -34,8 +33,8 @@ function AllSmartFund(props) {
           <React.Fragment>
             <Box>
               {
-                MobXStorage.SmartFunds.length > 0 ? (
-                  MobXStorage.SmartFunds.map((item, key) =>
+                props.MobXStorage.SmartFunds.length > 0 ? (
+                  props.MobXStorage.SmartFunds.map((item, key) =>
                     <Box key={item.address}>
                       <Box mt={4} sx={{ borderRadius: "10px", }}>
                         <Heading textTransform={"uppercase"} fontSize={{ base: "2xl" }} color={headingColor} textAlign={'center'} p={2}>Fund name: {item.name}</Heading>
@@ -130,10 +129,10 @@ function AllSmartFund(props) {
                       </Box>
                       <SimpleGrid mt={5} gap={5} columns={{ base: 1, md: 2 }}>
                         <Card textAlign="center">
-                          <FundModal address={item.address} navigate={navigate} />
+                          <FundModal address={item.address} navigate={navigate} MobXStorage={props.MobXStorage} />
                         </Card>
                         <Card textAlign="center">
-                          <ManagerModal address={item.owner} navigate={navigate} />
+                          <ManagerModal address={item.owner} navigate={navigate} MobXStorage={props.MobXStorage}/>
                         </Card>
                       </SimpleGrid>
 
@@ -141,17 +140,17 @@ function AllSmartFund(props) {
                       <Box mt={4} display="flex" justifyContent="center">
                         <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
                           <Deposit
-                            web3={MobXStorage.web3}
+                            web3={props.web3}
                             address={item.address}
-                            accounts={MobXStorage.accounts}
+                            accounts={props.accounts}
                             mainAsset={item.mainAsset}
                             pending={props.pending}
                             version={item.version}
                           />
                           <Withdraw
-                            web3={MobXStorage.web3}
+                            web3={props.web3}
                             address={item.address}
-                            accounts={MobXStorage.accounts}
+                            accounts={props.accounts}
                             pending={props.pending}
                             version={item.version}
                             mainAsset={item.mainAsset}
@@ -160,9 +159,9 @@ function AllSmartFund(props) {
                             <NavLink to={"/fund/" + item.address}>Fund Page</NavLink>
                           </Button>
                           <UserHoldings
-                            web3={MobXStorage.web3}
+                            web3={props.web3}
                             address={item.address}
-                            accounts={MobXStorage.accounts}
+                            accounts={props.accounts}
                           />
                           <EtherscanButton address={item.address} />
                         </Box>
@@ -237,8 +236,8 @@ function AllSmartFund(props) {
               }
             </Box>
             {
-              !MobXStorage.FilterActive ? (
-                <PagePagination currentPage={currentPage} setCurrentPage={setCurrentPage} />
+              !props.MobXStorage.FilterActive ? (
+                <PagePagination currentPage={currentPage} setCurrentPage={setCurrentPage} MobXStorage={props.MobXStorage}  />
               ) : (
                 null
               )

@@ -8,13 +8,12 @@ import { MdAttachMoney } from 'react-icons/md'
 import Card from '../../Components/Card/Card';
 import FundModal from '../../Components/actions/FundModal';
 import ManagerModal from '../../Components/actions/ManagerModal';
-import MobXStorage from '../../MobXStorage';
 import EtherscanButton from '../../Components/actions/EtherscanButton';
 import { fromWei } from 'web3-utils';
 import PagePagination from '../../Components/navigation/Pagination/PagePagination';
 
 
-function AllFundWithoutWeb3() {
+function AllFundWithoutWeb3(props) {
 
     const [currentPage, setCurrentPage] = useState(1)
     
@@ -29,7 +28,7 @@ function AllFundWithoutWeb3() {
         <React.Fragment>
             <Box>
                 {
-                    MobXStorage.SmartFunds.map((item, key) =>
+                    props.MobXStorage.SmartFunds.map((item, key) =>
                         <Box key={item.address}>
                             <Box mt={4} sx={{ borderRadius: "10px", }}>
                                 <Heading textTransform={"uppercase"} fontSize={{ base: "2xl" }} color={headingColor} textAlign={'center'} p={2}>{item.name}</Heading>
@@ -224,8 +223,8 @@ function AllFundWithoutWeb3() {
                     )
                 }
                 {
-                    !MobXStorage.FilterActive ? (
-                        <PagePagination currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                    !props.MobXStorage.FilterActive ? (
+                        <PagePagination currentPage={currentPage} setCurrentPage={setCurrentPage} MobXStorage={props.MobXStorage} />
                     ) : (
                         null
                     )

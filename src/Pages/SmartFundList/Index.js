@@ -230,7 +230,7 @@ function SmartFundList(props) {
                     ) :
                     (
                       <Box>
-                        <Text style={{ color: "green" }}>{props.MobXStorage.FilterInfo}</Text>
+                      <Text bg="lightgray" sx={{textTransform:"capitalize",fontWeight:"bold",color:"#7500ff",textAlign:"center"}}>{props.MobXStorage.FilterInfo}</Text>
                         <SimpleGrid
                           width="100%"
                           columns={{ base: 1, md: 4, lg: 4, }}
@@ -250,6 +250,7 @@ function SmartFundList(props) {
                             name='Fund'
                             value={`${props.MobXStorage.SmartFunds.length} of ${props.MobXStorage.SmartFundsOriginal.length} funds`}
                           />
+                          <Text>{props.MobXStorage.FilterInfo} filter fund by name</Text>
                           <ShadowBox
                             startContent={
                               <IconBox
@@ -297,7 +298,7 @@ function SmartFundList(props) {
 
               </Box>
               <SimpleGrid>
-                <SmartfundTabs {...props} data={smartfundlist} pending={pendingg} />
+                <SmartfundTabs {...props} data={smartfundlist} pending={pendingg} accounts={props.accounts} web3={props.web3} />
               </SimpleGrid>
               <Footer />
             </Box>

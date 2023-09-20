@@ -108,6 +108,7 @@ const UpdateUSDAsset = (props) => {
                             Your current fund USD token :&nbsp;
                             <strong>
                                 <a
+                                style={{color:"#7500ff"}}
                                     href={EtherscanLink + 'token/' + currentUSDTokenAddress}
                                     target="_blank"
                                     rel="noopener noreferrer"
@@ -116,7 +117,7 @@ const UpdateUSDAsset = (props) => {
                                 </a>
                             </strong>
                         </Alert>
-                        <FormControl >
+                        <FormControl>
                             <InputGroup mt={5} sx={{ display: "flex", flexDirection: "column" }}>
                                 <Text >
                                     <FormLabel >Set new USD token</FormLabel>

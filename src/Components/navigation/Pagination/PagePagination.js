@@ -1,11 +1,10 @@
 import React from 'react';
 import { Button, HStack, Text, useColorModeValue } from '@chakra-ui/react';
 import isMobile from '../../../utils/isMobile';
-import MobXStorage from '../../../MobXStorage';
 import { inject } from 'mobx-react';
 
 
-const PagePagination = ({ currentPage, setCurrentPage }) => {
+const PagePagination = ({ currentPage, setCurrentPage,MobXStorage }) => {
   const colorScheme = useColorModeValue("red", "green")
   // const [currentPage, setCurrentPage] = useState(1);
   const perPage = isMobile() ? 5 : 10;

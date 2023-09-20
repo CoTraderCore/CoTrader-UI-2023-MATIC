@@ -1,7 +1,6 @@
 import React from 'react'
 import { Tabs, TabList, TabPanels, Tab, TabPanel, useColorModeValue, Tooltip, Box } from '@chakra-ui/react'
 import AllSmartFund from '../../Pages/AllSmartFund'
-import AllFundWithoutWeb3 from '../../Pages/AllFundWithoutWeb3'
 import MyFund from '../../Pages/MyFund'
 import MyInvestment from '../../Pages/MyInvestment'
 import { inject } from 'mobx-react'
@@ -36,7 +35,7 @@ import { inject } from 'mobx-react'
 
                 <TabPanels>
                     <TabPanel>
-                        <AllSmartFund {...props} />
+                        <AllSmartFund {...props} accounts={props.accounts} web3={props.web3} />
                     </TabPanel>
                     <TabPanel>
                         <MyFund />

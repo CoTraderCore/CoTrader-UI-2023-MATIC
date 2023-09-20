@@ -13,6 +13,7 @@ import {
     AlertIcon,
     AlertDescription,
     Text,
+    Input,
 } from '@chakra-ui/react';
 import setPending from '../../../utils/setPending.js';
 import { toWeiByDecimalsInput, fromWeiByDecimalsInput } from '../../../utils/weiByDecimals';
@@ -44,7 +45,7 @@ class DepositERC20 extends Component {
             const decimals = await ercAssetContract.methods.decimals().call();
             const tokenBalanceInWei = await ercAssetContract.methods.balanceOf(this.props.accounts[0]).call();
             const tokenBalancee = fromWeiByDecimalsInput(decimals, tokenBalanceInWei);
-    
+
             this.setState({
                 ercAssetAddress,
                 ercAssetContract,
@@ -52,12 +53,12 @@ class DepositERC20 extends Component {
                 tokenBalanceInWei,
                 tokenBalancee,
             });
-           console.log(symboll,"symbolllll");
+            console.log(symboll, "symbolllll");
         } catch (error) {
             console.error("Error", error);
         }
     }
-    
+
     componentDidUpdate = async (prevProps, prevState) => {
         if (prevState.DepositValue !== this.state.DepositValue) {
             await this.updateAllowance();
@@ -190,31 +191,22 @@ class DepositERC20 extends Component {
     modalClose = () => this.setState({ Show: false, Agree: false });
 
     render() {
-      
+
         return (
             <>
                 <FormControl>
                     <FormLabel>
                         Enter {this.state.symbol}
-                        <Text
-                            style={{ color: 'blue' }}
+                        <Button
+                            sx={{ color: 'blue' }}
                             onClick={() => this.setState({
                                 DepositValue: this.state.tokenBalance
                             })}
                         >
                             (balance:{this.state.tokenBalance})
-                        </Text>
+                        </Button>
                     </FormLabel>
-                    <NumberInput defaultValue={this.state.DepositValue} min={0}>
-                        <NumberInputField
-                            placeholder='Amount'
-                            onChange={e => this.setState({ DepositValue: e.target.value })}
-                        />
-                        <NumberInputStepper>
-                            <NumberIncrementStepper />
-                            <NumberDecrementStepper />
-                        </NumberInputStepper>
-                    </NumberInput>
+                    <Input type='number' min={0} placeholder='Amount' value={this.state.DepositValue} onChange={e => this.setState({ DepositValue: e.target.value })} />
                     {
                         this.state.ValueError !== ""
                             ? (
@@ -228,7 +220,7 @@ class DepositERC20 extends Component {
                 </FormControl>
 
                 {
-                    this.state.isApproved 
+                    this.state.isApproved
                         ? (
                             <>
                                 <Button
