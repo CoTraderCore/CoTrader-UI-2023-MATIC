@@ -104,7 +104,7 @@ function App(props) {
 
   const checkWeb3OffRedirect = () => {
     // Replace the path when the page is loaded for the first time
-    const currentPath = window.location.pathname;
+    // const currentPath = window.location.pathname;
     if (timeOut && !web3) {
       const newPath = '/web3off/';
       const newURL = window.location.origin + newPath;
@@ -128,11 +128,11 @@ function App(props) {
         },
         {
           path: Pages.VIEWFUNDWITHOUTWEB3,
-          element: <ViewFundWithoutWeb3 />
+          element: <ViewFundWithoutWeb3 {...props} web3={web3} accounts={accounts} />
         },
         {
           path: Pages.VIEWFUNDTX,
-          element: <ViewFundTx {...props} isDataLoad={isDataLoad} />
+          element: <ViewFundTx {...props} isDataLoad={isDataLoad}  />
         },
         {
           path: Pages.VIEWUSERTX,
@@ -140,7 +140,7 @@ function App(props) {
         },
         {
           path: Pages.VIEWFUND,
-          element: <ViewFund {...props} web3={web3} accounts={accounts} />
+          element: <ViewFund {...props} web3={web3} accounts={accounts} MobXStorage={props.MobXStorage} />
         },
         {
           path: Pages.VIEWUSER,

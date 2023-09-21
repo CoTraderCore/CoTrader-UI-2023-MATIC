@@ -25,6 +25,7 @@ function AllSmartFund(props) {
   const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
   const boxBg = useColorModeValue("#F4F7FE", "#110938");
   const allbtnBg = useColorModeValue("#30106b", "#7500FF")
+  
   console.log("props.MobXStorage", props.MobXStorage)
   return (
     <Observer>

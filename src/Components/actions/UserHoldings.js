@@ -13,7 +13,6 @@ function UserHoldings(props) {
     useEffect(() => {
         const fetchData = async () => {
           if (isOpen && props.address && !isLoad) {
-            try {
               const fund = props.web3 ? new props.web3.eth.Contract(SmartFundABIV7, props.address) : null;
     
               if (fund) {
@@ -26,9 +25,6 @@ function UserHoldings(props) {
                 setPercentOfFundValue(_fundValue.toString());
                 setIsLoad(true);
               }
-            } catch (e) {
-              console.log("error", e);
-            }
           }
         };
         fetchData();

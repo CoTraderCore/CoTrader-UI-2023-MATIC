@@ -187,7 +187,7 @@ function ViewFund(props) {
         <Box px={4}>
             <Header heading="Fund Detail" />
             <Grid mt={2}>
-                <DashboardHeader />
+                <DashboardHeader />``
             </Grid>
             <MigrateToV9
                 version={version}

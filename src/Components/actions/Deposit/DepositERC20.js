@@ -37,7 +37,6 @@ class DepositERC20 extends Component {
     }
 
     componentDidMount = async () => {
-        try {
             const fund = new this.props.web3.eth.Contract(SmartFundABIV7, this.props.address);
             const ercAssetAddress = await fund.methods.coreFundAsset().call();
             const ercAssetContract = new this.props.web3.eth.Contract(ERC20ABI, ercAssetAddress);
@@ -54,9 +53,6 @@ class DepositERC20 extends Component {
                 tokenBalancee,
             });
             console.log(symboll, "symbolllll");
-        } catch (error) {
-            console.error("Error", error);
-        }
     }
 
     componentDidUpdate = async (prevProps, prevState) => {
@@ -77,7 +73,7 @@ class DepositERC20 extends Component {
     }
 
     validation = async () => {
-        try {
+        
             if (this.state.DepositValue <= 0) {
                 this.setState({ ValueError: "Value can't be 0.01 or less" });
                 return;
@@ -94,13 +90,9 @@ class DepositERC20 extends Component {
             }
 
             this.depositERC20();
-        } catch (error) {
-            console.error("Error", error);
-        }
     }
 
     updateAllowance = async () => {
-        try {
             const allowance = await this.state.ercAssetContract.methods.allowance(
                 this.props.accounts[0],
                 this.props.address
@@ -118,10 +110,6 @@ class DepositERC20 extends Component {
             });
 
             return isApproved;
-        } catch (error) {
-            console.log("error", error);
-            return false;
-        }
     }
 
     unlockERC20 = async () => {

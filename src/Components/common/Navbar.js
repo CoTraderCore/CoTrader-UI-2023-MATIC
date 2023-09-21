@@ -1,13 +1,13 @@
 import React from 'react';
-import { Box, Flex, Heading,  Image, } from '@chakra-ui/react';
-import { MdDarkMode } from 'react-icons/md'
-import { BsFillSunFill } from "react-icons/bs"
+import { Box, Flex, Heading,  IconButton,  Image, useColorMode, useColorModeValue, } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
+import { FaSun, FaMoon } from 'react-icons/fa';
 
 
 const Navbar = (props) => {
-
-
+    const { toggleColorMode } = useColorMode();
+    const iconColor = useColorModeValue('gray.800', 'gray.100');
+    const btncolor=useColorModeValue("#fff","#30106b")
     return (
         <React.Fragment>
             <Box bg="#7500ff" padding="15px" color="white" height="10vh">
@@ -18,9 +18,14 @@ const Navbar = (props) => {
                         </Heading>
                     </Box>
                     <Box display="flex" alignItems="center" fontSize="2xl" cursor={'pointer'} gap={2}>
-                        <span onClick={props.toggleColorMode} style={{ display: "flex", alignItems: "center" }}>        
-                        <BsFillSunFill title='Light'/> / <MdDarkMode title='Dark'/>           
-                        </span>
+                        <IconButton
+                        bg={btncolor}
+                        aria-label="Toggle dark mode"
+                        icon={useColorModeValue(<FaMoon />,<FaSun />)} 
+                        onClick={toggleColorMode}
+                        size="sm"
+                        color={iconColor}
+                        />
                     </Box>
                 </Flex>
             </Box>

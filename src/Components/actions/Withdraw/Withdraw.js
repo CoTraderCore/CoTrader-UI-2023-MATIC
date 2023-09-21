@@ -13,12 +13,11 @@ function Withdraw(props) {
 
         if (percent >= 0 && percent <= 100) {
             const contractABI = SmartFundABIV7;
-            try {
             const contract = new props.web3.eth.Contract(contractABI, address);
             const shares = await contract?.methods.balanceOf(props.accounts[0]).call();
-           
-                if (shares > 0) {
 
+            if (shares > 0) {
+                try {
                     const totalPercentage = await contract.methods.TOTAL_PERCENTAGE().call();
                     const currentPercent = (totalPercentage / 100) * percent;
 
@@ -36,14 +35,13 @@ function Withdraw(props) {
                             props.pending(true, txCount + 1);
                             setPending(address, 1, props.accounts[0], block, hash, "Withdraw");
                         });
-
-                } else {
-                    alert('Empty deposit');
+                } catch (e) {
+                    alert('Can not verify transaction data, please try again in a minute');
                 }
-            } catch (e) {
-                alert('Can not verify transaction data, please try again in a minute');
-            }
 
+            } else {
+                alert('Empty deposit');
+            }
         }
 
     };

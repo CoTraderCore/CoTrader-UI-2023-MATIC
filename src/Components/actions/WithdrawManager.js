@@ -3,7 +3,6 @@ import { SmartFundABIV7, APIEnpoint } from '../../config.js';
 import setPending from '../../utils/setPending.js';
 import axios from 'axios';
 import {
-  Box,
   Button,
   Modal,
   ModalBody,
@@ -29,7 +28,6 @@ function WithdrawManager(props) {
   useEffect(() => {
     let isMounted = true;
     const fetchData = async () => {
-      try {
         const contract = new props.web3.eth.Contract(SmartFundABIV7, props.smartFundAddress);
         let managerCut = 0;
         const { fundManagerRemainingCut } = await contract.methods.calculateFundManagerCut().call();
@@ -37,10 +35,6 @@ function WithdrawManager(props) {
         if (isMounted) {
           setManagerCut(managerCut);
         }
-      } catch (e) {
-        // managerCut = 0;
-        console.log("error", e);
-      }
     };
 
     fetchData();
@@ -73,7 +67,7 @@ function WithdrawManager(props) {
   const updatePendingStatus = (txCount, block, hash) => {
     props.pending(true, txCount + 1);
     setPending(props.smartFundAddress, 1, props.accounts[0], block, hash, 'Withdraw');
-    onClose(); // Close the modal when the action is complete
+    onClose();
   };
   const allbtnBg = useColorModeValue("#30106b", "#7500FF")
   const sliderBg = useColorModeValue("#fff", "#181144")

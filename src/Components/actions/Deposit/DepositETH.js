@@ -21,16 +21,14 @@ class DepositETH extends Component {
   }
 
   componentDidMount = async () => {
-    try {
+  
       const ethBalanceInWei = await this.props.web3.eth.getBalance(this.props.accounts[0])
       const ethBalance = fromWei(ethBalanceInWei)
 
       this.setState({
         ethBalance
       })
-    } catch (e) {
-      console.log("error:", e);
-    }
+   
   }
 
 
@@ -39,15 +37,11 @@ class DepositETH extends Component {
       this.setState({ ValueError: "Value can't be 0.01 or less" });
       return;
     }
-try{
     const userBalance = await this.props.web3.eth.getBalance(this.props.accounts[0])
     if (Number(this.state.DepositValue) > Number(fromWei(userBalance))) {
       this.setState({ ValueError: `Not enough ${this.props.mainAsset}` })
       return
     }
-  }catch(e){
-    console.log(e);
-  }
 
     this.depositETH()
   }

@@ -70,13 +70,10 @@ class TradeViaOneInch extends Component {
         const tokenTo = String(_tokenTo).toLowerCase() === "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
             ? WETH
             : _tokenTo
-        try {
+       
             const pricePortal = new this.props.web3.eth.Contract(PricePortalPancakeABI, PricePortalPancake)
             const data = await pricePortal.methods.findConnector(tokenTo).call()
             return data[0]
-        } catch (e) {
-            console.log(e);
-        }
     }
 
     // get tokens addresses and symbols from paraswap api
@@ -135,7 +132,6 @@ class TradeViaOneInch extends Component {
     checkFundBalance = async () => {
         let fundBalance
         let result = false
-        try {
             if (String(this.state.sendFrom).toLowerCase() === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
                 fundBalance = await this.props.web3.eth.getBalance(this.props.smartFundAddress)
                 fundBalance = this.props.web3.utils.fromWei(fundBalance)
@@ -149,16 +145,12 @@ class TradeViaOneInch extends Component {
                 result = true
 
             return result
-        } catch (e) {
-            console.log(e);
-        }
     }
 
 
     // helper for update state
     change = async e => {
         // Update rate in correct direction order and set state
-        try {
             if (e.target.name === "AmountSend") {
                 this.setState({ shouldUpdatePrice: true, slippageTo: 0, slippageFrom: 0 })
                 // get data
@@ -208,9 +200,6 @@ class TradeViaOneInch extends Component {
                     [e.target.name]: e.target.value
                 })
             }
-        } catch (e) {
-            console.log(e);
-        }
     }
 
 
@@ -383,8 +372,8 @@ class TradeViaOneInch extends Component {
 
     // get slippage percent
     getSlippage = async (sendFrom, sendTo, amountSend, amountRecive, decimalsFrom, decimalsTo) => {
-        try {
-            const expectedRatio = new BigNumber(
+        try{   
+        const expectedRatio = new BigNumber(
                 toWeiByDecimalsInput(decimalsTo, amountRecive)
             )
             const amountSendBN = new BigNumber(amountSend)

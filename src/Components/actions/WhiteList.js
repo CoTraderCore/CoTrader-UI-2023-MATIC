@@ -19,7 +19,7 @@ import {
     useColorModeValue
 } from '@chakra-ui/react'
 import UserInfo from "../template/UserInfo";
-import { errors } from "web3";
+
 
 const WhiteList = (props) => {
     const [show, setShow] = useState(false);
@@ -31,9 +31,7 @@ const WhiteList = (props) => {
 
     useEffect(() => {
         let isMounted = true;
-
         const fetchData = async () => {
-            try {
                 const contractInstance = new props.web3.eth.Contract(SmartFundABIV7, props.smartFundAddress);
                 const status = await contractInstance.methods.onlyWhitelist().call();
                 if (isMounted) {
@@ -41,9 +39,6 @@ const WhiteList = (props) => {
                     setContract(contractInstance);
                     setIsDataLoading(true);
                 }
-            } catch (error) {
-                console.log(error);
-            }
         };
 
         fetchData();
@@ -63,16 +58,11 @@ const WhiteList = (props) => {
     };
 
     const setWhitelistOnly = async (_bool) => {
-        try {
             await contract.methods.setWhitelistOnly(_bool).send({ from: props.accounts[0] });
             setShow(false);
-        } catch (error) {
-            console.log(error);
-        }
     };
 
     const addToWhitelistOnly = async () => {
-        try {
             if (props.web3.utils.isAddress(userWhiteListAddress)) {
 
                 await contract.methods.setWhitelistAddress(userWhiteListAddress, userStatus).send({ from: props.accounts[0] });
@@ -81,9 +71,6 @@ const WhiteList = (props) => {
             } else {
                 console.log('Not a correct address');
             }
-        } catch (error) {
-            console.log(error);
-        }
     };
 
     const modalClose = () => setShow(false);

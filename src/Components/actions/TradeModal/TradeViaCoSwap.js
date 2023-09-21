@@ -238,7 +238,6 @@ class TradeViaCoSwap extends Component {
 
   // Validation input and smart fund balance
   validation = async () => {
-    try{
     if(this.state.AmountSend === 0){
       this.setState({ ERRORText:'Please input amount'})
     }else if(this.state.Send === this.state.Recive){
@@ -253,9 +252,6 @@ class TradeViaCoSwap extends Component {
         this.setState({ ERRORText:  `Your smart fund don't have enough ${this.state.Send}` })
       }
     }
-  }catch(e){
-    console.log(e);
-  }
   }
 
 
@@ -281,7 +277,6 @@ class TradeViaCoSwap extends Component {
   // get ratio from 1inch or Paraswap (dependse of selected type)
   getRate = async (from, to, amount, decimalsFrom, decimalsTo) => {
     let price = 0
-try{
     if(amount > 0 && from !== to){
       const src = toWeiByDecimalsInput(decimalsFrom, amount.toString(10))
       // wrap ETH case
@@ -299,9 +294,6 @@ try{
     }
 
     return price
-  }catch(e){
-    console.log(e);
-  }
   }
 
   // get slippage percent
