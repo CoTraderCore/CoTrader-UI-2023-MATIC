@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { Box, Text, Grid, GridItem, Stack, Icon, useColorModeValue, SimpleGrid, } from '@chakra-ui/react';
-import DashboardHeader from '../../Components/common/DashboardHeader'
 import FilterSearch from '../../Components/Filter&Search/FilterSearch';
 import CreateFundButton from '../../Components/template/CreateFundButton';
 import ShadowBox from '../../Components/Cards/ShadowBox';
@@ -70,7 +69,6 @@ function ViewFundWithoutWeb3(props) {
                                 (
                                     <Box className='dashboard' px={4}>
                                         <Grid gap={5} sx={{ textAlign: 'center', fontWeight: "500" }}>
-                                            <DashboardHeader />
                                             <GridItem style={{ borderRadius: "5px", boxShadow: "1px 1px 1px 1px gray", border: "1px solid white" }} >
                                                 <Web3Allert />
                                             </GridItem>

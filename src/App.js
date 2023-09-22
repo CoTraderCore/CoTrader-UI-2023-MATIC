@@ -6,7 +6,6 @@ import getWeb3 from './utils/getWeb3';
 import themes from './Theme/Theme';
 import ReactGA from 'react-ga'
 import getFundsList from './utils/getFundsList';
-import { SmartFundRegistryADDRESS } from './config';
 import SmartFundListWithoutWeb3 from './Pages/ViewFundWithoutWeb3';
 import MainLayout from './Layouts/MainLayout';
 import ViewFundWithoutWeb3 from './Pages/FundInfoWithoutWeb3/Index';
@@ -49,6 +48,7 @@ function App(props) {
           setIsLoadNetID(true);
         });
       }
+      
     }
 
     load()

@@ -5,7 +5,7 @@ import MyFund from '../../Pages/MyFund'
 import MyInvestment from '../../Pages/MyInvestment'
 import { inject } from 'mobx-react'
 
- const SmartfundTabs = ((props) => {
+ const SmartfundTabs = (props) => {
 
     const tabColor = useColorModeValue("#7500fe", "#7500ff")
     return (
@@ -47,7 +47,7 @@ import { inject } from 'mobx-react'
             </Tabs >
         </React.Fragment>
     )
-})
+}
 export default inject('MobXStorage')(SmartfundTabs)
 
 

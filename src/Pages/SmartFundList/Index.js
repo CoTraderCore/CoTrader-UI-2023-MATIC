@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react'
-import DashboardHeader from '../../Components/common/DashboardHeader';
 import CardBox from '../../Components/Cards/CardBox';
 import { Box, Grid, GridItem, Icon, SimpleGrid, Stack, Text, useColorModeValue } from '@chakra-ui/react';
 import CreateNewFund from '../../Components/actions/CreateNewFund';
@@ -8,7 +7,6 @@ import SortFunds from '../../Components/navigation/SortFunds';
 import IconBox from '../../Components/Icons/IconBox';
 import Footer from '../../Components/common/footer/Footer';
 import SmartfundTabs from '../../Components/Tabs/SmartFundTabs'
-import { smartfundlist } from '../../utils/sample';
 import { MdOutlineBarChart } from 'react-icons/md'
 import { FcComboChart } from 'react-icons/fc'
 import { RiFundsBoxLine } from 'react-icons/ri'
@@ -133,7 +131,6 @@ function SmartFundList(props) {
           <React.Fragment>
         
             <Box className='dashboard' style={{ padding: "10px", }}>
-              <DashboardHeader />
               <PopupMsg txName={txName} txHash={txHash} ref={_popupChild} />
               {
                 pending ? (
@@ -298,7 +295,7 @@ function SmartFundList(props) {
 
               </Box>
               <SimpleGrid>
-                <SmartfundTabs {...props} data={smartfundlist} pending={pendingg} accounts={props.accounts} web3={props.web3} />
+                <SmartfundTabs {...props}  pending={pendingg} accounts={props.accounts} web3={props.web3} />
               </SimpleGrid>
               <Footer />
             </Box>

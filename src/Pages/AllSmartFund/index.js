@@ -27,6 +27,7 @@ function AllSmartFund(props) {
   const allbtnBg = useColorModeValue("#30106b", "#7500FF")
   
   console.log("props.MobXStorage", props.MobXStorage)
+ 
   return (
     <Observer>
       {() => {
@@ -137,13 +138,12 @@ function AllSmartFund(props) {
                         </Card>
                       </SimpleGrid>
 
-
                       <Box mt={4} display="flex" justifyContent="center">
                         <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
                           <Deposit
                             web3={props.MobXStorage.web3}
                             address={item.address}
-                            accounts={props.MobXStorage.accounts}
+                            accounts={props.MobXStorage.account}
                             mainAsset={item.mainAsset}
                             pending={props.pending}
                             version={item.version}
@@ -151,7 +151,7 @@ function AllSmartFund(props) {
                           <Withdraw
                             web3={props.MobXStorage.web3}
                             address={item.address}
-                            accounts={props.MobXStorage.accounts}
+                            accounts={props.MobXStorage.account}
                             pending={props.pending}
                             version={item.version}
                             mainAsset={item.mainAsset}
@@ -160,9 +160,9 @@ function AllSmartFund(props) {
                             <NavLink to={"/fund/" + item.address}>Fund Page</NavLink>
                           </Button>
                           <UserHoldings
-                            web3={props.web3}
+                            web3={props.MobXStorage.web3}
                             address={item.address}
-                            accounts={props.accounts}
+                            accounts={props.MobXStorage.account}
                           />
                           <EtherscanButton address={item.address} />
                         </Box>

@@ -89,7 +89,6 @@ function ViewFundWithoutWeb3() {
                         <Box px={4}>
                             <Header heading="Fund Info." />
                             <Grid gap={5} sx={{ textAlign: 'center', fontWeight: "500" }}>
-                                <DashboardHeader />
                                 <GridItem style={{ borderRadius: "5px", boxShadow: "1px 1px 1px 1px gray", border: "1px solid white" }} >
                                     <Web3Allert />
                                 </GridItem>

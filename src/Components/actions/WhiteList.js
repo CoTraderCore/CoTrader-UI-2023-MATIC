@@ -28,50 +28,55 @@ const WhiteList = (props) => {
     const [contract, setContract] = useState([]);
     const [userWhiteListAddress, setUserWhiteListAddress] = useState('');
     const [userStatus, setUserStatus] = useState(true);
-
+  
     useEffect(() => {
         let isMounted = true;
+    
         const fetchData = async () => {
-                const contractInstance = new props.web3.eth.Contract(SmartFundABIV7, props.smartFundAddress);
-                const status = await contractInstance.methods.onlyWhitelist().call();
-                if (isMounted) {
-                    setWhiteListStatus(status);
-                    setContract(contractInstance);
-                    setIsDataLoading(true);
-                }
+          const contractInstance = new props.web3.eth.Contract(SmartFundABIV7,props.smartFundAddress
+);
+          const status = await contractInstance.methods.onlyWhitelist().call();
+    
+          if (isMounted) {
+            setWhiteListStatus(status);
+            setContract(contractInstance);
+            setIsDataLoading(true);
+          }
         };
-
+    
         fetchData();
-
+    
         return () => {
-            isMounted = false;
+          isMounted = false;
         };
-    }, [props.smartFundAddress, props.web3]);
-
-    const change = e => {
-        const { name, value } = e.target;
-        if (name === "UserStatus") {
-            setUserStatus(value === "true");
-        } else {
-            setUserWhiteListAddress(value);
-        }
+      }, [props.smartFundAddress, props.web3.eth.Contract]);
+    
+  
+    const change = (e) => {
+      const { name, value } = e.target;
+      if (name === 'UserWhiteListAddress') {
+        setUserWhiteListAddress(value);
+      } else if (name === 'UserStatus') {
+        setUserStatus(value);
+      }
     };
-
-    const setWhitelistOnly = async (_bool) => {
-            await contract.methods.setWhitelistOnly(_bool).send({ from: props.accounts[0] });
-            setShow(false);
+  
+    const setWhitelistOnly = (_bool) => {
+      contract.methods.setWhitelistOnly(_bool).send({ from: props.accounts[0] });
+      setShow(false);
     };
-
-    const addToWhitelistOnly = async () => {
-            if (props.web3.utils.isAddress(userWhiteListAddress)) {
-
-                await contract.methods.setWhitelistAddress(userWhiteListAddress, userStatus).send({ from: props.accounts[0] });
-                setShow(false);
-
-            } else {
-                console.log('Not a correct address');
-            }
+  
+    const addToWhitelistOnly = (_bool) => {
+      if (props.web3.utils.isAddress(userWhiteListAddress)) {
+        contract.methods
+          .setWhitelistAddress(userWhiteListAddress, userStatus)
+          .send({ from: props.accounts[0] });
+        setShow(false);
+      } else {
+        alert('Not a correct address');
+      }
     };
+  
 
     const modalClose = () => setShow(false);
     const allbtnBg = useColorModeValue("#30106b", "#7500FF")
@@ -83,7 +88,7 @@ const WhiteList = (props) => {
                     White list
                 </Button>
             </Tooltip>
-            <Modal isOpen={show} onClose={modalClose} isCentered>
+            <Modal isOpen={show} onClose={modalClose}>
                 <ModalOverlay />
                 <ModalContent bg={sliderBg}>
                     <ModalHeader>

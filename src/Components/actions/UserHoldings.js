@@ -12,28 +12,30 @@ function UserHoldings(props) {
     const [isLoad, setIsLoad] = useState(false);
     useEffect(() => {
         const fetchData = async () => {
-          if (isOpen && props.address && !isLoad) {
-              const fund = props.web3 ? new props.web3.eth.Contract(SmartFundABIV7, props.address) : null;
-    
-              if (fund) {
+            if (isOpen && props.address && !isLoad) {
+                const fund = new props.web3.eth.Contract(SmartFundABIV7, props.address);
                 const _calculateAddressValue = await fund.methods.calculateAddressValue(props.accounts[0]).call();
                 const _calculateAddressProfit = await fund.methods.calculateAddressProfit(props.accounts[0]).call();
                 const _fundValue = await fund.methods.calculateFundValue().call();
-    
+
+                // Percent of fund fundValue
+                const percent = fromWei(_fundValue.toString()) / 100
+                const _percentOfFundValue = fromWei(_calculateAddressValue.toString(),'ether') / percent
+
                 setCalculateAddressValue(_calculateAddressValue.toString());
                 setCalculateAddressProfit(_calculateAddressProfit.toString());
-                setPercentOfFundValue(_fundValue.toString());
+                setPercentOfFundValue(_percentOfFundValue);
                 setIsLoad(true);
-              }
-          }
-        };
-        fetchData();
-      }, [isOpen, props]);
-    
+            }
+        }
 
-    const addressValue = fromWei(calculateAddressValue, 'ether')
-    const addressProfit = fromWei(calculateAddressProfit, 'ether')
-    const percentvalue = fromWei(percentOfFundValue, 'ether') / 100
+        fetchData();
+    }, [isOpen]);
+
+
+    // const addressValue = fromWei(calculateAddressValue, 'ether')
+    // const addressProfit = fromWei(calculateAddressProfit, 'ether')
+    // const percentvalue = fromWei(percentOfFundValue, 'ether') / 100
 
     const allbtnBg = useColorModeValue("#30106b", "#7500FF")
     const sliderBg = useColorModeValue("#fff", "#181144")
@@ -55,9 +57,9 @@ function UserHoldings(props) {
 
                         <React.Fragment>
                             <OrderedList>
-                                <ListItem>My deposit in BNB value: {addressValue}</ListItem>
-                                <ListItem>My profit : {addressProfit}</ListItem>
-                                <ListItem>My holding in percent of fund value: {percentvalue}%</ListItem>
+                                <ListItem>My deposit in BNB value: {fromWei(calculateAddressValue,'ether')}</ListItem>
+                                <ListItem>My profit : {fromWei(calculateAddressProfit,'ether')}</ListItem>
+                                <ListItem>My holding in percent of fund value: {percentOfFundValue}%</ListItem>
                             </OrderedList>
                         </React.Fragment>
 

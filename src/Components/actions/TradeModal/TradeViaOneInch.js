@@ -70,10 +70,10 @@ class TradeViaOneInch extends Component {
         const tokenTo = String(_tokenTo).toLowerCase() === "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
             ? WETH
             : _tokenTo
-       
-            const pricePortal = new this.props.web3.eth.Contract(PricePortalPancakeABI, PricePortalPancake)
-            const data = await pricePortal.methods.findConnector(tokenTo).call()
-            return data[0]
+
+        const pricePortal = new this.props.web3.eth.Contract(PricePortalPancakeABI, PricePortalPancake)
+        const data = await pricePortal.methods.findConnector(tokenTo).call()
+        return data[0]
     }
 
     // get tokens addresses and symbols from paraswap api
@@ -132,74 +132,74 @@ class TradeViaOneInch extends Component {
     checkFundBalance = async () => {
         let fundBalance
         let result = false
-            if (String(this.state.sendFrom).toLowerCase() === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
-                fundBalance = await this.props.web3.eth.getBalance(this.props.smartFundAddress)
-                fundBalance = this.props.web3.utils.fromWei(fundBalance)
-            }
-            else {
-                const ERC20 = new this.props.web3.eth.Contract(ERC20ABI, this.state.sendFrom)
-                fundBalance = await ERC20.methods.balanceOf(this.props.smartFundAddress).call()
-                fundBalance = fromWeiByDecimalsInput(this.state.decimalsFrom, fundBalance)
-            }
-            if (parseFloat(fundBalance) >= parseFloat(this.state.AmountSend))
-                result = true
+        if (String(this.state.sendFrom).toLowerCase() === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
+            fundBalance = await this.props.web3.eth.getBalance(this.props.smartFundAddress)
+            fundBalance = this.props.web3.utils.fromWei(fundBalance)
+        }
+        else {
+            const ERC20 = new this.props.web3.eth.Contract(ERC20ABI, this.state.sendFrom)
+            fundBalance = await ERC20.methods.balanceOf(this.props.smartFundAddress).call()
+            fundBalance = fromWeiByDecimalsInput(this.state.decimalsFrom, fundBalance)
+        }
+        if (parseFloat(fundBalance) >= parseFloat(this.state.AmountSend))
+            result = true
 
-            return result
+        return result
     }
 
 
     // helper for update state
     change = async e => {
         // Update rate in correct direction order and set state
-            if (e.target.name === "AmountSend") {
-                this.setState({ shouldUpdatePrice: true, slippageTo: 0, slippageFrom: 0 })
-                // get data
-                const targetName = e.target.name
-                const targerValue = e.target.value
-                const { sendFrom, sendTo, decimalsFrom, decimalsTo } = this.getDirectionInfo()
-                // get rate and slippage in current order
-                const amountRecive = await this.setRate(sendFrom, sendTo, targerValue, "AmountRecive", decimalsFrom, decimalsTo)
-                const slippageFrom = await this.getSlippage(sendFrom, sendTo, targerValue, amountRecive, decimalsFrom, decimalsTo)
-                // update states
-                this.setState({
-                    [targetName]: targerValue,
-                    sendFrom,
-                    sendTo,
-                    decimalsFrom,
-                    decimalsTo,
-                    slippageFrom,
-                    slippageTo: 0,
-                    shouldUpdatePrice: false
-                })
-            }
-            // Update rate in reverse order direction and set state
-            else if (e.target.name === "AmountRecive") {
-                this.setState({ shouldUpdatePrice: true, slippageTo: 0, slippageFrom: 0 })
-                // get data
-                const targetName = e.target.name
-                const targerValue = e.target.value
-                const { sendFrom, sendTo, decimalsFrom, decimalsTo } = this.getDirectionInfo()
-                // update rate and slippage in vice versa order
-                const amountRecive = await this.setRate(sendTo, sendFrom, targerValue, "AmountSend", decimalsTo, decimalsFrom)
-                const slippageTo = await this.getSlippage(sendTo, sendFrom, targerValue, amountRecive, decimalsTo, decimalsFrom)
-                // update states
-                this.setState({
-                    [targetName]: targerValue,
-                    sendFrom,
-                    sendTo,
-                    decimalsFrom,
-                    decimalsTo,
-                    slippageFrom: 0,
-                    slippageTo,
-                    shouldUpdatePrice: false
-                })
-            }
-            // Just set state by input
-            else {
-                this.setState({
-                    [e.target.name]: e.target.value
-                })
-            }
+        if (e.target.name === "AmountSend") {
+            this.setState({ shouldUpdatePrice: true, slippageTo: 0, slippageFrom: 0 })
+            // get data
+            const targetName = e.target.name
+            const targerValue = e.target.value
+            const { sendFrom, sendTo, decimalsFrom, decimalsTo } = this.getDirectionInfo()
+            // get rate and slippage in current order
+            const amountRecive = await this.setRate(sendFrom, sendTo, targerValue, "AmountRecive", decimalsFrom, decimalsTo)
+            const slippageFrom = await this.getSlippage(sendFrom, sendTo, targerValue, amountRecive, decimalsFrom, decimalsTo)
+            // update states
+            this.setState({
+                [targetName]: targerValue,
+                sendFrom,
+                sendTo,
+                decimalsFrom,
+                decimalsTo,
+                slippageFrom,
+                slippageTo: 0,
+                shouldUpdatePrice: false
+            })
+        }
+        // Update rate in reverse order direction and set state
+        else if (e.target.name === "AmountRecive") {
+            this.setState({ shouldUpdatePrice: true, slippageTo: 0, slippageFrom: 0 })
+            // get data
+            const targetName = e.target.name
+            const targerValue = e.target.value
+            const { sendFrom, sendTo, decimalsFrom, decimalsTo } = this.getDirectionInfo()
+            // update rate and slippage in vice versa order
+            const amountRecive = await this.setRate(sendTo, sendFrom, targerValue, "AmountSend", decimalsTo, decimalsFrom)
+            const slippageTo = await this.getSlippage(sendTo, sendFrom, targerValue, amountRecive, decimalsTo, decimalsFrom)
+            // update states
+            this.setState({
+                [targetName]: targerValue,
+                sendFrom,
+                sendTo,
+                decimalsFrom,
+                decimalsTo,
+                slippageFrom: 0,
+                slippageTo,
+                shouldUpdatePrice: false
+            })
+        }
+        // Just set state by input
+        else {
+            this.setState({
+                [e.target.name]: e.target.value
+            })
+        }
     }
 
 
@@ -372,8 +372,8 @@ class TradeViaOneInch extends Component {
 
     // get slippage percent
     getSlippage = async (sendFrom, sendTo, amountSend, amountRecive, decimalsFrom, decimalsTo) => {
-        try{   
-        const expectedRatio = new BigNumber(
+        try {
+            const expectedRatio = new BigNumber(
                 toWeiByDecimalsInput(decimalsTo, amountRecive)
             )
             const amountSendBN = new BigNumber(amountSend)
@@ -453,83 +453,91 @@ class TradeViaOneInch extends Component {
     render() {
         return (
             <>
-                <Box>
-                    {/* SEND */}
-                    <FormControl>
-                        <FormLabel>Pay with</FormLabel>
-                        <InputGroup >
-                            <SelectToken
-                                web3={this.props.web3}
-                                symbols={this.state.symbols}
-                                tokens={this.state.tokens}
-                                onChangeTypeHead={this.onChangeTypeHead}
-                                direction="Send"
-                                currentSymbol={this.state.Send}
-                                pushNewTokenInList={this.pushNewTokenInList}
-                            />
-                            <Input
-                                type="number"
-                                placeholder={this.state.AmountSend}
-                                min="0"
-                                name="AmountSend"
-                                value={this.state.AmountSend}
-                                onChange={e => this.delayChange(e)}
-                            />
-                        </InputGroup>
-                        {
-                            this.state.slippageTo > 0
-                                ?
-                                (
-                                    <small style={{ color: "blue" }}>Slippage: {String(this.state.slippageTo)} %</small>
-                                ) : null
-                        }
+                {
+                    this.state.tokens ?
+                        (
+                            <Box>
+                                {/* SEND */}
+                                <FormControl>
+                                    <FormLabel>Pay with</FormLabel>
+                                    <InputGroup >
+                                        <SelectToken
+                                            web3={this.props.web3}
+                                            symbols={this.state.symbols}
+                                            tokens={this.state.tokens}
+                                            onChangeTypeHead={this.onChangeTypeHead}
+                                            direction="Send"
+                                            currentSymbol={this.state.Send}
+                                            pushNewTokenInList={this.pushNewTokenInList}
+                                        />
+                                        <Input
+                                            type="number"
+                                            placeholder={this.state.AmountSend}
+                                            min="0"
+                                            name="AmountSend"
+                                            value={this.state.AmountSend}
+                                            onChange={e => this.delayChange(e)}
+                                        />
+                                    </InputGroup>
+                                    {
+                                        this.state.slippageTo > 0
+                                            ?
+                                            (
+                                                <small style={{ color: "blue" }}>Slippage: {String(this.state.slippageTo)} %</small>
+                                            ) : null
+                                    }
 
-                        {
-                            this.state.shouldUpdatePrice ? (<Pending />) : null
-                        }
-                        <br />
+                                    {
+                                        this.state.shouldUpdatePrice ? (<Pending />) : null
+                                    }
+                                    <br />
 
-                        {/* RECEIVE */}
-                        <FormLabel>Receive</FormLabel>
-                        <InputGroup >
-                            <SelectToken
-                                web3={this.props.web3}
-                                symbols={this.state.symbols}
-                                tokens={this.state.tokens}
-                                onChangeTypeHead={this.onChangeTypeHead}
-                                direction="Recive"
-                                currentSymbol={this.state.Recive}
-                                pushNewTokenInList={this.pushNewTokenInList}
-                            />
-                            <Input
-                                type="number"
-                                placeholder={this.state.AmountRecive}
-                                min="0"
-                                name="AmountRecive"
-                                value={this.state.AmountRecive}
-                                onChange={e => this.delayChange(e)}
-                            />
-                        </InputGroup>
-                        {
-                            this.state.slippageFrom > 0
-                                ?
-                                (
-                                    <small style={{ color: "#7500FF" }}>Slippage: {String(this.state.slippageFrom)} %</small>
-                                ) : null
-                        }
+                                    {/* RECEIVE */}
+                                    <FormLabel>Receive</FormLabel>
+                                    <InputGroup >
+                                        <SelectToken
+                                            web3={this.props.web3}
+                                            symbols={this.state.symbols}
+                                            tokens={this.state.tokens}
+                                            onChangeTypeHead={this.onChangeTypeHead}
+                                            direction="Recive"
+                                            currentSymbol={this.state.Recive}
+                                            pushNewTokenInList={this.pushNewTokenInList}
+                                        />
+                                        <Input
+                                            type="number"
+                                            placeholder={this.state.AmountRecive}
+                                            min="0"
+                                            name="AmountRecive"
+                                            value={this.state.AmountRecive}
+                                            onChange={e => this.delayChange(e)}
+                                        />
+                                    </InputGroup>
+                                    {
+                                        this.state.slippageFrom > 0
+                                            ?
+                                            (
+                                                <small style={{ color: "#7500FF" }}>Slippage: {String(this.state.slippageFrom)} %</small>
+                                            ) : null
+                                    }
 
-                        {/* Display error */}
-                        {this.ErrorMsg()}
+                                    {/* Display error */}
+                                    {this.ErrorMsg()}
 
-                        {/* Trigger tarde */}
+                                    {/* Trigger tarde */}
 
-                        <Button mt={5} colorScheme='green' onClick={() => this.validation()}>Trade</Button>
+                                    <Button mt={5} colorScheme='green' onClick={() => this.validation()}>Trade</Button>
 
-                        {
-                            this.state.prepareData ? (<Text mt={1}>Preparing transaction data, please wait ...</Text>) : null
-                        }
-                    </FormControl>
-                </Box>
+                                    {
+                                        this.state.prepareData ? (<Text mt={1}>Preparing transaction data, please wait ...</Text>) : null
+                                    }
+                                </FormControl>
+                            </Box>
+
+                        ) : (
+                            <Text>Load Date.......</Text>
+                        )
+                }
 
             </>
         )

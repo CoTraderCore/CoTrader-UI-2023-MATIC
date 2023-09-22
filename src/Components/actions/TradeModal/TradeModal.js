@@ -68,6 +68,7 @@ function TradeModal(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const sliderBg = useColorModeValue("#fff", "#181144")
   const allbtnBg = useColorModeValue("#30106b", "#7500FF")
+
   return (
     <>
       <Button flexGrow="1" width={{ base: "100%", md: "auto" }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }} onClick={onOpen}>

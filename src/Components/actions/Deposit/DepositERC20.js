@@ -52,7 +52,6 @@ class DepositERC20 extends Component {
                 tokenBalanceInWei,
                 tokenBalancee,
             });
-            console.log(symboll, "symbolllll");
     }
 
     componentDidUpdate = async (prevProps, prevState) => {
@@ -179,7 +178,6 @@ class DepositERC20 extends Component {
     modalClose = () => this.setState({ Show: false, Agree: false });
 
     render() {
-
         return (
             <>
                 <FormControl>
