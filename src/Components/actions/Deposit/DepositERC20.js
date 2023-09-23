@@ -18,6 +18,7 @@ import {
 import setPending from '../../../utils/setPending.js';
 import { toWeiByDecimalsInput, fromWeiByDecimalsInput } from '../../../utils/weiByDecimals';
 import axios from 'axios';
+import BigNumber from 'bignumber.js';
 
 class DepositERC20 extends Component {
     constructor(props, context) {
@@ -43,7 +44,7 @@ class DepositERC20 extends Component {
             const symboll = await ercAssetContract.methods.symbol().call();
             const decimals = await ercAssetContract.methods.decimals().call();
             const tokenBalanceInWei = await ercAssetContract.methods.balanceOf(this.props.accounts[0]).call();
-            const tokenBalancee = fromWeiByDecimalsInput(decimals, tokenBalanceInWei);
+            const tokenBalancee = fromWeiByDecimalsInput(BigNumber(decimals), tokenBalanceInWei);
 
             this.setState({
                 ercAssetAddress,
@@ -52,6 +53,7 @@ class DepositERC20 extends Component {
                 tokenBalanceInWei,
                 tokenBalancee,
             });
+            console.log(ercAssetContract,"ercAssetContract===========");
     }
 
     componentDidUpdate = async (prevProps, prevState) => {
@@ -102,7 +104,7 @@ class DepositERC20 extends Component {
                 allowance
             );
 
-            const isApproved = Number(allowanceFromWei) >= Number(this.state.DepositValue);
+            const isApproved = BigNumber(allowanceFromWei) >= BigNumber(this.state.DepositValue);
 
             this.setState({
                 isApproved
@@ -176,8 +178,8 @@ class DepositERC20 extends Component {
     }
 
     modalClose = () => this.setState({ Show: false, Agree: false });
-
     render() {
+        console.log("ercAssetContract}}}}}}}}}}}}}}}}}}}}}}..........",this.state.ercAssetContract);
         return (
             <>
                 <FormControl>

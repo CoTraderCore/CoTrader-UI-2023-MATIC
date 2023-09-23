@@ -197,9 +197,7 @@ function ViewFund(props) {
                     accounts={props.accounts}
                     smartFundAddress={smartFundAddress}
                 />
-                {
-                    props.web3 && isDataLoad ?
-                        (
+            
                             <React.Fragment>
 
                                 <Box>
@@ -559,10 +557,6 @@ function ViewFund(props) {
                                     <Footer />
                                 </Box>
                             </React.Fragment>
-                        ) : (
-                            <Loading />
-                        )
-                }
 
             </Box>
         </>

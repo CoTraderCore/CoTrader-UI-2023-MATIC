@@ -34,7 +34,7 @@ class WalletInfo extends Component {
                                             </Text>
                                         ) : null
                                 }
-                                <Text><strong style={{ color: "#5E39FF", fontWeight: "500", }}>{String(this.props.accounts).replace(String(this.props.accounts[0]).substring(6, 36), "...")}</strong></Text>
+                                <Text> <strong style={{ color: "#5E39FF", fontWeight: "500", }}>{String(this.props.accounts).replace(String(this.props.accounts[0]).substring(6, 36), "...")}</strong></Text>
                             </Box>
                         ) : (
                             null

@@ -41,7 +41,7 @@ const UpdateUSDAsset = (props) => {
                 const currentTokenAddress = await contract.methods.coreFundAsset().call();
 
                 const totalWeiDepositedInWei = await contract.methods.totalWeiDeposited().call();
-                const totalWeiDeposited = Number(fromWei(String(totalWeiDepositedInWei)));
+                const totalWeiDeposite = Number(fromWei(String(totalWeiDepositedInWei)));
                 const currentTokenSymbol = Object.keys(assets).find(
                     (k) => assets[k].toLowerCase() === currentTokenAddress.toLowerCase()
                 );
@@ -50,7 +50,7 @@ const UpdateUSDAsset = (props) => {
                     setCurrentUSDTokenSymbol(currentTokenSymbol);
                     setSymbolsArray(symbols);
                     setFundContract(contract);
-                    setTotalWeiDeposited(totalWeiDeposited);
+                    setTotalWeiDeposited(totalWeiDeposite);
                 }
         };
 

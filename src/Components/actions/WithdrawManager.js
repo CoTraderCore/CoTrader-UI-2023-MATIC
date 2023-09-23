@@ -29,11 +29,12 @@ function WithdrawManager(props) {
     let isMounted = true;
     const fetchData = async () => {
         const contract = new props.web3.eth.Contract(SmartFundABIV7, props.smartFundAddress);
-        let managerCut = 0;
+        let managerCut;
+        try{
         const { fundManagerRemainingCut } = await contract.methods.calculateFundManagerCut().call();
         managerCut = parseFloat(fromWei(String(fundManagerRemainingCut)));
-        if (isMounted) {
-          setManagerCut(managerCut);
+        }catch(e){
+          managerCut=0;
         }
     };
 
@@ -42,7 +43,7 @@ function WithdrawManager(props) {
     return () => {
       isMounted = false;
     };
-  }, [props.web3, props.smartFundAddress]);
+  }, []);
 
   const withdrawManager = async () => {
     try {
@@ -67,7 +68,7 @@ function WithdrawManager(props) {
   const updatePendingStatus = (txCount, block, hash) => {
     props.pending(true, txCount + 1);
     setPending(props.smartFundAddress, 1, props.accounts[0], block, hash, 'Withdraw');
-    onClose();
+    onClose(true);
   };
   const allbtnBg = useColorModeValue("#30106b", "#7500FF")
   const sliderBg = useColorModeValue("#fff", "#181144")
