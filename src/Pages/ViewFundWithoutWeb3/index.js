@@ -67,8 +67,8 @@ function ViewFundWithoutWeb3(props) {
                         {
                             props.isDataLoad ?
                                 (
-                                    <Box className='dashboard' px={4}>
-                                        <Grid gap={5} sx={{ textAlign: 'center', fontWeight: "500" }}>
+                                    <Box className='dashboard' px={2} >
+                                        <Grid  sx={{ textAlign: 'center', fontWeight: "500" }}>
                                             <GridItem style={{ borderRadius: "5px", boxShadow: "1px 1px 1px 1px gray", border: "1px solid white" }} >
                                                 <Web3Allert />
                                             </GridItem>

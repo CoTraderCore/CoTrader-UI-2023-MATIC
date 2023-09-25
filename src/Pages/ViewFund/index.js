@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import ShadowBox from '../../Components/Cards/ShadowBox';
 import IconBox from '../../Components/Icons/IconBox';
 import Header from '../../Components/common/Header';
-import { Box, Heading, Icon, SimpleGrid, List, ListItem, Progress, Stack, useColorModeValue, GridItem, Grid, Table, Thead, Tr, Th, Td, Tbody, Text, } from '@chakra-ui/react'
+import { Box, Heading, Icon, SimpleGrid, List, ListItem, Progress, Stack, useColorModeValue, GridItem, Grid, Table, Thead, Tr, Th, Td, Tbody, Text, Button, Tooltip, } from '@chakra-ui/react'
 import { MdAttachMoney, } from "react-icons/md";
 import Card from '../../Components/Card/Card';
 import Footer from '../../Components/common/footer/Footer';
@@ -26,11 +26,9 @@ import AssetsAlocationChart from '../../Components/Chart/AssetsAlocationChart';
 import WithdrawManager from '../../Components/actions/WithdrawManager';
 import WhiteList from '../../Components/actions/WhiteList';
 import UpdateUSDAsset from '../../Components/actions/UpdateUSDAsset';
-import DashboardHeader from '../../Components/common/DashboardHeader';
 import { fromWei } from 'web3-utils';
 import _ from 'lodash';
 import Loading from '../../Components/template/spiners/Loading';
-
 
 function ViewFund(props) {
     const { address } = useParams();
@@ -59,9 +57,9 @@ function ViewFund(props) {
 
     const _popupChild = useRef(null);
     const _isMounted = true;
-    
+
     useEffect(() => {
-       
+
         loadData();
         initSocket();
         checkPending();
@@ -152,7 +150,7 @@ function ViewFund(props) {
         if (props.accounts) {
             let txCount = await axios.get(APIEnpoint + 'api/user-pending-count/' + props.accounts[0]);
             txCount = txCount.data.result;
-            const isPending = Number(txCount) !== 0 ? false :true
+            const isPending = Number(txCount) !== 0 ? false : true
             if (_isMounted) {
                 setPending(isPending);
                 setTxCount(txCount);
@@ -174,13 +172,13 @@ function ViewFund(props) {
     const valueInEth = fromWei(String(valueInETH), 'ether')
     const valueInUsd = fromWei(String(valueInUSD), 'ether')
 
-    // const tooltipBg = useColorModeValue("black", "#A4ADC7")
+    const tooltipBg = useColorModeValue("black", "#A4ADC7")
     const headingColor = useColorModeValue("#1B2559", "#F4F7FE");
     const totalprogressBg = useColorModeValue("green.100", "#CBC3E3")
     const colorSchemeGreen = useColorModeValue("green", "green")
     const colorSchemeRed = useColorModeValue("red", "red")
     const remainingprogressBg = useColorModeValue("red.100", "#CBC3E3")
-    // const allbtnBg = useColorModeValue("#30106b", "#7500FF")
+    const allbtnBg = useColorModeValue("#30106b", "#7500FF")
     const tableHead = useColorModeValue("#1A202C", "#fff")
     // const chartbg = useColorModeValue("#fff", "#181144")
     const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
@@ -197,9 +195,10 @@ function ViewFund(props) {
                     accounts={props.accounts}
                     smartFundAddress={smartFundAddress}
                 />
-            
+                {
+                    props.web3 && isDataLoad ?
+                        (
                             <React.Fragment>
-
                                 <Box>
                                     <PopupMsg txName={txName} txHash={txHash} ref={_popupChild} />
                                     {pending ? (
@@ -208,7 +207,6 @@ function ViewFund(props) {
                                                 <Text mt={4} sx={{ fontWeight: "500", textAlign: "center", borderRadius: "5px", padding: "10px 5px", boxShadow: "1px 1px 1px 1px gray", border: "1px solid white" }}>
                                                     Pending transitions : {txCount}
                                                 </Text>
-
                                             </Box>
                                             <Pending />
                                         </>
@@ -221,7 +219,7 @@ function ViewFund(props) {
                                 </Box>
 
                                 <Box>
-                                    <Box mt={4} sx={{ padding: "10px", borderRadius: "10px", }}>
+                                    <Box mt={2} sx={{ padding: "10px", borderRadius: "10px", }}>
                                         <Heading textTransform={"uppercase"} fontSize={{ base: "2xl" }} color={headingColor} textAlign={'center'} p={2}>Fund Name: {name}</Heading>
                                         <SimpleGrid
                                             width="100%"
@@ -470,76 +468,84 @@ function ViewFund(props) {
                                     </Box>
                                     <Box pt={5}>
                                         <Heading fontSize={{ base: "xl", md: "2xl" }} sx={{ textAlign: "center", textTransform: "uppercase", color: { headingColor }, padding: "10px 0px" }}>Manager actions</Heading>
-
-                                        <Box sx={{ display: "flex", justifyContent: "center" }}>
-                                            <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
-                                                <TradeModal
-                                                    web3={props.web3}
-                                                    accounts={props.accounts}
-                                                    smartFundAddress={smartFundAddress}
-                                                    pending={pendingHandler}
-                                                    version={version}
-                                                />
-
-                                                <WithdrawManager
-                                                    web3={props.web3}
-                                                    accounts={props.accounts}
-                                                    smartFundAddress={smartFundAddress}
-                                                    owner={owner}
-                                                    pending={pendingHandler}
-                                                    version={version}
-                                                />
-                                                <WhiteList
-                                                    web3={props.web3}
-                                                    accounts={props.accounts}
-                                                    smartFundAddress={smartFundAddress}
-                                                    owner={owner}
-                                                />
-                                                {
-                                                    mainAsset === 'USD' ?
-                                                        (
-                                                            <UpdateUSDAsset
+                                        {
+                                            props.accounts === owner ?
+                                                (
+                                                    <Box sx={{ display: "flex", justifyContent: "center" }}>
+                                                        <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
+                                                            <TradeModal
                                                                 web3={props.web3}
                                                                 accounts={props.accounts}
                                                                 smartFundAddress={smartFundAddress}
+                                                                pending={pendingHandler}
                                                                 version={version}
                                                             />
-                                                        ) : null
-                                                }
 
-                                            </Box>
-                                        </Box>
-                                        {/* 
-                                    <Box sx={{ display: "flex", justifyContent: "center" }}>
-                                        <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
-                                            <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
-                                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
-                                                    Exchange
-                                                </Button>
-                                            </Tooltip>
-                                            <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
-                                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
-                                                    Take Cut
-                                                </Button>
-                                            </Tooltip>
-                                            <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
-                                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
-                                                    White List
-                                                </Button>
-                                            </Tooltip>
-                                            {
-                                                mainAsset === "USD" ?
-                                                    (
-                                                        <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
-                                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
-                                                                Stable Tokens
-                                                            </Button>
-                                                        </Tooltip>
-                                                    ) : null
-                                            }
-                                        </Box>
-                                    </Box>
-                          */}
+                                                            <WithdrawManager
+                                                                web3={props.web3}
+                                                                accounts={props.accounts}
+                                                                smartFundAddress={smartFundAddress}
+                                                                owner={owner}
+                                                                pending={pendingHandler}
+                                                                version={version}
+                                                            />
+                                                            <WhiteList
+                                                                web3={props.web3}
+                                                                accounts={props.accounts}
+                                                                smartFundAddress={smartFundAddress}
+                                                                owner={owner}
+                                                            />
+                                                            {
+                                                                mainAsset === 'USD' ?
+                                                                    (
+                                                                        <UpdateUSDAsset
+                                                                            web3={props.web3}
+                                                                            accounts={props.accounts}
+                                                                            smartFundAddress={smartFundAddress}
+                                                                            version={version}
+                                                                        />
+                                                                    ) : null
+                                                            }
+
+                                                        </Box>
+                                                    </Box>
+                                                ) :
+                                                (
+                                                    <Box sx={{ display: "flex", justifyContent: "center" }}>
+                                                        <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
+                                                            <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
+                                                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
+                                                                    Exchange
+                                                                </Button>
+                                                            </Tooltip>
+                                                            <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
+                                                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
+                                                                    Take Cut
+                                                                </Button>
+                                                            </Tooltip>
+                                                            <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
+                                                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
+                                                                    White List
+                                                                </Button>
+                                                            </Tooltip>
+                                                            {
+                                                                mainAsset === "USD" ?
+                                                                    (
+                                                                        <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
+                                                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
+                                                                                Stable Tokens
+                                                                            </Button>
+                                                                        </Tooltip>
+                                                                    ) : null
+                                                            }
+                                                        </Box>
+                                                    </Box>
+                                                )
+                                        }
+
+
+
+
                                     </Box>
                                     <Box>
                                         <Card mt={5}>
@@ -557,6 +563,11 @@ function ViewFund(props) {
                                     <Footer />
                                 </Box>
                             </React.Fragment>
+                        ) : (
+                            <Loading />
+                        )
+                }
+
 
             </Box>
         </>

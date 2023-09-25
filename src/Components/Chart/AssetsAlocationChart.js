@@ -68,7 +68,7 @@ const AssetsAlocationChart = ({ AssetsData, version }) => {
                                         show: true,
                                         position: 'bottom',
                                         labels: {
-                                            colors: [allbtnBg, allbtnBg],
+                                            colors: [allbtnBg, allbtnBg,allbtnBg,allbtnBg],
                                         },
                                     },
                                 }}

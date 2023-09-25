@@ -5,14 +5,8 @@ import {
     FormControl,
     Alert,
     FormLabel,
-    NumberInput,
-    NumberInputField,
-    NumberInputStepper,
-    NumberIncrementStepper,
-    NumberDecrementStepper,
     AlertIcon,
     AlertDescription,
-    Text,
     Input,
 } from '@chakra-ui/react';
 import setPending from '../../../utils/setPending.js';
@@ -32,7 +26,7 @@ class DepositERC20 extends Component {
             userWalletBalance: '0',
             isApproved: true,
             approvePending: false,
-            symbol: '...',
+            symbol: '',
             tokenBalance: 0,
         };
     }
@@ -41,19 +35,17 @@ class DepositERC20 extends Component {
             const fund = new this.props.web3.eth.Contract(SmartFundABIV7, this.props.address);
             const ercAssetAddress = await fund.methods.coreFundAsset().call();
             const ercAssetContract = new this.props.web3.eth.Contract(ERC20ABI, ercAssetAddress);
-            const symboll = await ercAssetContract.methods.symbol().call();
+            const symbol = await ercAssetContract.methods.symbol().call();
             const decimals = await ercAssetContract.methods.decimals().call();
             const tokenBalanceInWei = await ercAssetContract.methods.balanceOf(this.props.accounts[0]).call();
-            const tokenBalancee = fromWeiByDecimalsInput(BigNumber(decimals), tokenBalanceInWei);
-
+            const tokenBalance = fromWeiByDecimalsInput(BigNumber(decimals), tokenBalanceInWei);
             this.setState({
                 ercAssetAddress,
                 ercAssetContract,
-                symboll,
+                symbol,
                 tokenBalanceInWei,
-                tokenBalancee,
+                tokenBalance,
             });
-            console.log(ercAssetContract,"ercAssetContract===========");
     }
 
     componentDidUpdate = async (prevProps, prevState) => {
@@ -104,7 +96,7 @@ class DepositERC20 extends Component {
                 allowance
             );
 
-            const isApproved = BigNumber(allowanceFromWei) >= BigNumber(this.state.DepositValue);
+            const isApproved = Number(allowanceFromWei) >= Number(this.state.DepositValue);
 
             this.setState({
                 isApproved
@@ -179,7 +171,8 @@ class DepositERC20 extends Component {
 
     modalClose = () => this.setState({ Show: false, Agree: false });
     render() {
-        console.log("ercAssetContract}}}}}}}}}}}}}}}}}}}}}}..........",this.state.ercAssetContract);
+      console.log("ercAssetContract :",this.state.ercAssetContract);
+      console.log("symbol",this.state.symbol);
         return (
             <>
                 <FormControl>
@@ -208,7 +201,7 @@ class DepositERC20 extends Component {
                 </FormControl>
 
                 {
-                    this.state.isApproved
+                    !this.state.isApproved
                         ? (
                             <>
                                 <Button

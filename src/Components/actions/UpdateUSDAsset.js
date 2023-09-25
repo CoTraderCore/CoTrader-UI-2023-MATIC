@@ -37,21 +37,21 @@ const UpdateUSDAsset = (props) => {
     useEffect(() => {
         let isMounted = true;
         const initData = async () => {
-                const contract = new props.web3.eth.Contract(SmartFundABIV7, props.smartFundAddress);
-                const currentTokenAddress = await contract.methods.coreFundAsset().call();
+            const contract = new props.web3.eth.Contract(SmartFundABIV7, props.smartFundAddress);
+            const currentTokenAddress = await contract.methods.coreFundAsset().call();
 
-                const totalWeiDepositedInWei = await contract.methods.totalWeiDeposited().call();
-                const totalWeiDeposite = Number(fromWei(String(totalWeiDepositedInWei)));
-                const currentTokenSymbol = Object.keys(assets).find(
-                    (k) => assets[k].toLowerCase() === currentTokenAddress.toLowerCase()
-                );
-                if (isMounted) {
-                    setCurrentUSDTokenAddress(currentTokenAddress);
-                    setCurrentUSDTokenSymbol(currentTokenSymbol);
-                    setSymbolsArray(symbols);
-                    setFundContract(contract);
-                    setTotalWeiDeposited(totalWeiDeposite);
-                }
+            const totalWeiDepositedInWei = await contract.methods.totalWeiDeposited().call();
+            const totalWeiDeposite = Number(fromWei(String(totalWeiDepositedInWei),'ether'));
+            const currentTokenSymbol = Object.keys(assets).find(
+                (k) => assets[k].toLowerCase() === currentTokenAddress.toLowerCase()
+            );
+            if (isMounted) {
+                setCurrentUSDTokenAddress(currentTokenAddress);
+                setCurrentUSDTokenSymbol(currentTokenSymbol);
+                setSymbolsArray(symbols);
+                setFundContract(contract);
+                setTotalWeiDeposited(totalWeiDeposite);
+            }
         };
 
         initData();
@@ -69,10 +69,10 @@ const UpdateUSDAsset = (props) => {
 
     const changeUSDToken = async () => {
         if (isAddress(newUSDTokenAddress)) {
-                await fundContract.methods
-                    .changeStableCoinAddress(newUSDTokenAddress)
-                    .send({ from: props.accounts[0] });
-                setShowSuccessMsg(true);
+            await fundContract.methods
+                .changeStableCoinAddress(newUSDTokenAddress)
+                .send({ from: props.accounts[0] });
+            setShowSuccessMsg(true);
         } else {
             alert('Please select a valid token address');
         }
@@ -100,7 +100,7 @@ const UpdateUSDAsset = (props) => {
                             Your current fund USD token :&nbsp;
                             <strong>
                                 <a
-                                style={{color:"#7500ff"}}
+                                    style={{ color: "#7500ff" }}
                                     href={EtherscanLink + 'token/' + currentUSDTokenAddress}
                                     target="_blank"
                                     rel="noopener noreferrer"

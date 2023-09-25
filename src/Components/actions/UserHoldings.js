@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { SmartFundABIV7 } from '../../config.js';
-import { useDisclosure, Button, ListItem, ModalCloseButton, ModalContent, ModalOverlay, OrderedList, ModalBody, ModalHeader, Modal, Box, useColorModeValue, Tooltip } from '@chakra-ui/react';
-// import Loading from '../template/spiners/Loading.js';
+import { useDisclosure, Button, ListItem, ModalCloseButton, ModalContent, ModalOverlay, OrderedList, ModalBody, ModalHeader, Modal, useColorModeValue, } from '@chakra-ui/react';
 import { fromWei } from 'web3-utils'
+import Loading from '../template/spiners/Loading.js';
 
 function UserHoldings(props) {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -19,23 +19,20 @@ function UserHoldings(props) {
                 const _fundValue = await fund.methods.calculateFundValue().call();
 
                 // Percent of fund fundValue
-                const percent = fromWei(_fundValue.toString()) / 100
-                const _percentOfFundValue = fromWei(_calculateAddressValue.toString(),'ether') / percent
+                const percent = fromWei(_fundValue.toString(), 'wei') / 100
+                const _percentOfFundValue = fromWei(_calculateAddressValue.toString(), 'wei') / percent
 
                 setCalculateAddressValue(_calculateAddressValue.toString());
                 setCalculateAddressProfit(_calculateAddressProfit.toString());
                 setPercentOfFundValue(_percentOfFundValue);
                 setIsLoad(true);
+                console.log(_calculateAddressValue, _calculateAddressProfit, _fundValue);
+
             }
         }
 
         fetchData();
     }, [isOpen]);
-
-
-    // const addressValue = fromWei(calculateAddressValue, 'ether')
-    // const addressProfit = fromWei(calculateAddressProfit, 'ether')
-    // const percentvalue = fromWei(percentOfFundValue, 'ether') / 100
 
     const allbtnBg = useColorModeValue("#30106b", "#7500FF")
     const sliderBg = useColorModeValue("#fff", "#181144")
@@ -54,14 +51,20 @@ function UserHoldings(props) {
                     </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
+                        {isLoad ?
+                            (
+                                <React.Fragment>
+                                    <OrderedList>
+                                        <ListItem>My deposit in BNB value: {fromWei(calculateAddressValue, 'wei')}</ListItem>
+                                        <ListItem>My profit : {fromWei(calculateAddressProfit, 'wei')}</ListItem>
+                                        <ListItem>My holding in percent of fund value: {percentOfFundValue}%</ListItem>
+                                    </OrderedList>
+                                </React.Fragment>
+                            ) : (
+                                <Loading />
+                            )
+                        }
 
-                        <React.Fragment>
-                            <OrderedList>
-                                <ListItem>My deposit in BNB value: {fromWei(calculateAddressValue,'ether')}</ListItem>
-                                <ListItem>My profit : {fromWei(calculateAddressProfit,'ether')}</ListItem>
-                                <ListItem>My holding in percent of fund value: {percentOfFundValue}%</ListItem>
-                            </OrderedList>
-                        </React.Fragment>
 
                     </ModalBody>
                 </ModalContent>

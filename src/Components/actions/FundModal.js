@@ -14,7 +14,7 @@ const FundModal = ({ address,MobXStorage }) => {
        
         <Box>
             <Text fontWeight={{ base: "700", md: "500" }} onClick={onOpen} cursor={'pointer'}>
-                Fund: <small style={{ color: "#7500fe", }}><strong >{String(address).replace(String(address).substring(4, 38), "...")}</strong></small>
+            Fund: <small style={{ color: "#7500fe", }}><strong >{String(address).replace(String(address).substring(4, 38), "...")}</strong></small>
             </Text>
 
             <Modal isOpen={isOpen} onClose={onClose}>
