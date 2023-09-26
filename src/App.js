@@ -31,10 +31,10 @@ function App(props) {
       setTimeOutF(true);
     }, 3000);
 
-    if (window.ethereum) {
-      window.ethereum.on('accountsChanged', () => window.location.reload());
-    }
-
+     // relaod app if accout was changed
+     if(window.ethereum)
+     window.ethereum.on('accountsChanged', () => window.location.reload())
+   
     async function load() {
       initializeReactGA();
 
@@ -90,13 +90,10 @@ function App(props) {
 
   const initData = async () => {
     if (props.MobXStorage.SmartFundsOriginal.length === 0) {
-      try {
         const smartFunds = await getFundsList();
         props.MobXStorage.initSFList(smartFunds);
         setIsDataLoad(true);
-      } catch (error) {
-        console.log("error:", error);
-      }
+     
     }
   };
 
@@ -110,6 +107,7 @@ function App(props) {
     }
   }
 
+  console.log("props.MobXStorage====",props.MobXStorage);
   const router = createBrowserRouter([
     {
       path: Pages.SMARTFUNDLIST,

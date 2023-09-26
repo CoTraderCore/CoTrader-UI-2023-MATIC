@@ -129,14 +129,14 @@ class MOBXStorage {
     if(SmartFunds.length > 0){
       const reducer = (accumulator, currentValue) => BigNumber(accumulator).plus(currentValue)
       // get value
-      const value = SmartFunds.map(fund => Number(fromWei(fund.valueInUSD)))
+      const value = SmartFunds.map(fund => Number(fromWei(fund.valueInUSD,'ether')))
       const totalValue = Number(value.reduce(reducer)).toFixed(2)
 
       // get profit
       const profit = SmartFunds.map((fund) => {
         if(fund.profitInUSD > 0){
           try{
-            return fromWei(toNumber(new BigNumber(fund.profitInUSD)))
+            return fromWei(toNumber(new BigNumber(fund.profitInUSD)),'ether')
           }catch(e){
             console.log("Error, can't convert fund.profitInUSD error ", e)
             return 0
@@ -151,7 +151,7 @@ class MOBXStorage {
       const historyProfit = SmartFunds.map((fund) => {
         if(fund.historyProfitInUSD > 0){
           try{
-            return fromWei(String(fund.historyProfitInUSD))
+            return fromWei(String(fund.historyProfitInUSD),'ether')
           }catch(e){
             console.log("Error, can't convert fund.historyProfitInUSD error ", e)
             return 0

@@ -18,7 +18,8 @@ import { APIEnpoint } from '../../config';
 import getFundData from '../../utils/getFundData';
 import getFundsList from '../../utils/getFundsList';
 import Pending from '../../Components/template/spiners/Pending';
-import { Observer, inject} from 'mobx-react';
+import { inject } from 'mobx-react';
+import Loading from '../../Components/template/spiners/Loading';
 
 function SmartFundList(props) {
   const [pending, setPending] = useState(false);
@@ -122,13 +123,13 @@ function SmartFundList(props) {
   const brandColor = useColorModeValue("#7500fe", "##CBC3E3");
   const boxBg = useColorModeValue("#F4F7FE", "#110938");
   const allbtnBg = useColorModeValue("#30106b", "#7500FF")
-
+ 
   return (
-    <Observer>
-      {() => {
-        return (
-          <React.Fragment>
-        
+
+    <React.Fragment>
+      {
+        props.isDataLoad ?
+          (
             <Box className='dashboard' style={{ padding: "10px", }}>
               <PopupMsg txName={txName} txHash={txHash} ref={_popupChild} />
               {
@@ -226,7 +227,7 @@ function SmartFundList(props) {
                     ) :
                     (
                       <Box>
-                      <Text bg="lightgray" sx={{textTransform:"capitalize",fontWeight:"bold",color:"#7500ff",textAlign:"center"}}>{props.MobXStorage.FilterInfo}</Text>
+                        <Text bg="lightgray" sx={{ textTransform: "capitalize", fontWeight: "bold", color: "#7500ff", textAlign: "center" }}>{props.MobXStorage.FilterInfo}filter</Text>
                         <SimpleGrid
                           width="100%"
                           columns={{ base: 1, md: 4, lg: 4, }}
@@ -246,7 +247,6 @@ function SmartFundList(props) {
                             name='Fund'
                             value={`${props.MobXStorage.SmartFunds.length} of ${props.MobXStorage.SmartFundsOriginal.length} funds`}
                           />
-                          <Text>{props.MobXStorage.FilterInfo} filter fund by name</Text>
                           <ShadowBox
                             startContent={
                               <IconBox
@@ -294,16 +294,16 @@ function SmartFundList(props) {
 
               </Box>
               <SimpleGrid>
-                <SmartfundTabs {...props} pending={pendingg} accounts={props.accounts} web3={props.web3} />
+                <SmartfundTabs {...props} pending={pendingg} accounts={props.accounts} web3={props.web3} loadData={props.isDataLoad} />
               </SimpleGrid>
               <Footer />
             </Box>
+          ) : (
+            <Loading />
+          )
+      }
+    </React.Fragment>
 
-
-          </React.Fragment>
-        )
-      }}
-    </Observer>
   );
 
 }
