@@ -26,8 +26,6 @@ function UserHoldings(props) {
                 setCalculateAddressProfit(_calculateAddressProfit.toString());
                 setPercentOfFundValue(_percentOfFundValue);
                 setIsLoad(true);
-                console.log(_calculateAddressValue, _calculateAddressProfit, _fundValue);
-
             }
         }
 

@@ -1,11 +1,10 @@
 import React from 'react'
 import './Pending.css'
-import { Box } from '@chakra-ui/react'
 
-function Pending(props) {
+function Pending() {
   return (
     <React.Fragment>
-    <Box className="lds-ellipsis"><Box></Box><Box></Box><Box></Box><Box></Box></Box>
+    <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
     </React.Fragment>
   )
 }

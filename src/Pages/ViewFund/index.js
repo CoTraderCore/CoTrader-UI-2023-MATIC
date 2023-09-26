@@ -141,16 +141,16 @@ function ViewFund(props) {
         }
     };
 
-    const pendingHandler = (bool, txCount) => {
-        setPending(bool);
-        setTxCount(txCount);
+    const pendingHandler = (_bool, _txCount) => {
+        setPending(_bool);
+        setTxCount(_txCount);
     };
 
     const checkPending = async () => {
         if (props.accounts) {
             let txCount = await axios.get(APIEnpoint + 'api/user-pending-count/' + props.accounts[0]);
             txCount = txCount.data.result;
-            const isPending = Number(txCount) !== 0 ? false : true
+            const isPending = Number(txCount) === 0 ? false : true
             if (_isMounted) {
                 setPending(isPending);
                 setTxCount(txCount);
@@ -183,7 +183,6 @@ function ViewFund(props) {
     // const chartbg = useColorModeValue("#fff", "#181144")
     const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
     const boxBg = useColorModeValue("#F4F7FE", "#110938");
-
     return (
         <>
             <Box px={4}>

@@ -25,9 +25,7 @@ function AllSmartFund(props) {
   const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
   const boxBg = useColorModeValue("#F4F7FE", "#110938");
   const allbtnBg = useColorModeValue("#30106b", "#7500FF")
-  
-  console.log("props.MobXStorage", props.MobXStorage)
- 
+
   return (
     <Observer>
       {() => {
@@ -134,7 +132,7 @@ function AllSmartFund(props) {
                           <FundModal address={item.address} navigate={navigate} MobXStorage={props.MobXStorage} />
                         </Card>
                         <Card textAlign="center">
-                          <ManagerModal address={item.owner} navigate={navigate} MobXStorage={props.MobXStorage}/>
+                          <ManagerModal address={item.owner} navigate={navigate} MobXStorage={props.MobXStorage} />
                         </Card>
                       </SimpleGrid>
 
@@ -238,7 +236,7 @@ function AllSmartFund(props) {
             </Box>
             {
               !props.MobXStorage.FilterActive ? (
-                <PagePagination currentPage={currentPage} setCurrentPage={setCurrentPage} MobXStorage={props.MobXStorage}  />
+                <PagePagination currentPage={currentPage} setCurrentPage={setCurrentPage} MobXStorage={props.MobXStorage} />
               ) : (
                 null
               )

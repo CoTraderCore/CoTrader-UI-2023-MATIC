@@ -35,7 +35,7 @@ import { inject } from 'mobx-react'
 
                 <TabPanels>
                     <TabPanel>
-                        <AllSmartFund {...props} accounts={props.accounts} web3={props.web3} />
+                        <AllSmartFund {...props} accounts={props.accounts} web3={props.web3} pending={props.pending} />
                     </TabPanel>
                     <TabPanel>
                         <MyFund />

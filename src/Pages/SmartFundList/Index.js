@@ -112,13 +112,12 @@ function SmartFundList(props) {
     return () => {
       _isMounted.current = false;
     };
-  }, [props.accounts, props.MobXStorage]);
+  }, [props.MobXStorage]);
 
   const pendingg = (_bool, _txCount) => {
     setPending(_bool);
     setTxCount(_txCount);
   };
-
 
   const brandColor = useColorModeValue("#7500fe", "##CBC3E3");
   const boxBg = useColorModeValue("#F4F7FE", "#110938");
@@ -148,7 +147,7 @@ function SmartFundList(props) {
               <CardBox p="10px" my="10px">
                 <Grid gap={4} templateColumns={['1fr', 'repeat(3, 1fr)']} sx={{ padding: "10px 0px ", borderRadius: "5px", display: "flex", justifyContent: "space-around", flexDirection: { base: "column", sm: "column", md: "row" }, textAlign: { base: "center", sm: "center" } }}>
                   <GridItem >
-                    <CreateNewFund web3={props.web3} accounts={props.accounts} pending={pending} />
+                    <CreateNewFund web3={props.web3} accounts={props.accounts} pending={pendingg} />
                   </GridItem>
                   <GridItem >
                     <FilterSearch />
@@ -295,7 +294,7 @@ function SmartFundList(props) {
 
               </Box>
               <SimpleGrid>
-                <SmartfundTabs {...props}  pending={pendingg} accounts={props.accounts} web3={props.web3} />
+                <SmartfundTabs {...props} pending={pendingg} accounts={props.accounts} web3={props.web3} />
               </SimpleGrid>
               <Footer />
             </Box>

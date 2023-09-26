@@ -67,14 +67,12 @@ function App(props) {
   };
 
   const fetchWeb3 = async () => {
-    console.log("Test")
     try {
       // Get network provider and web3 instance.
       const web3Instance = await getWeb3();
 
       // Use web3 to get the user's accounts.
       const userAccounts = await web3Instance.eth.getAccounts();
-      console.log("userAccounts", userAccounts)
       // Set web3 and accounts to the state
       setWeb3(web3Instance);
       setAccounts(userAccounts);
