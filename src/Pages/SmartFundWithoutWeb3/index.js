@@ -17,7 +17,7 @@ import Web3Allert from '../../Components/Web3Off/Web3Alert';
 import { inject, Observer } from 'mobx-react';
 
 
-function ViewFundWithoutWeb3(props) {
+function SmartFundListWithoutWeb3(props) {
 
     useEffect(() => {
         let isMounted = true;
@@ -42,7 +42,7 @@ function ViewFundWithoutWeb3(props) {
         };
     }, []);
 
-    // if coonected to web3 go out from web3off
+
     useEffect(() => {
         web3redirect()
     }, [props.web3])
@@ -68,7 +68,7 @@ function ViewFundWithoutWeb3(props) {
                             props.isDataLoad ?
                                 (
                                     <Box className='dashboard' px={2} >
-                                        <Grid  sx={{ textAlign: 'center', fontWeight: "500" }}>
+                                        <Grid sx={{ textAlign: 'center', fontWeight: "500" }}>
                                             <GridItem style={{ borderRadius: "5px", boxShadow: "1px 1px 1px 1px gray", border: "1px solid white" }} >
                                                 <Web3Allert />
                                             </GridItem>
@@ -244,6 +244,6 @@ function ViewFundWithoutWeb3(props) {
 
 }
 
-export default inject('MobXStorage')(ViewFundWithoutWeb3);
+export default inject('MobXStorage')(SmartFundListWithoutWeb3);
 
 

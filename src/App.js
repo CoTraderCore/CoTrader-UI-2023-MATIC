@@ -6,7 +6,7 @@ import getWeb3 from './utils/getWeb3';
 import themes from './Theme/Theme';
 import ReactGA from 'react-ga'
 import getFundsList from './utils/getFundsList';
-import SmartFundListWithoutWeb3 from './Pages/ViewFundWithoutWeb3';
+import SmartFundListWithoutWeb3 from './Pages/SmartFundWithoutWeb3';
 import MainLayout from './Layouts/MainLayout';
 import ViewFundWithoutWeb3 from './Pages/FundInfoWithoutWeb3/Index';
 import SmartFundList from './Pages/SmartFundList/Index';
@@ -52,7 +52,7 @@ function App(props) {
     }
 
     load()
-  }, []);
+  }, [props.MobXStorage]);
 
 
   useEffect(() => {
