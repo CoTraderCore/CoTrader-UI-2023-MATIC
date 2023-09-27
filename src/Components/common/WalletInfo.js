@@ -31,12 +31,12 @@ class WalletInfo extends Component {
                                 {
                                     this.state.ETHBalance > 0 ?
                                         (
-                                            <Text>
-                                                <strong style={{ color: "#7500ff", fontWeight: "500", borderBottom: "1px solid lightgray", paddingBottom: "5px" }}>{this.state.ETHBalance}: <span style={{ color: "#000" }}>BNB</span></strong>
+                                            <Text >
+                                                <strong style={{ boxShadow: "1px 1px 1px 1px lightgray", padding: "0px 10px", color: "#7500ff", fontWeight: "500", }}>{this.state.ETHBalance}: <span style={{ color: "#000" }}>BNB</span></strong>
                                             </Text>
                                         ) : null
                                 }
-                                <Text gap={1} sx={{textAlign:"center",display:"flex",justifyContent:"center"}}><RandomAvatar name={this.props.accounts[0]} size="25" /><strong style={{ color: "#5E39FF", fontWeight: "500", }}>{String(this.props.accounts[0]).replace(String(this.props.accounts[0]).substring(6, 36), "...")}</strong></Text>
+                                <Text gap={1} sx={{ textAlign: "center", display: "flex", justifyContent: "center" }}><RandomAvatar name={this.props.accounts[0]} size="25" /><strong style={{ color: "#5E39FF", fontWeight: "500", }}>{String(this.props.accounts[0]).replace(String(this.props.accounts[0]).substring(6, 36), "...")}</strong></Text>
                             </Box>
                         ) : (
                             null

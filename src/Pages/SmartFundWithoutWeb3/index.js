@@ -40,7 +40,7 @@ function SmartFundListWithoutWeb3(props) {
         return () => {
             isMounted = false;
         };
-    }, []);
+    }, [props.MobXStorage.SmartFundsOriginal]);
 
 
     useEffect(() => {

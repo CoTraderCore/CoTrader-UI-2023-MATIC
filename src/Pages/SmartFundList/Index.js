@@ -113,7 +113,7 @@ function SmartFundList(props) {
     return () => {
       _isMounted.current = false;
     };
-  }, [props.MobXStorage]);
+  }, []);
 
   const pendingg = (_bool, _txCount) => {
     setPending(_bool);
@@ -227,7 +227,7 @@ function SmartFundList(props) {
                     ) :
                     (
                       <Box>
-                        <Text bg="lightgray" sx={{ textTransform: "capitalize", fontWeight: "bold", color: "#7500ff", textAlign: "center" }}>{props.MobXStorage.FilterInfo}filter</Text>
+                        <Text mb={2} bg="transparent" border="1px solid lightgray" boxShadow="1px 1px 1px 1px gray" borderRadius={5} sx={{ textTransform: "capitalize", fontWeight: "bold", color: "#7500ff", textAlign: "center" }}>{props.MobXStorage.FilterInfo}</Text>
                         <SimpleGrid
                           width="100%"
                           columns={{ base: 1, md: 4, lg: 4, }}

@@ -30,9 +30,6 @@ function AllSmartFund(props) {
       {() => {
         return (
           <React.Fragment>
-            {
-              props.loadData ?
-                (
                   <React.Fragment>
                     <Box>
                       {
@@ -245,11 +242,6 @@ function AllSmartFund(props) {
                       )
                     }
                   </React.Fragment>
-                ) : (
-                  <Loading />
-                )
-            }
-
           </React.Fragment>
         )
       }}
