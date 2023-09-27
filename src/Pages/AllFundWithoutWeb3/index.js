@@ -11,6 +11,7 @@ import ManagerModal from '../../Components/actions/ManagerModal';
 import EtherscanButton from '../../Components/actions/EtherscanButton';
 import { fromWei } from 'web3-utils';
 import PagePagination from '../../Components/navigation/Pagination/PagePagination';
+import { inject } from 'mobx-react';
 
 
 function AllFundWithoutWeb3(props) {
@@ -234,4 +235,5 @@ function AllFundWithoutWeb3(props) {
     )
 }
 
-export default AllFundWithoutWeb3;
+// export default AllFundWithoutWeb3;
+export default inject('MobXStorage')(AllFundWithoutWeb3)

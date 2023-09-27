@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChakraProvider, } from '@chakra-ui/react';
-import { RouterProvider, createBrowserRouter, } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter,useNavigate, } from 'react-router-dom';
 import { Pages } from './utils/Pages';
 import getWeb3 from './utils/getWeb3';
 import themes from './Theme/Theme';
@@ -11,11 +11,36 @@ import MainLayout from './Layouts/MainLayout';
 import ViewFundWithoutWeb3 from './Pages/FundInfoWithoutWeb3/Index';
 import SmartFundList from './Pages/SmartFundList/Index';
 import ViewFundTx from './Pages/ViewFundTx';
-import ViewUserTx from './Pages/ViewUserTx'
+import ViewUserTx from './Pages/ViewUserTx';
 import ViewFund from './Pages/ViewFund';
 import ViewUser from './Pages/ViewUser';
 import HowToStart from './Pages/HowToStart';
 import { inject } from 'mobx-react'
+
+
+const Web3Redirect = (props) => {
+  const { timeOut, web3 } = props;
+  const nevigate = useNavigate();
+  
+  useEffect(() => { 
+    if (timeOut)
+      checkWeb3OffRedirect()
+  }, [timeOut]);
+
+  const checkWeb3OffRedirect = () => {
+    if (timeOut && !web3) {
+      const newPath = '/web3off/';
+      nevigate(newPath)
+      
+    }else if(web3){
+      const oldpath='/'
+      nevigate(oldpath)
+    }
+  }
+
+  return <React.Fragment>{props.children}</React.Fragment>
+}
+
 
 function App(props) {
   const [web3, setWeb3] = useState(null);
@@ -29,12 +54,13 @@ function App(props) {
   useEffect(() => {
     setTimeout(() => {
       setTimeOutF(true);
-    }, 3000);
+    }, 1000);
 
-     // relaod app if accout was changed
-     if(window.ethereum)
-     window.ethereum.on('accountsChanged', () => window.location.reload())
-   
+
+    // relaod app if accout was changed
+    if (window.ethereum)
+      window.ethereum.on('accountsChanged', () => window.location.reload())
+
     async function load() {
       initializeReactGA();
 
@@ -48,17 +74,12 @@ function App(props) {
           setIsLoadNetID(true);
         });
       }
-      
+
     }
 
     load()
   }, [props.MobXStorage]);
 
-
-  useEffect(() => {
-    if(timeOut)
-      checkWeb3OffRedirect()
-  }, [timeOut]);
 
 
   const initializeReactGA = () => {
@@ -90,28 +111,19 @@ function App(props) {
 
   const initData = async () => {
     if (props.MobXStorage.SmartFundsOriginal.length === 0) {
-        const smartFunds = await getFundsList();
-        props.MobXStorage.initSFList(smartFunds);
-        setIsDataLoad(true);
-     
+      const smartFunds = await getFundsList();
+      props.MobXStorage.initSFList(smartFunds);
+      setIsDataLoad(true);
+
     }
   };
 
-  const checkWeb3OffRedirect = () => {
-    // Replace the path when the page is loaded for the first time
-    // const currentPath = window.location.pathname;
-    if (timeOut && !web3) {
-      const newPath = '/web3off/';
-      const newURL = window.location.origin + newPath;
-      window.history.replaceState({}, document.title, newURL);
-    }
-  }
 
-  console.log("props.MobXStorage====",props.MobXStorage);
+  console.log("props.MobXStorage====", props.MobXStorage);
   const router = createBrowserRouter([
     {
       path: Pages.SMARTFUNDLIST,
-      element: <MainLayout {...props} web3={web3} accounts={accounts} network={network} isLoadNetID={isLoadNetID} />,
+      element: <Web3Redirect timeOut={timeOut} web3={web3}><MainLayout {...props} web3={web3} accounts={accounts} network={network} isLoadNetID={isLoadNetID} /></Web3Redirect>,
       children: [
         {
           path: Pages.SMARTFUNDLIST,
@@ -128,7 +140,7 @@ function App(props) {
         },
         {
           path: Pages.VIEWFUNDTX,
-          element: <ViewFundTx {...props} isDataLoad={isDataLoad}  />
+          element: <ViewFundTx {...props} isDataLoad={isDataLoad} />
         },
         {
           path: Pages.VIEWUSERTX,

@@ -14,7 +14,7 @@ import getFundsList from '../../utils/getFundsList';
 import Loading from '../../Components/template/spiners/Loading';
 import Footer from '../../Components/common/footer/Footer';
 import Web3Allert from '../../Components/Web3Off/Web3Alert';
-import { inject, Observer } from 'mobx-react';
+import { inject} from 'mobx-react';
 
 
 function SmartFundListWithoutWeb3(props) {
@@ -40,29 +40,13 @@ function SmartFundListWithoutWeb3(props) {
         return () => {
             isMounted = false;
         };
-    }, [props.MobXStorage.SmartFundsOriginal]);
-
-
-    useEffect(() => {
-        web3redirect()
-    }, [props.web3])
-
-    const web3redirect = () => {
-        if (props.web3) {
-            const newPath = '/';
-            const newURL = window.location.origin + newPath;
-            window.history.replaceState({}, document.title, newURL);
-        }
-    }
+    }, [props.MobXStorage]);
 
     const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
     const boxBg = useColorModeValue("#F4F7FE", "#110938");
     const allbtnBg = useColorModeValue("#30106b", "#7500FF")
 
     return (
-        <Observer>
-            {() => {
-                return (
                     <React.Fragment>
                         {
                             props.isDataLoad ?
@@ -237,9 +221,6 @@ function SmartFundListWithoutWeb3(props) {
                         }
                         <Footer />
                     </React.Fragment>
-                )
-            }}
-        </Observer>
     );
 
 }

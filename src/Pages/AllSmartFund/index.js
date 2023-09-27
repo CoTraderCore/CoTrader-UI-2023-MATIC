@@ -14,8 +14,6 @@ import Deposit from '../../Components/actions/Deposit/Deposit';
 import Withdraw from '../../Components/actions/Withdraw/Withdraw';
 import UserHoldings from '../../Components/actions/UserHoldings';
 import { inject, Observer } from 'mobx-react';
-import Loading from '../../Components/template/spiners/Loading';
-
 
 function AllSmartFund(props) {
   const [currentPage, setCurrentPage] = useState(1)
@@ -26,9 +24,6 @@ function AllSmartFund(props) {
   const allbtnBg = useColorModeValue("#30106b", "#7500FF")
 
   return (
-    <Observer>
-      {() => {
-        return (
           <React.Fragment>
                   <React.Fragment>
                     <Box>
@@ -243,9 +238,6 @@ function AllSmartFund(props) {
                     }
                   </React.Fragment>
           </React.Fragment>
-        )
-      }}
-    </Observer>
   );
 }
 export default inject('MobXStorage')(AllSmartFund);
