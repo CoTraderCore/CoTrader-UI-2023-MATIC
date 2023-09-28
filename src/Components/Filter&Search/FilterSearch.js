@@ -4,7 +4,7 @@ import FundFilter from '../navigation/FilterAndSearch/FundFilter'
 import FundSearch from '../navigation/FilterAndSearch/FundSearch'
 
 
-function FilterSearch() {
+function FilterSearch(props) {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
 
@@ -34,10 +34,10 @@ function FilterSearch() {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <FundFilter onCloseModal={onClose}/>
+            <FundFilter onCloseModal={onClose} MobXStorage={props.MobXStorage} {...props} />
           </TabPanel>
           <TabPanel>
-          <FundSearch onCloseModal={onClose}/>
+          <FundSearch onCloseModal={onClose} MobXStorage={props.MobXStorage} {...props} />
           </TabPanel>
         </TabPanels>
       </Tabs>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChakraProvider, } from '@chakra-ui/react';
-import { RouterProvider, createBrowserRouter,useNavigate, } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, useNavigate, } from 'react-router-dom';
 import { Pages } from './utils/Pages';
 import getWeb3 from './utils/getWeb3';
 import themes from './Theme/Theme';
@@ -21,8 +21,8 @@ import { inject } from 'mobx-react'
 const Web3Redirect = (props) => {
   const { timeOut, web3 } = props;
   const nevigate = useNavigate();
-  
-  useEffect(() => { 
+
+  useEffect(() => {
     if (timeOut)
       checkWeb3OffRedirect()
   }, [timeOut]);
@@ -31,9 +31,9 @@ const Web3Redirect = (props) => {
     if (timeOut && !web3) {
       const newPath = '/web3off/';
       nevigate(newPath)
-      
-    }else if(web3){
-      const oldpath='/'
+
+    } else if (timeOut && web3) {
+      const oldpath = '/'
       nevigate(oldpath)
     }
   }
@@ -54,7 +54,7 @@ function App(props) {
   useEffect(() => {
     setTimeout(() => {
       setTimeOutF(true);
-    }, 1000);
+    }, 3000);
 
 
     // relaod app if accout was changed
@@ -118,8 +118,6 @@ function App(props) {
     }
   };
 
-
-  console.log("props.MobXStorage====", props.MobXStorage);
   const router = createBrowserRouter([
     {
       path: Pages.SMARTFUNDLIST,

@@ -14,7 +14,7 @@ import getFundsList from '../../utils/getFundsList';
 import Loading from '../../Components/template/spiners/Loading';
 import Footer from '../../Components/common/footer/Footer';
 import Web3Allert from '../../Components/Web3Off/Web3Alert';
-import { inject} from 'mobx-react';
+import { Observer, inject } from 'mobx-react';
 
 
 function SmartFundListWithoutWeb3(props) {
@@ -40,13 +40,16 @@ function SmartFundListWithoutWeb3(props) {
         return () => {
             isMounted = false;
         };
-    }, [props.MobXStorage]);
+    }, []);
 
     const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
     const boxBg = useColorModeValue("#F4F7FE", "#110938");
     const allbtnBg = useColorModeValue("#30106b", "#7500FF")
 
     return (
+        <Observer>
+            {() => {
+                return (
                     <React.Fragment>
                         {
                             props.isDataLoad ?
@@ -63,7 +66,7 @@ function SmartFundListWithoutWeb3(props) {
                                                     <CreateFundButton buttonName={"Create Funds"} info={"Please Connect to web3"} />
                                                 </GridItem>
                                                 <GridItem >
-                                                    <FilterSearch />
+                                                    <FilterSearch MobXStorage={props.MobXStorage}/>
                                                 </GridItem>
                                                 <GridItem >
                                                     <Stack bg={allbtnBg} sx={{ color: "#fff", borderRadius: "8px", border: "none", _hover: { backgroundColor: "#30108b" } }}>
@@ -188,7 +191,7 @@ function SmartFundListWithoutWeb3(props) {
                                                                         />
                                                                     }
                                                                     name='Total profit'
-                                                                    value={`$ ${props.MobXStorage.TotalProfit}`}
+                                                                    value={`$ ${props.MobXStorage.userTotalProfit}`}
                                                                 />
 
                                                                 <ShadowBox
@@ -201,7 +204,7 @@ function SmartFundListWithoutWeb3(props) {
                                                                         />
                                                                     }
                                                                     name='History total profit'
-                                                                    value={`$ ${props.MobXStorage.HistoryTotalProfit}`}
+                                                                    value={`$ ${props.MobXStorage.userHistoryTotalProfit}`}
                                                                 />
                                                             </SimpleGrid>
                                                         </Box>
@@ -221,6 +224,9 @@ function SmartFundListWithoutWeb3(props) {
                         }
                         <Footer />
                     </React.Fragment>
+                )
+            }}
+        </Observer>
     );
 
 }

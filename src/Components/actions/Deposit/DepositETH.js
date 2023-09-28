@@ -5,7 +5,6 @@ import { APIEnpoint, SmartFundABI } from '../../../config.js'
 import { Button, FormControl, Alert, FormLabel, AlertIcon, AlertDescription, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Text, Input } from '@chakra-ui/react'
 import setPending from '../../../utils/setPending.js'
 import { fromWei, toWei } from 'web3-utils'
-
 import axios from 'axios'
 
 
@@ -23,7 +22,7 @@ class DepositETH extends Component {
   componentDidMount = async () => {
   
       const ethBalanceInWei = await this.props.web3.eth.getBalance(this.props.accounts[0])
-      const ethBalance = fromWei(ethBalanceInWei,'wei')
+      const ethBalance = fromWei(ethBalanceInWei)
 
       this.setState({
         ethBalance
@@ -38,7 +37,7 @@ class DepositETH extends Component {
       return;
     }
     const userBalance = await this.props.web3.eth.getBalance(this.props.accounts[0])
-    if (Number(this.state.DepositValue) > Number(fromWei(userBalance,'ether'))) {
+    if (Number(this.state.DepositValue) > Number(fromWei(userBalance))) {
       this.setState({ ValueError: `Not enough ${this.props.mainAsset}` })
       return
     }
@@ -50,7 +49,7 @@ class DepositETH extends Component {
     try {
       const _value = this.state.DepositValue
       const fundETH = new this.props.web3.eth.Contract(SmartFundABI, this.props.address)
-      const amount = toWei(_value, 'ether')
+      const amount = toWei(_value,'ether')
       // get cur tx count
       let txCount = await axios.get(APIEnpoint + 'api/user-pending-count/' + this.props.accounts[0])
       txCount = txCount.data.result

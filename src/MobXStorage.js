@@ -58,15 +58,15 @@ class MOBXStorage {
 
   sortFundsByHigherROI(){
     this.SmartFunds = this.SmartFundsOriginal.sort((f, s) =>
-    Number(fromWei(String(s.profitInETH)) / fromWei(String(s.valueInETH))) -
-    Number(fromWei(String(f.profitInETH)) / fromWei(String(f.valueInETH)))
+    Number(fromWei(String(s.profitInETH),'ether') / fromWei(String(s.valueInETH),'ether')) -
+    Number(fromWei(String(f.profitInETH),'ether') / fromWei(String(f.valueInETH),'ether'))
     )
   }
 
   sortFundsByLowerROI(){
     this.SmartFunds = this.SmartFundsOriginal.sort((f, s) =>
-    Number(fromWei(String(f.profitInETH)) / fromWei(String(f.valueInETH))) -
-    Number(fromWei(String(s.profitInETH)) / fromWei(String(s.valueInETH)))
+    Number(fromWei(String(f.profitInETH),'ether') / fromWei(String(f.valueInETH),'ether')) -
+    Number(fromWei(String(s.profitInETH),'ether') / fromWei(String(s.valueInETH),'ether'))
     )
   }
 

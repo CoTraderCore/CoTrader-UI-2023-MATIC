@@ -2,7 +2,7 @@ import React from 'react'
 import { FormControl, Select } from "@chakra-ui/react"
 import { inject, observer } from 'mobx-react'
 
-const changeHandler = (props, expression) => {
+function changeHandler(props, expression) {
     switch (expression) {
         case "Higher value":
             props.MobXStorage.sortFundsByHigherValue()
@@ -20,7 +20,7 @@ const changeHandler = (props, expression) => {
             props.MobXStorage.sortFundsByLowerProfit()
             break;
 
-        case "Higher ROI":
+        case "Higher ROI":            
             props.MobXStorage.sortFundsByHigherROI()
             break;
 
@@ -33,20 +33,19 @@ const changeHandler = (props, expression) => {
     }
 }
 
-const SortFunds = ((props) => {
-  
+const SortFunds = (props) => {
     return (
         <FormControl onChange={(e) => changeHandler(props, e.target.value)}>
-            <Select  sx={{ fontWeight: "500" ,textTransform:"uppercase"}}>
-                <option style={{ color: "black" }} >Higher value</option>
-                <option style={{ color: "black" }}>Lower value</option>
-                <option style={{ color: "black" }}>Higher profit</option>
-                <option style={{ color: "black" }}>Lower profit</option>
-                <option style={{ color: "black" }}>Higher ROI</option>
-                <option style={{ color: "black" }}>Lower ROI</option>
+            <Select sx={{ fontWeight: "500", textTransform: "uppercase" }}>
+                <option style={{ color: "black" }} value="Higher value">Higher value</option>
+                <option style={{ color: "black" }} value="Lower value">Lower value</option>
+                <option style={{ color: "black" }} value="Higher profit">Higher profit</option>
+                <option style={{ color: "black" }} value="Lower profit">Lower profit</option>
+                <option style={{ color: "black" }} value="Higher ROI">Higher ROI</option>
+                <option style={{ color: "black" }} value="Higher ROI">Lower ROI</option>
             </Select>
         </FormControl>
-    )
-})
-// export default SortFunds
-export default inject('MobXStorage')(observer(SortFunds))
+    ) 
+}
+// export default SortFunds;
+export default inject('MobXStorage')(observer(SortFunds));
