@@ -50,7 +50,7 @@ const PagePagination = ({ currentPage, setCurrentPage,MobXStorage }) => {
   ));
 
   return (
-    <HStack>
+    <HStack mt={5}>
       {!isMobileDevice ? (
         <React.Fragment>{renderPageNumbers}</React.Fragment>
       ) : (
