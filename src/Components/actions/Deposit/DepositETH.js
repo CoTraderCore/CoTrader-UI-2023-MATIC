@@ -22,7 +22,7 @@ class DepositETH extends Component {
   componentDidMount = async () => {
   
       const ethBalanceInWei = await this.props.web3.eth.getBalance(this.props.accounts[0])
-      const ethBalance = fromWei(ethBalanceInWei,'wei')
+      const ethBalance = fromWei(ethBalanceInWei,'ether')
 
       this.setState({
         ethBalance
