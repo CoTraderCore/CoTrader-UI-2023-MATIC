@@ -19,8 +19,8 @@ function UserHoldings(props) {
                 const _fundValue = await fund.methods.calculateFundValue().call();
 
                 // Percent of fund fundValue
-                const percent = fromWei(_fundValue.toString(), 'wei') / 100
-                const _percentOfFundValue = fromWei(_calculateAddressValue.toString(), 'wei') / percent
+                const percent = fromWei(_fundValue.toString(), 'ether') / 100
+                const _percentOfFundValue = fromWei(_calculateAddressValue.toString(), 'ether') / percent
 
                 setCalculateAddressValue(_calculateAddressValue.toString());
                 setCalculateAddressProfit(_calculateAddressProfit.toString());
@@ -53,8 +53,8 @@ function UserHoldings(props) {
                             (
                                 <React.Fragment>
                                     <OrderedList>
-                                        <ListItem>My deposit in BNB value: {fromWei(calculateAddressValue, 'wei')}</ListItem>
-                                        <ListItem>My profit : {fromWei(calculateAddressProfit, 'wei')}</ListItem>
+                                        <ListItem>My deposit in BNB value: {fromWei(calculateAddressValue, 'ether')}</ListItem>
+                                        <ListItem>My profit : {fromWei(calculateAddressProfit, 'ether')}</ListItem>
                                         <ListItem>My holding in percent of fund value: {percentOfFundValue}%</ListItem>
                                     </OrderedList>
                                 </React.Fragment>

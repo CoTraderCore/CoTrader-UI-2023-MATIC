@@ -17,10 +17,7 @@ class WalletInfo extends Component {
             }
         }, 1000)
     }
-
-
     render() {
-
         return (
             <Box my={4} py={2} px={2}>
                 {
@@ -28,7 +25,8 @@ class WalletInfo extends Component {
                         (
 
                             <Box gap={2} sx={{ textAlign: "center", borderRadius: "5px", padding: "10px 5px", boxShadow: "1px 1px 1px 1px gray", border: "1px solid white", display: "flex", flexDirection: "column" }}>
-                                {
+                            <strong style={{ boxShadow: "1px 1px 1px 1px lightgray", padding: "0px 10px", color: "#7500ff", fontWeight: "500", }}>{this.state.ETHBalance}: <span style={{ color:"gray" }}>BNB</span></strong>   
+                            {
                                     this.state.ETHBalance > 0 ?
                                         (
                                             <Text >
