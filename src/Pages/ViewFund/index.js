@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import ShadowBox from '../../Components/Cards/ShadowBox';
 import IconBox from '../../Components/Icons/IconBox';
 import Header from '../../Components/common/Header';
-import { Box, Heading, Icon, SimpleGrid, List, ListItem, Progress, Stack, useColorModeValue, GridItem, Grid, Table, Thead, Tr, Th, Td, Tbody, Text, Button, Tooltip, } from '@chakra-ui/react'
+import { Box, Heading, Icon, SimpleGrid, List, ListItem, Progress, Stack, useColorModeValue, GridItem, Grid, Table, Thead, Tr, Th, Td, Tbody, Text, Button, Tooltip, Center, } from '@chakra-ui/react'
 import { MdAttachMoney, } from "react-icons/md";
 import Card from '../../Components/Card/Card';
 import Footer from '../../Components/common/footer/Footer';
@@ -29,6 +29,7 @@ import UpdateUSDAsset from '../../Components/actions/UpdateUSDAsset';
 import { fromWei } from 'web3-utils';
 import _ from 'lodash';
 import Loading from '../../Components/template/spiners/Loading';
+import { RandomAvatar } from 'react-random-avatars';
 
 function ViewFund(props) {
     const { address } = useParams();
@@ -541,20 +542,15 @@ function ViewFund(props) {
                                                     </Box>
                                                 )
                                         }
-
-
-
-
                                     </Box>
                                     <Box>
                                         <Card mt={5}>
                                             <Grid sx={{ display: "flex", justifyContent: "space-around", }} flexDirection={{ base: "column", md: "row" }} gap={{ base: "20px", md: "0" }}>
-                                                <GridItem fontWeight={600} >
-
-                                                    Smart Fund: <a style={{ color: "#5E39FF", fontWeight: "500", }} href={EtherscanLink + "address/" + smartFundAddress} target="_blank" rel="noopener noreferrer">{String(smartFundAddress).replace(String(smartFundAddress).substring(6, 36), "...")}</a>
+                                                <GridItem gap={1} fontWeight={600} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }} >
+                                                    Smart Fund: <RandomAvatar name={smartFundAddress} size="16" /> <a style={{ color: "#5E39FF", fontWeight: "500", }} href={EtherscanLink + "address/" + smartFundAddress} target="_blank" rel="noopener noreferrer">{String(smartFundAddress).replace(String(smartFundAddress).substring(6, 36), "...")}</a>
                                                 </GridItem>
-                                                <GridItem fontWeight={600}>
-                                                    Owner: <a style={{ color: "#5E39FF", fontWeight: "500" }} href={EtherscanLink + "address/" + owner} target="_blank" rel="noopener noreferrer">{String(owner).replace(String(owner).substring(6, 36), "...")}</a>
+                                                <GridItem gap={1} fontWeight={600} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                                    Owner: <RandomAvatar name={owner} size="14" /> <a style={{ color: "#5E39FF", fontWeight: "500" }} href={EtherscanLink + "address/" + owner} target="_blank" rel="noopener noreferrer">{String(owner).replace(String(owner).substring(6, 36), "...")}</a>
                                                 </GridItem>
                                             </Grid>
                                         </Card>

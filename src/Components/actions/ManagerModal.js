@@ -3,9 +3,10 @@ import { Box, Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, 
 import { NavLink } from 'react-router-dom';
 import { EtherscanLink } from '../../config.js';
 import { inject, Observer } from 'mobx-react';
+import { RandomAvatar } from 'react-random-avatars';
 
 
-const ManagerModal = ({ address, MobXStorage}) => {
+const ManagerModal = ({ address, MobXStorage }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const getManagerFunds = () => {
@@ -21,8 +22,8 @@ const ManagerModal = ({ address, MobXStorage}) => {
             {() => {
                 return (
                     <Box>
-                        <Text cursor={'pointer'} fontWeight={500} onClick={onOpen}>
-                            Manager: <small style={{ color: "#7500fe", }}><strong>{String(address).replace(String(address).substring(4, 38), "...")}</strong></small>
+                        <Text gap={1} fontWeight={500} display="flex" alignItems="center" justifyContent="center" >
+                            Manager: <RandomAvatar name={address} size="14" /><small onClick={onOpen} style={{ color: "#7500fe", cursor: "pointer" }}><strong>{String(address).replace(String(address).substring(4, 38), "...")}</strong></small>
                         </Text>
                         <Modal isOpen={isOpen} onClose={onClose} aria-labelledby="example-modal-sizes-title-sm">
                             <ModalOverlay />

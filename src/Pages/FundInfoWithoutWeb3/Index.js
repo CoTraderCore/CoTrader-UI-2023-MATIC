@@ -21,6 +21,7 @@ import Web3Allert from '../../Components/Web3Off/Web3Alert';
 import _ from 'lodash';
 import InvestorsAllocationChart from '../../Components/Chart/InvestorsAlocationChart';
 import AssetsAlocationChart from '../../Components/Chart/AssetsAlocationChart';
+import { RandomAvatar } from 'react-random-avatars';
 
 function ViewFundWithoutWeb3() {
     const { address } = useParams()
@@ -210,24 +211,24 @@ function ViewFundWithoutWeb3() {
                                 </Box>
                             </Box>
                             <Box mt={5} borderRadius="20px">
-                                        <SimpleGrid gap={2} columns={{ base: 1, md: 2 }}>
-                                          
-                                                    <GridItem>
-                                                        <InvestorsAllocationChart Data={fundData.shares} />
-                                                    </GridItem>
-                                            
-                                            {
-                                                NeworkID === 2 && !_.isEmpty(fundData.balance) ?
-                                                    (
-                                                        <GridItem>
-                                                            <AssetsAlocationChart AssetsData={fundData.balance} version={fundData.version} />
-                                                        </GridItem>
-                                                    ) : null
-                                            }
+                                <SimpleGrid gap={2} columns={{ base: 1, md: 2 }}>
 
-                                        </SimpleGrid>
+                                    <GridItem>
+                                        <InvestorsAllocationChart Data={fundData.shares} />
+                                    </GridItem>
 
-                                    </Box>
+                                    {
+                                        NeworkID === 2 && !_.isEmpty(fundData.balance) ?
+                                            (
+                                                <GridItem>
+                                                    <AssetsAlocationChart AssetsData={fundData.balance} version={fundData.version} />
+                                                </GridItem>
+                                            ) : null
+                                    }
+
+                                </SimpleGrid>
+
+                            </Box>
                             <Box>
                                 <Box mt={5} gap={4} width={"100%"} sx={{ display: "flex", flexDirection: { base: "column", md: "row" }, }} >
                                     <Card width={{ base: "100%", md: "30%" }} bg={"rgba(128, 144, 255,.1)"}>
@@ -247,7 +248,7 @@ function ViewFundWithoutWeb3() {
                                             </ListItem>
                                         </List>
                                     </Card>
-                                    
+
                                     <Card width={{ base: "100%", md: "70%" }} >
                                         <Box sx={{ display: "flex", flexDirection: { base: "column", md: "row" } }}>
                                             <PieChartTable address={address} fundData={fundData} />
@@ -342,12 +343,11 @@ function ViewFundWithoutWeb3() {
                             <Box>
                                 <Card mt={5}>
                                     <Grid sx={{ display: "flex", justifyContent: "space-around", }} flexDirection={{ base: "column", md: "row" }} gap={{ base: "20px", md: "0" }}>
-                                        <GridItem fontWeight={600} >
-
-                                            Smart Fund: <a style={{ color: "#5E39FF", fontWeight: "500", }} href={EtherscanLink + "address/" + fundData.smartFundAddress} target="_blank" rel="noopener noreferrer">{String(fundData.smartFundAddress).replace(String(fundData.smartFundAddress).substring(6, 36), "...")}</a>
+                                        <GridItem gap={1} fontWeight={600} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                            Smart Fund:<RandomAvatar name={fundData.smartFundAddress} size="16" /> <a style={{ color: "#5E39FF", fontWeight: "500", }} href={EtherscanLink + "address/" + fundData.smartFundAddress} target="_blank" rel="noopener noreferrer">{String(fundData.smartFundAddress).replace(String(fundData.smartFundAddress).substring(6, 36), "...")}</a>
                                         </GridItem>
-                                        <GridItem fontWeight={600}>
-                                            Owner: <a style={{ color: "#5E39FF", fontWeight: "500" }} href={EtherscanLink + "address/" + fundData.owner} target="_blank" rel="noopener noreferrer">{String(fundData.owner).replace(String(fundData.owner).substring(6, 36), "...")}</a>
+                                        <GridItem gap={1} fontWeight={600} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                            Owner:<RandomAvatar name={fundData.owner} size="16" /> <a style={{ color: "#5E39FF", fontWeight: "500" }} href={EtherscanLink + "address/" + fundData.owner} target="_blank" rel="noopener noreferrer">{String(fundData.owner).replace(String(fundData.owner).substring(6, 36), "...")}</a>
                                         </GridItem>
                                     </Grid>
                                 </Card>

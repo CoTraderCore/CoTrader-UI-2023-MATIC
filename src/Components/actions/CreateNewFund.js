@@ -159,6 +159,4 @@ function CreateNewFund(props) {
         </>
     )
 }
-
-
-export default CreateNewFund
+export default CreateNewFund;
