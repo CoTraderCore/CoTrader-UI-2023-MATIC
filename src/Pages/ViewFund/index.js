@@ -184,6 +184,7 @@ function ViewFund(props) {
     // const chartbg = useColorModeValue("#fff", "#181144")
     const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
     const boxBg = useColorModeValue("#F4F7FE", "#110938");
+
     return (
         <>
             <Box px={4}>
@@ -469,7 +470,7 @@ function ViewFund(props) {
                                     <Box pt={5}>
                                         <Heading fontSize={{ base: "xl", md: "2xl" }} sx={{ textAlign: "center", textTransform: "uppercase", color: { headingColor }, padding: "10px 0px" }}>Manager actions</Heading>
                                         {
-                                            props.accounts === owner ?
+                                            props.accounts[0] === owner ?
                                                 (
                                                     <Box sx={{ display: "flex", justifyContent: "center" }}>
                                                         <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>

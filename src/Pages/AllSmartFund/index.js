@@ -28,11 +28,11 @@ function AllSmartFund(props) {
         {() => {
           return (
             <React.Fragment>
-              <Box>
+              <Box gap={5} display="flex" flexDirection="column">
                 {
                   props.MobXStorage.SmartFunds.length > 0 ? (
                     props.MobXStorage.SmartFunds.map((item, key) =>
-                      <Box key={item.address}>
+                      <Box  key={item.address} px={4} sx={{borderRadius:"20px",boxShadow:"1px 1px 2px 1px darkgray"}}>
                         <Box mt={4} sx={{ borderRadius: "10px", }}>
                           <Heading textTransform={"uppercase"} fontSize={{ base: "2xl" }} color={headingColor} textAlign={'center'} p={2}>Fund name: {item.name}</Heading>
                           <SimpleGrid
