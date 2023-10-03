@@ -17,7 +17,7 @@ const FundModal = ({ address, MobXStorage }) => {
                 return (
                     <Box>
                         <Text gap={1} fontWeight={{ base: "700", md: "500" }} display="flex" alignItems="center" justifyContent="center">
-                            Fund: <RandomAvatar name={address} size="14" /><small onClick={onOpen} style={{ color: "#7500fe", cursor: "pointer" }}><strong >{String(address).replace(String(address).substring(4, 38), "...")}</strong></small>
+                        Smart Fund: <RandomAvatar name={address} size="14" /><small onClick={onOpen} style={{ color: "#7500fe", cursor: "pointer" }}><strong >{String(address).replace(String(address).substring(4, 38), "...")}</strong></small>
                         </Text>
 
                         <Modal isOpen={isOpen} onClose={onClose}>
@@ -27,19 +27,6 @@ const FundModal = ({ address, MobXStorage }) => {
                                 <ModalCloseButton />
                                 <ModalBody>
                                     <Box pb={5} display={'flex'} justifyContent={'space-around'}>
-                                        {MobXStorage.web3 ? (
-                                            <NavLink to={"/web3off/fund/" + address} style={{ background: "transparent", width: "100%" }}>
-                                                <Button color={btnColor}>
-                                                    See fund details
-                                                </Button>
-                                            </NavLink>
-                                        ) : (
-                                            <NavLink width="100%" to={"/web3off/fund/" + address}>
-                                                <Button color={btnColor} >
-                                                    See fund details
-                                                </Button>
-                                            </NavLink>
-                                        )}
                                         <NavLink to={"/fund-txs/" + address} width="100%">
                                             <Button width="100%" color={btnColor}>Get all txs</Button>
                                         </NavLink>

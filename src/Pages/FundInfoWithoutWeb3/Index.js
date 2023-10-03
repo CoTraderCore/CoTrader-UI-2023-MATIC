@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import ShadowBox from '../../Components/Cards/ShadowBox';
 import IconBox from '../../Components/Icons/IconBox';
 import Header from '../../Components/common/Header';
-import DashboardHeader from '../../Components/common/DashboardHeader';
 import { Box, Heading, Icon, SimpleGrid, Button, Tooltip, List, ListItem, Progress, Stack, useColorModeValue, GridItem, Grid } from '@chakra-ui/react'
 import { MdAttachMoney, } from "react-icons/md";
 import PieCard from '../../Components/Card/PieCard';
@@ -11,20 +10,22 @@ import Card from '../../Components/Card/Card';
 import Footer from '../../Components/common/footer/Footer';
 import getFundData from '../../utils/getFundData';
 import { fromWei } from 'web3-utils';
-import { EtherscanLink, NeworkID } from '../../config';
+import { NeworkID } from '../../config';
 // import { NeworkID } from '../../config';
 import EtherscanButton from '../../Components/actions/EtherscanButton';
 import Loading from '../../Components/template/spiners/Loading';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { pieChartOptions } from '../../Variable/Chart';
 import Web3Allert from '../../Components/Web3Off/Web3Alert';
 import _ from 'lodash';
 import InvestorsAllocationChart from '../../Components/Chart/InvestorsAlocationChart';
 import AssetsAlocationChart from '../../Components/Chart/AssetsAlocationChart';
-import { RandomAvatar } from 'react-random-avatars';
+import FundModal from '../../Components/actions/FundModal';
+import ManagerModal from '../../Components/actions/ManagerModal';
 
-function ViewFundWithoutWeb3() {
+function ViewFundWithoutWeb3(props) {
     const { address } = useParams()
+    const navigate = useNavigate()
     const [fundData, setFundData] = useState({
         smartFundAddress: '',
         name: '',
@@ -42,7 +43,10 @@ function ViewFundWithoutWeb3() {
         tradeVerification: 0,
         fundSizeType: 'light',
         version: 0,
-        managerFee: 0
+        managerFee: 0,
+        totalAssets: '',
+        activeAssets: "",
+        investors: '',
     });
     useEffect(() => {
         const getInitialData = async () => {
@@ -64,8 +68,34 @@ function ViewFundWithoutWeb3() {
                 tradeVerification: fund?.data?.result?.tradeVerification,
                 fundSizeType: fund?.data?.result?.fundType || "",
                 managerFee: fund?.data?.result?.managerFee,
-                version: fund?.data?.result?.version
+                version: fund?.data?.result?.version,
+                totalAssets: (() => {
+                    try {
+                        const addresses = JSON.parse(fund.data.result.balance).map(i => i.address)
+                        return addresses.length
+                    } catch (e) {
+                        return 0
+                    }
+                })(),
+                activeAssets: (() => {
+                    try {
+                        const addresses = JSON.parse(fund.data.result.balance).filter(i => i.percentInETH > 0)
+                        return addresses.length
+                    } catch (e) {
+                        return 0
+                    }
+                })(),
+                investors: (() => {
+                    try {
+                        const investors = JSON.parse(fund.data.result.shares).map(i => i.user)
+                        return investors.length
+                    } catch (e) {
+                        return 0
+                    }
+                })()
             })
+
+
 
         }
         getInitialData()
@@ -98,7 +128,7 @@ function ViewFundWithoutWeb3() {
                                 <Heading textTransform={"uppercase"} fontSize={{ base: "2xl" }} color={headingColor} textAlign={'center'} p={2}>{fundData.name}</Heading>
                                 <SimpleGrid
                                     width="100%"
-                                    columns={{ base: 1, md: 3, lg: 5, }}
+                                    columns={{ base: 1, md: 2, lg: 4, }}
                                     gap='20px'
                                     mb='20px'>
                                     <ShadowBox
@@ -119,6 +149,21 @@ function ViewFundWithoutWeb3() {
                                     <ShadowBox
                                         name='Manager fee'
                                         value={Number(fundData.managerFee / 100).toFixed(2) + "%"}
+                                        shadow="1px 2px 3px 2px rgba(21,21,21,0.12)"
+                                    />
+                                    <ShadowBox
+                                        name='Total Assets'
+                                        value={fundData.totalAssets}
+                                        shadow="1px 2px 3px 2px rgba(21,21,21,0.12)"
+                                    />
+                                    <ShadowBox
+                                        name='Active Assets'
+                                        value={fundData.activeAssets}
+                                        shadow="1px 2px 3px 2px rgba(21,21,21,0.12)"
+                                    />
+                                    <ShadowBox
+                                        name='Investors'
+                                        value={fundData.investors}
                                         shadow="1px 2px 3px 2px rgba(21,21,21,0.12)"
                                     />
                                     <ShadowBox
@@ -341,16 +386,14 @@ function ViewFundWithoutWeb3() {
                                 </Box>
                             </Box>
                             <Box>
-                                <Card mt={5}>
-                                    <Grid sx={{ display: "flex", justifyContent: "space-around", }} flexDirection={{ base: "column", md: "row" }} gap={{ base: "20px", md: "0" }}>
-                                        <GridItem gap={1} fontWeight={600} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                            Smart Fund:<RandomAvatar name={fundData.smartFundAddress} size="16" /> <a style={{ color: "#5E39FF", fontWeight: "500", }} href={EtherscanLink + "address/" + fundData.smartFundAddress} target="_blank" rel="noopener noreferrer">{String(fundData.smartFundAddress).replace(String(fundData.smartFundAddress).substring(6, 36), "...")}</a>
-                                        </GridItem>
-                                        <GridItem gap={1} fontWeight={600} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                            Owner:<RandomAvatar name={fundData.owner} size="16" /> <a style={{ color: "#5E39FF", fontWeight: "500" }} href={EtherscanLink + "address/" + fundData.owner} target="_blank" rel="noopener noreferrer">{String(fundData.owner).replace(String(fundData.owner).substring(6, 36), "...")}</a>
-                                        </GridItem>
-                                    </Grid>
-                                </Card>
+                                <SimpleGrid mt={5} gap={5} columns={{ base: 1, md: 2 }}>
+                                    <Card textAlign="center">
+                                        <FundModal address={fundData.smartFundAddress} navigate={navigate} MobXStorage={props.MobXStorage} />
+                                    </Card>
+                                    <Card textAlign="center">
+                                        <ManagerModal address={fundData.owner} navigate={navigate} MobXStorage={props.MobXStorage} />
+                                    </Card>
+                                </SimpleGrid>
                             </Box>
                             <Footer />
                         </Box>

@@ -9,7 +9,7 @@ import Footer from '../../Components/common/footer/Footer';
 import getFundData from '../../utils/getFundData';
 import { EtherscanLink, APIEnpoint, NeworkID } from '../../config';
 import EtherscanButton from '../../Components/actions/EtherscanButton';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import MigrateToV9 from '../../Components/actions/MigrateToV9';
 import PopupMsg from '../../Components/template/PopupMsg';
 import { io } from 'socket.io-client';
@@ -30,9 +30,13 @@ import { fromWei } from 'web3-utils';
 import _ from 'lodash';
 import Loading from '../../Components/template/spiners/Loading';
 import { RandomAvatar } from 'react-random-avatars';
+import FundModal from '../../Components/actions/FundModal';
+import ManagerModal from '../../Components/actions/ManagerModal';
+import { logDOM } from '@testing-library/react';
 
 function ViewFund(props) {
     const { address } = useParams();
+    const navigate = useNavigate()
     const [smartFundAddress, setSmartFundAddress] = useState('');
     const [name, setName] = useState('');
     const [balance, setBalance] = useState(null);
@@ -55,6 +59,9 @@ function ViewFund(props) {
     const [fundSizeType, setFundSizeType] = useState('full');
     const [managerFee, setManagerFee] = useState(0);
     const [tradeVerification, setTradeVerification] = useState(1);
+    const [activeAssets, setActiveAssets] = useState('')
+    const [totalAssets, setTotalAssets] = useState('');
+    const [investors, setInvestors] = useState('');
 
     const _popupChild = useRef(null);
     const _isMounted = true;
@@ -124,6 +131,37 @@ function ViewFund(props) {
             setFundSizeType(fund.data.result.fundType);
             setManagerFee(fund.data.result.managerFee);
             setTradeVerification(fund.data.result.tradeVerification);
+            setTotalAssets(
+                (() => {
+                    try {
+                        const addresses = JSON.parse(fund.data.result.balance).map(i => i.address)
+                        return addresses.length
+                    } catch (e) {
+                        return 0
+                    }
+                })()
+            );
+            setActiveAssets(
+                (() => {
+                    try {
+                        const addresses = JSON.parse(fund.data.result.balance).filter(i => i.percentInETH > 0)
+                        return addresses.length
+                    } catch (e) {
+                        return 0
+                    }
+                })()
+            );
+            setInvestors(
+                (() => {
+                    try {
+                        const investors = JSON.parse(fund.data.result.shares).map(i => i.user)
+                        return investors.length
+                    } catch (e) {
+                        return 0
+                    }
+                })()
+            )
+
         }
     };
 
@@ -139,8 +177,8 @@ function ViewFund(props) {
             setManagerTotalCut(fund.data.result.managerTotalCut);
             setManagerRemainingCut(fund.data.result.managerRemainingCut);
             setShares(fund.data.result.shares);
-        }
-    };
+        };
+    }
 
     const pendingHandler = (_bool, _txCount) => {
         setPending(_bool);
@@ -215,8 +253,6 @@ function ViewFund(props) {
                                         null
                                     )
                                     }
-
-
                                 </Box>
 
                                 <Box>
@@ -224,7 +260,7 @@ function ViewFund(props) {
                                         <Heading textTransform={"uppercase"} fontSize={{ base: "2xl" }} color={headingColor} textAlign={'center'} p={2}>Fund Name: {name}</Heading>
                                         <SimpleGrid
                                             width="100%"
-                                            columns={{ base: 1, md: 3, lg: 5, }}
+                                            columns={{ base: 1, md: 2, lg: 4, }}
                                             gap='20px'
                                             mb='20px'>
                                             <ShadowBox
@@ -245,6 +281,22 @@ function ViewFund(props) {
                                             <ShadowBox
                                                 name='Manager fee'
                                                 value={Number(managerFee / 100).toFixed(2) + "%"}
+                                                shadow="1px 2px 3px 2px rgba(21,21,21,0.12)"
+                                            />
+                                            <ShadowBox
+                                                name='Total Assets'
+                                                value={totalAssets}
+                                                shadow="1px 2px 3px 2px rgba(21,21,21,0.12)"
+                                            />
+                                            <ShadowBox
+                                                name='Active Assets'
+                                                value={activeAssets}
+                                                shadow="1px 2px 3px 2px rgba(21,21,21,0.12)"
+                                            />
+
+                                            <ShadowBox
+                                                name='Investors'
+                                                value={investors}
                                                 shadow="1px 2px 3px 2px rgba(21,21,21,0.12)"
                                             />
                                             <ShadowBox
@@ -344,7 +396,7 @@ function ViewFund(props) {
                                         </Box>
                                     </Box>
                                     <Box mt={5} borderRadius="20px">
-                                        <SimpleGrid gap={2} columns={{ base: 1, md: 2 }}>
+                                        <SimpleGrid gap={2} columns={{ base: 1, md: 2 }} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
 
                                             {
                                                 shares ? (
@@ -361,7 +413,7 @@ function ViewFund(props) {
                                                         </GridItem>
                                                     ) : null
                                             }
-
+                            
                                         </SimpleGrid>
 
                                     </Box>
@@ -545,16 +597,14 @@ function ViewFund(props) {
                                         }
                                     </Box>
                                     <Box>
-                                        <Card mt={5}>
-                                            <Grid sx={{ display: "flex", justifyContent: "space-around", }} flexDirection={{ base: "column", md: "row" }} gap={{ base: "20px", md: "0" }}>
-                                                <GridItem gap={1} fontWeight={600} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }} >
-                                                    Smart Fund: <RandomAvatar name={smartFundAddress} size="16" /> <a style={{ color: "#5E39FF", fontWeight: "500", }} href={EtherscanLink + "address/" + smartFundAddress} target="_blank" rel="noopener noreferrer">{String(smartFundAddress).replace(String(smartFundAddress).substring(6, 36), "...")}</a>
-                                                </GridItem>
-                                                <GridItem gap={1} fontWeight={600} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                                    Owner: <RandomAvatar name={owner} size="14" /> <a style={{ color: "#5E39FF", fontWeight: "500" }} href={EtherscanLink + "address/" + owner} target="_blank" rel="noopener noreferrer">{String(owner).replace(String(owner).substring(6, 36), "...")}</a>
-                                                </GridItem>
-                                            </Grid>
-                                        </Card>
+                                        <SimpleGrid mt={5} gap={5} columns={{ base: 1, md: 2 }}>
+                                            <Card textAlign="center">
+                                                <FundModal address={address} navigate={navigate} MobXStorage={props.MobXStorage} />
+                                            </Card>
+                                            <Card textAlign="center">
+                                                <ManagerModal address={owner} navigate={navigate} MobXStorage={props.MobXStorage} />
+                                            </Card>
+                                        </SimpleGrid>
                                     </Box>
                                     <Footer />
                                 </Box>
@@ -563,8 +613,6 @@ function ViewFund(props) {
                             <Loading />
                         )
                 }
-
-
             </Box>
         </>
     )
