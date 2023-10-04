@@ -66,18 +66,21 @@ class SetGasPrice extends Component {
                     <Button
                         colorScheme={this.state.gasPriceState === "high" ? "orange" : "green"}
                         variant="outline"
+                        size="sm"
                         onClick={() => this.setGasPrice("high")}
                     >High</Button>
 
                     <Button
                         colorScheme={this.state.gasPriceState === "average" ? "orange" : "green"}
                         variant="outline"
+                        size="sm"
                         onClick={() => this.setGasPrice("average")}
                     >Average</Button>
 
                     <Button
                         colorScheme={this.state.gasPriceState === "low" ? "orange" : "green"}
                         variant="outline"
+                        size="sm"
                         onClick={() => this.setGasPrice("low")}
                     >Low</Button>
                 </ButtonGroup>

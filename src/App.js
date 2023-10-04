@@ -17,7 +17,6 @@ import ViewUser from './Pages/ViewUser';
 import HowToStart from './Pages/HowToStart';
 import { inject } from 'mobx-react'
 
-
 const Web3Redirect = (props) => {
   const { timeOut, web3 } = props;
   const nevigate = useNavigate();

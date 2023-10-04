@@ -18,7 +18,6 @@ import {
   TabPanel,
   TabPanels,
   useDisclosure,
-  Box,
   useColorModeValue
 } from '@chakra-ui/react';
 
