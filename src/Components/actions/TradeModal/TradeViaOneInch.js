@@ -3,6 +3,7 @@ import {
     SmartFundABIV7,
     OneInchApi,
     NeworkID,
+    ChainID,
     ERC20ABI,
     APIEnpoint,
     ExchangePortalAddressLight,
@@ -75,37 +76,31 @@ class TradeViaOneInch extends Component {
         return data[0]
     }
 
+
+    
     // get tokens addresses and symbols from paraswap api
     initData = async () => {
         if (NeworkID === 56) {
             // get tokens from api
             try {
-                const response = await axios.get(OneInchApi + 'tokens', {
-                    headers: {
-                        'accept': 'application/json',
-                        'Authorization': 'Bearer P8mPpb3yDHpM4NSLPLesqP32VnLnLXNQ'
-                    }
-                });
-    
-                if (response.status === 200) {
-                    const data = response.data;
-                    const tokens = [];
-                    const symbols = [];
-    
-                    for (const [, value] of Object.entries(data.tokens)) {
-                        symbols.push(value.symbol);
-                        tokens.push({
-                            symbol: value.symbol,
-                            address: value.address,
-                            decimals: value.decimals
-                        });
-                    }
-    
-                    if (this._isMounted) {
-                        this.setState({ tokens, symbols });
-                    }
-                } else {
-                    console.error("Received non-200 status code:", response.status);
+                const tokenEndpoint = `http://localhost:8000/1inchToken`;
+                const response = await axios.get(tokenEndpoint);
+               
+                // const data = response.data;
+                console.log("response=============",response.data.data.tokens);
+                const tokens = [];
+                const symbols = [];
+
+                for (const [, value] of Object.entries(response.data.data.tokens)) {
+                    symbols.push(value.symbol);
+                    tokens.push({
+                        symbol: value.symbol,
+                        address: value.address,
+                        decimals: value.decimals
+                    });
+                }
+                if (this._isMounted) {
+                    this.setState({ tokens, symbols });
                 }
             } catch (e) {
                 console.error(e);
@@ -120,7 +115,7 @@ class TradeViaOneInch extends Component {
             alert("There are no tokens for your ETH network");
         }
     }
-    
+
     // Show err msg if there are some msg
     ErrorMsg = () => {
         if (this.state.ERRORText.length > 0) {
@@ -264,8 +259,10 @@ class TradeViaOneInch extends Component {
 
             try {
                 const route = `swap?fromTokenAddress=${this.state.sendFrom}&toTokenAddress=${this.state.sendTo}&amount=${amountInWei}&fromAddress=${this.props.exchangePortalAddress}&slippage=1&disableEstimate=true`
-                const response = await axios.get(OneInchApi + route)
-                additionalData = response.data.tx.data
+                // const response = await axios.get(OneInchApi + route)
+                const tokenEndpoint = `http://localhost:8000/1inchToken`;
+                const response = await axios.get(tokenEndpoint,route);
+                additionalData = response.data.data.tx.data
             } catch (e) {
                 alert("Can not prepare data from 1 inch api")
                 console.log("1inch error ", e)
@@ -373,8 +370,10 @@ class TradeViaOneInch extends Component {
     // get rate from api
     getRateFrom1inchApi = async (from, to, srcBN) => {
         const route = `quote?fromTokenAddress=${from}&toTokenAddress=${to}&amount=${srcBN}`
-        const response = await axios.get(OneInchApi + route)
-        return response.data.toTokenAmount
+        // const response = await axios.get(OneInchApi + route)
+        const tokenEndpoint = `http://localhost:8000/1inchToken`;
+                const response = await axios.get(tokenEndpoint,route);
+        return response.data.data.toTokenAmount
     }
 
     // get slippage percent
@@ -459,6 +458,7 @@ class TradeViaOneInch extends Component {
 
     render() {
         console.log("this.state.tokens :--", this.state.tokens);
+        console.log("this.state.symbos :--",this.state.symbols);
         return (
             <>
                 {this.state.tokens ? (
