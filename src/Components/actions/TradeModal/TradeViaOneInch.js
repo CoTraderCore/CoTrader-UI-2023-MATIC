@@ -87,7 +87,7 @@ class TradeViaOneInch extends Component {
                 const response = await axios.get(tokenEndpoint);
                
                 // const data = response.data;
-                console.log("response=============",response.data.data.tokens);
+                console.log("response=============",response.data.data);
                 const tokens = [];
                 const symbols = [];
 
@@ -457,8 +457,6 @@ class TradeViaOneInch extends Component {
     }
 
     render() {
-        console.log("this.state.tokens :--", this.state.tokens);
-        console.log("this.state.symbos :--",this.state.symbols);
         return (
             <>
                 {this.state.tokens ? (

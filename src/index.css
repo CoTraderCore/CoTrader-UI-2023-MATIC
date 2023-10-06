@@ -473,3 +473,24 @@ body.fullWidth_container .MuiContainer-maxWidthMd {
 
   }
 }
+.oneInch{
+  background-color: blue;
+}
+.oneInch::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.oneInch::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+.oneInch::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+.oneInch::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}

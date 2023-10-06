@@ -37,7 +37,9 @@ function UserHoldings(props) {
 
     return (
         <>
-            <Button onClick={onOpen} flexGrow="1" width={{ base: "100%", md: "auto" }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>My Holding</Button>
+            <Button flexGrow="1" width={{ base: "100%", md: "auto" }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }} onClick={onOpen}>
+                My Holding
+            </Button>
             <Modal
                 isOpen={isOpen}
                 onClose={onClose}

@@ -6,18 +6,18 @@ import { fromWei } from 'web3-utils';
 import ShadowBox from '../../Components/Cards/ShadowBox';
 import EtherscanButton from '../../Components/actions/EtherscanButton';
 import IconBox from '../../Components/Icons/IconBox';
-import { NavLink, } from 'react-router-dom';
 import Deposit from '../../Components/actions/Deposit/Deposit';
 import Withdraw from '../../Components/actions/Withdraw/Withdraw';
 import UserHoldings from '../../Components/actions/UserHoldings';
 import { inject, Observer } from 'mobx-react';
+import FundPagebtn from '../../Components/actions/FundPagebtn';
 
 function AllSmartFund(props) {
   const [currentPage, setCurrentPage] = useState(1)
   const headingColor = useColorModeValue("#1B2559", "#F4F7FE");
   const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
   const boxBg = useColorModeValue("#F4F7FE", "#110938");
-  const allbtnBg = useColorModeValue("#30106b", "#7500FF")
+
 
   return (
     <Observer>
@@ -32,8 +32,8 @@ function AllSmartFund(props) {
                       <Box mt={4} sx={{ borderRadius: "10px", }}>
                         <Heading textTransform={"uppercase"} fontSize={{ base: "2xl" }} color={headingColor} textAlign={'center'} p={2}>Fund name: {item.name}</Heading>
                       </Box>
-                      <Box mt={4} display="flex" justifyContent="center">
-                        <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
+                      <Box sx={{ display: "flex", justifyContent: "center" }}>
+                      <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
                           <Deposit
                             web3={props.MobXStorage.web3}
                             address={item.address}
@@ -50,9 +50,7 @@ function AllSmartFund(props) {
                             version={item.version}
                             mainAsset={item.mainAsset}
                           />
-                          <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
-                            <NavLink to={"/fund/" + item.address}>Fund Page</NavLink>
-                          </Button>
+                         <FundPagebtn address={item.address}/>
                           <UserHoldings
                             web3={props.MobXStorage.web3}
                             address={item.address}
