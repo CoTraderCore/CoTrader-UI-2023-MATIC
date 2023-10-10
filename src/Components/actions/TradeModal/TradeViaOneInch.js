@@ -77,7 +77,7 @@ class TradeViaOneInch extends Component {
     }
 
 
-    
+
     // get tokens addresses and symbols from paraswap api
     initData = async () => {
         if (NeworkID === 56) {
@@ -85,9 +85,6 @@ class TradeViaOneInch extends Component {
             try {
                 const tokenEndpoint = `http://localhost:8000/1inchToken`;
                 const response = await axios.get(tokenEndpoint);
-               
-                // const data = response.data;
-                console.log("response=============",response.data.data);
                 const tokens = [];
                 const symbols = [];
 
@@ -138,7 +135,7 @@ class TradeViaOneInch extends Component {
         let result = false
         if (String(this.state.sendFrom).toLowerCase() === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
             fundBalance = await this.props.web3.eth.getBalance(this.props.smartFundAddress)
-            fundBalance = this.props.web3.utils.fromWei(fundBalance)
+            fundBalance = this.props.web3.utils.fromWei(fundBalance, 'ether')
         }
         else {
             const ERC20 = new this.props.web3.eth.Contract(ERC20ABI, this.state.sendFrom)
@@ -258,11 +255,22 @@ class TradeViaOneInch extends Component {
             let additionalData
 
             try {
-                const route = `swap?fromTokenAddress=${this.state.sendFrom}&toTokenAddress=${this.state.sendTo}&amount=${amountInWei}&fromAddress=${this.props.exchangePortalAddress}&slippage=1&disableEstimate=true`
-                // const response = await axios.get(OneInchApi + route)
-                const tokenEndpoint = `http://localhost:8000/1inchToken`;
-                const response = await axios.get(tokenEndpoint,route);
-                additionalData = response.data.data.tx.data
+                const route = {
+                    fromTokenAddress: this.state.sendFrom,
+                    toTokenAddress: this.state.sendTo,
+                    amount: amountInWei,
+                    fromAddress: this.props.exchangePortalAddress,
+                    slippage: 1,
+                    disableEstimate: true
+                };
+                const data = JSON.stringify(route);
+                const url = `http://localhost:8000/swap/`;
+                const response = await axios.get(url, data, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                additionalData = response.data.tx.data
             } catch (e) {
                 alert("Can not prepare data from 1 inch api")
                 console.log("1inch error ", e)
@@ -339,7 +347,9 @@ class TradeViaOneInch extends Component {
     gitRateByNetworkId = async (from, to, amount, decimalsFrom, decimalsTo) => {
         // get value from 1 inch proto
         if (NeworkID === 56) {
+
             const src = toWeiByDecimalsInput(decimalsFrom, amount.toString(10))
+
             try {
                 return await this.getRateFrom1inchApi(from, to, src)
             } catch (e) {
@@ -369,11 +379,20 @@ class TradeViaOneInch extends Component {
 
     // get rate from api
     getRateFrom1inchApi = async (from, to, srcBN) => {
-        const route = `quote?fromTokenAddress=${from}&toTokenAddress=${to}&amount=${srcBN}`
-        // const response = await axios.get(OneInchApi + route)
-        const tokenEndpoint = `http://localhost:8000/1inchToken`;
-                const response = await axios.get(tokenEndpoint,route);
-        return response.data.data.toTokenAmount
+        const route = {
+            fromTokenAddress: from,
+            toTokenAddress: to,
+            amount: srcBN
+        };
+        const data = JSON.stringify(route);
+        const url = `http://localhost:8000/getQuote/`;
+        const response = await axios.post(url, data, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        return response.data.toAmount
+
     }
 
     // get slippage percent
@@ -457,6 +476,10 @@ class TradeViaOneInch extends Component {
     }
 
     render() {
+        console.log(this.state.sendFrom);
+        console.log(this.state.sendTo);
+        console.log(this.amountInWei);
+        console.log(this.props.exchangePortalAddress);
         return (
             <>
                 {this.state.tokens ? (
@@ -487,7 +510,7 @@ class TradeViaOneInch extends Component {
                                 this.state.slippageTo > 0
                                     ?
                                     (
-                                        <small style={{ color: "blue" }}>Slippage: {String(this.state.slippageTo)} %</small>
+                                        <Text style={{ color: "blue" }}>Slippage: {String(this.state.slippageTo)} %</Text>
                                     ) : null
                             }
 
@@ -521,7 +544,7 @@ class TradeViaOneInch extends Component {
                                 this.state.slippageFrom > 0
                                     ?
                                     (
-                                        <small style={{ color: "#7500FF" }}>Slippage: {String(this.state.slippageFrom)} %</small>
+                                        <Text mt={2} style={{ color: "red" }}>Slippage: {String(this.state.slippageFrom)} %</Text>
                                     ) : null
                             }
 
@@ -530,7 +553,7 @@ class TradeViaOneInch extends Component {
 
                             {/* Trigger tarde */}
 
-                            <Button mt={5} colorScheme='green' onClick={() => this.validation()}>Trade</Button>
+                            <Button mt={4} colorScheme='green' onClick={() => this.validation()}>Trade</Button>
 
                             {
                                 this.state.prepareData ? (<Text mt={1}>Preparing transaction data, please wait ...</Text>) : null

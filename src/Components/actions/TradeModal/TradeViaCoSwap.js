@@ -379,7 +379,7 @@ class TradeViaCoSwap extends Component {
 
 
   render() {
-    console.log("Send", this.state.Send, "Recive", this.state.Recive)
+    // console.log("Send", this.state.Send, "Recive", this.state.Recive)
    return (
       <Box pt={5}>
       {
@@ -465,7 +465,7 @@ class TradeViaCoSwap extends Component {
             )
             :
             (
-              <Alert status='success'  >Please update portal to latest version, for enable CoSwap DEX in your fund</Alert>
+              <Alert status='error'  >Please update portal to latest version, for enable CoSwap DEX in your fund</Alert>
             )
           }
 

@@ -456,7 +456,7 @@ function ViewFund(props) {
                                                             {
                                                                 balance ?
                                                                     (
-                                                                        <Tbody style={{ "color": "grey" }}>
+                                                                        <Tbody style={{ "color": "grey" }} >
                                                                             {
                                                                                 balance.slice().sort(function (a, b) {
                                                                                     return Number(b.percentInETH) - Number(a.percentInETH)
@@ -464,11 +464,11 @@ function ViewFund(props) {
                                                                                     if (item["percentInETH"] > 0) {
                                                                                         return (
                                                                                             <Tr key={key}>
-                                                                                                <Td className='table-row'>
+                                                                                                <Td className='table-row' textAlign="left">
                                                                                                     {
                                                                                                         <img
                                                                                                             style={{ height: "20px", width: "20px" }}
-                                                                                                            src={`https://tokens.1inch.exchange/${String(item["address"]).toLowerCase()}.png`}
+                                                                                                            src={`https://tokens.1inch.io/${String(item["address"]).toLowerCase()}.png`}
                                                                                                             alt="Logo"
                                                                                                             onError={(e) => { e.target.onerror = null; e.target.src = "https://etherscan.io/images/main/empty-token.png" }} />
                                                                                                     }
@@ -566,11 +566,13 @@ function ViewFund(props) {
                                                 (
                                                     <Box sx={{ display: "flex", justifyContent: "center" }}>
                                                         <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
-                                                            <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
-                                                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
-                                                                    Exchange
-                                                                </Button>
-                                                            </Tooltip>
+                                                            <TradeModal
+                                                                web3={props.web3}
+                                                                accounts={props.accounts}
+                                                                smartFundAddress={smartFundAddress}
+                                                                pending={pendingHandler}
+                                                                version={version}
+                                                            />
                                                             <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
                                                                 <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
                                                                     Take Cut

@@ -438,9 +438,8 @@ body.fullWidth_container .MuiContainer-maxWidthMd {
 
 .table-row {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
-  text-align: center;
 }
 
 .range-100 {
@@ -472,25 +471,4 @@ body.fullWidth_container .MuiContainer-maxWidthMd {
     overflow-x: scroll;
 
   }
-}
-.oneInch{
-  background-color: blue;
-}
-.oneInch::-webkit-scrollbar {
-  width: 10px;
-}
-
-/* Track */
-.oneInch::-webkit-scrollbar-track {
-  background: #f1f1f1; 
-}
- 
-/* Handle */
-.oneInch::-webkit-scrollbar-thumb {
-  background: #888; 
-}
-
-/* Handle on hover */
-.oneInch::-webkit-scrollbar-thumb:hover {
-  background: #555; 
 }

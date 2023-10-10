@@ -55,7 +55,7 @@ function PieChartTable({fundData}) {
                             {
                               <img
                                 style={{ height: "20px", width: "20px",}}
-                                src={`https://tokens.1inch.exchange/${String(item["address"]).toLowerCase()}.png`}
+                                src={`https://tokens.1inch.io/${String(item["address"]).toLowerCase()}.png`}
                                 alt="Logo"
                                 onError={(e) => { e.target.onerror = null; e.target.src = "https://etherscan.io/images/main/empty-token.png" }} />
                             }
