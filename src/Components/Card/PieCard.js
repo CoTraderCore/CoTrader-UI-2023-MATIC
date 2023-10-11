@@ -68,7 +68,11 @@ function PieCard(props) {
                                             color={pieTextcolor}
                                             fontWeight='700'
                                             mb='5px'>
-                                            <img src="/empty-token.webp" alt="" height="20px" width="20px" />
+                                            <img
+                                            style={{ height: "20px", width: "20px" }}
+                                            src={`https://tokens.1inch.io/${String(item["address"]).toLowerCase()}.png`}
+                                            alt="logo"
+                                            onError={(e) => { e.target.onerror = null; e.target.src = "https://etherscan.io/images/main/empty-token.png" }} />
                                             {<a href={EtherscanLink + "token/" + item["address"]} target="_blank" rel="noopener noreferrer">{item["symbol"]}</a>}
                                             &nbsp;
                                             {
@@ -99,75 +103,3 @@ function PieCard(props) {
 }
 
 export default PieCard;
-
-
-
-
-
-
-
-
-
-
-// import React, { useState, useEffect } from 'react';
-// import { ChakraProvider, CSSReset } from '@chakra-ui/react';
-// import PieChart from '../../Variable/Chart';
-
-// const PieCard = ({ AssetsData }) => {
-//     const [data, setData] = useState({
-//         labels: [],
-//         datasets: [],
-//     });
-
-//     const [isMounted, setIsMounted] = useState(true);
-
-//     useEffect(() => {
-//         setTimeout(() => {
-//             updateAssetsData();
-//         }, 1000);
-
-//         return () => {
-//             setIsMounted(false);
-//         };
-//     }, []);
-
-//     useEffect(() => {
-//         if (AssetsData && isMounted) {
-//             updateAssetsData();
-//         }
-//     }, [AssetsData]);
-
-//     const updateAssetsData = () => {
-//         if (AssetsData) {
-//             const filterData = AssetsData.filter(item => parseFloat(item.assetValueInETHFromWei) > 0);
-
-//             const labels = filterData.map(item => item.symbol);
-//             const balance = filterData.map(item => item.assetValueInETHFromWei);
-
-//             if (isMounted) {
-//                 setData({
-//                     labels,
-//                     datasets: [
-//                         {
-//                             data: balance,
-//                         },
-//                     ],
-//                 });
-//             }
-//         }
-//     };
-
-//     return (
-//         <ChakraProvider>
-//             <CSSReset />
-//             {data.labels.length > 0 ? (
-//                 <div>
-//                     <h1>Asset allocation in BNB value</h1>
-//                     <PieChart data={data} />
-//                 </div>
-//             ) : null}
-//         </ChakraProvider>
-//     );
-// };
-
-// export default PieCard;

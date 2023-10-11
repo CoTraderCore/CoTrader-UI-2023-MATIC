@@ -141,6 +141,7 @@ class TradeViaOneInch extends Component {
             const ERC20 = new this.props.web3.eth.Contract(ERC20ABI, this.state.sendFrom)
             fundBalance = await ERC20.methods.balanceOf(this.props.smartFundAddress).call()
             fundBalance = fromWeiByDecimalsInput(this.state.decimalsFrom, fundBalance)
+
         }
         if (parseFloat(fundBalance) >= parseFloat(this.state.AmountSend))
             result = true
@@ -213,7 +214,6 @@ class TradeViaOneInch extends Component {
         })
     }
 
-
     // found addresses and decimals by direction symbols
     getDirectionInfo = () => {
         const From = this.state.tokens.filter(item => item.symbol === this.state.Send)
@@ -236,8 +236,9 @@ class TradeViaOneInch extends Component {
             // get cur tx count
             let txCount = await axios.get(APIEnpoint + 'api/user-pending-count/' + this.props.accounts[0])
             txCount = txCount.data.result
-
             const amountInWei = toWeiByDecimalsInput(this.state.decimalsFrom, this.state.AmountSend)
+
+            console.log("amountinwei", amountInWei);
 
             // TODO allow user select slippage  min return
             const minReturn = this.getMinReturn()
@@ -259,13 +260,13 @@ class TradeViaOneInch extends Component {
                     fromTokenAddress: this.state.sendFrom,
                     toTokenAddress: this.state.sendTo,
                     amount: amountInWei,
-                    fromAddress: this.props.exchangePortalAddress,
+                    fromAddress: this.props.exchangePortalAddress.exchangePortalAddress,
                     slippage: 1,
                     disableEstimate: true
                 };
                 const data = JSON.stringify(route);
                 const url = `http://localhost:8000/swap/`;
-                const response = await axios.get(url, data, {
+                const response = await axios.post(url, data, {
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -347,21 +348,17 @@ class TradeViaOneInch extends Component {
     gitRateByNetworkId = async (from, to, amount, decimalsFrom, decimalsTo) => {
         // get value from 1 inch proto
         if (NeworkID === 56) {
-
             const src = toWeiByDecimalsInput(decimalsFrom, amount.toString(10))
-
             try {
                 return await this.getRateFrom1inchApi(from, to, src)
             } catch (e) {
                 return 0
             }
-
         }
         // from test net get value from Bancor via old portal v
         else {
             const portal = new this.props.web3.eth.Contract(ExchangePortalABIV6, ExchangePortalAddressLight)
             const src = toWeiByDecimalsInput(decimalsFrom, amount.toString(10))
-
             return await portal.methods.getValueViaOneInch(
                 from,
                 to,
@@ -476,10 +473,6 @@ class TradeViaOneInch extends Component {
     }
 
     render() {
-        console.log(this.state.sendFrom);
-        console.log(this.state.sendTo);
-        console.log(this.amountInWei);
-        console.log(this.props.exchangePortalAddress);
         return (
             <>
                 {this.state.tokens ? (

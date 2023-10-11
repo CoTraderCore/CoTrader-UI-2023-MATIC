@@ -139,9 +139,12 @@ class SelectToken extends Component {
                                             onInputChange={async (s) => this.typeHeadHandler(s)}
                                             placeholder="Type symbol or paste token address"
                                             renderMenuItemChildren={(options, props) => (
-                                                <SimpleGrid borderRadius={5} border="1px solid black"  gap={5} mt={1} p={4} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                                                <SimpleGrid borderRadius={5} border="1px solid black" gap={5} mt={1} p={4} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                                                     <GridItem >
-                                                        <Image height="35px" width="35px" src={`https://tokens.1inch.io/${this.getTokenAddressBySymbol(options)}.png`} alt="" />
+                                                        <Image height="35px" width="35px"
+                                                            src={`https://tokens.1inch.io/${this.getTokenAddressBySymbol(options)}.png`} alt="logo"
+                                                            onError={(e) => { e.target.onerror = null; e.target.src = "https://etherscan.io/images/main/empty-token.png" }}
+                                                        />
                                                     </GridItem>
                                                     <GridItem>
                                                         <Text>{options}</Text>

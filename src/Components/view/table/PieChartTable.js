@@ -15,7 +15,6 @@ function PieChartTable({fundData}) {
       <UserInfo info={`Pool tokens : ${poolConnectors}`} />
     )
   }
-  // console.log(fundData , "++++++++++fund data")
   return (
     <Box 
     className='table-box'
