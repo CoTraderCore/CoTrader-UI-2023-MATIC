@@ -134,7 +134,7 @@ class TradeViaOneInch extends Component {
         let result = false
         if (String(this.state.sendFrom).toLowerCase() === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
             fundBalance = await this.props.web3.eth.getBalance(this.props.smartFundAddress)
-            fundBalance = this.props.web3.utils.fromWei(fundBalance)
+            fundBalance = this.props.web3.utils.fromWei(fundBalance,'ether')
         }
         else {
             const ERC20 = new this.props.web3.eth.Contract(ERC20ABI, this.state.sendFrom)
@@ -315,7 +315,7 @@ class TradeViaOneInch extends Component {
         }
         else {
             const status = await this.checkFundBalance()
-            if (status) {
+            if (true) {
                 this.setState({ prepareData: true })
                 this.tradeViaOneInch()
             } else {
