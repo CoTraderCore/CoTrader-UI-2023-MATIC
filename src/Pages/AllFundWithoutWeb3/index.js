@@ -31,7 +31,7 @@ function AllFundWithoutWeb3(props) {
                                         <Heading textTransform={"uppercase"} fontSize={{ base: "2xl" }} color={headingColor} textAlign={'center'} p={2}>{item.name}</Heading>
                                     </Box>
                                     <Box mt={4} display="flex" justifyContent="center">
-                                        <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
+                                        <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "90%", lg: "80%" } }}>
                                             <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
                                                 <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
                                                     Deposit

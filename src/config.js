@@ -4,8 +4,7 @@ const isLocal = false
 // maximum available for trade tokens in smart fund
 export const MAX_TOKENS = 20
 
-// export const OneInchApi = 'https://api.1inch.exchange/v3.0/56/'
-export const OneInchApi = "https://api.1inch.dev/swap/v5.2/"
+export const OneInchApi = "http://localhost:8000"
 export const API_KEY="P8mPpb3yDHpM4NSLPLesqP32VnLnLXNQ"
 
 export const ExchangePortalDeprecated = '0xC8A2Ba3E9CE03f78551d7dE5706Cc275d4D3130f'

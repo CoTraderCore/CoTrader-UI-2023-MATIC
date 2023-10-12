@@ -171,8 +171,6 @@ class DepositERC20 extends Component {
 
     modalClose = () => this.setState({ Show: false, Agree: false });
     render() {
-      console.log("ercAssetContract :",this.state.ercAssetContract);
-      console.log("symbol",this.state.symbol);
         return (
             <>
                 <FormControl>

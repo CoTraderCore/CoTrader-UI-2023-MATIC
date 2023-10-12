@@ -66,7 +66,7 @@ function SmartFundListWithoutWeb3(props) {
                                                     <CreateFundButton buttonName={"Create Funds"} info={"Please Connect to web3"} />
                                                 </GridItem>
                                                 <GridItem >
-                                                    <FilterSearch MobXStorage={props.MobXStorage}/>
+                                                    <FilterSearch MobXStorage={props.MobXStorage} />
                                                 </GridItem>
                                                 <GridItem >
                                                     <Stack bg={allbtnBg} sx={{ color: "#fff", borderRadius: "8px", border: "none", _hover: { backgroundColor: "#30108b" } }}>
@@ -144,7 +144,7 @@ function SmartFundListWithoutWeb3(props) {
                                                     ) :
                                                     (
                                                         <Box>
-                                                            <Text bg="lightgray" sx={{ textTransform: "capitalize", fontWeight: "bold", color: "#7500ff", textAlign: "center" }}>{props.MobXStorage.FilterInfo}</Text>
+                                                            <Text mb={2} bg="transparent" border="1px solid lightgray" boxShadow="1px 1px 1px 1px gray" borderRadius={5} sx={{ textTransform: "capitalize", fontWeight: "bold", color: "#7500ff", textAlign: "center" }}>{props.MobXStorage.FilterInfo}</Text>
                                                             <SimpleGrid
                                                                 width="100%"
                                                                 columns={{ base: 1, md: 4, lg: 4, }}
@@ -164,7 +164,6 @@ function SmartFundListWithoutWeb3(props) {
                                                                     name='Fund'
                                                                     value={`${props.MobXStorage.SmartFunds.length} of ${props.MobXStorage.SmartFundsOriginal.length} funds`}
                                                                 />
-                                                                <Text style={{ color: "green" }}>{props.MobXStorage.FilterInfo}</Text>
                                                                 <ShadowBox
                                                                     startContent={
                                                                         <IconBox

@@ -3,7 +3,6 @@ import {
     SmartFundABIV7,
     OneInchApi,
     NeworkID,
-    ChainID,
     ERC20ABI,
     APIEnpoint,
     ExchangePortalAddressLight,
@@ -83,7 +82,7 @@ class TradeViaOneInch extends Component {
         if (NeworkID === 56) {
             // get tokens from api
             try {
-                const tokenEndpoint = `http://localhost:8000/1inchToken`;
+                const tokenEndpoint = `${OneInchApi}/1inchToken/${NeworkID}`;
                 const response = await axios.get(tokenEndpoint);
                 const tokens = [];
                 const symbols = [];
@@ -135,7 +134,7 @@ class TradeViaOneInch extends Component {
         let result = false
         if (String(this.state.sendFrom).toLowerCase() === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
             fundBalance = await this.props.web3.eth.getBalance(this.props.smartFundAddress)
-            fundBalance = this.props.web3.utils.fromWei(fundBalance, 'ether')
+            fundBalance = this.props.web3.utils.fromWei(fundBalance)
         }
         else {
             const ERC20 = new this.props.web3.eth.Contract(ERC20ABI, this.state.sendFrom)
@@ -265,7 +264,7 @@ class TradeViaOneInch extends Component {
                     disableEstimate: true
                 };
                 const data = JSON.stringify(route);
-                const url = `http://localhost:8000/swap/`;
+                const url = `${OneInchApi}/swap/${NeworkID}`;
                 const response = await axios.post(url, data, {
                     headers: {
                         'Content-Type': 'application/json',
@@ -382,7 +381,7 @@ class TradeViaOneInch extends Component {
             amount: srcBN
         };
         const data = JSON.stringify(route);
-        const url = `http://localhost:8000/getQuote/`;
+        const url = `${OneInchApi}/getQuote/${NeworkID}/`;
         const response = await axios.post(url, data, {
             headers: {
                 'Content-Type': 'application/json',

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PagePagination from '../../Components/navigation/Pagination/PagePagination';
-import { Box, Button, Heading, Icon, SimpleGrid, useColorModeValue } from '@chakra-ui/react';
+import { Box, Heading, Icon, SimpleGrid, useColorModeValue } from '@chakra-ui/react';
 import { MdAttachMoney } from 'react-icons/md'
 import { fromWei } from 'web3-utils';
 import ShadowBox from '../../Components/Cards/ShadowBox';
@@ -33,7 +33,7 @@ function AllSmartFund(props) {
                         <Heading textTransform={"uppercase"} fontSize={{ base: "2xl" }} color={headingColor} textAlign={'center'} p={2}>Fund name: {item.name}</Heading>
                       </Box>
                       <Box sx={{ display: "flex", justifyContent: "center" }}>
-                      <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
+                      <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "90%", lg: "80%" } }}>
                           <Deposit
                             web3={props.MobXStorage.web3}
                             address={item.address}
