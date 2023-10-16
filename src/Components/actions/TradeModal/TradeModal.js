@@ -27,6 +27,8 @@ import SetGasPrice from '../../Settings/SetGasPrice.js';
 // trade modals
 import TradeViaOneInch from './TradeViaOneInch';
 import TradeViaCoSwap from './TradeViaCoSwap';
+import TradeViaPancake from './TradeViaPanCake.js';
+
 
 function TradeModal(props) {
   const [exchangePortalAddress, setExchangePortalAddress] = useState('');
@@ -84,6 +86,7 @@ function TradeModal(props) {
               <TabList>
                 <Tab>1 inch</Tab>
                 <Tab>CoSwap</Tab>
+                <Tab> Pancake</Tab>
               </TabList>
               <TabPanels>
                 <TabPanel>
@@ -99,6 +102,17 @@ function TradeModal(props) {
                 </TabPanel>
                 <TabPanel>
                   <TradeViaCoSwap
+                    web3={props.web3}
+                    accounts={props.accounts}
+                    smartFundAddress={props.smartFundAddress}
+                    pending={props.pending}
+                    version={props.version}
+                    exchangePortalAddress={exchangePortalAddress}
+                    closeModal={onClose}
+                  />
+                </TabPanel>
+                <TabPanel>
+                  <TradeViaPancake
                     web3={props.web3}
                     accounts={props.accounts}
                     smartFundAddress={props.smartFundAddress}

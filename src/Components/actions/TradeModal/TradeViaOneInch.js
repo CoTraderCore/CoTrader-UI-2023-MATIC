@@ -134,7 +134,7 @@ class TradeViaOneInch extends Component {
         let result = false
         if (String(this.state.sendFrom).toLowerCase() === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
             fundBalance = await this.props.web3.eth.getBalance(this.props.smartFundAddress)
-            fundBalance = this.props.web3.utils.fromWei(fundBalance,'ether')
+            fundBalance = this.props.web3.utils.fromWei(fundBalance, 'ether')
         }
         else {
             const ERC20 = new this.props.web3.eth.Contract(ERC20ABI, this.state.sendFrom)
@@ -234,10 +234,8 @@ class TradeViaOneInch extends Component {
             const block = await this.props.web3.eth.getBlockNumber()
             // get cur tx count
             let txCount = await axios.get(APIEnpoint + 'api/user-pending-count/' + this.props.accounts[0])
-            txCount = txCount.data.result
+            txCount = txCount.data.result;
             const amountInWei = toWeiByDecimalsInput(this.state.decimalsFrom, this.state.AmountSend)
-
-            console.log("amountinwei", amountInWei);
 
             // TODO allow user select slippage  min return
             const minReturn = this.getMinReturn()
@@ -250,6 +248,7 @@ class TradeViaOneInch extends Component {
 
             // get merkle tree data
             const { proof, positions } = getMerkleTreeData(this.state.sendTo)
+
 
             // get additional data from 1 inch api
             let additionalData
@@ -387,8 +386,7 @@ class TradeViaOneInch extends Component {
                 'Content-Type': 'application/json',
             },
         });
-        return response.data.toAmount
-
+        return response.data.toAmount;
     }
 
     // get slippage percent
