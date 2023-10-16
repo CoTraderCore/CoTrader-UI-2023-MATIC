@@ -29,10 +29,8 @@ import UpdateUSDAsset from '../../Components/actions/UpdateUSDAsset';
 import { fromWei } from 'web3-utils';
 import _ from 'lodash';
 import Loading from '../../Components/template/spiners/Loading';
-import { RandomAvatar } from 'react-random-avatars';
 import FundModal from '../../Components/actions/FundModal';
 import ManagerModal from '../../Components/actions/ManagerModal';
-import { logDOM } from '@testing-library/react';
 
 function ViewFund(props) {
     const { address } = useParams();
@@ -93,7 +91,6 @@ function ViewFund(props) {
             });
         });
     };
-
     const txUpdate = (txName, address, hash) => {
         if (address === address && lastHash !== hash) {
             if (_isMounted) {
@@ -112,7 +109,6 @@ function ViewFund(props) {
 
     const loadData = async () => {
         const fund = await getFundData(address);
-
         if (_isMounted) {
             setSmartFundAddress(fund.data.result.address);
             setName(fund.data.result.name);
@@ -167,7 +163,6 @@ function ViewFund(props) {
 
     const updateBalance = async () => {
         const fund = await getFundData(address);
-
         if (_isMounted) {
             setBalance(JSON.parse(fund.data.result.balance));
             setProfitInETH(fund.data.result.profitInETH);
@@ -178,6 +173,7 @@ function ViewFund(props) {
             setManagerRemainingCut(fund.data.result.managerRemainingCut);
             setShares(fund.data.result.shares);
         };
+       
     }
 
     const pendingHandler = (_bool, _txCount) => {
@@ -222,7 +218,6 @@ function ViewFund(props) {
     // const chartbg = useColorModeValue("#fff", "#181144")
     const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
     const boxBg = useColorModeValue("#F4F7FE", "#110938");
-
     return (
         <>
             <Box px={4}>
@@ -564,7 +559,7 @@ function ViewFund(props) {
                                                 (
                                                     <Box sx={{ display: "flex", justifyContent: "center" }}>
                                                         <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
-                                                            <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
+                                                        <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
                                                                 <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
                                                                     Exchange
                                                                 </Button>
