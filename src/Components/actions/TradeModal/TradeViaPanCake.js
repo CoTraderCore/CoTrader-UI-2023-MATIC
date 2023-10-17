@@ -3,14 +3,12 @@
 import React, { Component } from 'react'
 import {
     SmartFundABIV7,
-    NeworkID,
     ERC20ABI,
     APIEnpoint,
     UNIRouterABI,
     PancakeRouter,
     WETH,
-    ExchangePortalAddressLight,
-    OneInchApi
+    ExchangePortalAddressLight
 } from '../../../config.js'
 
 import setPending from '../../../utils/setPending'
@@ -79,8 +77,6 @@ class TradeViaPancake extends Component {
 
             try {
                 const response = await axios.get('https://tokens.pancakeswap.finance/pancakeswap-top-100.json');
-                // console.log("response.data.tokens==", response.data);
-
                 for (const [, value] of Object.entries(response.data.tokens)) {
                     symbols.push(value.symbol);
                     tokens.push({
