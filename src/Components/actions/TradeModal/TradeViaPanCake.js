@@ -23,6 +23,8 @@ import BigNumber from 'bignumber.js'
 import SelectToken from './SelectToken'
 import { Button, Box, FormControl, FormLabel, Alert, Input, InputGroup, Text } from '@chakra-ui/react'
 
+import pancakeTokens from '../../../Storage/pancakeTokens'
+
 class TradeViaPancake extends Component {
     constructor(props, context) {
         super(props, context);
@@ -69,17 +71,16 @@ class TradeViaPancake extends Component {
 
     // get tokens addresses and symbols from paraswap api
     initData = async () => {
-        if (NeworkID === 56) {
             let tokens = [
                 { symbol: "BNB", address: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", decimals: 18 },
                 { symbol: "bCOT", address: "0x304fc73e86601a61a6c6db5b0eafea587622acdc", decimals: 18 }
             ];
             let symbols = ['BNB', 'bCOT'];
-    
+
             try {
                 const response = await axios.get('https://tokens.pancakeswap.finance/pancakeswap-top-100.json');
                 // console.log("response.data.tokens==", response.data);
-    
+
                 for (const [, value] of Object.entries(response.data.tokens)) {
                     symbols.push(value.symbol);
                     tokens.push({
@@ -88,28 +89,17 @@ class TradeViaPancake extends Component {
                         decimals: value.decimals,
                     });
                 }
-    
-                if (this._isMounted) {
-                    this.setState({ tokens, symbols });
-                }
-    
-                // Save the response data as a JSON string in local storage
-                localStorage.setItem("output", JSON.stringify(response.data));
             } catch (e) {
-                console.error(e);
-                alert("Can't connect to the API, loading locally.");
-    
-                //load data from local storage
-                const localData = localStorage.getItem("output");
-                if (localData) {
-                    const parsedData = JSON.parse(localData);
-                    tokens = parsedData.tokens;
-                    symbols = parsedData.symbols;
-                }
+              console.log("Load pancake loaded from file")
+               tokens = pancakeTokens
+               symbols = pancakeTokens.map(i => i.symbol)
             }
-        }
+
+            if (this._isMounted) {
+                this.setState({ tokens, symbols });
+            }
     }
-    
+
 // Show err msg if there are some msg
 ErrorMsg = () => {
     if (this.state.ERRORText.length > 0) {

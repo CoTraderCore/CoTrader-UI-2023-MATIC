@@ -1,4 +1,3 @@
-
 export const Pages = {
     SMARTFUNDLIST:'/',
     SMARTFUNDLISTWITHOUTWEB3 : '/web3off',
