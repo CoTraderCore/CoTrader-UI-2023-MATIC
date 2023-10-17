@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChakraProvider, } from '@chakra-ui/react';
-import { RouterProvider, createBrowserRouter, useNavigate, } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Pages } from './utils/Pages';
 import getWeb3 from './utils/getWeb3';
 import themes from './Theme/Theme';
@@ -16,30 +16,7 @@ import ViewFund from './Pages/ViewFund';
 import ViewUser from './Pages/ViewUser';
 import HowToStart from './Pages/HowToStart';
 import { inject } from 'mobx-react'
-
-const Web3Redirect = (props) => {
-  const { timeOut, web3 } = props;
-  const nevigate = useNavigate();
-
-  useEffect(() => {
-    if (timeOut)
-      checkWeb3OffRedirect()
-  }, [timeOut]);
-
-  const checkWeb3OffRedirect = () => {
-    if (timeOut && !web3) {
-      const newPath = '/web3off/';
-      nevigate(newPath)
-
-    } else if (timeOut && web3) {
-      const oldpath = '/'
-      nevigate(oldpath)
-    }
-  }
-
-  return <React.Fragment>{props.children}</React.Fragment>
-}
-
+import { redirect } from 'react-router-dom';
 
 function App(props) {
   const [web3, setWeb3] = useState(null);
@@ -49,54 +26,48 @@ function App(props) {
   const [isLoadNetID, setIsLoadNetID] = useState(false);
   const [timeOut, setTimeOutF] = useState(false);
   const [isDataLoad, setIsDataLoad] = useState(false);
-
   useEffect(() => {
     setTimeout(() => {
       setTimeOutF(true);
-    }, 3000);
-
-
-    // relaod app if accout was changed
-    if (window.ethereum)
-      window.ethereum.on('accountsChanged', () => window.location.reload())
-
+    }, 1000);
+    if (window.ethereum) {
+      window.ethereum.on('accountsChanged', () => window.location.reload());
+    }
     async function load() {
       initializeReactGA();
-
       initData();
       fetchWeb3()
-
-
       if (web3) {
         web3.eth.net.getId().then(netId => {
           setNetwork(netId);
           setIsLoadNetID(true);
         });
       }
-
     }
-
     load()
-  }, [props.MobXStorage]);
+  }, []);
 
+  useEffect(() => {
+    if (timeOut)
+      checkWeb3OffRedirect()
+  }, [timeOut]);
 
 
   const initializeReactGA = () => {
     ReactGA.initialize('UA-141893089-1');
     ReactGA.pageview('/');
   };
-
   const fetchWeb3 = async () => {
+    console.log("Test")
     try {
       // Get network provider and web3 instance.
       const web3Instance = await getWeb3();
-
       // Use web3 to get the user's accounts.
       const userAccounts = await web3Instance.eth.getAccounts();
+      console.log("userAccounts", userAccounts)
       // Set web3 and accounts to the state
       setWeb3(web3Instance);
       setAccounts(userAccounts);
-
       props.MobXStorage.initWeb3AndAccounts(web3Instance, userAccounts);
     } catch (error) {
       // Catch any errors for any of the above operations.
@@ -105,22 +76,34 @@ function App(props) {
       // )
       console.log('Fetching error', error);
     }
-
   };
-
   const initData = async () => {
     if (props.MobXStorage.SmartFundsOriginal.length === 0) {
-      const smartFunds = await getFundsList();
-      props.MobXStorage.initSFList(smartFunds);
-      setIsDataLoad(true);
-
+      try {
+        const smartFunds = await getFundsList();
+        props.MobXStorage.initSFList(smartFunds);
+        setIsDataLoad(true);
+      } catch (error) {
+        console.log("error:", error);
+      }
     }
   };
+
+  let pathChanged = false; 
+const checkWeb3OffRedirect = () => {
+  if (timeOut && !web3 && !pathChanged) {
+    const newPath = '/web3off/';
+    const newURL = window.location.origin + newPath;
+    window.history.replaceState({}, document.title, newURL);
+    pathChanged = true; 
+  }
+};
+
 
   const router = createBrowserRouter([
     {
       path: Pages.SMARTFUNDLIST,
-      element: <Web3Redirect timeOut={timeOut} web3={web3}><MainLayout {...props} web3={web3} accounts={accounts} network={network} isLoadNetID={isLoadNetID} /></Web3Redirect>,
+      element: <MainLayout web3={web3} accounts={accounts} network={network} isLoadNetID={isLoadNetID} />,
       children: [
         {
           path: Pages.SMARTFUNDLIST,

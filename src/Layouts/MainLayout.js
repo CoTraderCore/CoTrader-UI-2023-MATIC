@@ -6,6 +6,7 @@ import { Outlet } from 'react-router-dom';
 import WalletInfo from '../Components/common/WalletInfo';
 import { NeworkID } from '../config';
 import DashboardHeader from '../Components/common/DashboardHeader';
+import { Observer, inject } from 'mobx-react';
 
 
 function MainLayout(props) {
@@ -14,6 +15,9 @@ function MainLayout(props) {
     const Boxbg = useColorModeValue("#F3F6FD", "#110938");
 
     return (
+        <Observer>
+        {() => {
+            return (
         <Box
             style={{
                 height: "100vh",
@@ -48,10 +52,12 @@ function MainLayout(props) {
                     <Outlet />
                 </GridItem>
             </Grid>
-
-
         </Box>
+           )
+        }}
+    </Observer>
     )
 }
 
-export default MainLayout
+// export default MainLayout
+export default inject('MobXStorage')(MainLayout);

@@ -68,7 +68,6 @@ function SmartFundList(props) {
       }
     };
 
-
     const checkPending = async () => {
       if (props.accounts) {
         let txCount = await axios.get(APIEnpoint + 'api/user-pending-count/' + props.accounts[0]);
@@ -113,7 +112,7 @@ function SmartFundList(props) {
     return () => {
       _isMounted.current = false;
     };
-  }, []);
+  }, [props.MobXStorage,props.web3]);
 
   const pendingg = (_bool, _txCount) => {
     setPending(_bool);
@@ -125,9 +124,7 @@ function SmartFundList(props) {
   const allbtnBg = useColorModeValue("#30106b", "#7500FF")
 
   console.log(props.MobXStorage)
-
   return (
-
     <Observer>
       {() => {
         return (

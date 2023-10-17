@@ -42,6 +42,18 @@ function SmartFundListWithoutWeb3(props) {
         };
     }, []);
 
+    useEffect(() => {
+        const checkWeb3OffRedirect = () => {
+            if (props.web3) {
+                const newPath = '/';
+                const newURL = window.location.origin + newPath;
+                window.location.replace(newURL);
+            }
+        }
+        checkWeb3OffRedirect()
+    }, [props.web3]);
+
+
     const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
     const boxBg = useColorModeValue("#F4F7FE", "#110938");
     const allbtnBg = useColorModeValue("#30106b", "#7500FF")
