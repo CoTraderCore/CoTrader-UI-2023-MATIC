@@ -7,7 +7,7 @@ import {
     ERC20ABI,
     APIEnpoint,
     UNIRouterABI,
-    CoSwapRouter,
+    PancakeRouter,
     WETH,
     ExchangePortalAddressLight,
     OneInchApi
@@ -308,7 +308,7 @@ class TradeViaPancake extends Component {
                 ? WETH
                 : to
 
-            const router = new this.props.web3.eth.Contract(UNIRouterABI, CoSwapRouter)
+            const router = new this.props.web3.eth.Contract(UNIRouterABI, PancakeRouter)
             const data = await router.methods.getAmountsOut(src, [_from, _to]).call()
             price = data[1]
         }
