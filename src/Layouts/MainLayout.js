@@ -7,17 +7,17 @@ import WalletInfo from '../Components/common/WalletInfo';
 import { NeworkID } from '../config';
 import DashboardHeader from '../Components/common/DashboardHeader';
 import { Observer, inject } from 'mobx-react';
-
+import Loading from '../Components/template/spiners/Loading';
+import { useLoaderData } from 'react-router-dom';
 
 function MainLayout(props) {
+    const rootloader = useLoaderData()
+    console.log(rootloader, "rootloader");
+
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { colorMode, toggleColorMode } = useColorMode(false)
     const Boxbg = useColorModeValue("#F3F6FD", "#110938");
-
     return (
-        <Observer>
-        {() => {
-            return (
         <Box
             style={{
                 height: "100vh",
@@ -53,11 +53,16 @@ function MainLayout(props) {
                 </GridItem>
             </Grid>
         </Box>
-           )
-        }}
-    </Observer>
     )
 }
 
 // export default MainLayout
 export default inject('MobXStorage')(MainLayout);
+
+//loader
+export const rootloader = () => {
+    console.log("Data loding....");
+    return (
+       null
+    )
+}

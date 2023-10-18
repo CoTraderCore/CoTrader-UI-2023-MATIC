@@ -3,7 +3,6 @@ import { Box, Flex, Heading,  IconButton,  Image, useColorMode, useColorModeValu
 import { Link } from 'react-router-dom';
 import { FaSun, FaMoon } from 'react-icons/fa';
 
-
 const Navbar = (props) => {
     const { toggleColorMode } = useColorMode();
     const iconColor = useColorModeValue('gray.800', 'gray.100');

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import { Box, Text, Grid, GridItem, Stack, Icon, useColorModeValue, SimpleGrid, } from '@chakra-ui/react';
 import FilterSearch from '../../Components/Filter&Search/FilterSearch';
 import CreateFundButton from '../../Components/template/CreateFundButton';
@@ -15,10 +15,12 @@ import Loading from '../../Components/template/spiners/Loading';
 import Footer from '../../Components/common/footer/Footer';
 import Web3Allert from '../../Components/Web3Off/Web3Alert';
 import { Observer, inject } from 'mobx-react';
+import { useLoaderData } from 'react-router-dom';
 
 
 function SmartFundListWithoutWeb3(props) {
-
+    const eventloader = useLoaderData()
+    console.log(eventloader,"loader");
     useEffect(() => {
         let isMounted = true;
         const fetchData = async () => {
@@ -41,17 +43,12 @@ function SmartFundListWithoutWeb3(props) {
             isMounted = false;
         };
     }, []);
-
-    useEffect(() => {
-        const checkWeb3OffRedirect = () => {
-            if (props.web3) {
-                const newPath = '/';
-                const newURL = window.location.origin + newPath;
-                window.location.replace(newURL);
-            }
-        }
-        checkWeb3OffRedirect()
-    }, [props.web3]);
+    // useEffect(()=>{
+    //     if(props.web3){
+    //         window.location="/"
+    //     }
+    // },[props.web3])
+   
 
 
     const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
@@ -244,4 +241,8 @@ function SmartFundListWithoutWeb3(props) {
 
 export default inject('MobXStorage')(SmartFundListWithoutWeb3);
 
+export const eventloader = () => {
+    console.log("data loding....");
+    return null;
+  }
 

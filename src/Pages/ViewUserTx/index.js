@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useLoaderData, useParams } from 'react-router-dom';
 import { Box, GridItem, Select, useColorModeValue, OrderedList, ListItem, Icon, Grid, SimpleGrid } from '@chakra-ui/react';
 import { EtherscanLink } from '../../config';
 import getUserData from '../../utils/getFundData';
@@ -13,6 +13,8 @@ import Header from '../../Components/common/Header';
 const ETH_TOKEN = String("0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE").toLowerCase()
 
 function ViewUserTx() {
+    const eventloader = useLoaderData()
+    console.log(eventloader,"loader");
     const { address } = useParams();
     const addressbg = useColorModeValue("#E6E6FA", "#181144")
     const textColor = useColorModeValue("#A4ADC7", "white");
@@ -280,3 +282,8 @@ function ViewUserTx() {
 }
 
 export default ViewUserTx;
+
+export const eventloader = () => {
+    console.log("data loding....");
+    return null;
+  }

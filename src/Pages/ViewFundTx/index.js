@@ -5,7 +5,7 @@ import { EtherscanLink } from '../../config'
 import { Select, Box, OrderedList, ListItem, Grid, GridItem, SimpleGrid, useColorModeValue, Icon, } from '@chakra-ui/react'
 import { fromWei } from 'web3-utils'
 import Footer from '../../Components/common/footer/Footer'
-import { useParams } from 'react-router-dom'
+import { useLoaderData, useParams } from 'react-router-dom'
 import IconBox from '../../Components/Icons/IconBox'
 import ShadowBox from '../../Components/Cards/ShadowBox'
 import { HiReceiptTax } from 'react-icons/hi'
@@ -14,6 +14,8 @@ import Header from '../../Components/common/Header'
 const ETH_TOKEN = String("0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE").toLowerCase()
 
 function ViewManager() {
+    const eventloader = useLoaderData()
+    console.log(eventloader,"loader");
     const { address } = useParams();
     const addressbg = useColorModeValue("#E6E6FA", "#181144")
     const textColor = useColorModeValue("#A4ADC7", "white");
@@ -327,3 +329,8 @@ function ViewManager() {
 }
 
 export default ViewManager
+
+export const eventloader = () => {
+    console.log("data loding....");
+    return null;
+  }
