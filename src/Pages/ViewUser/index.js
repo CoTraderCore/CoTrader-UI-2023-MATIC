@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import getFundsList from '../../utils/getFundsList';
 import { fromWei } from 'web3-utils'
 import { Alert, Box, Text, Table, Thead, Tbody, Tr, Td, Th, useColorModeValue, SimpleGrid, Icon, AlertIcon, Link } from '@chakra-ui/react';
-import { NavLink, useLoaderData, useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { EtherscanLink } from '../../config';
 import Card from '../../Components/Card/Card';
 import ShadowBox from '../../Components/Cards/ShadowBox';
@@ -13,8 +13,7 @@ import IconBox from '../../Components/Icons/IconBox';
 import Header from '../../Components/common/Header';
 
 function ViewUser() {
-    const eventloader = useLoaderData()
-    console.log(eventloader,"loader");
+   
     const { address } = useParams()
 
     const [userFunds, setUserFunds] = useState([]);

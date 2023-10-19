@@ -1,8 +1,6 @@
 import React from 'react'
 import { Tabs, TabList, TabPanels, Tab, TabPanel, useColorModeValue, Tooltip, Box } from '@chakra-ui/react'
 import AllFundWithoutWeb3 from '../../Pages/AllFundWithoutWeb3'
-// import MyFund from '../../Pages/MyFund'
-// import MyInvestment from '../../Pages/MyInvestment'
 import { inject,Observer } from 'mobx-react'
 
 const FundWithoutWeb3Tabs = (props) => {

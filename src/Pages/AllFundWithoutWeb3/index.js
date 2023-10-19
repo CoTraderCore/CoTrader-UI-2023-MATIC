@@ -23,7 +23,7 @@ function AllFundWithoutWeb3(props) {
         <Observer>
             {() => {
                 return (
-                    <Box display="flex" flexDirection="column">
+                    <Box gap={5} display="flex" flexDirection="column">
                         {
                             props.MobXStorage.SmartFunds.map((item, key) =>
                                 <Box key={item.address} px={4} sx={{ borderRadius: "20px", boxShadow: "1px 1px 2px 1px darkgray" }}>

@@ -9,7 +9,7 @@ import Footer from '../../Components/common/footer/Footer';
 import getFundData from '../../utils/getFundData';
 import { EtherscanLink, APIEnpoint, NeworkID } from '../../config';
 import EtherscanButton from '../../Components/actions/EtherscanButton';
-import { useLoaderData, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import MigrateToV9 from '../../Components/actions/MigrateToV9';
 import PopupMsg from '../../Components/template/PopupMsg';
 import { io } from 'socket.io-client';
@@ -33,9 +33,7 @@ import FundModal from '../../Components/actions/FundModal';
 import ManagerModal from '../../Components/actions/ManagerModal';
 
 function ViewFund(props) {
-    const eventloader = useLoaderData()
-    console.log(eventloader,"loader");
-
+  
     const { address } = useParams();
     const navigate = useNavigate()
     const [smartFundAddress, setSmartFundAddress] = useState('');

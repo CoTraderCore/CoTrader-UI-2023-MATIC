@@ -14,7 +14,7 @@ import { NeworkID } from '../../config';
 // import { NeworkID } from '../../config';
 import EtherscanButton from '../../Components/actions/EtherscanButton';
 import Loading from '../../Components/template/spiners/Loading';
-import { useLoaderData, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { pieChartOptions } from '../../Variable/Chart';
 import Web3Allert from '../../Components/Web3Off/Web3Alert';
 import _ from 'lodash';
@@ -24,8 +24,6 @@ import FundModal from '../../Components/actions/FundModal';
 import ManagerModal from '../../Components/actions/ManagerModal';
 
 function ViewFundWithoutWeb3(props) {
-    const eventloader = useLoaderData()
-    console.log(eventloader,"loader");
 
     const { address } = useParams()
     const navigate = useNavigate()

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChakraProvider, } from '@chakra-ui/react';
-import { RouterProvider, createBrowserRouter, useNavigate } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Pages } from './utils/Pages';
 import getWeb3 from './utils/getWeb3';
 import themes from './Theme/Theme';
@@ -15,27 +15,7 @@ import ViewUserTx, { eventloader as viewusertxloader } from './Pages/ViewUserTx'
 import ViewFund, { eventloader as viewfundloader } from './Pages/ViewFund';
 import ViewUser, { eventloader as viewuserloader } from './Pages/ViewUser';
 import HowToStart, { eventloader as howtostartloader } from './Pages/HowToStart';
-import { inject } from 'mobx-react'
-
-
-const Web3Redirect = (props) => {
-  const { timeOut, web3 } = props;
-  const nevigate = useNavigate();
-  useEffect(() => {
-    if (timeOut)
-      checkWeb3OffRedirect()
-  }, [timeOut]);
-  const checkWeb3OffRedirect = () => {
-    if (timeOut && !web3) {
-      const newPath = '/web3off/';
-      nevigate(newPath)
-    } else if (web3) {
-      const oldpath = '/'
-      nevigate(oldpath)
-    }
-  }
-  return <React.Fragment>{props.children}</React.Fragment>
-}
+import { inject } from 'mobx-react';
 
 function App(props) {
   const [web3, setWeb3] = useState(null);
@@ -54,6 +34,7 @@ function App(props) {
     if (window.ethereum) {
       window.ethereum.on('accountsChanged', () => window.location.reload());
     }
+    
     async function load() {
       initializeReactGA();
       initData();
@@ -67,6 +48,10 @@ function App(props) {
     }
     load()
   }, [web3]);
+
+  useEffect(() => {
+    web3redirect()
+  }, [timeOut])
 
   const initializeReactGA = () => {
     ReactGA.initialize('UA-141893089-1');
@@ -93,7 +78,7 @@ function App(props) {
     }
   };
   const initData = async () => {
-    if (props.MobXStorage.SmartFundsOriginal.length === 0) {
+    if (props.MobXStorage?.SmartFundsOriginal.length === 0) {
       try {
         const smartFunds = await getFundsList();
         props.MobXStorage.initSFList(smartFunds);
@@ -103,11 +88,25 @@ function App(props) {
       }
     }
   };
+  
+  const web3redirect = () => {
+     // Redirect to web3off version if the client has no web3
+    if (timeOut && !web3) {
+       // if current location web3off, how-to-start no need redirect to web3 off
+      const newPath = ['web3off', 'how-to-start', 'user-txs', 'fund-txs', 'user'];
+      const currentPath = window.location.pathname;
+  
+      if (!newPath.some(el => currentPath.includes(el))) {
+        window.location.href = `/web3off/`;
+      }
+    }
+  };
+  
 
   const router = createBrowserRouter([
     {
       path: Pages.SMARTFUNDLIST,
-      element: <Web3Redirect web3={web3} timeOut={timeOut}><MainLayout web3={web3} accounts={accounts} network={network} isLoadNetID={isLoadNetID} /></Web3Redirect>,
+      element: <MainLayout web3={web3} accounts={accounts} network={network} isLoadNetID={isLoadNetID} />,
       loader: rootloader,
       children: [
         {
@@ -148,7 +147,7 @@ function App(props) {
         {
           path: Pages.HOWTOSTART,
           element: <HowToStart {...props} />,
-          loader:howtostartloader
+          loader: howtostartloader
         }
       ]
     },

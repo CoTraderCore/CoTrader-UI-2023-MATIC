@@ -8,12 +8,9 @@ import { NeworkID } from '../config';
 import DashboardHeader from '../Components/common/DashboardHeader';
 import { Observer, inject } from 'mobx-react';
 import Loading from '../Components/template/spiners/Loading';
-import { useLoaderData } from 'react-router-dom';
 
 function MainLayout(props) {
-    const rootloader = useLoaderData()
-    console.log(rootloader, "rootloader");
-
+   
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { colorMode, toggleColorMode } = useColorMode(false)
     const Boxbg = useColorModeValue("#F3F6FD", "#110938");
@@ -32,25 +29,31 @@ function MainLayout(props) {
                 <GridItem >
                     <Sidebar isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
                 </GridItem>
-                <GridItem className='example' bg={Boxbg} style={{ flexGrow: 1, overflow: "auto", }}>
-                    <Grid mt={5} px={2}>
-                        <DashboardHeader />
-                    </Grid>
-                    <WalletInfo web3={props.web3} accounts={props.accounts} />
-                    {
-                        NeworkID !== props.network && props.isLoadNetID && props.web3 ?
-                            (
-                                <Alert status='error' fontWeight={'500'}>
-                                    <AlertIcon />
-                                    Wrong network ID
-                                </Alert>
-                            ) :
-                            (
-                                null
-                            )
-                    }
-                    <Outlet />
-                </GridItem>
+                <Observer>
+                    {() => {
+                        return (
+                            <GridItem className='example' bg={Boxbg} style={{ flexGrow: 1, overflow: "auto", }}>
+                                <Grid mt={5} px={2}>
+                                    <DashboardHeader />
+                                </Grid>
+                                <WalletInfo web3={props.web3} accounts={props.accounts} />
+                                {
+                                    NeworkID !== props.network && props.isLoadNetID && props.web3 ?
+                                        (
+                                            <Alert status='error' fontWeight={'500'}>
+                                                <AlertIcon />
+                                                Wrong network ID
+                                            </Alert>
+                                        ) :
+                                        (
+                                            null
+                                        )
+                                }
+                                <Outlet />
+                            </GridItem>
+                        )
+                    }}
+                </Observer>
             </Grid>
         </Box>
     )
@@ -63,6 +66,6 @@ export default inject('MobXStorage')(MainLayout);
 export const rootloader = () => {
     console.log("Data loding....");
     return (
-       null
+        <Loading/>
     )
 }

@@ -1,11 +1,9 @@
 import React from 'react'
 import { Box, Card, CardBody, Heading, Image, SimpleGrid, Text, useColorModeValue } from '@chakra-ui/react'
 import Header from '../../Components/common/Header'
-import { useLoaderData } from 'react-router-dom';
 
 function HowToStart() {
-    const eventloader = useLoaderData()
-    console.log(eventloader,"loader");
+ 
     const cardBg=useColorModeValue("#fff","#181144")
     const stepColor=useColorModeValue("#1B2559","#fff")
     const textColor=useColorModeValue("#808080","#fff")

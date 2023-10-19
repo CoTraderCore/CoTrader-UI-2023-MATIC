@@ -20,11 +20,9 @@ import getFundsList from '../../utils/getFundsList';
 import Pending from '../../Components/template/spiners/Pending';
 import { Observer, inject } from 'mobx-react';
 import Loading from '../../Components/template/spiners/Loading';
-import { useLoaderData } from 'react-router-dom';
 
 function SmartFundList(props) {
-  const eventloader = useLoaderData()
-  console.log(eventloader,"loader");
+ 
   const [pending, setPending] = useState(false);
   const [txName, setTxName] = useState('');
   const [txHash, setTxHash] = useState('');

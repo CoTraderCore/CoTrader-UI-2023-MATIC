@@ -19,8 +19,7 @@ import { useLoaderData } from 'react-router-dom';
 
 
 function SmartFundListWithoutWeb3(props) {
-    const eventloader = useLoaderData()
-    console.log(eventloader,"loader");
+  
     useEffect(() => {
         let isMounted = true;
         const fetchData = async () => {
@@ -43,18 +42,21 @@ function SmartFundListWithoutWeb3(props) {
             isMounted = false;
         };
     }, []);
-    // useEffect(()=>{
-    //     if(props.web3){
-    //         window.location="/"
-    //     }
-    // },[props.web3])
-   
+    useEffect(() => {
+        web3Navigate()
+    }, [props.web3])
 
+    const web3Navigate = () => {
+        if (props.web3) {
+          const newPath = '/';
+          window.history.pushState(null, '', newPath);
+        }
+      }
 
     const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
     const boxBg = useColorModeValue("#F4F7FE", "#110938");
     const allbtnBg = useColorModeValue("#30106b", "#7500FF")
-
+    console.log("MobXStorage withoutweb3fund", props.MobXStorage);
     return (
         <Observer>
             {() => {
@@ -244,5 +246,5 @@ export default inject('MobXStorage')(SmartFundListWithoutWeb3);
 export const eventloader = () => {
     console.log("data loding....");
     return null;
-  }
+}
 

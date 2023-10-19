@@ -1,8 +1,6 @@
 import React from 'react'
 import { Tabs, TabList, TabPanels, Tab, TabPanel, useColorModeValue, Tooltip, Box, useStatStyles } from '@chakra-ui/react'
 import AllSmartFund from '../../Pages/AllSmartFund'
-// import MyFund from '../../Pages/MyFund'
-// import MyInvestment from '../../Pages/MyInvestment'
 import { Observer, inject } from 'mobx-react'
 
 
