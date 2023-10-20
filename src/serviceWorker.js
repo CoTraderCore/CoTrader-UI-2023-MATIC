@@ -126,15 +126,30 @@ const isLocalhost = Boolean(
       });
   }
   
+  // export function unregister() {
+   
+  //     if ('serviceWorker' in navigator) {
+  //       navigator.serviceWorker.ready.then(registration => {
+  //         registration.unregister();
+  //       });
+  //     }
+  
+  // }
   export function unregister() {
-    try{
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.ready.then(registration => {
-          registration.unregister();
+    // Check if the browser supports service workers
+    if ('serviceWorker' in navigator) {
+      // Wait until the service worker is ready
+      navigator.serviceWorker.ready.then(registration => {
+        // Unregister the service worker
+        registration.unregister().then(success => {
+          if (success) {
+            console.log('Service worker unregistered successfully.');
+          } else {
+            console.log('Service worker could not be unregistered.');
+          }
         });
-      }
-    }catch(e){
-      console.error(e, "service worker issue")
+      });
     }
   }
+  
   

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { inject, Observer } from 'mobx-react';
 
 function FundSearch(props) {
@@ -16,7 +16,7 @@ function FundSearch(props) {
                             <InputLeftElement
                                 pointerEvents="auto"
                                 cursor="pointer"
-                                children={<NavLink to={"/user/" + userAddress}><SearchIcon color="gray.300" /></NavLink>}
+                                children={<Link to={"/user/" + userAddress}><SearchIcon color="gray.300" /></Link>}
                             />
                             <Input
                                 type="search"

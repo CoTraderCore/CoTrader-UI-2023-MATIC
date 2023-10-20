@@ -3,6 +3,7 @@ import { Box, Flex, Heading,  IconButton,  Image, useColorMode, useColorModeValu
 import { Link } from 'react-router-dom';
 import { FaSun, FaMoon } from 'react-icons/fa';
 
+
 const Navbar = (props) => {
     const { toggleColorMode } = useColorMode();
     const iconColor = useColorModeValue('gray.800', 'gray.100');
@@ -13,7 +14,7 @@ const Navbar = (props) => {
                 <Flex justifyContent="space-between">
                     <Box display="flex" alignItems="center" gap={4} >
                         <Heading as="h1" size="lg" cursor={'pointer'}>
-                          <Link to={props.web3? "/" : "/web3off"}><Image src='/logo.png' alt='CoTrader' height="24px" /></Link>
+                          <Link to={props.web3? "/" : "/web3off"}><img src='/logo.png' alt='CoTrader' height="24px" /></Link>
                         </Heading>
                     </Box>
                     <Box display="flex" alignItems="center" fontSize="2xl" cursor={'pointer'} gap={2}>

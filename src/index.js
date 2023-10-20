@@ -13,9 +13,6 @@ root.render(
   </Provider>
 );
 
-try{
   serviceWorker.unregister()
-}catch(e){
-  console.log("can't load service worker ")
-}
+
 

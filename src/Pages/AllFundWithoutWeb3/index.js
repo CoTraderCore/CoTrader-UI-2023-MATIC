@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { NavLink, } from 'react-router-dom';
+import { Link, } from 'react-router-dom';
 import ShadowBox from '../../Components/Cards/ShadowBox'
 import { Box, SimpleGrid, Heading, useColorModeValue, Tooltip, Button } from '@chakra-ui/react'
 import IconBox from '../../Components/Icons/IconBox';
@@ -44,7 +44,7 @@ function AllFundWithoutWeb3(props) {
                                             </Tooltip>
                                             <Tooltip hasArrow label="" bg={tooltipBg}>
                                                 <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
-                                                    <NavLink to={"/web3off/fund/" + item.address}>Fund Page</NavLink>
+                                                    <Link to={"/web3off/fund/" + item.address}>Fund Page</Link>
                                                 </Button>
                                             </Tooltip>
                                             <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>

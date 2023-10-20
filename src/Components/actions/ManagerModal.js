@@ -1,6 +1,6 @@
 import React from 'react';
-import { Box, Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, ModalCloseButton, useDisclosure, Text, Link, useColorModeValue, } from "@chakra-ui/react";
-import { NavLink } from 'react-router-dom';
+import { Box, Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, ModalCloseButton, useDisclosure, Text, useColorModeValue, } from "@chakra-ui/react";
+import { Link } from 'react-router-dom';
 import { EtherscanLink } from '../../config.js';
 import { inject, Observer } from 'mobx-react';
 import { RandomAvatar } from 'react-random-avatars';
@@ -27,11 +27,11 @@ const ManagerModal = ({ address, MobXStorage }) => {
                                 <ModalCloseButton />
                                 <ModalBody>
                                     <Box mt={5} style={{ display: "flex", justifyContent: "space-around" }}>
-                                        <NavLink to={"/user-txs/" + address} >
+                                        <Link to={"/user-txs/" + address} >
                                             <Button color={btnColor} >Get all txs</Button>
-                                        </NavLink>
+                                        </Link>
                                         <Button>
-                                            <Link style={{ color: btnColor, textDecoration: "none" }} href={EtherscanLink + "address/" + address} target="_blank" rel="noopener noreferrer">Etherscan</Link>
+                                            <a style={{ color: btnColor, textDecoration: "none" }} href={EtherscanLink + "address/" + address} target="_blank" rel="noopener noreferrer">Etherscan</a>
                                         </Button>
                                     </Box>
                                 </ModalBody>

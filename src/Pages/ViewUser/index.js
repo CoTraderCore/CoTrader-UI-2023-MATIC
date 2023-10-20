@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import getFundsList from '../../utils/getFundsList';
 import { fromWei } from 'web3-utils'
-import { Alert, Box, Text, Table, Thead, Tbody, Tr, Td, Th, useColorModeValue, SimpleGrid, Icon, AlertIcon, Link } from '@chakra-ui/react';
-import { NavLink, useParams } from 'react-router-dom';
+import { Alert, Box, Text, Table, Thead, Tbody, Tr, Td, Th, useColorModeValue, SimpleGrid, Icon, AlertIcon } from '@chakra-ui/react';
+import { Link, useParams } from 'react-router-dom';
 import { EtherscanLink } from '../../config';
 import Card from '../../Components/Card/Card';
 import ShadowBox from '../../Components/Cards/ShadowBox';
@@ -79,9 +79,9 @@ function ViewUser() {
                             <Text pb={2} mt={5} flexDirection={{ base: "column", md: "row" }} sx={{ fontWeight: "bold", display: "flex", justifyContent: "center", alignItems: "center" }}>
                                 Info for user address:-
                                 &nbsp;<small>
-                                    <Link fontSize={{ base: "10px", md: "12px" }} sx={{ fontWeight: "500", _hover: { textDecoration: "underline" }, color: addressColor, }} href={EtherscanLink + "address/" + address} target="_blank" rel="noopener noreferrer">
+                                    <a fontSize={{ base: "10px", md: "12px" }} sx={{ fontWeight: "500", _hover: { textDecoration: "underline" }, color: addressColor, }} href={EtherscanLink + "address/" + address} target="_blank" rel="noopener noreferrer">
                                         {address}
-                                    </Link>
+                                    </a>
                                 </small>
                             </Text>
 
@@ -157,7 +157,7 @@ function ViewUser() {
                                                 <Tr key={key}>
                                                     <Td>{key}</Td>
                                                     <Td>{fund.name}</Td>
-                                                    <Td><NavLink to={'/fund/' + fund.address}>{fund.address}</NavLink></Td>
+                                                    <Td><Link to={'/fund/' + fund.address}>{fund.address}</Link></Td>
                                                     <Td>{fromWei(String(fund.valueInUSD))}</Td>
                                                     <Td>{fromWei(String(fund.profitInUSD))}</Td>
                                                 </Tr>

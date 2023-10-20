@@ -8,7 +8,7 @@ export const toWeiByDecimalsInput = (decimals, amount) => {
   if (amount === 0)
     return BigNumber(0) 
 
-  const factor = new BigNumber(10).pow(decimals)
+  const factor = new BigNumber(10)**(decimals)
   amount = new BigNumber(amount)
   amount = amount.times(factor)
   // for avoid e+ or e- scientific notation or decimals
@@ -19,7 +19,7 @@ export const fromWeiByDecimalsInput = (decimals, amount) => {
   if (amount === 0)
     return BigNumber(0)
 
-  const factor = new BigNumber(10).pow(decimals)
+  const factor = new BigNumber(10)**(decimals)
   amount = new BigNumber(amount)
   amount = amount.dividedBy(factor)
   // for avoid e+ or e- scientific notation or decimals

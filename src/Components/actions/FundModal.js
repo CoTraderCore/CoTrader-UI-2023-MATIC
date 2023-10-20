@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link, Text, Box, Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, ModalCloseButton, useDisclosure, useColorModeValue } from "@chakra-ui/react";
-import { NavLink, } from 'react-router-dom';
+import {  Text, Box, Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, ModalCloseButton, useDisclosure, useColorModeValue } from "@chakra-ui/react";
+import { Link } from 'react-router-dom';
 import { EtherscanLink } from '../../config.js';
 import { Observer, inject, } from 'mobx-react';
 import { RandomAvatar } from 'react-random-avatars';
@@ -27,9 +27,9 @@ const FundModal = ({ address, MobXStorage }) => {
                                 <ModalCloseButton />
                                 <ModalBody>
                                     <Box pb={5} display={'flex'} justifyContent={'space-around'}>
-                                        <NavLink to={"/fund-txs/" + address} width="100%">
-                                            <Button width="100%" color={btnColor}>Get all txs</Button>
-                                        </NavLink>
+                                        <Link to={"/fund-txs/" + address} width="100%" >
+                                          <Button color={btnColor}>Get all txs</Button>
+                                        </Link>
                                     </Box>
                                     <Button width="100%" ><Link href={EtherscanLink + "address/" + address} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: btnColor }}>See fund on Etherscan</Link></Button>
                                 </ModalBody>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChakraProvider, } from '@chakra-ui/react';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { BrowserRouter, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Pages } from './utils/Pages';
 import getWeb3 from './utils/getWeb3';
 import themes from './Theme/Theme';
@@ -151,7 +151,6 @@ function App(props) {
         }
       ]
     },
-
   ]);
   return (
     <React.Fragment>
