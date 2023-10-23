@@ -19,11 +19,9 @@ import Navbar from './Components/common/Navbar';
 import Sidebar from './Components/common/Sidebar';
 import DashboardHeader from './Components/common/DashboardHeader';
 import WalletInfo from './Components/common/WalletInfo';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 
 function App(props) {
-  const history = useHistory()
   const [web3, setWeb3] = useState(null);
   const [accounts, setAccounts] = useState(null);
   // const [isReactGarbage, setIsReactGarbage] = useState(false);
@@ -47,7 +45,7 @@ function App(props) {
       fetchWeb3()
       if (web3) {
         web3.eth.net.getId().then(netId => {
-          setNetwork(netId);
+          setNetwork(Number(netId));
           setIsLoadNetID(true);
         });
       }
@@ -114,7 +112,10 @@ function App(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode(false)
   const Boxbg = useColorModeValue("#F3F6FD", "#110938");
-  return (
+  console.log("network Id====",network);
+  console.log("NeworkID=====",NeworkID);
+
+  return (    
     <>
       <HashRouter>
         <ChakraProvider theme={themes}>
