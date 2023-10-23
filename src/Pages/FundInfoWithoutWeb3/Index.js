@@ -11,10 +11,9 @@ import Footer from '../../Components/common/footer/Footer';
 import getFundData from '../../utils/getFundData';
 import { fromWei } from 'web3-utils';
 import { NeworkID } from '../../config';
-// import { NeworkID } from '../../config';
 import EtherscanButton from '../../Components/actions/EtherscanButton';
 import Loading from '../../Components/template/spiners/Loading';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { pieChartOptions } from '../../Variable/Chart';
 import Web3Allert from '../../Components/Web3Off/Web3Alert';
 import _ from 'lodash';
@@ -23,10 +22,10 @@ import AssetsAlocationChart from '../../Components/Chart/AssetsAlocationChart';
 import FundModal from '../../Components/actions/FundModal';
 import ManagerModal from '../../Components/actions/ManagerModal';
 
+
 function ViewFundWithoutWeb3(props) {
 
     const { address } = useParams()
-    const navigate = useNavigate()
     const [fundData, setFundData] = useState({
         smartFundAddress: '',
         name: '',
@@ -389,10 +388,10 @@ function ViewFundWithoutWeb3(props) {
                             <Box>
                                 <SimpleGrid mt={5} gap={5} columns={{ base: 1, md: 2 }}>
                                     <Card textAlign="center">
-                                        <FundModal address={fundData.smartFundAddress} navigate={navigate} MobXStorage={props.MobXStorage} />
+                                        <FundModal address={fundData.smartFundAddress}  MobXStorage={props.MobXStorage} />
                                     </Card>
                                     <Card textAlign="center">
-                                        <ManagerModal address={fundData.owner} navigate={navigate} MobXStorage={props.MobXStorage} />
+                                        <ManagerModal address={fundData.owner}  MobXStorage={props.MobXStorage} />
                                     </Card>
                                 </SimpleGrid>
                             </Box>
@@ -410,7 +409,3 @@ function ViewFundWithoutWeb3(props) {
 
 export default ViewFundWithoutWeb3;
 
-export const eventloader = () => {
-  console.log("data loding....");
-  return null;
-}

@@ -14,7 +14,7 @@ import Header from '../../Components/common/Header'
 const ETH_TOKEN = String("0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE").toLowerCase()
 
 function ViewManager() {
-  
+
     const { address } = useParams();
     const addressbg = useColorModeValue("#E6E6FA", "#181144")
     const textColor = useColorModeValue("#A4ADC7", "white");
@@ -323,13 +323,6 @@ function ViewManager() {
                 </Box>
             </Box>
         </React.Fragment>
-    )
-
+    );
 }
-
 export default ViewManager
-
-export const eventloader = () => {
-    console.log("data loding....");
-    return null;
-  }

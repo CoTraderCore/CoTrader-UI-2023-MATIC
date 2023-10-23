@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react'
+import React, { useEffect } from 'react'
 import { Box, Text, Grid, GridItem, Stack, Icon, useColorModeValue, SimpleGrid, } from '@chakra-ui/react';
 import FilterSearch from '../../Components/Filter&Search/FilterSearch';
 import CreateFundButton from '../../Components/template/CreateFundButton';
@@ -15,8 +15,6 @@ import Loading from '../../Components/template/spiners/Loading';
 import Footer from '../../Components/common/footer/Footer';
 import Web3Allert from '../../Components/Web3Off/Web3Alert';
 import { Observer, inject } from 'mobx-react';
-import { useLoaderData } from 'react-router-dom';
-
 
 function SmartFundListWithoutWeb3(props) {
   
@@ -42,21 +40,17 @@ function SmartFundListWithoutWeb3(props) {
             isMounted = false;
         };
     }, []);
-    useEffect(() => {
-        web3Navigate()
-    }, [props.web3])
-
-    const web3Navigate = () => {
-        if (props.web3) {
-          const newPath = '/';
-          window.history.pushState(null, '', newPath);
-        }
-      }
-
+    useEffect(()=>{
+        if(props.web3){
+            window.location = "/"
+          }
+    },[props.web3])
+   
     const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
     const boxBg = useColorModeValue("#F4F7FE", "#110938");
     const allbtnBg = useColorModeValue("#30106b", "#7500FF")
     console.log("MobXStorage withoutweb3fund", props.MobXStorage);
+    console.log(props.web3,"========");
     return (
         <Observer>
             {() => {
@@ -243,8 +237,4 @@ function SmartFundListWithoutWeb3(props) {
 
 export default inject('MobXStorage')(SmartFundListWithoutWeb3);
 
-export const eventloader = () => {
-    console.log("data loding....");
-    return null;
-}
 

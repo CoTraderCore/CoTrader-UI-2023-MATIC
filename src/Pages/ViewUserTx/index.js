@@ -281,8 +281,3 @@ function ViewUserTx() {
 }
 
 export default ViewUserTx;
-
-export const eventloader = () => {
-    console.log("data loding....");
-    return null;
-  }

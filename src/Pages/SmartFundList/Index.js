@@ -316,9 +316,3 @@ function SmartFundList(props) {
 
 // export default SmartFundList;
 export default inject('MobXStorage')(SmartFundList);
-
-
-export const eventloader = () => {
-  console.log("data loding....");
-  return null;
-}

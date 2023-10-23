@@ -9,7 +9,7 @@ import Footer from '../../Components/common/footer/Footer';
 import getFundData from '../../utils/getFundData';
 import { EtherscanLink, APIEnpoint, NeworkID } from '../../config';
 import EtherscanButton from '../../Components/actions/EtherscanButton';
-import { useNavigate, useParams } from 'react-router-dom';
+import {useParams } from 'react-router-dom';
 import MigrateToV9 from '../../Components/actions/MigrateToV9';
 import PopupMsg from '../../Components/template/PopupMsg';
 import { io } from 'socket.io-client';
@@ -35,7 +35,6 @@ import ManagerModal from '../../Components/actions/ManagerModal';
 function ViewFund(props) {
   
     const { address } = useParams();
-    const navigate = useNavigate()
     const [smartFundAddress, setSmartFundAddress] = useState('');
     const [name, setName] = useState('');
     const [balance, setBalance] = useState(null);
@@ -593,10 +592,10 @@ function ViewFund(props) {
                                     <Box>
                                         <SimpleGrid mt={5} gap={5} columns={{ base: 1, md: 2 }}>
                                             <Card textAlign="center">
-                                                <FundModal address={address} navigate={navigate} MobXStorage={props.MobXStorage} />
+                                                <FundModal address={address}  MobXStorage={props.MobXStorage} />
                                             </Card>
                                             <Card textAlign="center">
-                                                <ManagerModal address={owner} navigate={navigate} MobXStorage={props.MobXStorage} />
+                                                <ManagerModal address={owner} MobXStorage={props.MobXStorage} />
                                             </Card>
                                         </SimpleGrid>
                                     </Box>
@@ -613,8 +612,3 @@ function ViewFund(props) {
 }
 
 export default ViewFund;
-
-export const eventloader = () => {
-    console.log("data loding....");
-    return null;
-  }

@@ -180,16 +180,8 @@ function ViewUser() {
                     )
             }
 
-
-
-
         </React.Fragment>
     )
 }
 
 export default ViewUser;
-
-export const eventloader = () => {
-    console.log("data loding....");
-    return null;
-  }

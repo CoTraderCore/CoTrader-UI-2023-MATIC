@@ -7,7 +7,6 @@ import WalletInfo from '../Components/common/WalletInfo';
 import { NeworkID } from '../config';
 import DashboardHeader from '../Components/common/DashboardHeader';
 import { Observer, inject } from 'mobx-react';
-import Loading from '../Components/template/spiners/Loading';
 
 function MainLayout(props) {
    
@@ -29,9 +28,7 @@ function MainLayout(props) {
                 <GridItem >
                     <Sidebar isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
                 </GridItem>
-                <Observer>
-                    {() => {
-                        return (
+               
                             <GridItem className='example' bg={Boxbg} style={{ flexGrow: 1, overflow: "auto", }}>
                                 <Grid mt={5} px={2}>
                                     <DashboardHeader />
@@ -51,9 +48,7 @@ function MainLayout(props) {
                                 }
                                 <Outlet />
                             </GridItem>
-                        )
-                    }}
-                </Observer>
+                    
             </Grid>
         </Box>
     )
@@ -61,11 +56,3 @@ function MainLayout(props) {
 
 // export default MainLayout
 export default inject('MobXStorage')(MainLayout);
-
-//loader
-export const rootloader = () => {
-    console.log("Data loding....");
-    return (
-        <Loading/>
-    )
-}

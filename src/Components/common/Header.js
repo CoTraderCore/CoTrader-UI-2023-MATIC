@@ -5,8 +5,8 @@ import { useLocation } from 'react-router-dom'
 function Header({ heading }) {
   const path = useLocation()
   const pagePath = path.pathname
-
-
+  console.log(path);
+  console.log(pagePath);
   return (
 
     <Grid p={2}
@@ -19,7 +19,7 @@ function Header({ heading }) {
         backgroundColor: "#F4F7FE0",
       }}>
       <GridItem >
-        <Text sx={{ fontWeight: "bold", whiteSpace: "nowrap", width:{base:"40%",md:"100%"}, overflow: "hidden", textOverflow: "ellipsis" }}>Pages <span style={{color:"#7500FF"}}> {pagePath}</span></Text>
+        <Text sx={{ fontWeight: "bold", whiteSpace: "nowrap", width: { base: "40%", md: "100%" }, overflow: "hidden", textOverflow: "ellipsis" }}>Pages <span style={{ color: "#7500FF" }}> {pagePath}</span></Text>
         <Heading style={{ fontSize: '36px', fontWeight: "600", }}>{heading}</Heading>
       </GridItem>
     </Grid>

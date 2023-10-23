@@ -95,8 +95,3 @@ function HowToStart() {
 }
 
 export default HowToStart
-
-export const eventloader = () => {
-    console.log("data loding....");
-    return null;
-  }
