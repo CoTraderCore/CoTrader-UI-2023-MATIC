@@ -19,12 +19,12 @@ class WalletInfo extends Component {
     }
     render() {
         return (
-            <Box my={4} py={2} px={2}>
+            <Box mt={2} py={2} px={2}>
                 {
                     this.props.accounts && this.props.web3 ?
                         (
 
-                            <Box gap={2} sx={{ textAlign: "center", borderRadius: "5px", padding: "10px 5px", boxShadow: "1px 1px 1px 1px gray", border: "1px solid white", display: "flex", flexDirection: "column" }}>
+                            <Box gap={2} fontSize="sm" sx={{ textAlign: "center", borderRadius: "5px", padding: "10px 5px", boxShadow: "1px 1px 1px 1px gray", border: "1px solid white", display: "flex", flexDirection: "column" }}>
                             {
                                     this.state.ETHBalance > 0 ?
                                         (
@@ -33,7 +33,7 @@ class WalletInfo extends Component {
                                             </Text>
                                         ) : null
                                 }
-                                <Text gap={1} sx={{ textAlign: "center", display: "flex", justifyContent: "center" }}><RandomAvatar name={this.props.accounts[0]} size="25" /><strong style={{ color: "#5E39FF", fontWeight: "500", }}>{String(this.props.accounts[0]).replace(String(this.props.accounts[0]).substring(6, 36), "...")}</strong></Text>
+                                <Text gap={1} sx={{ textAlign: "center", display: "flex", justifyContent: "center" }}><RandomAvatar name={this.props.accounts[0]} size="20" /><strong style={{ color: "#5E39FF", fontWeight: "500", }}>{String(this.props.accounts[0]).replace(String(this.props.accounts[0]).substring(6, 36), "...")}</strong></Text>
                             </Box>
                         ) : (
                             null

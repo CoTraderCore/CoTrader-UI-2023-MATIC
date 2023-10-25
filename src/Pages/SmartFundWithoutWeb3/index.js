@@ -4,12 +4,12 @@ import FilterSearch from '../../Components/Filter&Search/FilterSearch';
 import CreateFundButton from '../../Components/template/CreateFundButton';
 import ShadowBox from '../../Components/Cards/ShadowBox';
 import IconBox from '../../Components/Icons/IconBox';
-import CardBox from '../../Components/Cards/CardBox';
 import FundWithoutWeb3Tabs from '../../Components/Tabs/FundWithoutWeb3Tab';
 import SortFunds from '../../Components/navigation/SortFunds';
 import { MdOutlineBarChart } from 'react-icons/md'
 import { FcComboChart } from 'react-icons/fc'
 import { RiFundsBoxLine } from 'react-icons/ri'
+import {VscGraph} from 'react-icons/vsc'
 import getFundsList from '../../utils/getFundsList';
 import Loading from '../../Components/template/spiners/Loading';
 import Footer from '../../Components/common/footer/Footer';
@@ -47,10 +47,12 @@ function SmartFundListWithoutWeb3(props) {
     },[props.web3])
    
     const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
-    const boxBg = useColorModeValue("#F4F7FE", "#110938");
-    const allbtnBg = useColorModeValue("#30106b", "#7500FF")
+    // const boxBg = useColorModeValue("#F4F7FE", "#110938");
+    const boxBg = useColorModeValue("#F4F7FE", "gray.500");
+    const allbtnBg = useColorModeValue("#039be5", "#039be5")
+    const allbtntxtcolor=useColorModeValue("#fff","gray.200")
     console.log("MobXStorage withoutweb3fund", props.MobXStorage);
-    console.log(props.web3,"========");
+    
     return (
         <Observer>
             {() => {
@@ -59,14 +61,14 @@ function SmartFundListWithoutWeb3(props) {
                         {
                             props.isDataLoad ?
                                 (
-                                    <Box className='dashboard' px={2} >
+                                    <Box className='dashboard' px={2}>
                                         <Grid sx={{ textAlign: 'center', fontWeight: "500" }}>
                                             <GridItem style={{ borderRadius: "5px", boxShadow: "1px 1px 1px 1px gray", border: "1px solid white" }} >
                                                 <Web3Allert />
                                             </GridItem>
                                         </Grid>
-                                        <CardBox p="10px" my="10px">
-                                            <Grid gap={4} templateColumns={['1fr', 'repeat(3, 1fr)']} sx={{ padding: "10px 0px ", borderRadius: "5px", display: "flex", justifyContent: "space-around", flexDirection: { base: "column", sm: "column", md: "row" }, textAlign: { base: "center", sm: "center" } }}>
+                                       
+                                            <Grid py={5} gap={4} templateColumns={['1fr', 'repeat(3, 1fr)']} sx={{borderRadius: "5px", display: "flex", justifyContent: "space-around", flexDirection: { base: "column", sm: "column", md: "row" }, textAlign: { base: "center", sm: "center" } }}>
                                                 <GridItem >
                                                     <CreateFundButton buttonName={"Create Funds"} info={"Please Connect to web3"} />
                                                 </GridItem>
@@ -74,12 +76,12 @@ function SmartFundListWithoutWeb3(props) {
                                                     <FilterSearch MobXStorage={props.MobXStorage} />
                                                 </GridItem>
                                                 <GridItem >
-                                                    <Stack bg={allbtnBg} sx={{ color: "#fff", borderRadius: "8px", border: "none", _hover: { backgroundColor: "#30108b" } }}>
+                                                    <Stack bg={allbtnBg} sx={{ color: allbtntxtcolor, borderRadius: "8px", border: "none", _hover: { backgroundColor: "#027CB8" } }}>
                                                         <SortFunds />
                                                     </Stack>
                                                 </GridItem>
                                             </Grid>
-                                        </CardBox>
+                                      
                                         <Box>
 
                                             {
@@ -112,7 +114,7 @@ function SmartFundListWithoutWeb3(props) {
                                                                         h='56px'
                                                                         bg={boxBg}
                                                                         icon={
-                                                                            <Icon w='32px' h='32px' as={FcComboChart} color={brandColor} />
+                                                                            <Icon w='32px' h='32px' as={VscGraph} color={brandColor} />
                                                                         }
                                                                     />
                                                                 }

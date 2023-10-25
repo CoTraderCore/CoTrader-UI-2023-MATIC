@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Alert, AlertIcon, ChakraProvider, Grid, GridItem, useColorMode, useColorModeValue, useDisclosure, } from '@chakra-ui/react';
+import { Box, Alert, AlertIcon, ChakraProvider, Grid, GridItem, useColorMode, useColorModeValue, useDisclosure, ColorModeProvider, CSSReset, } from '@chakra-ui/react';
 import getWeb3 from './utils/getWeb3';
 import themes from './Theme/Theme';
 import ReactGA from 'react-ga';
@@ -95,74 +95,75 @@ function App(props) {
 
   const web3redirect = () => {
     // redirect to web3off version if client has no web3
-    if(timeOut && !web3){
-    // if current location web3off, how-to-start no need redirect to web3 off
-    const redirectOff = ['web3off', 'how-to-start', 'user-txs', 'fund-txs', 'user']
-    const isIncludes = redirectOff.some((el) => String(window.location.href).includes(el))
+    if (timeOut && !web3) {
+      // if current location web3off, how-to-start no need redirect to web3 off
+      const redirectOff = ['web3off', 'how-to-start', 'user-txs', 'fund-txs', 'user']
+      const isIncludes = redirectOff.some((el) => String(window.location.href).includes(el))
 
-    if(!isIncludes){
-      // replace current address with web3 off
-      const web3offAddress = String(window.location.href).replace('#/', '#/web3off/')
-      console.log(web3offAddress)
-      window.location = web3offAddress
+      if (!isIncludes) {
+        // replace current address with web3 off
+        const web3offAddress = String(window.location.href).replace('#/', '#/web3off/')
+        console.log(web3offAddress)
+        window.location = web3offAddress
       }
     }
   }
- 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { colorMode, toggleColorMode } = useColorMode(false)
-  const Boxbg = useColorModeValue("#F3F6FD", "#110938");
-  console.log("network Id====",network);
-  console.log("NeworkID=====",NeworkID);
 
-  return (    
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { toggleColorMode } = useColorMode();
+  const bgm = useColorModeValue("#F3F6FD", "#110938");
+
+  return (
     <>
       <HashRouter>
         <ChakraProvider theme={themes}>
-          <Box
-            style={{
-              height: "100vh",
-              display: "flex",
-              flexDirection: "column",
-              overflow: "hidden",
-              position: "relative"
-            }}
-          >
-            <Navbar toggleColorMode={toggleColorMode} colorMode={colorMode} web3={web3} />
-            <Grid style={{ display: 'flex', flexWrap: "nowrap", overflow: "auto", height: "90vh", }} >
-              <GridItem >
-                <Sidebar isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
-              </GridItem>
-              <GridItem className='example' bg={Boxbg} style={{ flexGrow: 1, overflow: "auto", }}>
-                <Grid mt={5} px={2}>
-                  <DashboardHeader />
-                </Grid>
-                <WalletInfo web3={web3} accounts={accounts} />
-                {
-                  NeworkID !== network && isLoadNetID && web3 ?
-                    (
-                      <Alert status='error' fontWeight={'500'}>
-                        <AlertIcon />
-                        Wrong network ID
-                      </Alert>
-                    ) :
-                    (
-                      null
-                    )
-                }
-                <Switch>
-                  <Route exact path="/" render={() => <SmartFundList {...props} web3={web3} accounts={accounts} isDataLoad={isDataLoad} setIsDataLoad={setIsDataLoad} />} />
-                  <Route path="/web3off" render={() => <SmartFundListWithoutWeb3 {...props} web3={web3} isDataLoad={isDataLoad} setIsDataLoad={setIsDataLoad} />} />
-                  <Route path="/web3off/fund/:address" render={() => <ViewFundWithoutWeb3 {...props} web3={web3} accounts={accounts} />} />
-                  <Route path="/fund/:address" render={(props) => <ViewFund {...props} web3={web3} accounts={accounts} MobXStorage={props.MobXStorage} />} />
-                  <Route path="/user-txs/:address" render={(props) => <ViewUserTx {...props} isDataLoad={isDataLoad} />} />
-                  <Route path="/fund-txs/:address" render={(props) => <ViewFundTx {...props} isDataLoad={isDataLoad} />} />
-                  <Route path="/user/:address" render={(props) => <ViewUser {...props} />} />
-                  <Route path="/how-to-start" render={(props) => <HowToStart {...props} />} />
-                </Switch>
-              </GridItem>
-            </Grid>
-          </Box>
+          <ColorModeProvider>
+            <CSSReset />
+            <Box
+              sx={{
+                height: "100vh",
+                display: "flex",
+                flexDirection: "column",
+                overflow: "hidden",
+                position: "relative"
+              }}
+            >
+              <Navbar toggleColorMode={toggleColorMode} web3={web3} />
+              <Grid sx={{ display: 'flex', flexWrap: "nowrap", overflow: "auto", height: "90vh", }} >
+                <GridItem >
+                  <Sidebar isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+                </GridItem>
+                <GridItem className='example' sx={{ flexGrow: 1, overflow: "auto", }}>
+                  <Box pt={5} px={2}>
+                    <DashboardHeader />
+                  </Box>
+                  <WalletInfo web3={web3} accounts={accounts} />
+                  {
+                    NeworkID !== network && isLoadNetID && web3 ?
+                      (
+                        <Alert status='error' fontWeight={'500'}>
+                          <AlertIcon />
+                          Wrong network ID
+                        </Alert>
+                      ) :
+                      (
+                        null
+                      )
+                  }
+                  <Switch>
+                    <Route path="/web3off/fund/:address" render={() => <ViewFundWithoutWeb3 {...props} web3={web3} accounts={accounts} />} />
+                    <Route exact path="/" render={() => <SmartFundList {...props} web3={web3} accounts={accounts} isDataLoad={isDataLoad} setIsDataLoad={setIsDataLoad} />} />
+                    <Route path="/web3off" render={() => <SmartFundListWithoutWeb3 {...props} web3={web3} isDataLoad={isDataLoad} setIsDataLoad={setIsDataLoad} />} />
+                    <Route path="/fund/:address" render={(props) => <ViewFund {...props} web3={web3} accounts={accounts} MobXStorage={props.MobXStorage} />} />
+                    <Route path="/user-txs/:address" render={(props) => <ViewUserTx {...props} isDataLoad={isDataLoad} />} />
+                    <Route path="/fund-txs/:address" render={(props) => <ViewFundTx {...props} isDataLoad={isDataLoad} />} />
+                    <Route path="/user/:address" render={(props) => <ViewUser {...props} />} />
+                    <Route path="/how-to-start" render={(props) => <HowToStart {...props} />} />
+                  </Switch>
+                </GridItem>
+              </Grid>
+            </Box>
+          </ColorModeProvider>
         </ChakraProvider>
       </HashRouter>
     </>

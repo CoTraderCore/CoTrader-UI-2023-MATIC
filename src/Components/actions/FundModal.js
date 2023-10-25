@@ -7,7 +7,7 @@ import { RandomAvatar } from 'react-random-avatars';
 
 const FundModal = ({ address, MobXStorage }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const sliderBg = useColorModeValue("#fff", "#181144")
+    const modalbg = useColorModeValue("#fff", "gray.700")
     const modalfooterbg = useColorModeValue("gray.100", "#3D3762")
     const btnColor = useColorModeValue("#00C6C0", "#fff")
 
@@ -22,7 +22,7 @@ const FundModal = ({ address, MobXStorage }) => {
 
                         <Modal isOpen={isOpen} onClose={onClose}>
                             <ModalOverlay />
-                            <ModalContent bg={sliderBg}>
+                            <ModalContent bg={modalbg}>
                                 <ModalHeader>View fund info</ModalHeader>
                                 <ModalCloseButton />
                                 <ModalBody>

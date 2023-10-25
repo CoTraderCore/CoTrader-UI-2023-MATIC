@@ -70,17 +70,17 @@ function WithdrawManager(props) {
     setPending(props.smartFundAddress, 1, props.accounts[0], block, hash, 'Withdraw');
     onClose(true);
   };
-  const allbtnBg = useColorModeValue("#30106b", "#7500FF")
-  const sliderBg = useColorModeValue("#fff", "#181144")
+  const allbtnBg = useColorModeValue("#039be5", "#039be5")
+  const modalbg = useColorModeValue("#fff", "gray.700")
   return (
     <>
-      <Button flexGrow="1" minWidth={{ base: '100%', md: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }} onClick={onOpen}>
+      <Button flexGrow="1" minWidth={{ base: '100%', md: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }} onClick={onOpen}>
         Take cut
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent bg={sliderBg}>
+        <ModalContent bg={modalbg}>
           <ModalHeader>Take cut from smart fund</ModalHeader>
           <ModalCloseButton />
           <ModalBody>

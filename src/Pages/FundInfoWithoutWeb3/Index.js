@@ -110,7 +110,7 @@ function ViewFundWithoutWeb3(props) {
     const colorSchemeGreen = useColorModeValue("green", "green")
     const colorSchemeRed = useColorModeValue("red", "red")
     const remainingprogressBg = useColorModeValue("red.100", "#CBC3E3")
-    const allbtnBg = useColorModeValue("#30106b", "#7500FF")
+    const allbtnBg = useColorModeValue("#039be5", "#039be5")
 
     return (
         <React.Fragment>
@@ -237,18 +237,18 @@ function ViewFundWithoutWeb3(props) {
                                 <Box sx={{ display: "flex", justifyContent: "center" }}>
                                     <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
                                         <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
+                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
                                                 Deposit
                                             </Button>
                                         </Tooltip>
                                         <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
+                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
                                                 Withdraw
                                             </Button>
                                         </Tooltip>
                                         <EtherscanButton address={fundData.smartFundAddress} />
                                         <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
+                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
                                                 My profile
                                             </Button>
                                         </Tooltip>
@@ -358,17 +358,17 @@ function ViewFundWithoutWeb3(props) {
                                 <Box sx={{ display: "flex", justifyContent: "center" }}>
                                     <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
                                         <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
+                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
                                                 Exchange
                                             </Button>
                                         </Tooltip>
                                         <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
+                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
                                                 Take Cut
                                             </Button>
                                         </Tooltip>
                                         <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
+                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
                                                 White List
                                             </Button>
                                         </Tooltip>
@@ -376,7 +376,7 @@ function ViewFundWithoutWeb3(props) {
                                             fundData.mainAsset === "USD" ?
                                                 (
                                                     <Tooltip hasArrow label="Please Connect to web3" bg={tooltipBg}>
-                                                        <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
+                                                        <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
                                                             Stable Tokens
                                                         </Button>
                                                     </Tooltip>

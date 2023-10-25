@@ -10,11 +10,12 @@ function FilterSearch(props) {
 
   const btnRef = React.useRef(null)
   const sliderBg = useColorModeValue("#fff", "#181144")
-  const allbtnBg = useColorModeValue("#30106b", "#7500FF")
+  const allbtnBg = useColorModeValue("#039be5", "#039be5")
+  const allbtntxtcolor=useColorModeValue("#fff","gray.200")
   return (
     <React.Fragment>
       <Box>
-          <Button ref={btnRef} width={{base:"100%",md:"auto"}} onClick={onOpen} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" },padding:"0 50px" }}>Filter Funds</Button>
+          <Button ref={btnRef}  width={{base:"100%",md:"auto"}} onClick={onOpen} bg={allbtnBg} color={allbtntxtcolor} sx={{ _hover: { backgroundColor: "#027CB8" },padding:"0 50px" }}>Filter Funds</Button>
       </Box>
       <Modal
       onClose={onClose}

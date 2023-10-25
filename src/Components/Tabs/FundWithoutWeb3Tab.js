@@ -4,7 +4,7 @@ import AllFundWithoutWeb3 from '../../Pages/AllFundWithoutWeb3'
 import { inject,Observer } from 'mobx-react'
 
 const FundWithoutWeb3Tabs = (props) => {
-    const tabColor = useColorModeValue("#7500fe", "#7500ff")
+    const tabColor = useColorModeValue("#039be5", "#00D8CF")
     return (
         <Observer>
             {() => {

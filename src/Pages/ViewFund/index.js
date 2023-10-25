@@ -213,11 +213,10 @@ function ViewFund(props) {
     const colorSchemeGreen = useColorModeValue("green", "green")
     const colorSchemeRed = useColorModeValue("red", "red")
     const remainingprogressBg = useColorModeValue("red.100", "#CBC3E3")
-    const allbtnBg = useColorModeValue("#30106b", "#7500FF")
+    const allbtnBg = useColorModeValue("#039be5", "#039be5")
     const tableHead = useColorModeValue("#1A202C", "#fff")
-    // const chartbg = useColorModeValue("#fff", "#181144")
     const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
-    const boxBg = useColorModeValue("#F4F7FE", "#110938");
+    const boxBg = useColorModeValue("#F4F7FE", "gray.600");
     return (
         <>
             <Box px={4}>
@@ -560,17 +559,17 @@ function ViewFund(props) {
                                                     <Box sx={{ display: "flex", justifyContent: "center" }}>
                                                         <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
                                                         <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
-                                                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
+                                                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
                                                                     Exchange
                                                                 </Button>
                                                             </Tooltip>
                                                             <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
-                                                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
+                                                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
                                                                     Take Cut
                                                                 </Button>
                                                             </Tooltip>
                                                             <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
-                                                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
+                                                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
                                                                     White List
                                                                 </Button>
                                                             </Tooltip>
@@ -578,7 +577,7 @@ function ViewFund(props) {
                                                                 mainAsset === "USD" ?
                                                                     (
                                                                         <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
-                                                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>
+                                                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
                                                                                 Stable Tokens
                                                                             </Button>
                                                                         </Tooltip>

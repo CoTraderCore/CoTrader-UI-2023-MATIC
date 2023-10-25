@@ -5,7 +5,7 @@ import { Observer, inject } from 'mobx-react'
 
 
 const SmartfundTabs = (props) => {
-    const tabColor = useColorModeValue("#7500fe", "#7500ff")
+    const tabColor = useColorModeValue("#039be5", "#00D8CF")
 
     return (
         <Observer>

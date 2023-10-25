@@ -22,7 +22,7 @@ import { Observer, inject } from 'mobx-react';
 import Loading from '../../Components/template/spiners/Loading';
 
 function SmartFundList(props) {
- 
+
   const [pending, setPending] = useState(false);
   const [txName, setTxName] = useState('');
   const [txHash, setTxHash] = useState('');
@@ -121,8 +121,9 @@ function SmartFundList(props) {
   };
 
   const brandColor = useColorModeValue("#7500fe", "##CBC3E3");
-  const boxBg = useColorModeValue("#F4F7FE", "#110938");
-  const allbtnBg = useColorModeValue("#30106b", "#7500FF")
+  const boxBg = useColorModeValue("#F4F7FE", "gray.600");
+  const allbtnBg = useColorModeValue("#039be5", "#039be5")
+  const txtColor = useColorModeValue("green.500", "#fff")
 
   console.log(props.MobXStorage)
   return (
@@ -148,21 +149,19 @@ function SmartFundList(props) {
                       ) :
                         (null)
                     }
-                    <CardBox p="10px" my="10px">
-                      <Grid gap={4} templateColumns={['1fr', 'repeat(3, 1fr)']} sx={{ padding: "10px 0px ", borderRadius: "5px", display: "flex", justifyContent: "space-around", flexDirection: { base: "column", sm: "column", md: "row" }, textAlign: { base: "center", sm: "center" } }}>
-                        <GridItem >
-                          <CreateNewFund web3={props.web3} accounts={props.accounts} pending={pendingg} />
-                        </GridItem>
-                        <GridItem >
-                          <FilterSearch MobXStorage={props.MobXStorage} />
-                        </GridItem>
-                        <GridItem >
-                          <Stack bg={allbtnBg} sx={{ color: "#fff", borderRadius: "8px", border: "none", _hover: { backgroundColor: "#30108b" } }}>
-                            <SortFunds />
-                          </Stack>
-                        </GridItem>
-                      </Grid>
-                    </CardBox>
+                    <Grid py={5} gap={4} templateColumns={['1fr', 'repeat(3, 1fr)']} sx={{ borderRadius: "5px", display: "flex", justifyContent: "space-around", flexDirection: { base: "column", sm: "column", md: "row" }, textAlign: { base: "center", sm: "center" } }}>
+                      <GridItem >
+                        <CreateNewFund web3={props.web3} accounts={props.accounts} pending={pendingg} />
+                      </GridItem>
+                      <GridItem >
+                        <FilterSearch MobXStorage={props.MobXStorage} />
+                      </GridItem>
+                      <GridItem >
+                        <Stack bg={allbtnBg} sx={{ color: "#fff", borderRadius: "8px", border: "none", _hover: { backgroundColor: "#027CB8" } }}>
+                          <SortFunds />
+                        </Stack>
+                      </GridItem>
+                    </Grid>
                     <Box>
                       {
                         !props.MobXStorage.FilterActive ?
@@ -230,7 +229,7 @@ function SmartFundList(props) {
                           ) :
                           (
                             <Box>
-                              <Text mb={2} bg="transparent" border="1px solid lightgray" boxShadow="1px 1px 1px 1px gray" borderRadius={5} sx={{ textTransform: "capitalize", fontWeight: "bold", color: "#7500ff", textAlign: "center" }}>{props.MobXStorage.FilterInfo}</Text>
+                              <Text mb={2} bg="transparent" border="1px solid lightgray" boxShadow="1px 1px 1px 1px gray" borderRadius={5} sx={{ textTransform: "capitalize", fontWeight: "500", color: txtColor, textAlign: "center" }}>{props.MobXStorage.FilterInfo}</Text>
                               <SimpleGrid
                                 width="100%"
                                 columns={{ base: 1, md: 4, lg: 4, }}

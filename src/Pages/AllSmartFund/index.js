@@ -16,8 +16,7 @@ function AllSmartFund(props) {
   const [currentPage, setCurrentPage] = useState(1)
   const headingColor = useColorModeValue("#1B2559", "#F4F7FE");
   const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
-  const boxBg = useColorModeValue("#F4F7FE", "#110938");
-
+  const boxBg = useColorModeValue("#F4F7FE", "gray.600");
 
   return (
     <Observer>
@@ -29,7 +28,7 @@ function AllSmartFund(props) {
                 props.MobXStorage.SmartFunds.length > 0 ? (
                   props.MobXStorage.SmartFunds.map((item, key) =>
                     <Box key={item.address} px={4} sx={{ borderRadius: "20px", boxShadow: "1px 1px 2px 1px darkgray" }}>
-                      <Box mt={4} sx={{ borderRadius: "10px", }}>
+                      <Box mt={2} sx={{ borderRadius: "10px", }}>
                         <Heading textTransform={"uppercase"} fontSize={{ base: "2xl" }} color={headingColor} textAlign={'center'} p={2}>Fund name: {item.name}</Heading>
                       </Box>
                       <Box sx={{ display: "flex", justifyContent: "center" }}>

@@ -6,7 +6,7 @@ import { Outlet } from 'react-router-dom';
 import WalletInfo from '../Components/common/WalletInfo';
 import { NeworkID } from '../config';
 import DashboardHeader from '../Components/common/DashboardHeader';
-import { Observer, inject } from 'mobx-react';
+import { inject } from 'mobx-react';
 
 function MainLayout(props) {
    

@@ -89,12 +89,13 @@ function CreateNewFund(props) {
         setFundName('');
         setTradeVerification(true);
     };
-    const allbtnBg = useColorModeValue("#30106b", "#7500FF")
+    const allbtnBg = useColorModeValue("#039be5", "#039be5")
     const sliderBg = useColorModeValue("#fff", "#181144")
+    const allbtntxtcolor=useColorModeValue("#fff","gray.200")
     //buttoncolor #5E39FF
     return (
         <>
-            <Button bg={allbtnBg} color="#fff" width={{base:"100%",md:"auto"}} sx={{ _hover: { backgroundColor: "#30108b" },padding:"0 50px" }} onClick={modalOpen} >
+            <Button bg={allbtnBg} color={allbtntxtcolor} width={{base:"100%",md:"auto"}} sx={{ _hover: { backgroundColor: "#027CB8" },padding:"0 50px" }} onClick={modalOpen} >
                 Create fund
             </Button>
 

@@ -67,18 +67,18 @@ function TradeModal(props) {
   };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const sliderBg = useColorModeValue("#fff", "#181144")
-  const allbtnBg = useColorModeValue("#30106b", "#7500FF")
+  const modalbg = useColorModeValue("#fff", "gray.700")
+  const allbtnBg = useColorModeValue("#039be5", "#039be5")
 
   return (
     <>
-      <Button flexGrow="1" width={{ base: "100%", md: "auto" }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }} onClick={onOpen}>
+      <Button flexGrow="1" width={{ base: "100%", md: "auto" }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }} onClick={onOpen}>
         Exchange
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose} size={{ base: "lg", md: "2xl" }}>
         <ModalOverlay />
-        <ModalContent bg={sliderBg}>
+        <ModalContent bg={modalbg}>
           <ModalHeader>Exchange</ModalHeader>
           <ModalCloseButton />
           <ModalBody>

@@ -19,8 +19,8 @@ function Header({ heading }) {
         backgroundColor: "#F4F7FE0",
       }}>
       <GridItem >
-        <Text sx={{ fontWeight: "bold", whiteSpace: "nowrap", width: { base: "40%", md: "100%" }, overflow: "hidden", textOverflow: "ellipsis" }}>Pages <span style={{ color: "#7500FF" }}> {pagePath}</span></Text>
-        <Heading style={{ fontSize: '36px', fontWeight: "600", }}>{heading}</Heading>
+        <Text sx={{ fontWeight: "bold", whiteSpace: "nowrap", width: { base: "40%", md: "100%" }, overflow: "hidden", textOverflow: "ellipsis" }}>Pages <span style={{ color: "blue",fontWeight:"500" }}> {pagePath}</span></Text>
+        <Heading style={{ fontSize: '30px', fontWeight: "600", }}>{heading}</Heading>
       </GridItem>
     </Grid>
 
