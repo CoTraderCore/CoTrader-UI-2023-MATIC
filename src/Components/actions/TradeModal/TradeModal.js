@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
   SmartFundABIV7,
-  ExchangePortalABIV6
 } from '../../../config.js';
 import {
   Button,
@@ -32,22 +31,16 @@ import TradeViaPancake from './TradeViaPanCake.js';
 
 function TradeModal(props) {
   const [exchangePortalAddress, setExchangePortalAddress] = useState('');
-  const [exchangePortalVersion, setExchangePortalVersion] = useState(0);
 
   useEffect(() => {
     let isMounted = true;
 
     const initData = async () => {
-
-      const exchangePortalVersion = await getExchangePortalVersion(props.smartFundAddress);
-
-      const exchangePortalAddress = await getExchangePortalVersion(props.smartFundAddress)
-
+      const smartFund = new props.web3.eth.Contract(SmartFundABIV7, props.smartFundAddress);
+      const exchangePortalAddress = await smartFund.methods.exchangePortal().call();
       if (isMounted) {
         setExchangePortalAddress(exchangePortalAddress);
-        setExchangePortalVersion(exchangePortalVersion);
       }
-
     };
 
     initData();
@@ -55,16 +48,8 @@ function TradeModal(props) {
     return () => {
       isMounted = false;
     };
-  }, [props.smartFundAddress]);
+  }, [props.smartFundAddress, props.web3]);
 
-  const getExchangePortalVersion = async (fundAddress) => {
-  
-      const smartFund = new props.web3.eth.Contract(SmartFundABIV7, fundAddress);
-      const exchangePortalAddress = await smartFund.methods.exchangePortal().call();
-      const exchangePortal = new props.web3.eth.Contract(ExchangePortalABIV6, exchangePortalAddress);
-      const exchangePortalVersion = Number(await exchangePortal.methods.version().call());
-      return { exchangePortalAddress, exchangePortalVersion };
-  };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const modalbg = useColorModeValue("#fff", "gray.700")
