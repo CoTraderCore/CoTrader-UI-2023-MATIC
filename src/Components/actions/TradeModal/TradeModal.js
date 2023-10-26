@@ -25,7 +25,7 @@ import MigrateToNewPortal from '../MigrateToNewPortal.js';
 import SetGasPrice from '../../Settings/SetGasPrice.js';
 
 // trade modals
-import TradeViaOneInch from './TradeViaOneInch';
+// import TradeViaOneInch from './TradeViaOneInch';
 import TradeViaCoSwap from './TradeViaCoSwap';
 import TradeViaPancake from './TradeViaPanCake.js';
 
@@ -84,11 +84,12 @@ function TradeModal(props) {
           <ModalBody>
             <Tabs defaultIndex={0}>
               <TabList>
-                <Tab>1 inch</Tab>
+                {/* <Tab>1 inch</Tab> */}
                 <Tab>CoSwap</Tab>
                 <Tab> Pancake</Tab>
               </TabList>
               <TabPanels>
+                {/* 
                 <TabPanel>
                   <TradeViaOneInch
                     web3={props.web3}
@@ -99,7 +100,8 @@ function TradeModal(props) {
                     exchangePortalAddress={exchangePortalAddress}
                     closeModal={onClose}
                   />
-                </TabPanel>
+                </TabPanel> 
+                */}
                 <TabPanel>
                   <TradeViaCoSwap
                     web3={props.web3}

@@ -465,7 +465,7 @@ class TradeViaCoSwap extends Component {
             )
             :
             (
-              <Alert status='error'  >Please update portal to latest version, for enable CoSwap DEX in your fund</Alert>
+              <Alert status='error'  >Please update portal to latest version, for enable Pancake DEX in your fund</Alert>
             )
           }
 
