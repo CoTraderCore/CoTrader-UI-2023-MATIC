@@ -90,7 +90,6 @@ function CreateNewFund(props) {
         setTradeVerification(true);
     };
     const allbtnBg = useColorModeValue("#039be5", "#039be5")
-    const sliderBg = useColorModeValue("#fff", "#181144")
     const allbtntxtcolor=useColorModeValue("#fff","gray.200")
     //buttoncolor #5E39FF
     return (
@@ -103,7 +102,7 @@ function CreateNewFund(props) {
                 isOpen={show} onClose={modalClose}
             >
                 <ModalOverlay />
-                <ModalContent bg={sliderBg}>
+                <ModalContent>
                     <ModalHeader closeButton>
                         Create new fund <small>(with multi DEX support)</small>
                     </ModalHeader>

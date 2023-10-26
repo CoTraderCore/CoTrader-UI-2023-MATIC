@@ -33,7 +33,7 @@ class WalletInfo extends Component {
                                             </Text>
                                         ) : null
                                 }
-                                <Text gap={1} sx={{ textAlign: "center", display: "flex", justifyContent: "center" }}><RandomAvatar name={this.props.accounts[0]} size="20" /><strong style={{ color: "#5E39FF", fontWeight: "500", }}>{String(this.props.accounts[0]).replace(String(this.props.accounts[0]).substring(6, 36), "...")}</strong></Text>
+                                <Text gap={1} sx={{ textAlign: "center", display: "flex", justifyContent: "center" }}><RandomAvatar name={this.props.accounts[0]} size="20" /><strong style={{ color: "#039be5", fontWeight: "500", }}>{String(this.props.accounts[0]).replace(String(this.props.accounts[0]).substring(6, 36), "...")}</strong></Text>
                             </Box>
                         ) : (
                             null
