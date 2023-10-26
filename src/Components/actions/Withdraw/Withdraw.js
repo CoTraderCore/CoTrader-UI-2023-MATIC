@@ -50,16 +50,15 @@ function Withdraw(props) {
         setPercent(e.target.value);
     };
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const allbtnBg = useColorModeValue("#30106b", "#7500FF")
-    const sliderBg = useColorModeValue("#fff", "#181144")
+    const allbtnBg = useColorModeValue("#039be5", "#039be5")
     return (
         <React.Fragment>
             <Tooltip>
-                <Button onClick={onOpen} flexGrow="1" minWidth={{ base: '100%', sm: "auto" }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>Withdraw</Button>
+                <Button onClick={onOpen} flexGrow="1" minWidth={{ base: '100%', sm: "auto" }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>Withdraw</Button>
             </Tooltip>
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
-                <ModalContent bg={sliderBg}>
+                <ModalContent >
                     <ModalHeader> Withdraw from smart fund</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>

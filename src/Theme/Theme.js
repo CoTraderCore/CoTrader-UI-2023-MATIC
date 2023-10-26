@@ -1,8 +1,8 @@
 import { extendTheme } from "@chakra-ui/react";
 import { CardComponent } from "./card/card.theme";
-
 const themes = extendTheme(
-    CardComponent
-  )
+  CardComponent
+)
+export default themes
 
-  export default themes
+

@@ -32,12 +32,12 @@ function UserHoldings(props) {
         fetchData();
     }, [isOpen]);
 
-    const allbtnBg = useColorModeValue("#30106b", "#7500FF")
+    const allbtnBg = useColorModeValue("#039be5", "#039be5")
     const sliderBg = useColorModeValue("#fff", "#181144")
 
     return (
         <>
-            <Button flexGrow="1" width={{ base: "100%", md: "auto" }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }} onClick={onOpen}>
+            <Button flexGrow="1" width={{ base: "100%", md: "auto" }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }} onClick={onOpen}>
                 My Holding
             </Button>
             <Modal
@@ -45,7 +45,7 @@ function UserHoldings(props) {
                 onClose={onClose}
             >
                 <ModalOverlay />
-                <ModalContent bg={sliderBg}>
+                <ModalContent>
                     <ModalHeader closeButton>
                         My funds
                     </ModalHeader>

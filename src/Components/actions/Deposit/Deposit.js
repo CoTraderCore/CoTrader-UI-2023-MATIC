@@ -11,15 +11,14 @@ function Deposit(props) {
         setShow(false);
         setAgree(false);
     };
-    const allbtnBg = useColorModeValue("#30106b", "#7500FF")
-
+    const allbtnBg = useColorModeValue("#039be5", "#039be5")
     const toggleAgree = () => {
         setAgree(!agree);
     };
     return (
         <React.Fragment>
             <Tooltip>
-                <Button onClick={() => setShow(true)} flexGrow="1" minWidth={{ base: '100%', sm: "auto" }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#30108b" } }}>Deposit</Button>
+                <Button onClick={() => setShow(true)} flexGrow="1" minWidth={{ base: '100%', sm: "auto" }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>Deposit</Button>
             </Tooltip>
             <Modal isOpen={show} onClose={modalClose} size={{ base: "lg", md: "xl" }}>
                 <ModalOverlay />

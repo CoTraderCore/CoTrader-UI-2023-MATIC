@@ -58,8 +58,8 @@ const Menu_style = {
 function Sidebar({ isOpen, onOpen, onClose, }) {
     
     const ArrowBg = useColorModeValue("black", "white");
-    const sliderBg = useColorModeValue("#fff", "#181144")
-    const Iconcolor=useColorModeValue("#30106b","#FFF")
+    const sliderBg = useColorModeValue("gray.100", "gray.700")
+    const Iconcolor=useColorModeValue("#039be5","#FFF")
     return (
         <Grid w='100%'>
             <GridItem w="auto" height="90vh" bg={sliderBg} sx={{}}>

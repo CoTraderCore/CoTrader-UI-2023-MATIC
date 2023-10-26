@@ -1,17 +1,21 @@
 import React from 'react';
-import { Alert, Stack } from '@chakra-ui/react';
-import { AlertIcon } from '@chakra-ui/react';
+import { Alert, Stack, Text, useColorModeValue } from '@chakra-ui/react';
+import { LuAlertTriangle } from 'react-icons/lu';
 
-const Web3Allert = () => (
+const Web3Allert = () => {
+  const txtColor=useColorModeValue("red","red")
+return(
   <>
-    
     <Stack>
-      <Alert status='info' display={'flex'} justifyContent={'center'} >
-        <AlertIcon />
-        <p> Please connect web3: use MetaMask for <a style={{ color: "#8073de", }} href="https://metamask.io/" target="_blank" rel="noopener noreferrer">laptop</a> or <a style={{ color: "#8073de" }} href="https://metamask.io/" target="_blank" rel="noopener noreferrer">Android</a>, or Coinbase Wallet for <a style={{ color: "#8073de" }} href="https://wallet.coinbase.com/" target="_blank" rel="noopener noreferrer">iPhone</a> </p>
+      <Alert gap={2} status='warning' display={'flex'} justifyContent={'center'} >
+        <LuAlertTriangle fontSize="1.3rem" color={"red"}/>
+        <Text color={txtColor} fontSize="sm"> Please connect web3: use MetaMask for <a style={{ color: "#039BE5", }} href="https://metamask.io/" target="_blank" rel="noopener noreferrer">laptop</a> or <a style={{ color: "#039BE5" }} href="https://metamask.io/" target="_blank" rel="noopener noreferrer">Android</a>, or Coinbase Wallet for <a style={{ color: "#039BE5" }} href="https://wallet.coinbase.com/" target="_blank" rel="noopener noreferrer">iPhone</a> </Text>
       </Alert>
     </Stack>
   </>
-)
+)}
 
 export default Web3Allert
+
+
+

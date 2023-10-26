@@ -8,7 +8,7 @@ import { RandomAvatar } from 'react-random-avatars';
 
 const ManagerModal = ({ address, MobXStorage }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const sliderBg = useColorModeValue("#fff", "#181144")
+    const modalbg = useColorModeValue("#fff", "gray.700")
     const modalfooterbg = useColorModeValue("gray.100", "#3D3762")
     const btnColor = useColorModeValue("#00C6C0", "#fff")
 
@@ -22,7 +22,7 @@ const ManagerModal = ({ address, MobXStorage }) => {
                         </Text>
                         <Modal isOpen={isOpen} onClose={onClose} aria-labelledby="example-modal-sizes-title-sm">
                             <ModalOverlay />
-                            <ModalContent bg={sliderBg}>
+                            <ModalContent bg={modalbg}>
                                 <ModalHeader>View Manager Info</ModalHeader>
                                 <ModalCloseButton />
                                 <ModalBody>
