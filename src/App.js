@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Box, 
-  Alert, 
-  AlertIcon, 
   ChakraProvider, 
   Grid, 
   GridItem, 
@@ -27,6 +25,7 @@ import Navbar from './Components/common/Navbar';
 import Sidebar from './Components/common/Sidebar';
 import DashboardHeader from './Components/common/DashboardHeader';
 import WalletInfo from './Components/common/WalletInfo';
+import Web3Alert from './Components/Web3Off/Web3Alert'
 
 
 function App(props) {
@@ -91,6 +90,7 @@ function App(props) {
                   <Box pt={5} px={2}>
                     <DashboardHeader />
                   </Box>
+
                   <WalletInfo web3={props.MobXStorage.web3} accounts={props.MobXStorage.accounts} />
                   <Switch>
                     <Route exact path="/" render={() => <SmartFundList {...props} web3={props.MobXStorage.web3} accounts={accounts} isDataLoad={isDataLoad} setIsDataLoad={setIsDataLoad} />} />
