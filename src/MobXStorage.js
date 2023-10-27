@@ -6,6 +6,7 @@ import BigNumber from 'bignumber.js'
 class MOBXStorage {
   web3 = null
   account = null
+  netId = null
   SmartFunds = []
   SmartFundsOriginal = []
   SmartFundsCurrentPage = []
@@ -20,9 +21,10 @@ class MOBXStorage {
   filterOptions = null
 
   // Initializers
-  initWeb3AndAccounts(_web3, accounts){
+  initWeb3AndAccounts(_web3, _accounts, _netId){
     this.web3 = _web3
-    this.account = accounts
+    this.account = _accounts
+    this.netId = _netId
   }
 
   initSFList(_newList) {
@@ -173,6 +175,9 @@ class MOBXStorage {
 
 
 decorate(MOBXStorage, {
+    web3: observable,
+    account: observable,
+    netId: observable,
     SmartFunds: observable,
     SmartFundsOriginal: observable,
     FilterInfo: observable,

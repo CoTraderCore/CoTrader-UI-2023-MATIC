@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Flex, Heading, IconButton, Image, useColorMode, useColorModeValue, } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { FaSun, FaMoon } from 'react-icons/fa';
-
+import Wallet from '../Wallet'
 
 const Navbar = (props) => {
     const { toggleColorMode } = useColorMode();
@@ -17,6 +17,7 @@ const Navbar = (props) => {
                             <Link to={props.web3 ? "/" : "/web3off"}><Image src='/logo.png' alt='CoTrader' height="25px" /></Link>
                         </Heading>
                     </Box>
+                    <Wallet/>
                     <Box display="flex" alignItems="center" cursor={'pointer'}>
                         <IconButton
                             bg={btncolor}

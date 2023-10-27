@@ -1,39 +1,64 @@
-import Web3 from "web3"
+import Web3 from "web3";
+import Web3Modal from "web3modal";
+import Authereum from "authereum";
+import Fortmatic from "fortmatic";
+import WalletConnectProvider from "@walletconnect/web3-provider";
 
-const getWeb3 = () =>
-  new Promise((resolve, reject) => {
-    // Wait for loading completion to avoid race conditions with web3 injection timing.
-    window.addEventListener("load", async () => {
-      // Modern dapp browsers...
-      if (window.ethereum) {
-        const web3 = new Web3(window.ethereum)
-        try {
-          // Request account access if needed
-          await window.ethereum.enable()
-          // Acccounts now exposed
-          resolve(web3)
-        } catch (error) {
-          reject(error)
-        }
-      }
-      // Legacy dapp browsers...
-      else if (window.web3) {
-        // Use Mist/MetaMask's provider.
-        const web3 = window.web3
-        console.log("Injected web3 detected.")
-        resolve(web3)
-      }
-      // Fallback to localhost use dev console port by default...
-      else {
-        const provider = new Web3.providers.HttpProvider(
-          "http://127.0.0.1:9545"
-        )
-        const web3 = new Web3(provider)
-        console.log("No web3 instance injected, using Local web3.")
-        resolve(web3)
-      }
-     
-    })
-  })
+async function getWeb3() {
+  let providerOptions;
+  let web3Modal;
+  let web3;
+
+  providerOptions = {
+    authereum: {
+      package: Authereum, // required
+    },
+
+    walletconnect: {
+      package: WalletConnectProvider, // required
+      options: {
+        infuraId: process.env.REACT_APP_INFURA, // required
+      },
+    },
+
+    fortmatic: {
+      package: Fortmatic, // required
+      options: {
+        key: "pk_live_7E6A277E15DE415B", // required
+      },
+    },
+  };
+
+  web3Modal = new Web3Modal({
+    network: "mainnet",
+    cacheProvider: false,
+    disableInjectedProvider: false,
+    providerOptions,
+  });
+
+  const provider = await web3Modal.connect();
+
+  provider.on("accountsChanged", (accounts) => {
+    console.log("account changed");
+  });
+
+  // Subscribe to chainId change
+  provider.on("chainChanged", (chainId) => {
+    console.log(chainId);
+  });
+
+  // Subscribe to provider connection
+  provider.on("connect", (info) => {
+    console.log(info);
+  });
+
+  // Subscribe to provider disconnection
+  provider.on("disconnect", (error) => {
+    console.log(error);
+  });
+
+  web3 = new Web3(provider);
+  return web3;
+}
 
 export default getWeb3
