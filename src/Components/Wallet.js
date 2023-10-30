@@ -7,14 +7,14 @@ import {
 } from '../config'
 import { inject, observer } from 'mobx-react';
 
-// const connectWallet = async (mobx) => {
-//   await getWeb3().then(async (response) => {
-//     const _web3 = response
-//     const _netId = Number(await response.eth.net.getId())
-//     const _accounts = response.eth.getAccounts()
-//     mobx.initWeb3AndAccounts(_web3, _accounts, _netId)
-//   });
-// }
+const connectWallet = async (mobx) => {
+  await getWeb3().then(async (response) => {
+    const _web3 = response
+    const _netId = Number(await response.eth.net.getId())
+    const _accounts = await response.eth.getAccounts()
+    mobx.initWeb3AndAccounts(_web3, _accounts, _netId)
+  });
+}
 
 function Wallet(props) {
   console.log("props.MobXStorage.web3", props.MobXStorage.web3);
@@ -23,20 +23,28 @@ function Wallet(props) {
   return (
     <React.Fragment>
       {props.MobXStorage.web3 ? (
-        <Box gap={2}>
+        <Box gap={2} display="flex" justifyContent="center" alignItems="center">
           <Button
             display="flex"
             gap={1}
             size={{ sm: "xs", md: "sm" }}
             fontSize={["xs", "sm"]}
             px={[2, 3]}
-            py={[1, 3]}
+            py={[2, 3]}
             bg={props.btnbg}
             _hover={{ background: "gray.200" }}
             sx={{ color: "#34e391" }}
           >
             <BiBadgeCheck size={20} /> <Text>Connected</Text>
           </Button>
+          {
+            props.MobXStorage.netId && NeworkID !== props.MobXStorage.netId
+              ?
+              (
+                <Text sx={{ color: "red", fontSize: "sm" }}>ERROR: WRONG NETWORK</Text>
+              )
+              : null
+          }
         </Box>
       )
         :
@@ -46,10 +54,10 @@ function Wallet(props) {
               size={{ sm: "xs", md: "sm" }}
               fontSize={["xs", "sm"]}
               px={[2, 3]}
-              py={[1, 3]}
+              py={[2, 3]}
               bg={props.btnbg}
               _hover={{ background: "gray" }}
-              onClick={() => props.connectWallet(props.MobXStorage)}
+              onClick={() =>connectWallet(props.MobXStorage)}
             >
               Connect wallet
             </Button>

@@ -8,8 +8,6 @@ import {
   useDisclosure,
   ColorModeProvider,
   CSSReset,
-  Text,
-  Alert
 } from '@chakra-ui/react';
 import themes from './Theme/Theme';
 import ReactGA from 'react-ga';
@@ -20,14 +18,12 @@ import ViewUserTx from './Pages/ViewUserTx';
 import ViewFund from './Pages/ViewFund';
 import ViewUser from './Pages/ViewUser';
 import HowToStart from './Pages/HowToStart';
-import { inject,observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import Navbar from './Components/common/Navbar';
 import Sidebar from './Components/common/Sidebar';
 import DashboardHeader from './Components/common/DashboardHeader';
 import WalletInfo from './Components/common/WalletInfo';
-import getWeb3 from './utils/getWeb3';
-import { NeworkID } from './config';
 // import Web3Alert from './Components/Web3Off/Web3Alert'
 
 function App(props) {
@@ -62,14 +58,6 @@ function App(props) {
       }
     }
   };
-  const connectWallet = async (mobx) => {
-    await getWeb3().then(async (response) => {
-      const _web3 = response
-      const _netId = Number(await response.eth.net.getId())
-      const _accounts = response.eth.getAccounts()
-      mobx.initWeb3AndAccounts(_web3, _accounts, _netId)
-    });
-  }
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { toggleColorMode } = useColorMode();
@@ -88,7 +76,7 @@ function App(props) {
                 position: "relative"
               }}
             >
-              <Navbar toggleColorMode={toggleColorMode} connectWallet={connectWallet} />
+              <Navbar toggleColorMode={toggleColorMode} />
               <Grid sx={{ display: 'flex', flexWrap: "nowrap", overflow: "auto", height: "90vh", }} >
                 <GridItem >
                   <Sidebar isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
@@ -97,18 +85,11 @@ function App(props) {
                   <Box pt={5} px={2}>
                     <DashboardHeader />
                   </Box>
-                  {
-                    props.MobXStorage.netId && NeworkID !== props.MobXStorage.netId
-                      ?
-                      (
-                        <Alert mt={2} status="error" sx={{ color: "red", fontSize: "sm" }}>ERROR: WRONG NETWORK</Alert>
-                      )
-                      : null
-                  }
+
                   <WalletInfo web3={props.MobXStorage.web3} accounts={props.MobXStorage.accounts} />
                   <Switch>
                     <Route exact path="/" render={() => <SmartFundList web3={props.MobXStorage.web3} accounts={props.MobXStorage.account} MobXStorage={props.MobXStorage} isDataLoad={isDataLoad} setIsDataLoad={setIsDataLoad} />} />
-                    <Route path="/fund/:address" render={() => <ViewFund web3={props.MobXStorage.web3} accounts={props.MobXStorage.account} MobXStorage={props.MobXStorage}/>} />
+                    <Route path="/fund/:address" render={() => <ViewFund web3={props.MobXStorage.web3} accounts={props.MobXStorage.account} MobXStorage={props.MobXStorage} />} />
                     <Route path="/user-txs/:address" render={() => <ViewUserTx MobXStorage={props.MobXStorage} isDataLoad={isDataLoad} />} />
                     <Route path="/fund-txs/:address" render={() => <ViewFundTx MobXStorage={props.props.MobXStorage} isDataLoad={isDataLoad} />} />
                     <Route path="/user/:address" render={() => <ViewUser MobXStorage={props.MobXStorage} />} />
