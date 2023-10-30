@@ -17,9 +17,9 @@ import { inject, observer } from 'mobx-react';
 // }
 
 function Wallet(props) {
-console.log("props.MobXStorage.web3",props.MobXStorage.web3);
-console.log("props.MobXStorage.account",props.MobXStorage.account);
-console.log("props.MobXStorage.netId",props.MobXStorage.netId);
+  console.log("props.MobXStorage.web3", props.MobXStorage.web3);
+  console.log("props.MobXStorage.account", props.MobXStorage.account);
+  console.log("props.MobXStorage.netId", props.MobXStorage.netId);
   return (
     <React.Fragment>
       {props.MobXStorage.web3 ? (
@@ -27,10 +27,10 @@ console.log("props.MobXStorage.netId",props.MobXStorage.netId);
           <Button
             display="flex"
             gap={1}
-            size={{sm:"xs",md:"sm"}}
-            fontSize={["xs","sm"]}
+            size={{ sm: "xs", md: "sm" }}
+            fontSize={["xs", "sm"]}
             px={[2, 3]}
-            py={[1,3]}
+            py={[1, 3]}
             bg={props.btnbg}
             _hover={{ background: "gray.200" }}
             sx={{ color: "#34e391" }}
@@ -43,8 +43,10 @@ console.log("props.MobXStorage.netId",props.MobXStorage.netId);
         (
           <Box>
             <Button
-            size={{sm:"xs",md:"sm"}}
-            fontSize={["xs","sm"]}
+              size={{ sm: "xs", md: "sm" }}
+              fontSize={["xs", "sm"]}
+              px={[2, 3]}
+              py={[1, 3]}
               bg={props.btnbg}
               _hover={{ background: "gray" }}
               onClick={() => props.connectWallet(props.MobXStorage)}
