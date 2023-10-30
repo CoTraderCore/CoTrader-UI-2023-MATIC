@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react'
-import CardBox from '../../Components/Cards/CardBox';
 import { Box, Grid, GridItem, Icon, SimpleGrid, Stack, Text, useColorModeValue } from '@chakra-ui/react';
 import CreateNewFund from '../../Components/actions/CreateNewFund';
 import FilterSearch from '../../Components/Filter&Search/FilterSearch';
@@ -18,7 +17,7 @@ import { APIEnpoint } from '../../config';
 import getFundData from '../../utils/getFundData';
 import getFundsList from '../../utils/getFundsList';
 import Pending from '../../Components/template/spiners/Pending';
-import { Observer, inject } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 import Loading from '../../Components/template/spiners/Loading';
 
 function SmartFundList(props) {
@@ -125,11 +124,8 @@ function SmartFundList(props) {
   const allbtnBg = useColorModeValue("#039be5", "#039be5")
   const txtColor = useColorModeValue("green.500", "#fff")
 
-  console.log(props.MobXStorage)
+  console.log("MobXStorage=",props.MobXStorage)
   return (
-    <Observer>
-      {() => {
-        return (
           <React.Fragment>
             {
               props.isDataLoad ?
@@ -138,14 +134,12 @@ function SmartFundList(props) {
                     <PopupMsg txName={txName} txHash={txHash} ref={_popupChild} />
                     {
                       pending ? (
-
                         <Box>
                           <Text mt={4} sx={{ fontWeight: "500", textAlign: "center", borderRadius: "5px", padding: "10px 5px", boxShadow: "1px 1px 1px 1px gray", border: "1px solid white" }}>
                             Pending transitions : {txCount}
                           </Text>
                           <Pending />
                         </Box>
-
                       ) :
                         (null)
                     }
@@ -296,7 +290,7 @@ function SmartFundList(props) {
 
                     </Box>
                     <SimpleGrid>
-                      <SmartfundTabs {...props} pending={pendingg} accounts={props.accounts} web3={props.web3} loadData={props.isDataLoad} />
+                      <SmartfundTabs pending={pendingg}  loadData={props.isDataLoad} MobXStorage={props.MobXStorage} />
                     </SimpleGrid>
                     <Footer />
                   </Box>
@@ -305,13 +299,10 @@ function SmartFundList(props) {
                 )
             }
           </React.Fragment>
-        )
-      }}
-    </Observer>
 
   );
 
 }
 
 // export default SmartFundList;
-export default inject('MobXStorage')(SmartFundList);
+export default inject('MobXStorage')(observer(SmartFundList));

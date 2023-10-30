@@ -13,6 +13,7 @@ import setPending from '../../../utils/setPending.js';
 import { toWeiByDecimalsInput, fromWeiByDecimalsInput } from '../../../utils/weiByDecimals';
 import axios from 'axios';
 import BigNumber from 'bignumber.js';
+// import { inject,observer } from 'mobx-react';
 
 class DepositERC20 extends Component {
     constructor(props, context) {
@@ -170,9 +171,10 @@ class DepositERC20 extends Component {
     }
 
     modalClose = () => this.setState({ Show: false, Agree: false });
+   
     render() {
         return (
-            <>
+            <React.Fragment>
                 <FormControl>
                     <FormLabel>
                         Enter {this.state.symbol}
@@ -185,7 +187,7 @@ class DepositERC20 extends Component {
                             (balance:{this.state.tokenBalance})
                         </Button>
                     </FormLabel>
-                    <Input type='number' min={0} placeholder='Amount' value={this.state.DepositValue} onChange={e => this.setState({ DepositValue: e.target.value })} />
+                    <Input type='number' min="0" placeholder='Amount' value={this.state.DepositValue} onChange={e => this.setState({ DepositValue: e.target.value })} />
                     {
                         this.state.ValueError !== ""
                             ? (
@@ -231,9 +233,10 @@ class DepositERC20 extends Component {
                             </Button>
                         )
                 }
-            </>
+            </React.Fragment>
         );
     }
 }
 
 export default DepositERC20;
+// export default inject('MobXStorage')(observer(DepositERC20)) 

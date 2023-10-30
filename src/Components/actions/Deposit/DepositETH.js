@@ -2,11 +2,11 @@
 
 import React, { Component } from 'react'
 import { APIEnpoint, SmartFundABI } from '../../../config.js'
-import { Button, FormControl, Alert, FormLabel, AlertIcon, AlertDescription, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Text, Input } from '@chakra-ui/react'
+import { Button, FormControl, Alert, FormLabel, AlertIcon, AlertDescription, Input } from '@chakra-ui/react'
 import setPending from '../../../utils/setPending.js'
 import { fromWei, toWei } from 'web3-utils'
 import axios from 'axios'
-
+// import { inject,observer } from 'mobx-react'
 
 class DepositETH extends Component {
   constructor(props, context) {
@@ -71,9 +71,8 @@ class DepositETH extends Component {
   }
 
   render() {
-
     return (
-      <>
+      <React.Fragment>
         <FormControl>
           <FormLabel mt={2}>
             Enter {this.props.mainAsset}
@@ -109,9 +108,11 @@ class DepositETH extends Component {
         >
           Deposit
         </Button>
-      </>
+      </React.Fragment>
     )
   }
 }
 
-export default DepositETH
+export default DepositETH;
+// export default inject('MobXStorage')(observer(DepositETH)) 
+

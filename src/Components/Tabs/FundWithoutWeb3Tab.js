@@ -1,14 +1,12 @@
 import React from 'react'
 import { Tabs, TabList, TabPanels, Tab, TabPanel, useColorModeValue, Tooltip, Box } from '@chakra-ui/react'
 import AllFundWithoutWeb3 from '../../Pages/AllFundWithoutWeb3'
-import { inject,Observer } from 'mobx-react'
+import { inject,observer } from 'mobx-react'
 
 const FundWithoutWeb3Tabs = (props) => {
     const tabColor = useColorModeValue("#039be5", "#00D8CF")
     return (
-        <Observer>
-            {() => {
-                return (
+        <React.Fragment>
                     <Tabs width="100%" overflowX="hidden">
                         <TabList>
                             <Tab onClick={() => props.MobXStorage.AllFunds()} color={tabColor} fontWeight={{ base: "400", md: "500" }} fontSize={{ base: "14px", md: "16px" }} textTransform="uppercase">All Funds</Tab>
@@ -43,9 +41,7 @@ const FundWithoutWeb3Tabs = (props) => {
                             </TabPanel>
                         </TabPanels>
                     </Tabs >
-                )
-            }}
-        </Observer>
+                    </React.Fragment>
     )
-}
-export default inject('MobXStorage')(FundWithoutWeb3Tabs)
+};
+export default inject('MobXStorage')(observer(FundWithoutWeb3Tabs))

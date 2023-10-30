@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useColorModeValue, Modal, ModalOverlay, ModalBody, Button, ModalContent, ModalCloseButton, ModalHeader, OrderedList, ListItem, Stack, Checkbox, Text, FormControl, Tooltip, Alert } from '@chakra-ui/react'
 import DepositETH from './DepositETH'
 import DepositERC20 from './DepositERC20'
+// import { inject,observer } from 'mobx-react'
 
 function Deposit(props) {
     const [show, setShow] = useState(false);
@@ -82,5 +83,5 @@ function Deposit(props) {
         </React.Fragment>
     )
 }
-
-export default Deposit
+export default Deposit;
+// export default inject('MobXStorage')(observer(Deposit)) 

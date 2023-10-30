@@ -5,8 +5,6 @@ import { useLocation } from 'react-router-dom'
 function Header({ heading }) {
   const path = useLocation()
   const pagePath = path.pathname
-  console.log(path);
-  console.log(pagePath);
   return (
 
     <Grid p={2}
@@ -14,7 +12,7 @@ function Header({ heading }) {
         position: "sticky",
         top: "0px",
         borderRadius: "5px",
-        zIndex: "1000",
+        zIndex: "1",
         backdropFilter: "blur(10px)",
         backgroundColor: "#F4F7FE0",
       }}>

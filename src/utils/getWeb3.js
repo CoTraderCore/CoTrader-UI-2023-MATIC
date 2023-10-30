@@ -55,6 +55,7 @@ async function getWeb3() {
   // Subscribe to provider disconnection
   provider.on("disconnect", (error) => {
     console.log(error);
+    window.location.reload();
   });
 
   web3 = new Web3(provider);

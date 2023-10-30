@@ -14,7 +14,7 @@ import getFundsList from '../../utils/getFundsList';
 import Loading from '../../Components/template/spiners/Loading';
 import Footer from '../../Components/common/footer/Footer';
 import Web3Allert from '../../Components/Web3Off/Web3Alert';
-import { Observer, inject } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 
 function SmartFundListWithoutWeb3(props) {
   
@@ -54,9 +54,6 @@ function SmartFundListWithoutWeb3(props) {
     console.log("MobXStorage withoutweb3fund", props.MobXStorage);
     
     return (
-        <Observer>
-            {() => {
-                return (
                     <React.Fragment>
                         {
                             props.isDataLoad ?
@@ -230,13 +227,10 @@ function SmartFundListWithoutWeb3(props) {
                         }
                         <Footer />
                     </React.Fragment>
-                )
-            }}
-        </Observer>
     );
 
 }
 
-export default inject('MobXStorage')(SmartFundListWithoutWeb3);
+export default inject('MobXStorage')(observer(SmartFundListWithoutWeb3));
 
 

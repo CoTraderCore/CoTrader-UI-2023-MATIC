@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, ModalCloseButton, useDisclosure, Text, useColorModeValue, } from "@chakra-ui/react";
 import { Link } from 'react-router-dom';
 import { EtherscanLink } from '../../config.js';
-import { inject, Observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { RandomAvatar } from 'react-random-avatars';
 
 
@@ -13,9 +13,6 @@ const ManagerModal = ({ address, MobXStorage }) => {
     const btnColor = useColorModeValue("#00C6C0", "#fff")
 
     return (
-        <Observer>
-            {() => {
-                return (
                     <Box>
                         <Text gap={1} fontWeight={500} display="flex" alignItems="center" justifyContent="center" >
                             Owner: <RandomAvatar name={address} size="14" /><small onClick={onOpen} style={{ color: "#7500fe", cursor: "pointer" }}><strong>{String(address).replace(String(address).substring(4, 38), "...")}</strong></small>
@@ -43,10 +40,7 @@ const ManagerModal = ({ address, MobXStorage }) => {
                             </ModalContent>
                         </Modal>
                     </Box>
-                )
-            }}
-        </Observer>
     );
 };
 
-export default inject('MobXStorage')(ManagerModal);
+export default inject('MobXStorage')(observer(ManagerModal));

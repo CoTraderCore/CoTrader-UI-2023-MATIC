@@ -1,16 +1,12 @@
 import React from 'react'
-import { Tabs, TabList, TabPanels, Tab, TabPanel, useColorModeValue, Tooltip, Box, useStatStyles } from '@chakra-ui/react'
+import { Tabs, TabList, TabPanels, Tab, TabPanel, useColorModeValue, Tooltip,} from '@chakra-ui/react'
 import AllSmartFund from '../../Pages/AllSmartFund'
-import { Observer, inject } from 'mobx-react'
+import { observer, inject } from 'mobx-react'
 
 
 const SmartfundTabs = (props) => {
     const tabColor = useColorModeValue("#039be5", "#00D8CF")
-
     return (
-        <Observer>
-            {() => {
-                return (
                     <React.Fragment>
                         <Tabs width="100%" overflowX="hidden" >
                             <TabList>
@@ -47,11 +43,8 @@ const SmartfundTabs = (props) => {
                             </TabPanels>
                         </Tabs >
                     </React.Fragment>
-                )
-            }}
-        </Observer>
     )
 }
-export default inject('MobXStorage')(SmartfundTabs)
+export default inject('MobXStorage')(observer(SmartfundTabs));
 
 

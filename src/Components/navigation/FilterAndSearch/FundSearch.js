@@ -2,15 +2,12 @@ import React, { useState } from 'react';
 import { Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
-import { inject, Observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 
 function FundSearch(props) {
     const [userAddress, setUserAddress] = useState('');
 
     return (
-        <Observer>
-            {() => {
-                return (
                     <React.Fragment>
                         <InputGroup>
                             <InputLeftElement
@@ -28,10 +25,7 @@ function FundSearch(props) {
                             />
                         </InputGroup>
                     </React.Fragment>
-                )
-            }}
-        </Observer>
     );
 }
 
-export default inject('MobXStorage')(FundSearch);
+export default inject('MobXStorage')(observer(FundSearch));

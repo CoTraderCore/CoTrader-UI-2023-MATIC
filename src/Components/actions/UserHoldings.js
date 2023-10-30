@@ -3,6 +3,7 @@ import { SmartFundABIV7 } from '../../config.js';
 import { useDisclosure, Button, ListItem, ModalCloseButton, ModalContent, ModalOverlay, OrderedList, ModalBody, ModalHeader, Modal, useColorModeValue, } from '@chakra-ui/react';
 import { fromWei } from 'web3-utils'
 import Loading from '../template/spiners/Loading.js';
+// import { inject,observer } from 'mobx-react';
 
 function UserHoldings(props) {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -28,15 +29,13 @@ function UserHoldings(props) {
                 setIsLoad(true);
             }
         }
-
         fetchData();
     }, [isOpen]);
 
     const allbtnBg = useColorModeValue("#039be5", "#039be5")
-    const sliderBg = useColorModeValue("#fff", "#181144")
 
     return (
-        <>
+        <React.Fragment>
             <Button flexGrow="1" width={{ base: "100%", md: "auto" }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }} onClick={onOpen}>
                 My Holding
             </Button>
@@ -69,8 +68,10 @@ function UserHoldings(props) {
                     </ModalBody>
                 </ModalContent>
             </Modal>
-        </>
+        </React.Fragment>
     );
 }
 
 export default UserHoldings;
+// export default inject('MobXStorage')(observer(UserHoldings)) 
+

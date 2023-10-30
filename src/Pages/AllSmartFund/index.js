@@ -9,7 +9,7 @@ import IconBox from '../../Components/Icons/IconBox';
 import Deposit from '../../Components/actions/Deposit/Deposit';
 import Withdraw from '../../Components/actions/Withdraw/Withdraw';
 import UserHoldings from '../../Components/actions/UserHoldings';
-import { inject, Observer } from 'mobx-react';
+import { inject, observer} from 'mobx-react';
 import FundPagebtn from '../../Components/actions/FundPagebtn';
 
 function AllSmartFund(props) {
@@ -17,11 +17,7 @@ function AllSmartFund(props) {
   const headingColor = useColorModeValue("#1B2559", "#F4F7FE");
   const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
   const boxBg = useColorModeValue("#F4F7FE", "gray.600");
-
   return (
-    <Observer>
-      {() => {
-        return (
           <React.Fragment>
             <Box gap={5} display="flex" flexDirection="column">
               {
@@ -34,26 +30,26 @@ function AllSmartFund(props) {
                       <Box sx={{ display: "flex", justifyContent: "center" }}>
                       <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "90%", lg: "80%" } }}>
                           <Deposit
-                            web3={props.MobXStorage.web3}
+                            web3={props.web3}
                             address={item.address}
-                            accounts={props.MobXStorage.account}
+                            accounts={props.accounts}
                             mainAsset={item.mainAsset}
                             pending={props.pending}
                             version={item.version}
                           />
                           <Withdraw
-                            web3={props.MobXStorage.web3}
+                            web3={props.web3}
                             address={item.address}
-                            accounts={props.MobXStorage.account}
+                            accounts={props.accounts}
                             pending={props.pending}
                             version={item.version}
                             mainAsset={item.mainAsset}
                           />
                          <FundPagebtn address={item.address}/>
                           <UserHoldings
-                            web3={props.MobXStorage.web3}
+                            web3={props.web3}
                             address={item.address}
-                            accounts={props.MobXStorage.account}
+                            accounts={props.accounts}
                           />
                           <EtherscanButton address={item.address} />
                         </Box>
@@ -135,9 +131,6 @@ function AllSmartFund(props) {
               )
             }
           </React.Fragment>
-        )
-      }}
-    </Observer>
   );
 }
-export default inject('MobXStorage')(AllSmartFund);
+export default inject('MobXStorage')(observer(AllSmartFund));

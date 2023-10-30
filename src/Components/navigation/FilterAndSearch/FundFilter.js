@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Observer, inject } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 import { fromWei } from 'web3-utils';
 import {
     FormLabel,
@@ -121,10 +121,7 @@ function FundFilter({ MobXStorage, onCloseModal }) {
     };
 
     return (
-        <Observer>
-            {() => {
-                return (
-                    <>
+                    <React.Fragment>
                         <FormControl>
                             <FormLabel>Fund name</FormLabel>
                             <Input
@@ -233,11 +230,8 @@ function FundFilter({ MobXStorage, onCloseModal }) {
                                 Reset filter
                             </Button>
                         </Box>
-                    </>
-                )
-            }}
-        </Observer>
+                    </React.Fragment>
     );
 }
 
-export default inject('MobXStorage')(FundFilter);
+export default inject('MobXStorage')(observer(FundFilter));

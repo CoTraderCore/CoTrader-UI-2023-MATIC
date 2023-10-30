@@ -33,7 +33,7 @@ import FundModal from '../../Components/actions/FundModal';
 import ManagerModal from '../../Components/actions/ManagerModal';
 
 function ViewFund(props) {
-  
+   
     const { address } = useParams();
     const [smartFundAddress, setSmartFundAddress] = useState('');
     const [name, setName] = useState('');
@@ -217,6 +217,7 @@ function ViewFund(props) {
     const tableHead = useColorModeValue("#1A202C", "#fff")
     const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
     const boxBg = useColorModeValue("#F4F7FE", "gray.600");
+   
     return (
         <>
             <Box px={4}>
@@ -231,7 +232,7 @@ function ViewFund(props) {
                 {
                     props.web3 && isDataLoad ?
                         (
-                            <React.Fragment>
+                            <>
                                 <Box>
                                     <PopupMsg txName={txName} txHash={txHash} ref={_popupChild} />
                                     {pending ? (
@@ -600,7 +601,7 @@ function ViewFund(props) {
                                     </Box>
                                     <Footer />
                                 </Box>
-                            </React.Fragment>
+                            </>
                         ) : (
                             <Loading />
                         )

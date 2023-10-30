@@ -7,9 +7,8 @@ import { MdAttachMoney } from 'react-icons/md'
 import EtherscanButton from '../../Components/actions/EtherscanButton';
 import { fromWei } from 'web3-utils';
 import PagePagination from '../../Components/navigation/Pagination/PagePagination';
-import { inject, Observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { NavLink } from 'react-router-dom';
-
 
 function AllFundWithoutWeb3(props) {
     const [currentPage, setCurrentPage] = useState(1)
@@ -20,9 +19,6 @@ function AllFundWithoutWeb3(props) {
     const allbtnBg = useColorModeValue("#039be5", "#039be5")
 
     return (
-        <Observer>
-            {() => {
-                return (
                     <Box gap={5} display="flex" flexDirection="column">
                         {
                             props.MobXStorage.SmartFunds.map((item, key) =>
@@ -127,11 +123,9 @@ function AllFundWithoutWeb3(props) {
                             )
                         }
                     </Box>
-                )
-            }}
-        </Observer>
+                
     )
 }
 
 // export default AllFundWithoutWeb3;
-export default inject('MobXStorage')(AllFundWithoutWeb3)
+export default inject('MobXStorage')(observer(AllFundWithoutWeb3));
