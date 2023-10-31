@@ -9,7 +9,7 @@ import Footer from '../../Components/common/footer/Footer';
 import getFundData from '../../utils/getFundData';
 import { EtherscanLink, APIEnpoint, NeworkID } from '../../config';
 import EtherscanButton from '../../Components/actions/EtherscanButton';
-import {useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import MigrateToV9 from '../../Components/actions/MigrateToV9';
 import PopupMsg from '../../Components/template/PopupMsg';
 import { io } from 'socket.io-client';
@@ -33,7 +33,7 @@ import FundModal from '../../Components/actions/FundModal';
 import ManagerModal from '../../Components/actions/ManagerModal';
 
 function ViewFund(props) {
-   
+
     const { address } = useParams();
     const [smartFundAddress, setSmartFundAddress] = useState('');
     const [name, setName] = useState('');
@@ -173,7 +173,7 @@ function ViewFund(props) {
             setManagerRemainingCut(fund.data.result.managerRemainingCut);
             setShares(fund.data.result.shares);
         };
-       
+
     }
 
     const pendingHandler = (_bool, _txCount) => {
@@ -217,7 +217,7 @@ function ViewFund(props) {
     const tableHead = useColorModeValue("#1A202C", "#fff")
     const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
     const boxBg = useColorModeValue("#F4F7FE", "gray.600");
-   
+
     return (
         <>
             <Box px={4}>
@@ -230,7 +230,7 @@ function ViewFund(props) {
                     smartFundAddress={smartFundAddress}
                 />
                 {
-                    props.web3 && isDataLoad ?
+                    isDataLoad ?
                         (
                             <>
                                 <Box>
@@ -386,7 +386,7 @@ function ViewFund(props) {
                                                     accounts={props.accounts}
                                                     pending={pendingHandler}
                                                 />
-                                                <EtherscanButton address={smartFundAddress}  web3={props.web3} />
+                                                <EtherscanButton address={smartFundAddress} web3={props.web3} />
                                             </Box>
                                         </Box>
                                     </Box>
@@ -517,7 +517,7 @@ function ViewFund(props) {
                                     <Box pt={5}>
                                         <Heading fontSize={{ base: "xl", md: "2xl" }} sx={{ textAlign: "center", textTransform: "uppercase", color: { headingColor }, padding: "10px 0px" }}>Manager actions</Heading>
                                         {
-                                            props.accounts[0] === owner ?
+                                            props.web3 && props.accounts[0] === owner ?
                                                 (
                                                     <Box sx={{ display: "flex", justifyContent: "center" }}>
                                                         <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
@@ -559,7 +559,7 @@ function ViewFund(props) {
                                                 (
                                                     <Box sx={{ display: "flex", justifyContent: "center" }}>
                                                         <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
-                                                        <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
+                                                            <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
                                                                 <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
                                                                     Exchange
                                                                 </Button>
@@ -592,7 +592,7 @@ function ViewFund(props) {
                                     <Box>
                                         <SimpleGrid mt={5} gap={5} columns={{ base: 1, md: 2 }}>
                                             <Card textAlign="center">
-                                                <FundModal address={address}  MobXStorage={props.MobXStorage} />
+                                                <FundModal address={address} MobXStorage={props.MobXStorage} />
                                             </Card>
                                             <Card textAlign="center">
                                                 <ManagerModal address={owner} MobXStorage={props.MobXStorage} />
