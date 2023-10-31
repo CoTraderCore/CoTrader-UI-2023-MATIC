@@ -86,8 +86,8 @@ function App(props) {
                     <DashboardHeader />
                   </Box>
                   <Switch>
-                    <Route exact path="/" render={() => <SmartFundList web3={props.MobXStorage.web3} accounts={props.MobXStorage.account} MobXStorage={props.MobXStorage} isDataLoad={isDataLoad} setIsDataLoad={setIsDataLoad} />} />
-                    <Route path="/fund/:address" render={() => <ViewFund web3={props.MobXStorage.web3} accounts={props.MobXStorage.account} MobXStorage={props.MobXStorage} />} />
+                    <Route exact path="/" render={() => <SmartFundList MobXStorage={props.MobXStorage} isDataLoad={isDataLoad} setIsDataLoad={setIsDataLoad} />} />
+                    <Route path="/fund/:address" render={() => <ViewFund MobXStorage={props.MobXStorage} />} />
                     <Route path="/user-txs/:address" render={() => <ViewUserTx MobXStorage={props.MobXStorage} isDataLoad={isDataLoad} />} />
                     <Route path="/fund-txs/:address" render={() => <ViewFundTx MobXStorage={props.props.MobXStorage} isDataLoad={isDataLoad} />} />
                     <Route path="/user/:address" render={() => <ViewUser MobXStorage={props.MobXStorage} />} />

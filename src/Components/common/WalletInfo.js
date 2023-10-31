@@ -21,7 +21,7 @@ class WalletInfo extends Component {
     }
     render() {
         return (
-            <Box mt={2} >
+            <Box my={2}>
                 {
                     this.props.accounts && this.props.web3 ?
                         (

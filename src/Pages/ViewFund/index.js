@@ -31,7 +31,8 @@ import _ from 'lodash';
 import Loading from '../../Components/template/spiners/Loading';
 import FundModal from '../../Components/actions/FundModal';
 import ManagerModal from '../../Components/actions/ManagerModal';
-import { inject, observer } from 'mobx-react';
+import { inject, observer, useObserver } from 'mobx-react';
+import WalletInfo from '../../Components/common/WalletInfo';
 
 function ViewFund(props) {
 
@@ -183,8 +184,8 @@ function ViewFund(props) {
     };
 
     const checkPending = async () => {
-        if (props.accounts) {
-            let txCount = await axios.get(APIEnpoint + 'api/user-pending-count/' + props.accounts[0]);
+        if (props.MobXStorage.account) {
+            let txCount = await axios.get(APIEnpoint + 'api/user-pending-count/' + props.MobXStorage.account[0]);
             txCount = txCount.data.result;
             const isPending = Number(txCount) === 0 ? false : true
             if (_isMounted) {
@@ -221,7 +222,8 @@ function ViewFund(props) {
 
     return (
         <React.Fragment>
-            <Box px={4}>
+            <Box px={2}>
+                <WalletInfo web3={props.MobXStorage.web3} accounts={props.MobXStorage.account} />
                 <Header heading="Fund Detail" />
                 <MigrateToV9
                     version={version}
@@ -518,28 +520,28 @@ function ViewFund(props) {
                                     <Box pt={5}>
                                         <Heading fontSize={{ base: "xl", md: "2xl" }} sx={{ textAlign: "center", textTransform: "uppercase", color: { headingColor }, padding: "10px 0px" }}>Manager actions</Heading>
                                         {
-                                            props.web3 && props.accounts[0] === owner ?
+                                            props.MobXStorage.web3 && props.MobXStorage.account[0] === owner ?
                                                 (
                                                     <Box sx={{ display: "flex", justifyContent: "center" }}>
                                                         <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
                                                             <TradeModal
-                                                                web3={props.web3}
-                                                                accounts={props.accounts}
+                                                                web3={props.MobXStorage.web3}
+                                                                accounts={props.MobXStorage.account}
                                                                 smartFundAddress={smartFundAddress}
                                                                 pending={pendingHandler}
                                                                 version={version}
                                                             />
                                                             <WithdrawManager
-                                                                web3={props.web3}
-                                                                accounts={props.accounts}
+                                                                web3={props.MobXStorage.web3}
+                                                                accounts={props.MobXStorage.account}
                                                                 smartFundAddress={smartFundAddress}
                                                                 owner={owner}
                                                                 pending={pendingHandler}
                                                                 version={version}
                                                             />
                                                             <WhiteList
-                                                                web3={props.web3}
-                                                                accounts={props.accounts}
+                                                                web3={props.MobXStorage.web3}
+                                                                accounts={props.MobXStorage.account}
                                                                 smartFundAddress={smartFundAddress}
                                                                 owner={owner}
                                                             />
@@ -547,8 +549,8 @@ function ViewFund(props) {
                                                                 mainAsset === 'USD' ?
                                                                     (
                                                                         <UpdateUSDAsset
-                                                                            web3={props.web3}
-                                                                            accounts={props.accounts}
+                                                                            web3={props.MobXStorage.web3}
+                                                                            accounts={props.MobXStorage.account}
                                                                             smartFundAddress={smartFundAddress}
                                                                             version={version}
                                                                         />
@@ -560,75 +562,29 @@ function ViewFund(props) {
                                                 (
                                                     <Box sx={{ display: "flex", justifyContent: "center" }}>
                                                         <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
-                                                            {
-                                                                props.MobXStorage.web3 ?
-                                                                    (
-                                                                        <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
-                                                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
-                                                                                Exchange
-                                                                            </Button>
-                                                                        </Tooltip>
-                                                                    ) : (
-                                                                        <Tooltip hasArrow label="Please connect to web3" bg={tooltipBg}>
-                                                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
-                                                                                Exchange
-                                                                            </Button>
-                                                                        </Tooltip>
-                                                                    )
-                                                            }
-                                                            {
-                                                                props.MobXStorage.web3 ?
-                                                                    (
-                                                                        <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
-                                                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
-                                                                                Take Cut
-                                                                            </Button>
-                                                                        </Tooltip>
-                                                                    ) : (
-                                                                        <Tooltip hasArrow label="Please connect to web3" bg={tooltipBg}>
-                                                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
-                                                                                Take Cut
-                                                                            </Button>
-                                                                        </Tooltip>
-                                                                    )
-                                                            }
-                                                            {
-                                                                props.MobXStorage.web3 ?
-                                                                    (
-                                                                        <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
-                                                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
-                                                                                White List
-                                                                            </Button>
-                                                                        </Tooltip>
-                                                                    ) : (
-                                                                        <Tooltip hasArrow label="Please connect to web3" bg={tooltipBg}>
-                                                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
-                                                                                White List
-                                                                            </Button>
-                                                                        </Tooltip>
-                                                                    )
-                                                            }
+                                                            <Tooltip hasArrow label={props.MobXStorage.web3 ? "You can't use this button because You are not owner of this smart fund" : "Please connect to web3"} bg={tooltipBg}>
+                                                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
+                                                                    Exchange
+                                                                </Button>
+                                                            </Tooltip>
+                                                            <Tooltip hasArrow label={props.MobXStorage.web3 ? "You can't use this button because You are not owner of this smart fund" : "Please connect to web3"} bg={tooltipBg}>
+                                                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
+                                                                    Take Cut
+                                                                </Button>
+                                                            </Tooltip>
+                                                            <Tooltip hasArrow label={props.MobXStorage.web3 ? "You can't use this button because You are not owner of this smart fund" : "Please connect to web3"} bg={tooltipBg}>
+                                                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
+                                                                    White List
+                                                                </Button>
+                                                            </Tooltip>
                                                             {
                                                                 mainAsset === "USD" ?
                                                                     (
-                                                                        <>
-                                                                            {
-                                                                                props.MobXStorage.web3 ?
-                                                                                    (
-                                                                                        <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
-                                                                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
-                                                                                                Stable Tokens
-                                                                                            </Button>
-                                                                                        </Tooltip>
-                                                                                    ) : (
-                                                                                        <Tooltip hasArrow label="Please connect to web3" bg={tooltipBg}>
-                                                                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
-                                                                                                Stable Tokens
-                                                                                            </Button>
-                                                                                        </Tooltip>
-                                                                                    )
-                                                                            }
-                                                                        </>
+                                                                        <Tooltip hasArrow label={props.MobXStorage.web3 ? "You can't use this button because You are not owner of this smart fund" : "Please connect to web3"} bg={tooltipBg}>
+                                                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
+                                                                                Stable Tokens
+                                                                            </Button>
+                                                                        </Tooltip>
                                                                     ) : null
                                                             }
                                                         </Box>
