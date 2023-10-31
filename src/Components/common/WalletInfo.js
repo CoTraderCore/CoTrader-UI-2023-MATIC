@@ -4,9 +4,11 @@ import { fromWei } from 'web3-utils'
 import { RandomAvatar } from 'react-random-avatars'
 
 class WalletInfo extends Component {
-
-    state = {
-        ETHBalance: 0
+    constructor(props, context) {
+        super(props, context);
+        this.state = {
+            ETHBalance: 0
+        }
     }
 
     componentDidMount = async () => {
@@ -19,17 +21,17 @@ class WalletInfo extends Component {
     }
     render() {
         return (
-            <Box mt={2} py={2} px={2}>
+            <Box mt={2} >
                 {
                     this.props.accounts && this.props.web3 ?
                         (
 
                             <Box gap={2} fontSize="sm" sx={{ textAlign: "center", borderRadius: "5px", padding: "10px 5px", boxShadow: "1px 1px 1px 1px gray", border: "1px solid white", display: "flex", flexDirection: "column" }}>
-                            {
+                                {
                                     this.state.ETHBalance > 0 ?
                                         (
-                                            <Text >
-                                                <strong style={{ boxShadow: "1px 1px 1px 1px lightgray", padding: "0px 10px", color: "#7500ff", fontWeight: "500", }}>{this.state.ETHBalance}: <span style={{ color: "gray" }}>BNB</span></strong>
+                                            <Text display="flex" justifyContent="center" alignItems="center" >
+                                                <strong style={{ padding: "0px 10px", color: "#7500ff", fontWeight: "500", }}>{this.state.ETHBalance}: <span style={{ color: "gray" }}>BNB</span></strong>
                                             </Text>
                                         ) : null
                                 }

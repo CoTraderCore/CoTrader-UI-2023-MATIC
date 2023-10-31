@@ -18,9 +18,15 @@ function Deposit(props) {
     };
     return (
         <React.Fragment>
-            <Tooltip>
-                <Button onClick={() => setShow(true)} flexGrow="1" minWidth={{ base: '100%', sm: "auto" }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>Deposit</Button>
-            </Tooltip>
+            {
+                !props.web3 ? (
+                    <Tooltip hasArrow label="Please connect to web3">
+                        <Button flexGrow="1" minWidth={{ base: '100%', sm: "auto" }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>Deposit</Button>
+                    </Tooltip>
+                ) : (
+                    <Button onClick={() => setShow(true)} flexGrow="1" minWidth={{ base: '100%', sm: "auto" }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>Deposit</Button>
+                )
+            }
             <Modal isOpen={show} onClose={modalClose} size={{ base: "lg", md: "xl" }}>
                 <ModalOverlay />
                 <ModalContent>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { APIEnpoint, SmartFundRegistryABIV9, SmartFundRegistryADDRESS } from '../../config.js'
-import { useColorModeValue,Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Button, Box, FormControl, Checkbox,  FormLabel, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Stack, Input, InputLeftAddon, InputGroup, Select, } from '@chakra-ui/react'
+import { Tooltip,useColorModeValue,Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Button, Box, FormControl, Checkbox,  FormLabel, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Stack, Input, InputLeftAddon, InputGroup, Select, } from '@chakra-ui/react'
 import setPending from '../../utils/setPending'
 import UserInfo from '../template/UserInfo.js'
 import axios from 'axios'
@@ -76,8 +76,6 @@ function CreateNewFund(props) {
                 break;
         }
     };
-
-
     const modalOpen = () => {
         setShow(true);
     };
@@ -91,13 +89,19 @@ function CreateNewFund(props) {
     };
     const allbtnBg = useColorModeValue("#039be5", "#039be5")
     const allbtntxtcolor=useColorModeValue("#fff","gray.200")
-    //buttoncolor #5E39FF
     return (
-        <>
-            <Button bg={allbtnBg} color={allbtntxtcolor} width={{base:"100%",md:"auto"}} sx={{ _hover: { backgroundColor: "#027CB8" },padding:"0 50px" }} onClick={modalOpen} >
+        <React.Fragment>
+        {
+            !props.web3 ? (
+                <Tooltip hasArrow label="Please connect to web3">
+                    <Button flexGrow="1" minWidth={{ base: '100%', sm: "auto" }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" },padding:"0 50px" }}> Create fund</Button>
+                </Tooltip>
+            ) : (
+                <Button bg={allbtnBg} color={allbtntxtcolor} flexGrow="1" width={{base:"100%",md:"auto"}} sx={{ _hover: { backgroundColor: "#027CB8" },padding:"0 50px" }} onClick={modalOpen} >
                 Create fund
             </Button>
-
+            )
+        }
             <Modal
                 isOpen={show} onClose={modalClose}
             >
@@ -156,7 +160,7 @@ function CreateNewFund(props) {
                     </ModalBody>
                 </ModalContent>
             </Modal>
-        </>
+        </React.Fragment>
     )
 }
 export default CreateNewFund;

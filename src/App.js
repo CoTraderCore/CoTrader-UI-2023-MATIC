@@ -85,8 +85,6 @@ function App(props) {
                   <Box pt={5} px={2}>
                     <DashboardHeader />
                   </Box>
-
-                  <WalletInfo web3={props.MobXStorage.web3} accounts={props.MobXStorage.accounts} />
                   <Switch>
                     <Route exact path="/" render={() => <SmartFundList web3={props.MobXStorage.web3} accounts={props.MobXStorage.account} MobXStorage={props.MobXStorage} isDataLoad={isDataLoad} setIsDataLoad={setIsDataLoad} />} />
                     <Route path="/fund/:address" render={() => <ViewFund web3={props.MobXStorage.web3} accounts={props.MobXStorage.account} MobXStorage={props.MobXStorage} />} />

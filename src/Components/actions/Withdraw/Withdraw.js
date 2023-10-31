@@ -5,7 +5,6 @@ import { APIEnpoint, SmartFundABIV7 } from '../../../config';
 import setPending from '../../../utils/setPending';
 
 function Withdraw(props) {
-
     const [percent, setPercent] = useState(50);
     const [isConvert, setIsConvert] = useState(false);
 
@@ -53,9 +52,15 @@ function Withdraw(props) {
     const allbtnBg = useColorModeValue("#039be5", "#039be5")
     return (
         <React.Fragment>
-            <Tooltip>
+        {
+            !props.web3 ? (
+                <Tooltip hasArrow label="Please connect to web3">
+                    <Button flexGrow="1" minWidth={{ base: '100%', sm: "auto" }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>Withdraw</Button>
+                </Tooltip>
+            ) : (
                 <Button onClick={onOpen} flexGrow="1" minWidth={{ base: '100%', sm: "auto" }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>Withdraw</Button>
-            </Tooltip>
+            )
+        }
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent >

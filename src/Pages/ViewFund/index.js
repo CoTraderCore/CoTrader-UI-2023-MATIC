@@ -386,7 +386,7 @@ function ViewFund(props) {
                                                     accounts={props.accounts}
                                                     pending={pendingHandler}
                                                 />
-                                                <EtherscanButton address={smartFundAddress} />
+                                                <EtherscanButton address={smartFundAddress}  web3={props.web3} />
                                             </Box>
                                         </Box>
                                     </Box>

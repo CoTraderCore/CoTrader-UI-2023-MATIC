@@ -19,6 +19,7 @@ import getFundsList from '../../utils/getFundsList';
 import Pending from '../../Components/template/spiners/Pending';
 import { observer, inject } from 'mobx-react';
 import Loading from '../../Components/template/spiners/Loading';
+import WalletInfo from '../../Components/common/WalletInfo';
 
 function SmartFundList(props) {
 
@@ -125,12 +126,14 @@ function SmartFundList(props) {
   const txtColor = useColorModeValue("green.500", "#fff")
 
   console.log("MobXStorage=",props.MobXStorage)
+
   return (
           <React.Fragment>
             {
               props.isDataLoad ?
                 (
                   <Box className='dashboard' style={{ padding: "10px", }}>
+                  <WalletInfo web3={props.MobXStorage.web3} accounts={props.MobXStorage.account} />
                     <PopupMsg txName={txName} txHash={txHash} ref={_popupChild} />
                     {
                       pending ? (
@@ -145,7 +148,7 @@ function SmartFundList(props) {
                     }
                     <Grid py={5} gap={4} templateColumns={['1fr', 'repeat(3, 1fr)']} sx={{ borderRadius: "5px", display: "flex", justifyContent: "space-around", flexDirection: { base: "column", sm: "column", md: "row" }, textAlign: { base: "center", sm: "center" } }}>
                       <GridItem >
-                        <CreateNewFund web3={props.web3} accounts={props.accounts} pending={pendingg} />
+                        <CreateNewFund web3={props.MobXStorage.web3} accounts={props.MobXStorage.account} pending={pendingg} />
                       </GridItem>
                       <GridItem >
                         <FilterSearch MobXStorage={props.MobXStorage} />

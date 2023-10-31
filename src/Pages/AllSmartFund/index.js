@@ -45,13 +45,13 @@ function AllSmartFund(props) {
                             version={item.version}
                             mainAsset={item.mainAsset}
                           />
-                         <FundPagebtn address={item.address}/>
+                         <FundPagebtn address={item.address} web3={props.web3}/>
                           <UserHoldings
                             web3={props.web3}
                             address={item.address}
                             accounts={props.accounts}
                           />
-                          <EtherscanButton address={item.address} />
+                          <EtherscanButton address={item.address} web3={props.web3} />
                         </Box>
                       </Box>
                       <Box>

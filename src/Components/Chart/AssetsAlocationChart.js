@@ -3,7 +3,7 @@ import { Heading, Box, useColorModeValue } from '@chakra-ui/react';
 import ApexChart from 'react-apexcharts';
 import 'apexcharts/dist/apexcharts.css';
 import Card from '../Card/Card';
-import {inject } from 'mobx-react';
+import {inject, observer } from 'mobx-react';
 
 
 const AssetsAlocationChart = ({ AssetsData, version }) => {
@@ -85,4 +85,4 @@ const AssetsAlocationChart = ({ AssetsData, version }) => {
     );
 };
 
-export default inject('MobXStorage')(AssetsAlocationChart);
+export default inject('MobXStorage')(observer(AssetsAlocationChart));

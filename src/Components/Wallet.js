@@ -1,6 +1,6 @@
 import React from 'react';
 import getWeb3 from '../utils/getWeb3'
-import { Button, Text, Box } from '@chakra-ui/react';
+import { Button, Text, Box, Tooltip } from '@chakra-ui/react';
 import { BiBadgeCheck } from 'react-icons/bi'
 import {
   NeworkID,
@@ -17,9 +17,6 @@ const connectWallet = async (mobx) => {
 }
 
 function Wallet(props) {
-  console.log("props.MobXStorage.web3", props.MobXStorage.web3);
-  console.log("props.MobXStorage.account", props.MobXStorage.account);
-  console.log("props.MobXStorage.netId", props.MobXStorage.netId);
   return (
     <React.Fragment>
       {props.MobXStorage.web3 ? (
