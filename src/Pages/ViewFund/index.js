@@ -31,6 +31,7 @@ import _ from 'lodash';
 import Loading from '../../Components/template/spiners/Loading';
 import FundModal from '../../Components/actions/FundModal';
 import ManagerModal from '../../Components/actions/ManagerModal';
+import { inject, observer } from 'mobx-react';
 
 function ViewFund(props) {
 
@@ -219,14 +220,14 @@ function ViewFund(props) {
     const boxBg = useColorModeValue("#F4F7FE", "gray.600");
 
     return (
-        <>
+        <React.Fragment>
             <Box px={4}>
                 <Header heading="Fund Detail" />
                 <MigrateToV9
                     version={version}
                     owner={owner}
-                    web3={props.web3}
-                    accounts={props.accounts}
+                    web3={props.MobXStorage.web3}
+                    accounts={props.MobXStorage.account}
                     smartFundAddress={smartFundAddress}
                 />
                 {
@@ -365,28 +366,28 @@ function ViewFund(props) {
                                         <Box sx={{ display: "flex", justifyContent: "center" }}>
                                             <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
                                                 <Deposit
-                                                    web3={props.web3}
+                                                    web3={props.MobXStorage.web3}
+                                                    accounts={props.MobXStorage.account}
                                                     address={smartFundAddress}
-                                                    accounts={props.accounts}
                                                     mainAsset={mainAsset}
                                                     pending={pendingHandler}
                                                     version={version}
                                                 />
                                                 <Withdraw
-                                                    web3={props.web3}
+                                                    web3={props.MobXStorage.web3}
+                                                    accounts={props.MobXStorage.account}
                                                     address={smartFundAddress}
-                                                    accounts={props.accounts}
                                                     version={version}
                                                     mainAsset={mainAsset}
                                                     pending={pendingHandler}
                                                 />
                                                 <UserHoldings
-                                                    web3={props.web3}
+                                                    web3={props.MobXStorage.web3}
+                                                    accounts={props.MobXStorage.account}
                                                     address={smartFundAddress}
-                                                    accounts={props.accounts}
                                                     pending={pendingHandler}
                                                 />
-                                                <EtherscanButton address={smartFundAddress} web3={props.web3} />
+                                                <EtherscanButton address={smartFundAddress} web3={props.MobXStorage.web3} />
                                             </Box>
                                         </Box>
                                     </Box>
@@ -559,29 +560,75 @@ function ViewFund(props) {
                                                 (
                                                     <Box sx={{ display: "flex", justifyContent: "center" }}>
                                                         <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
-                                                            <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
-                                                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
-                                                                    Exchange
-                                                                </Button>
-                                                            </Tooltip>
-                                                            <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
-                                                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
-                                                                    Take Cut
-                                                                </Button>
-                                                            </Tooltip>
-                                                            <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
-                                                                <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
-                                                                    White List
-                                                                </Button>
-                                                            </Tooltip>
                                                             {
-                                                                mainAsset === "USD" ?
+                                                                props.MobXStorage.web3 ?
                                                                     (
                                                                         <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
                                                                             <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
-                                                                                Stable Tokens
+                                                                                Exchange
                                                                             </Button>
                                                                         </Tooltip>
+                                                                    ) : (
+                                                                        <Tooltip hasArrow label="Please connect to web3" bg={tooltipBg}>
+                                                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
+                                                                                Exchange
+                                                                            </Button>
+                                                                        </Tooltip>
+                                                                    )
+                                                            }
+                                                            {
+                                                                props.MobXStorage.web3 ?
+                                                                    (
+                                                                        <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
+                                                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
+                                                                                Take Cut
+                                                                            </Button>
+                                                                        </Tooltip>
+                                                                    ) : (
+                                                                        <Tooltip hasArrow label="Please connect to web3" bg={tooltipBg}>
+                                                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
+                                                                                Take Cut
+                                                                            </Button>
+                                                                        </Tooltip>
+                                                                    )
+                                                            }
+                                                            {
+                                                                props.MobXStorage.web3 ?
+                                                                    (
+                                                                        <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
+                                                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
+                                                                                White List
+                                                                            </Button>
+                                                                        </Tooltip>
+                                                                    ) : (
+                                                                        <Tooltip hasArrow label="Please connect to web3" bg={tooltipBg}>
+                                                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
+                                                                                White List
+                                                                            </Button>
+                                                                        </Tooltip>
+                                                                    )
+                                                            }
+                                                            {
+                                                                mainAsset === "USD" ?
+                                                                    (
+                                                                        <>
+                                                                            {
+                                                                                props.MobXStorage.web3 ?
+                                                                                    (
+                                                                                        <Tooltip hasArrow label="You can't use this button because You are not owner of this smart fund" bg={tooltipBg}>
+                                                                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
+                                                                                                Stable Tokens
+                                                                                            </Button>
+                                                                                        </Tooltip>
+                                                                                    ) : (
+                                                                                        <Tooltip hasArrow label="Please connect to web3" bg={tooltipBg}>
+                                                                                            <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
+                                                                                                Stable Tokens
+                                                                                            </Button>
+                                                                                        </Tooltip>
+                                                                                    )
+                                                                            }
+                                                                        </>
                                                                     ) : null
                                                             }
                                                         </Box>
@@ -607,8 +654,8 @@ function ViewFund(props) {
                         )
                 }
             </Box>
-        </>
+        </React.Fragment>
     )
 }
 
-export default ViewFund;
+export default inject('MobXStorage')(observer(ViewFund));
