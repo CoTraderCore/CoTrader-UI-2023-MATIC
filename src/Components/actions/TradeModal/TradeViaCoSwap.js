@@ -20,7 +20,7 @@ import checkTokensLimit from '../../../utils/checkTokensLimit'
 import Pending from '../../template/spiners/Pending.js'
 import BigNumber from 'bignumber.js'
 import SelectToken from './SelectToken'
-import { Button,Box, FormControl, FormLabel,Alert,Input, InputGroup, Text } from '@chakra-ui/react'
+import { Button, Box, FormControl, FormLabel, Alert, Input, InputGroup, Text } from '@chakra-ui/react'
 
 class TradeViaCoSwap extends Component {
   constructor(props, context) {
@@ -28,69 +28,69 @@ class TradeViaCoSwap extends Component {
 
     this.state = {
       Send: 'BNB',
-      Recive:'bCOT',
-      AmountSend:0,
-      AmountRecive:0,
-      slippageFrom:0,
-      slippageTo:0,
-      ERRORText:'',
+      Recive: 'bCOT',
+      AmountSend: 0,
+      AmountRecive: 0,
+      slippageFrom: 0,
+      slippageTo: 0,
+      ERRORText: '',
       tokens: null,
       symbols: null,
       sendFrom: '',
-      sendTo:'',
-      decimalsFrom:18,
-      decimalsTo:18,
-      prepareData:false
+      sendTo: '',
+      decimalsFrom: 18,
+      decimalsTo: 18,
+      prepareData: false
     }
   }
 
   _isMounted = false
-  componentDidMount(){
+  componentDidMount() {
     this._isMounted = true
     this.initData()
 
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this._isMounted = false
   }
 
-  componentDidUpdate(prevProps, prevState){
-    if(prevState.Send !== this.state.Send
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.Send !== this.state.Send
       || prevState.Recive !== this.state.Recive
       || prevState.AmountSend !== this.state.AmountSend
       || prevState.AmountRecive !== this.state.AmountRecive
-    ){
-      this.setState({ ERRORText:'' })
+    ) {
+      this.setState({ ERRORText: '' })
     }
   }
 
   // get tokens addresses and symbols from paraswap api
   initData = async () => {
-    if(NeworkID === 56){
+    if (NeworkID === 56) {
       const tokens = [
         { symbol: "BNB", address: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", decimals: 18 },
         { symbol: "bCOT", address: "0x304fc73e86601a61a6c6db5b0eafea587622acdc", decimals: 18 }
       ]
       const symbols = ['BNB', 'bCOT']
-      if(this._isMounted)
+      if (this._isMounted)
         this.setState({ tokens, symbols })
     }
 
-    else{
+    else {
       alert("There are no tokens for your network")
     }
   }
 
   // Show err msg if there are some msg
   ErrorMsg = () => {
-    if(this.state.ERRORText.length > 0) {
-      return(
+    if (this.state.ERRORText.length > 0) {
+      return (
         <Alert variant="danger">
-        {this.state.ERRORText}
+          {this.state.ERRORText}
         </Alert>
       )
-    }else {
+    } else {
       return null
     }
   }
@@ -102,16 +102,16 @@ class TradeViaCoSwap extends Component {
     let fundBalance
     let result = false
 
-    if(String(this.state.sendFrom).toLowerCase() === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'){
+    if (String(this.state.sendFrom).toLowerCase() === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
       fundBalance = await this.props.web3.eth.getBalance(this.props.smartFundAddress)
-      fundBalance = this.props.web3.utils.fromWei(fundBalance,'ether')
+      fundBalance = this.props.web3.utils.fromWei(fundBalance, 'ether')
     }
-    else{
+    else {
       const ERC20 = new this.props.web3.eth.Contract(ERC20ABI, this.state.sendFrom)
       fundBalance = await ERC20.methods.balanceOf(this.props.smartFundAddress).call()
       fundBalance = fromWeiByDecimalsInput(this.state.decimalsFrom, fundBalance)
     }
-    if(parseFloat(fundBalance) >= parseFloat(this.state.AmountSend))
+    if (parseFloat(fundBalance) >= parseFloat(this.state.AmountSend))
       result = true
 
     return result
@@ -121,8 +121,8 @@ class TradeViaCoSwap extends Component {
   // helper for update state
   change = async e => {
     // Update rate in correct direction order and set state
-    if(e.target.name === "AmountSend"){
-      this.setState({ shouldUpdatePrice:true, slippageTo:0, slippageFrom:0 })
+    if (e.target.name === "AmountSend") {
+      this.setState({ shouldUpdatePrice: true, slippageTo: 0, slippageFrom: 0 })
       // get data
       const targetName = e.target.name
       const targerValue = e.target.value
@@ -138,13 +138,13 @@ class TradeViaCoSwap extends Component {
         decimalsFrom,
         decimalsTo,
         slippageFrom,
-        slippageTo:0,
-        shouldUpdatePrice:false
+        slippageTo: 0,
+        shouldUpdatePrice: false
       })
     }
     // Update rate in reverse order direction and set state
-    else if(e.target.name === "AmountRecive"){
-      this.setState({ shouldUpdatePrice:true, slippageTo:0, slippageFrom:0 })
+    else if (e.target.name === "AmountRecive") {
+      this.setState({ shouldUpdatePrice: true, slippageTo: 0, slippageFrom: 0 })
       // get data
       const targetName = e.target.name
       const targerValue = e.target.value
@@ -159,15 +159,15 @@ class TradeViaCoSwap extends Component {
         sendTo,
         decimalsFrom,
         decimalsTo,
-        slippageFrom:0,
+        slippageFrom: 0,
         slippageTo,
-        shouldUpdatePrice:false
+        shouldUpdatePrice: false
       })
     }
     // Just set state by input
-    else{
+    else {
       this.setState({
-      [e.target.name]: e.target.value
+        [e.target.name]: e.target.value
       })
     }
   }
@@ -185,10 +185,9 @@ class TradeViaCoSwap extends Component {
     return { sendFrom, sendTo, decimalsFrom, decimalsTo }
   }
 
-
   // trade via 1 inch
   tradeViaCoSwap = async () => {
-    try{
+    try {
       const smartFund = new this.props.web3.eth.Contract(SmartFundABIV7, this.props.smartFundAddress)
       const block = await this.props.web3.eth.getBlockNumber()
       // get cur tx count
@@ -196,7 +195,6 @@ class TradeViaCoSwap extends Component {
       txCount = txCount.data.result
 
       const amountInWei = toWeiByDecimalsInput(this.state.decimalsFrom, this.state.AmountSend)
-
       // TODO allow user select slippage  min return
       const minReturn = this.getMinReturn()
 
@@ -211,45 +209,45 @@ class TradeViaCoSwap extends Component {
 
       // trade
       smartFund.methods.trade(
-          this.state.sendFrom,
-          amountInWei,
-          this.state.sendTo,
-          1,
-          proof,
-          positions,
-          "0x",
-          minReturn
-        )
+        this.state.sendFrom,
+        amountInWei,
+        this.state.sendTo,
+        1,
+        proof,
+        positions,
+        "0x",
+        minReturn
+      )
         .send({ from: this.props.accounts[0], gasPrice })
         .on('transactionHash', (hash) => {
-        // pending status for spiner
-        this.props.pending(true, txCount+1)
-        // pending status for DB
-        setPending(this.props.smartFundAddress, 1, this.props.accounts[0], block, hash, "Trade")
-      })
+          // pending status for spiner
+          this.props.pending(true, txCount + 1)
+          // pending status for DB
+          setPending(this.props.smartFundAddress, 1, this.props.accounts[0], block, hash, "Trade")
+        })
 
       this.props.closeModal()
-    }catch(e){
-      this.setState({ ERRORText:'Can not verify transaction data, please try again in a minute' })
-      console.log("error: ",e)
+    } catch (e) {
+      this.setState({ ERRORText: 'Can not verify transaction data, please try again in a minute' })
+      console.log("error: ", e)
     }
   }
 
 
   // Validation input and smart fund balance
   validation = async () => {
-    if(this.state.AmountSend === 0){
-      this.setState({ ERRORText:'Please input amount'})
-    }else if(this.state.Send === this.state.Recive){
-      this.setState({ ERRORText:'Token directions can not be the same'})
+    if (this.state.AmountSend === 0) {
+      this.setState({ ERRORText: 'Please input amount' })
+    } else if (this.state.Send === this.state.Recive) {
+      this.setState({ ERRORText: 'Token directions can not be the same' })
     }
-    else{
+    else {
       const status = await this.checkFundBalance()
-      if(status){
-        this.setState({ prepareData:true })
+      if (status) {
+        this.setState({ prepareData: true })
         this.tradeViaCoSwap()
-      }else{
-        this.setState({ ERRORText:  `Your smart fund don't have enough ${this.state.Send}` })
+      } else {
+        this.setState({ ERRORText: `Your smart fund don't have enough ${this.state.Send}` })
       }
     }
   }
@@ -264,12 +262,12 @@ class TradeViaCoSwap extends Component {
   */
   setRate = async (from, to, amount, type, decimalsFrom, decimalsTo) => {
     const value = await this.getRate(from, to, amount, decimalsFrom, decimalsTo)
-    if(value){
+    if (value) {
       const result = fromWeiByDecimalsInput(decimalsTo, value)
-      this.setState({ [type]: result})
+      this.setState({ [type]: result })
       return result
-    }else{
-      this.setState({ [type]: 0})
+    } else {
+      this.setState({ [type]: 0 })
       return 0
     }
   }
@@ -277,16 +275,16 @@ class TradeViaCoSwap extends Component {
   // get ratio from 1inch or Paraswap (dependse of selected type)
   getRate = async (from, to, amount, decimalsFrom, decimalsTo) => {
     let price = 0
-    if(amount > 0 && from !== to){
+    if (amount > 0 && from !== to) {
       const src = toWeiByDecimalsInput(decimalsFrom, amount.toString(10))
       // wrap ETH case
       const _from = String(from).toLowerCase() === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
-      ? WETH
-      : from
+        ? WETH
+        : from
 
       const _to = String(to).toLowerCase() === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
-      ? WETH
-      : to
+        ? WETH
+        : to
 
       const router = new this.props.web3.eth.Contract(UNIRouterABI, CoSwapRouter)
       const data = await router.methods.getAmountsOut(src, [_from, _to]).call()
@@ -298,7 +296,7 @@ class TradeViaCoSwap extends Component {
 
   // get slippage percent
   getSlippage = async (sendFrom, sendTo, amountSend, amountRecive, decimalsFrom, decimalsTo) => {
-    try{
+    try {
       const expectedRatio = new BigNumber(
         toWeiByDecimalsInput(decimalsTo, amountRecive)
       )
@@ -317,14 +315,14 @@ class TradeViaCoSwap extends Component {
 
       const slippage = difference.dividedBy(expectedRatio.dividedBy(100))
       return slippage.dividedBy(2).toFixed(6)
-    }catch(e){
+    } catch (e) {
       return 0
     }
   }
 
   // TODO: User can select slipapge percent
   // cut 5% slippage for min return
-  getMinReturn(){
+  getMinReturn() {
     const amountReceive = toWeiByDecimalsInput(this.state.decimalsTo, this.state.AmountRecive)
     const result = new BigNumber(String(amountReceive)).multipliedBy(95).dividedBy(100)
     return BigNumber(BigNumber(result).integerValue()).toString(10)
@@ -333,14 +331,14 @@ class TradeViaCoSwap extends Component {
   // update state only when user stop typing
   delayChange = (e) => {
     e.persist()
-    this.setState({ [e.target.name]:e.target.value })
-    if(this._timeout){ //if there is already a timeout in process cancel it
-        clearTimeout(this._timeout)
+    this.setState({ [e.target.name]: e.target.value })
+    if (this._timeout) { //if there is already a timeout in process cancel it
+      clearTimeout(this._timeout)
     }
-    this._timeout = setTimeout(async()=>{
-       this._timeout = null
-       await this.change(e)
-    },1000)
+    this._timeout = setTimeout(async () => {
+      this._timeout = null
+      await this.change(e)
+    }, 1000)
   }
 
   // extract address from global tokens obj by symbol
@@ -353,9 +351,9 @@ class TradeViaCoSwap extends Component {
   // props for SelectToken component
   onChangeTypeHead = (name, param) => {
     this.setState({
-      [name]:param,
-      AmountSend:0,
-      AmountRecive:0
+      [name]: param,
+      AmountSend: 0,
+      AmountRecive: 0
     })
   }
 
@@ -363,7 +361,7 @@ class TradeViaCoSwap extends Component {
     const symbols = this.state.symbols
     const tokens = this.state.tokens
 
-    if(!symbols.includes(tokenSymbol)){
+    if (!symbols.includes(tokenSymbol)) {
       symbols.push(tokenSymbol)
       tokens.push(tokenData)
 
@@ -372,115 +370,115 @@ class TradeViaCoSwap extends Component {
         tokens
       })
     }
-    else{
+    else {
       alert(`${tokenSymbol} alredy in list`)
     }
   }
 
 
   render() {
-    // console.log("Send", this.state.Send, "Recive", this.state.Recive)
-   return (
+    console.log("Send", this.state.Send, "Recive", this.state.Recive)
+    return (
       <Box pt={5}>
-      {
-        this.state.tokens
-        ?
-        (
-          <>
-          {/* SEND */}
-          <FormControl>
-          <FormLabel>Pay with</FormLabel>
-          <InputGroup>
-          <SelectToken
-           web3={this.props.web3}
-           symbols={this.state.symbols}
-           tokens={this.state.tokens}
-           onChangeTypeHead={this.onChangeTypeHead}
-           direction="Send"
-           currentSymbol={this.state.Send}
-           pushNewTokenInList={this.pushNewTokenInList}
-          />
-          <Input
-          type="number"
-          placeholder={this.state.AmountSend}
-          min="0"
-          name="AmountSend"
-          value={this.state.AmountSend}
-          onChange={e => this.delayChange(e)}
-          />
-          </InputGroup>
-          {
-            this.state.slippageTo > 0
+        {
+          this.state.tokens
             ?
             (
-              <small style={{color:"blue"}}>Slippage: {String(this.state.slippageTo)} %</small>
-            ):null
-          }
+              <>
+                {/* SEND */}
+                <FormControl>
+                  <FormLabel>Pay with</FormLabel>
+                  <InputGroup>
+                    <SelectToken
+                      web3={this.props.web3}
+                      symbols={this.state.symbols}
+                      tokens={this.state.tokens}
+                      onChangeTypeHead={this.onChangeTypeHead}
+                      direction="Send"
+                      currentSymbol={this.state.Send}
+                      pushNewTokenInList={this.pushNewTokenInList}
+                    />
+                    <Input
+                      type="number"
+                      placeholder={this.state.AmountSend}
+                      min="0"
+                      name="AmountSend"
+                      value={this.state.AmountSend}
+                      onChange={e => this.delayChange(e)}
+                    />
+                  </InputGroup>
+                  {
+                    this.state.slippageTo > 0
+                      ?
+                      (
+                        <small style={{ color: "blue" }}>Slippage: {String(this.state.slippageTo)} %</small>
+                      ) : null
+                  }
 
-          {
-            this.state.shouldUpdatePrice ? (<Pending/>) : null
-          }
-          <br/>
+                  {
+                    this.state.shouldUpdatePrice ? (<Pending />) : null
+                  }
+                  <br />
 
-          {/* RECEIVE */}
-          <FormLabel>Receive</FormLabel>
-         <InputGroup>
-          <SelectToken
-           web3={this.props.web3}
-           symbols={this.state.symbols}
-           tokens={this.state.tokens}
-           onChangeTypeHead={this.onChangeTypeHead}
-           direction="Recive"
-           currentSymbol={this.state.Recive}
-           pushNewTokenInList={this.pushNewTokenInList}
-          />
-          <Input
-          type="number"
-          placeholder={this.state.AmountRecive}
-          min="0"
-          name="AmountRecive"
-          value={this.state.AmountRecive}
-          onChange={e => this.delayChange(e)}
-          />
-          </InputGroup>
-          <Text mt={1} sx={{color:"red"}}>Slippage: {String(this.state.slippageFrom)} %</Text>
-          {
-            this.state.slippageFrom > 0
-            ?
-            (
-              <Text mt={1} sx={{color:"blue"}}>Slippage: {String(this.state.slippageFrom)} %</Text>
-            ):null
-          }
+                  {/* RECEIVE */}
+                  <FormLabel>Receive</FormLabel>
+                  <InputGroup>
+                    <SelectToken
+                      web3={this.props.web3}
+                      symbols={this.state.symbols}
+                      tokens={this.state.tokens}
+                      onChangeTypeHead={this.onChangeTypeHead}
+                      direction="Recive"
+                      currentSymbol={this.state.Recive}
+                      pushNewTokenInList={this.pushNewTokenInList}
+                    />
+                    <Input
+                      type="number"
+                      placeholder={this.state.AmountRecive}
+                      min="0"
+                      name="AmountRecive"
+                      value={this.state.AmountRecive}
+                      onChange={e => this.delayChange(e)}
+                    />
+                  </InputGroup>
+                  <Text mt={1} sx={{ color: "red" }}>Slippage: {String(this.state.slippageFrom)} %</Text>
+                  {
+                    this.state.slippageFrom > 0
+                      ?
+                      (
+                        <Text mt={1} sx={{ color: "blue" }}>Slippage: {String(this.state.slippageFrom)} %</Text>
+                      ) : null
+                  }
 
-          {/* Display error */}
-          {this.ErrorMsg()}
+                  {/* Display error */}
+                  {this.ErrorMsg()}
 
-          {/* Trigger tarde */}
-          <br />
-          {
-            this.props.exchangePortalAddress === ExchangePortalAddressLight
-            ?
-            (
-              <Button mt={5}  colorScheme="green"  onClick={() => this.validation()}>Trade</Button>
+                  {/* Trigger tarde */}
+                  <br />
+                  {
+                    this.props.exchangePortalAddress === ExchangePortalAddressLight
+                      ?
+                      (
+                        <Button mt={5} colorScheme="green" onClick={() => this.validation()}>Trade</Button>
+                      )
+                      :
+                      (
+                        <Alert status='error'  >Please update portal to latest version, for enable CoSwap DEX in your fund</Alert>
+                      )
+                  }
+
+                  <br />
+                  {
+                    this.state.prepareData ? (<small>Preparing transaction data, please wait ...</small>) : null
+                  }
+                </FormControl>
+              </>
             )
             :
             (
-              <Alert status='error'  >Please update portal to latest version, for enable CoSwap DEX in your fund</Alert>
+              <p>Load data</p>
             )
-          }
-
-          <br />
-          {
-            this.state.prepareData ? (<small>Preparing transaction data, please wait ...</small>) : null
-          }
-          </FormControl>
-           </>
-        )
-        :
-        (
-          <p>Load data</p>
-        )
-      }
+        }
       </Box>
     )
   }
