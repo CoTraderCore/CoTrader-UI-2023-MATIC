@@ -104,7 +104,7 @@ class TradeViaCoSwap extends Component {
 
     if(String(this.state.sendFrom).toLowerCase() === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'){
       fundBalance = await this.props.web3.eth.getBalance(this.props.smartFundAddress)
-      fundBalance = this.props.web3.utils.fromWei(fundBalance)
+      fundBalance = this.props.web3.utils.fromWei(fundBalance,'ether')
     }
     else{
       const ERC20 = new this.props.web3.eth.Contract(ERC20ABI, this.state.sendFrom)

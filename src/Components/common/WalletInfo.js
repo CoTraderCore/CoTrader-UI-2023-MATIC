@@ -47,4 +47,4 @@ class WalletInfo extends Component {
     }
 }
 
-export default WalletInfo
+export default WalletInfo;
