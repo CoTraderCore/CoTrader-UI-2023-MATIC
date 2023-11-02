@@ -595,10 +595,10 @@ function ViewFund(props) {
                                     <Box>
                                         <SimpleGrid mt={5} gap={5} columns={{ base: 1, md: 2 }}>
                                             <Card textAlign="center">
-                                                <FundModal address={address} MobXStorage={props.MobXStorage} />
+                                                <FundModal smartFundAddress={smartFundAddress} MobXStorage={props.MobXStorage} />
                                             </Card>
                                             <Card textAlign="center">
-                                                <ManagerModal address={owner} MobXStorage={props.MobXStorage} />
+                                                <ManagerModal owner={owner} MobXStorage={props.MobXStorage} />
                                             </Card>
                                         </SimpleGrid>
                                     </Box>

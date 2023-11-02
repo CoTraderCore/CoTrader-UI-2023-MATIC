@@ -5,7 +5,7 @@ import { EtherscanLink } from '../../config.js';
 import { observer, inject, } from 'mobx-react';
 import { RandomAvatar } from 'react-random-avatars';
 
-const FundModal = ({ address, MobXStorage }) => {
+const FundModal = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const modalbg = useColorModeValue("#fff", "gray.700")
     const modalfooterbg = useColorModeValue("gray.100", "#3D3762")
@@ -14,7 +14,7 @@ const FundModal = ({ address, MobXStorage }) => {
     return (
                     <Box>
                         <Text gap={1} fontWeight={{ base: "700", md: "500" }} display="flex" alignItems="center" justifyContent="center">
-                        Smart Fund: <RandomAvatar name={address} size="14" /><small onClick={onOpen} style={{ color: "#7500fe", cursor: "pointer" }}><strong >{String(address).replace(String(address).substring(4, 38), "...")}</strong></small>
+                        Smart Fund: <RandomAvatar name={props.smartFundAddress} size="14" /><small onClick={onOpen} style={{ color: "#039be5", cursor: "pointer" }}><strong >{String(props.smartFundAddress).replace(String(props.smartFundAddress).substring(4, 38), "...")}</strong></small>
                         </Text>
 
                         <Modal isOpen={isOpen} onClose={onClose}>
@@ -24,14 +24,14 @@ const FundModal = ({ address, MobXStorage }) => {
                                 <ModalCloseButton />
                                 <ModalBody>
                                     <Box pb={5} display={'flex'} justifyContent={'space-around'}>
-                                        <Link to={"/fund-txs/" + address} width="100%" >
+                                        <Link to={"/fund-txs/" + props.smartFundAddress} width="100%" >
                                           <Button color={btnColor}>Get all txs</Button>
                                         </Link>
                                     </Box>
-                                    <Button width="100%" ><Link href={EtherscanLink + "address/" + address} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: btnColor }}>See fund on Etherscan</Link></Button>
+                                    <Button width="100%" ><a  href={EtherscanLink + "address/" + props.smartFundAddress} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: btnColor }}>See fund on Etherscan</a></Button>
                                 </ModalBody>
                                 <ModalFooter bg={modalfooterbg} borderBottomRadius={5}>
-                                    <Text display="flex" fontSize="sm" fontWeight={500}> Address: {address}</Text>
+                                    <Text display="flex" fontSize="sm" fontWeight={500}> Address: {props.smartFundAddress}</Text>
                                 </ModalFooter>
                             </ModalContent>
                         </Modal>

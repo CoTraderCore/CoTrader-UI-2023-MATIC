@@ -24,7 +24,7 @@ function Wallet(props) {
           <Button
             display="flex"
             gap={1}
-            size={{ sm: "xs", md: "sm" }}
+            size={["xs", 'sm', "sm"]}
             fontSize={["xs", "sm"]}
             px={[2, 3]}
             py={[2, 3]}
@@ -34,27 +34,19 @@ function Wallet(props) {
           >
             <BiBadgeCheck size={20} /> <Text>Connected</Text>
           </Button>
-          {
-            props.MobXStorage.netId && NeworkID !== props.MobXStorage.netId
-              ?
-              (
-                <Text sx={{ color: "red", fontSize: "sm" }}>ERROR: WRONG NETWORK</Text>
-              )
-              : null
-          }
         </Box>
       )
         :
         (
           <Box>
             <Button
-              size={{ sm: "xs", md: "sm" }}
+              size={["xs", 'sm', "sm"]}
               fontSize={["xs", "sm"]}
               px={[2, 3]}
               py={[2, 3]}
               bg={props.btnbg}
               _hover={{ background: "gray" }}
-              onClick={() =>connectWallet(props.MobXStorage)}
+              onClick={() => connectWallet(props.MobXStorage)}
             >
               Connect wallet
             </Button>
@@ -66,3 +58,4 @@ function Wallet(props) {
 }
 
 export default inject('MobXStorage')(observer(Wallet));
+

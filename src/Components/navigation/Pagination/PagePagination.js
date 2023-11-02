@@ -5,7 +5,7 @@ import { inject, observer } from 'mobx-react';
 
 
 const PagePagination = ({ currentPage, setCurrentPage,MobXStorage }) => {
-  const colorScheme = useColorModeValue("green","red")
+  const colorScheme = useColorModeValue("blue","blue")
   // const [currentPage, setCurrentPage] = useState(1);
   const perPage = isMobile() ? 5 : 10;
   const isMobileDevice = isMobile();

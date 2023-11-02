@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {  useParams } from 'react-router-dom';
-import { Box, GridItem, Select, useColorModeValue, OrderedList, ListItem, Icon, Grid, SimpleGrid } from '@chakra-ui/react';
+import { Box, GridItem, Select,Text, useColorModeValue, OrderedList, ListItem, Icon, Grid, SimpleGrid } from '@chakra-ui/react';
 import { EtherscanLink } from '../../config';
 import getUserData from '../../utils/getFundData';
 import { fromWei } from 'web3-utils';
@@ -15,10 +15,10 @@ const ETH_TOKEN = String("0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE").toLowerCa
 function ViewUserTx() {
     
     const { address } = useParams();
-    const addressbg = useColorModeValue("#E6E6FA", "#181144")
+    const addressbg = useColorModeValue("gray.200", "gray")
     const textColor = useColorModeValue("#A4ADC7", "white");
-    const iconColor = useColorModeValue("#244AFB", "#7500FF");
-    const BOXBG = useColorModeValue("#F4F7FE", "#110938");
+    const brandColor = useColorModeValue("#422AFB", "##CBC3E3");
+    const boxBg = useColorModeValue("#F4F7FE", "gray.600");
 
     const [data, setData] = useState([]);
     const [funds, setFunds] = useState([]);
@@ -125,7 +125,7 @@ function ViewUserTx() {
                                 String(data.additionalData.src).toLowerCase() === ETH_TOKEN
                                     ?
                                     (
-                                        <>BNB</>
+                                        <React.Fragment>BNB</React.Fragment>
                                     )
                                     :
                                     (
@@ -141,7 +141,7 @@ function ViewUserTx() {
                                 String(data.additionalData.dest).toLowerCase() === ETH_TOKEN
                                     ?
                                     (
-                                        <>BNB</>
+                                        <React.Fragment>BNB</React.Fragment>
                                     )
                                     :
                                     (
@@ -188,7 +188,7 @@ function ViewUserTx() {
                     </Grid>
 
                     <Box sx={{ boxShadow: "0px 1px 1px 1px lightgray", borderRadius: "10px", }}>
-                        <h5 style={{ fontWeight: "500", textAlign: "center", backgroundColor: addressbg, padding: "10px 5px", borderTopLeftRadius: "10px", borderTopRightRadius: "10px" }}>  All transactions for address : <small> <a className='link' style={{ color: "#7500FF" }} href={EtherscanLink + "/address/" + address} target="_blank" rel="noopener noreferrer">{address}</a></small></h5>
+                        <Text sx={{ fontWeight: "500", textAlign: "center", backgroundColor: addressbg, padding: "10px 5px", borderTopLeftRadius: "10px", borderTopRightRadius: "10px" }}>  All transactions for address : <small> <a className='link' style={{ color: "#039be5" }} href={EtherscanLink + "/address/" + address} target="_blank" rel="noopener noreferrer">{address}</a></small></Text>
                         <SimpleGrid p={5} pb={5} columns={{ base: 1, md: 2 }} spacing={{ base: 5, md: 10 }}>
                             {
                                 showFundsTX ?
@@ -198,9 +198,9 @@ function ViewUserTx() {
                                                 <IconBox
                                                     w='56px'
                                                     h='56px'
-                                                    bg={BOXBG}
+                                                    bg={boxBg}
                                                     icon={
-                                                        <Icon w='32px' h='32px' as={HiReceiptTax} color={iconColor} />
+                                                        <Icon w='32px' h='32px' as={HiReceiptTax} color={brandColor} />
                                                     }
                                                 />
                                             }
@@ -218,9 +218,9 @@ function ViewUserTx() {
                                                 <IconBox
                                                     w='56px'
                                                     h='56px'
-                                                    bg={BOXBG}
+                                                    bg={boxBg}
                                                     icon={
-                                                        <Icon w='32px' h='32px' as={HiReceiptTax} color={iconColor} />
+                                                        <Icon w='32px' h='32px' as={HiReceiptTax} color={brandColor} />
                                                     }
                                                 />
                                             }
@@ -239,9 +239,9 @@ function ViewUserTx() {
                                                 <IconBox
                                                     w='56px'
                                                     h='56px'
-                                                    bg={BOXBG}
+                                                    bg={boxBg}
                                                     icon={
-                                                        <Icon w='32px' h='32px' as={HiReceiptTax} color={iconColor} />
+                                                        <Icon w='32px' h='32px' as={HiReceiptTax} color={brandColor} />
                                                     }
                                                 />
                                             }
@@ -259,9 +259,9 @@ function ViewUserTx() {
                                                 <IconBox
                                                     w='56px'
                                                     h='56px'
-                                                    bg={BOXBG}
+                                                    bg={boxBg}
                                                     icon={
-                                                        <Icon w='32px' h='32px' as={HiReceiptTax} color={iconColor} />
+                                                        <Icon w='32px' h='32px' as={HiReceiptTax} color={brandColor} />
                                                     }
                                                 />
                                             }

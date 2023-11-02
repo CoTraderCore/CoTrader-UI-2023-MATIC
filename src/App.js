@@ -8,6 +8,8 @@ import {
   useDisclosure,
   ColorModeProvider,
   CSSReset,
+  Alert,
+  AlertIcon,
 } from '@chakra-ui/react';
 import themes from './Theme/Theme';
 import ReactGA from 'react-ga';
@@ -18,13 +20,12 @@ import ViewUserTx from './Pages/ViewUserTx';
 import ViewFund from './Pages/ViewFund';
 import ViewUser from './Pages/ViewUser';
 import HowToStart from './Pages/HowToStart';
-import { inject, observer } from 'mobx-react';
+import { inject } from 'mobx-react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import Navbar from './Components/common/Navbar';
 import Sidebar from './Components/common/Sidebar';
 import DashboardHeader from './Components/common/DashboardHeader';
-import WalletInfo from './Components/common/WalletInfo';
-// import Web3Alert from './Components/Web3Off/Web3Alert'
+import { NeworkID } from './config';
 
 function App(props) {
   const [isDataLoad, setIsDataLoad] = useState(false);
@@ -82,14 +83,24 @@ function App(props) {
                   <Sidebar isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
                 </GridItem>
                 <GridItem className='example' sx={{ flexGrow: 1, overflow: "auto", }}>
-                  <Box pt={5} px={2}>
+                  <Box px={2}>
+                    <Box pb={2}>
+                      {
+                        props.MobXStorage.netId && NeworkID !== props.MobXStorage.netId
+                          ?
+                          (
+                            <Alert status='error' sx={{ color: "red", fontSize: "sm", display: "flex", justifyContent: "center", alignItems: "center" }}>  <AlertIcon color="red" />ERROR: WRONG NETWORK</Alert>
+                          )
+                          : null
+                      }
+                    </Box>
                     <DashboardHeader />
                   </Box>
                   <Switch>
                     <Route exact path="/" render={() => <SmartFundList MobXStorage={props.MobXStorage} isDataLoad={isDataLoad} setIsDataLoad={setIsDataLoad} />} />
                     <Route path="/fund/:address" render={() => <ViewFund MobXStorage={props.MobXStorage} />} />
                     <Route path="/user-txs/:address" render={() => <ViewUserTx MobXStorage={props.MobXStorage} isDataLoad={isDataLoad} />} />
-                    <Route path="/fund-txs/:address" render={() => <ViewFundTx MobXStorage={props.props.MobXStorage} isDataLoad={isDataLoad} />} />
+                    <Route path="/fund-txs/:address" render={() => <ViewFundTx MobXStorage={props.MobXStorage} isDataLoad={isDataLoad} />} />
                     <Route path="/user/:address" render={() => <ViewUser MobXStorage={props.MobXStorage} />} />
                     <Route path="/how-to-start" render={() => <HowToStart MobXStorage={props.MobXStorage} />} />
                   </Switch>
