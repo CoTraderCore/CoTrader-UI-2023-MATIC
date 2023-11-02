@@ -67,28 +67,11 @@ class TradeViaQuickSwap extends Component {
 
     // get tokens addresses and symbols from paraswap api
     initData = async () => {
-        let tokens = [
-            { symbol: "BNB", address: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", decimals: 18 },
-            { symbol: "bCOT", address: "0x304fc73e86601a61a6c6db5b0eafea587622acdc", decimals: 18 }
-        ];
-        let symbols = ['BNB', 'bCOT'];
+        let tokens = [];
+        let symbols = [];
 
-        try {
-            const response = await axios.get('https://kryptoken101/krypt-swap/blob/master/QuickSwap%20Token%20List.json');
-            console.log(response.data.tokens, ">>>>>>>>>>>>>>");
-            for (const [, value] of Object.entries(response.data.tokens)) {
-                symbols.push(value.symbol);
-                tokens.push({
-                    symbol: value.symbol,
-                    address: value.address,
-                    decimals: value.decimals,
-                });
-            }
-        } catch (e) {
-            console.log("Load quickswap loaded from file")
-            tokens = quickswapTokens
-            symbols = quickswapTokens.map(i => i.symbol)
-        }
+        tokens = quickswapTokens
+        symbols = quickswapTokens.map(i => i.symbol)
 
         if (this._isMounted) {
             this.setState({ tokens, symbols });
