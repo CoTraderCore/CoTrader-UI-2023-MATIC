@@ -363,7 +363,6 @@ getTokenAddressBySymbol = (symbol) => {
     return String(From[0].address).toLowerCase()
 }
 
-
 // props for SelectToken component
 onChangeTypeHead = (name, param) => {
     this.setState({
@@ -395,7 +394,7 @@ pushNewTokenInList = (tokenSymbol, tokenData) => {
 render() {
     // console.log("Send", this.state.Send, "Recive", this.state.Recive)
     return (
-        <Box pt={5}>
+        <Box>
             {
                 this.state.tokens
                     ?

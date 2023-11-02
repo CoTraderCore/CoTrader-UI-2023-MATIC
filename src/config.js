@@ -1,40 +1,25 @@
+
 // switch this to false in production
 const isLocal = false
 
 // maximum available for trade tokens in smart fund
 export const MAX_TOKENS = 20
 
-export const OneInchApi = "http://localhost:8000"
-export const API_KEY="P8mPpb3yDHpM4NSLPLesqP32VnLnLXNQ"
+export const OneInchApi = 'https://api.1inch.exchange/v3.0/137/'
 
-export const ExchangePortalDeprecated = '0xC8A2Ba3E9CE03f78551d7dE5706Cc275d4D3130f'
-export const MockExchangePortal = '0xe81F3fF8c7D6F2E3f19A7872fD32D5EAC5491C91'
-
-// BSC
-export const NeworkID = 56
-// V9
-export const SmartFundRegistryADDRESS = '0x759563F3A0f51A202e504BE5Ea3DeF0D3b4e6933'
-
-export const EtherscanLink = 'https://bscscan.com/'
-export const APIEnpoint = !isLocal ? 'https://api-bsc.cotrader.com/' : 'http://localhost:9005/'
-export const BloxyLink = 'https://bloxy.info/portfolios/'
-export const PricePortalPancake = "0xaBbD442181DE83c54c4Cf14BbF5C03fBda8887df"
-// pools, defi, 1inch
-export const ExchangePortalAddressFull = '0x5f0b0f12718c256a0E172d199AA50F7456fd24AA'
-// only erc20
+export const NeworkID = 137
+export const SmartFundRegistryADDRESS = '0x992F6c414A6DA6A7470dfB9D61eFc6639e9fbb0E'
+export const EtherscanLink = 'https://polygonscan.com/'
+export const APIEnpoint = !isLocal ? 'https://api-polygon.cotrader.com/' : 'http://localhost:9008/'
+export const PricePortalUNI = "0x6d85Dd4672AFad01a28bdfA8b4323bE910999954"
 export const ExchangePortalAddressLight = '0x169331EC668f3ACa19feb89AC300C4b291c4C586'
-export const WETH = '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c'
+export const WETH = '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270'
+export const QuickSwapRouter = '0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff'
+export const USD_ADDRESS = "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063" // DAI
+export const ManagerStatusAddress = '0x3ffa0CbFEf7E3a0112CCf7333193ac849248F375'
 export const CoSwapRouter = '0x82d45a1cCaBE624eEB275B9d3DAA177aFf82953f'
 export const PancakeRouter = "0x10ED43C718714eb63d5aA57B78B54704E256024E"
-
-
-// // TEST NET BSC
-// export const NeworkID = 97
-// export const SmartFundRegistryADDRESS = '0xdb622775C42B83bfE11e218E0F8b8ec3435ACdE9'
-// export const ExchangePortalAddressFull = '0x79E33056324447e0153239C21DF3e05eE43dF86C'
-// export const EtherscanLink = 'https://testnet.bscscan.com/'
-// export const APIEnpoint = !isLocal ? 'https://api2.cotrader.com/' : 'http://localhost:9000/'
-// export const BloxyLink = 'https://bloxy.info/portfolios/'
+export const MockExchangePortal = '0xe81F3fF8c7D6F2E3f19A7872fD32D5EAC5491C91'
 
 
 /* TODO: MOVE ALL ABI to a separate file ABI.js*/
@@ -4074,7 +4059,7 @@ export const SmartFundRegistryABIV9 = [
 	}
 ]
 
-export const PricePortalPancakeABI = [
+export const PricePortalUNIABI = [
 	{
 		"inputs": [
 			{
@@ -4084,22 +4069,12 @@ export const PricePortalPancakeABI = [
 			},
 			{
 				"internalType": "address",
-				"name": "_pancakeRouterA",
+				"name": "_uniswapRouter",
 				"type": "address"
 			},
 			{
 				"internalType": "address",
-				"name": "_pancakeRouterB",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_coswapRouter",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_bCOT",
+				"name": "_factory",
 				"type": "address"
 			},
 			{
@@ -4157,19 +4132,6 @@ export const PricePortalPancakeABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "bCOT",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "uint256",
@@ -4190,33 +4152,7 @@ export const PricePortalPancakeABI = [
 	},
 	{
 		"inputs": [],
-		"name": "coswapRouter",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "factoryA",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "factoryB",
+		"name": "factory",
 		"outputs": [
 			{
 				"internalType": "address",
@@ -4239,12 +4175,7 @@ export const PricePortalPancakeABI = [
 		"outputs": [
 			{
 				"internalType": "address",
-				"name": "",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "",
+				"name": "connector",
 				"type": "address"
 			}
 		],
@@ -4283,32 +4214,6 @@ export const PricePortalPancakeABI = [
 	{
 		"inputs": [],
 		"name": "owner",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "pancakeRouterA",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "pancakeRouterB",
 		"outputs": [
 			{
 				"internalType": "address",
@@ -4366,6 +4271,19 @@ export const PricePortalPancakeABI = [
 		"name": "transferOwnership",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "uniswapRouter",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	}
 ]
@@ -5343,3 +5261,88 @@ export const UNIRouterABI = [
 		"type": "receive"
 	}
 ]
+
+export const ManagerStatusABI = [
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "id",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "content",
+				"type": "string"
+			}
+		],
+		"name": "StatusUpdated",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "statuses",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_fundAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_content",
+				"type": "string"
+			}
+		],
+		"name": "updateStatus",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]
+
+// export const MAX_TOKENS = 20
+
+// export const OneInchApi = "http://localhost:8000"
+// export const API_KEY="P8mPpb3yDHpM4NSLPLesqP32VnLnLXNQ"
+
+// export const ExchangePortalDeprecated = '0xC8A2Ba3E9CE03f78551d7dE5706Cc275d4D3130f'
+// export const MockExchangePortal = '0xe81F3fF8c7D6F2E3f19A7872fD32D5EAC5491C91'
+
+// // BSC
+// export const NeworkID = 137
+// export const QuickSwapRouter = '0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff'
+// // V9
+// export const SmartFundRegistryADDRESS = '0x759563F3A0f51A202e504BE5Ea3DeF0D3b4e6933'
+
+// export const EtherscanLink = 'https://bscscan.com/'
+// export const APIEnpoint = !isLocal ? 'https://api-bsc.cotrader.com/' : 'http://localhost:9005/'
+// export const BloxyLink = 'https://bloxy.info/portfolios/'
+// export const PricePortalPancake = "0xaBbD442181DE83c54c4Cf14BbF5C03fBda8887df"
+// // pools, defi, 1inch
+// export const ExchangePortalAddressFull = '0x5f0b0f12718c256a0E172d199AA50F7456fd24AA'
+// // only erc20
+// export const ExchangePortalAddressLight = '0x169331EC668f3ACa19feb89AC300C4b291c4C586'
+// export const WETH = '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c'
+// export const CoSwapRouter = '0x82d45a1cCaBE624eEB275B9d3DAA177aFf82953f'
+// export const PancakeRouter = "0x10ED43C718714eb63d5aA57B78B54704E256024E"

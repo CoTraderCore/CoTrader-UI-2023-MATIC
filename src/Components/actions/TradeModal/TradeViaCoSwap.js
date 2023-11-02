@@ -67,7 +67,7 @@ class TradeViaCoSwap extends Component {
 
   // get tokens addresses and symbols from paraswap api
   initData = async () => {
-    if (NeworkID === 56) {
+    if (NeworkID === 137) {
       const tokens = [
         { symbol: "BNB", address: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", decimals: 18 },
         { symbol: "bCOT", address: "0x304fc73e86601a61a6c6db5b0eafea587622acdc", decimals: 18 }
@@ -379,7 +379,7 @@ class TradeViaCoSwap extends Component {
   render() {
     console.log("Send", this.state.Send, "Recive", this.state.Recive)
     return (
-      <Box pt={5}>
+      <Box>
         {
           this.state.tokens
             ?

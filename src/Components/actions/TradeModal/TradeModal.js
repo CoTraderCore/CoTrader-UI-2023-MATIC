@@ -27,6 +27,7 @@ import SetGasPrice from '../../Settings/SetGasPrice.js';
 // import TradeViaOneInch from './TradeViaOneInch';
 import TradeViaCoSwap from './TradeViaCoSwap';
 import TradeViaPancake from './TradeViaPanCake.js';
+import TradeViaQuickSwap from './TradeViaQuickSwap.js';
 
 
 function TradeModal(props) {
@@ -69,11 +70,23 @@ function TradeModal(props) {
           <ModalBody>
             <Tabs defaultIndex={0}>
               <TabList>
+              <Tab>QuickSwap</Tab>
                 {/* <Tab>1 inch</Tab> */}
                 <Tab>CoSwap</Tab>
                 <Tab> Pancake</Tab>
               </TabList>
               <TabPanels>
+              <TabPanel>
+                  <TradeViaQuickSwap
+                    web3={props.web3}
+                    accounts={props.accounts}
+                    smartFundAddress={props.smartFundAddress}
+                    pending={props.pending}
+                    version={props.version}
+                    exchangePortalAddress={exchangePortalAddress}
+                    closeModal={onClose}
+                  />
+                </TabPanel> 
                 {/* 
                 <TabPanel>
                   <TradeViaOneInch
