@@ -67,11 +67,8 @@ class TradeViaQuickSwap extends Component {
 
     // get tokens addresses and symbols from paraswap api
     initData = async () => {
-        let tokens = [];
-        let symbols = [];
-
-        tokens = quickswapTokens
-        symbols = quickswapTokens.map(i => i.symbol)
+        const tokens = quickswapTokens
+        const symbols = quickswapTokens.map(i => i.symbol)
 
         if (this._isMounted) {
             this.setState({ tokens, symbols });
