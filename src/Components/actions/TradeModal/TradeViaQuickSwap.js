@@ -16,7 +16,7 @@ import setPending from '../../../utils/setPending'
 import getMerkleTreeData from '../../../utils/getMerkleTreeData'
 import axios from 'axios'
 import { toWeiByDecimalsInput, fromWeiByDecimalsInput } from '../../../utils/weiByDecimals'
-import checkTokensLimit from '../../../utils/checkTokensLimit'
+import CheckTokensLimit from '../../../utils/checkTokensLimit'
 import Pending from '../../template/spiners/Pending.js'
 import BigNumber from 'bignumber.js'
 import SelectToken from './SelectToken'
@@ -67,9 +67,23 @@ class TradeViaQuickSwap extends Component {
 
     // get tokens addresses and symbols from paraswap api
     initData = async () => {
-        const tokens = quickswapTokens
-        const symbols = quickswapTokens.map(i => i.symbol)
-
+        let tokens = [
+            { symbol: "MATIC", address: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", decimals: 18 },
+        ];
+        let symbols = ['MATIC', 'DAI'];
+        try {
+            const apiTokens = quickswapTokens
+            for (const [, value] of Object.entries(apiTokens)) {
+                symbols.push(value.symbol);
+                tokens.push({
+                    symbol: value.symbol,
+                    address: value.address,
+                    decimals: value.decimals,
+                });
+            }
+        } catch (e) {
+            console.log("Load Quickswap loaded from file");
+        }
         if (this._isMounted) {
             this.setState({ tokens, symbols });
         }
@@ -79,7 +93,7 @@ class TradeViaQuickSwap extends Component {
     ErrorMsg = () => {
         if (this.state.ERRORText.length > 0) {
             return (
-                <Alert variant="danger">
+                <Alert status="error">
                     {this.state.ERRORText}
                 </Alert>
             )
@@ -196,7 +210,7 @@ class TradeViaQuickSwap extends Component {
             const gasPrice = localStorage.getItem('gasPrice') ? localStorage.getItem('gasPrice') : 2000000000
 
             // this function will throw execution with alert warning if there are limit
-            await checkTokensLimit(this.state.sendTo, smartFund)
+            await CheckTokensLimit(this.state.sendTo, smartFund)
 
             // get merkle tree data
             const { proof, positions } = getMerkleTreeData(this.state.sendTo)
@@ -371,6 +385,8 @@ class TradeViaQuickSwap extends Component {
     }
     render() {
         console.log("Send", this.state.Send, "Recive", this.state.Recive)
+        console.log("Send", this.state.AmountSend, "Recive", this.state.AmountRecive)
+        console.log(this.props.exchangePortalAddress, ExchangePortalAddressLight);
         return (
             <Box>
                 {

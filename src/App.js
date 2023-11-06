@@ -83,17 +83,7 @@ function App(props) {
                   <Sidebar isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
                 </GridItem>
                 <GridItem className='example' sx={{ flexGrow: 1, overflow: "auto", }}>
-                  <Box px={2}>
-                    <Box pb={2}>
-                      {
-                        props.MobXStorage.netId && NeworkID !== props.MobXStorage.netId
-                          ?
-                          (
-                            <Alert status='error' sx={{ color: "red", fontSize: "sm", display: "flex", justifyContent: "center", alignItems: "center" }}>  <AlertIcon color="red" />ERROR: WRONG NETWORK</Alert>
-                          )
-                          : null
-                      }
-                    </Box>
+                  <Box mt={2} px={2}>
                     <DashboardHeader />
                   </Box>
                   <Switch>

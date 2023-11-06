@@ -10,7 +10,6 @@ import getFundData from '../../utils/getFundData';
 import { EtherscanLink, APIEnpoint, NeworkID } from '../../config';
 import EtherscanButton from '../../Components/actions/EtherscanButton';
 import { useParams } from 'react-router-dom';
-import MigrateToV9 from '../../Components/actions/MigrateToV9';
 import PopupMsg from '../../Components/template/PopupMsg';
 import { io } from 'socket.io-client';
 import axios from 'axios';
@@ -225,13 +224,6 @@ function ViewFund(props) {
             <Box px={2}>
                 <WalletInfo web3={props.MobXStorage.web3} accounts={props.MobXStorage.account} />
                 <Header heading="Fund Detail" />
-                <MigrateToV9
-                    version={version}
-                    owner={owner}
-                    web3={props.MobXStorage.web3}
-                    accounts={props.MobXStorage.account}
-                    smartFundAddress={smartFundAddress}
-                />
                 {
                     isDataLoad ?
                         (
@@ -546,7 +538,7 @@ function ViewFund(props) {
                                                                 owner={owner}
                                                             />
                                                             {
-                                                                mainAsset === 'USD' ?
+                                                                mainAsset === 'MATIC' ?
                                                                     (
                                                                         <UpdateUSDAsset
                                                                             web3={props.MobXStorage.web3}
@@ -585,7 +577,7 @@ function ViewFund(props) {
                                                                 </Button>
                                                             </Tooltip>
                                                             {
-                                                                mainAsset === "USD" ?
+                                                                mainAsset === "MATIC" ?
                                                                     (
                                                                         <Tooltip hasArrow label={props.MobXStorage.web3 ? "You can't use this button because You are not owner of this smart fund" : "Please connect to web3"} bg={tooltipBg}>
                                                                             <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
