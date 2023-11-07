@@ -145,7 +145,7 @@ function FundFilter({ MobXStorage, onCloseModal }) {
                             />
                         </FormControl>
                         <FormControl>
-                            <FormLabel>Min value in BNB</FormLabel>
+                            <FormLabel>Min value in MATIC</FormLabel>
                             <Input
                                 type="number"
                                 name="valueInETH"
@@ -167,7 +167,7 @@ function FundFilter({ MobXStorage, onCloseModal }) {
                             />
                         </FormControl>
                         <FormControl>
-                            <FormLabel>Min profit in BNB</FormLabel>
+                            <FormLabel>Min profit in MATIC</FormLabel>
                             <Input
                                 type="number"
                                 name="profitInETH"
