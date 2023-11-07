@@ -461,17 +461,7 @@ class TradeViaQuickSwap extends Component {
                                 {this.ErrorMsg()}
 
                                 {/* Trigger tarde */}
-                                {
-                                    this.props.exchangePortalAddress === ExchangePortalAddressLight
-                                        ?
-                                        (
-                                            <Button mt={5} variant="solid" color="green" onClick={() => this.validation()}>Trade</Button>
-                                        )
-                                        :
-                                        (
-                                            <Alert mt={2} status="error">Please update portal to latest version, for enable QuickSwap DEX in your fund</Alert>
-                                        )
-                                }
+                                <Button mt={5} variant="solid" color="green" onClick={() => this.validation()}>Trade</Button>
 
                                 {
                                     this.state.prepareData ? (<small>Preparing transaction data, please wait ...</small>) : null
