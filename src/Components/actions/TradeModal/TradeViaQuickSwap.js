@@ -93,7 +93,7 @@ class TradeViaQuickSwap extends Component {
     ErrorMsg = () => {
         if (this.state.ERRORText.length > 0) {
             return (
-                <Alert status="error">
+                <Alert mt={2} status="error">
                     {this.state.ERRORText}
                 </Alert>
             )
@@ -385,8 +385,6 @@ class TradeViaQuickSwap extends Component {
     }
     render() {
         console.log("Send", this.state.Send, "Recive", this.state.Recive)
-        console.log("Send", this.state.AmountSend, "Recive", this.state.AmountRecive)
-        console.log(this.props.exchangePortalAddress, ExchangePortalAddressLight);
         return (
             <Box>
                 {
@@ -461,7 +459,7 @@ class TradeViaQuickSwap extends Component {
                                 {this.ErrorMsg()}
 
                                 {/* Trigger tarde */}
-                                <Button mt={5} variant="solid" color="green" onClick={() => this.validation()}>Trade</Button>
+                                <Button mt={5} colorScheme="teal" onClick={() => this.validation()}>Trade</Button>
 
                                 {
                                     this.state.prepareData ? (<small>Preparing transaction data, please wait ...</small>) : null

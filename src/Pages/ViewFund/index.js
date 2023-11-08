@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import ShadowBox from '../../Components/Cards/ShadowBox';
 import IconBox from '../../Components/Icons/IconBox';
 import Header from '../../Components/common/Header';
-import { Box, Heading, Icon, SimpleGrid, List, ListItem, Progress, Stack, useColorModeValue, GridItem, Grid, Table, Thead, Tr, Th, Td, Tbody, Text, Button, Tooltip, Center, } from '@chakra-ui/react'
+import { Box, Heading, Icon, SimpleGrid, List, ListItem, Progress, Stack, useColorModeValue, GridItem, Grid, Table, Thead, Tr, Th, Td, Tbody, Text, Button, Tooltip, Center, Alert, AlertIcon, } from '@chakra-ui/react'
 import { MdAttachMoney, } from "react-icons/md";
 import Card from '../../Components/Card/Card';
 import Footer from '../../Components/common/footer/Footer';
@@ -32,6 +32,7 @@ import FundModal from '../../Components/actions/FundModal';
 import ManagerModal from '../../Components/actions/ManagerModal';
 import { inject, observer, useObserver } from 'mobx-react';
 import WalletInfo from '../../Components/common/WalletInfo';
+import DashboardHeader from '../../Components/common/DashboardHeader';
 
 function ViewFund(props) {
 
@@ -221,6 +222,17 @@ function ViewFund(props) {
 
     return (
         <React.Fragment>
+        {
+            props.MobXStorage.netId && NeworkID !== props.MobXStorage.netId
+              ?
+              (
+                <Alert status="error" sx={{ color: "red", fontSize: "sm",fontWeight:"bold",display:"flex",alignItems:"center",justifyContent:"center",textTransform:"uppercase" }}><AlertIcon color="red" />please change MetaMask to MATIC network</Alert>
+              )
+              : null
+          }
+          <Box mt={2} px={2}>
+            <DashboardHeader />
+          </Box>
             <Box px={2}>
                 <WalletInfo web3={props.MobXStorage.web3} accounts={props.MobXStorage.account} />
                 <Header heading="Fund Detail" />
@@ -554,7 +566,7 @@ function ViewFund(props) {
                                                 (
                                                     <Box sx={{ display: "flex", justifyContent: "center" }}>
                                                         <Box justifyContent="center" gap={5} sx={{ display: "flex", flexDirection: { base: "column", sm: "column", md: "row" }, width: { base: "100%", md: "70%", lg: "70%" } }}>
-                                                        <Tooltip hasArrow label={props.MobXStorage.web3 ? "You can't use this button because You are not owner of this smart fund" : "Please connect to web3"} bg={tooltipBg}>
+                                                            <Tooltip hasArrow label={props.MobXStorage.web3 ? "You can't use this button because You are not owner of this smart fund" : "Please connect to web3"} bg={tooltipBg}>
                                                                 <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>
                                                                     Exchange
                                                                 </Button>
