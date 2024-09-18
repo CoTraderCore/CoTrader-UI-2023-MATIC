@@ -6,15 +6,15 @@ import UserInfo from '../template/UserInfo.js'
 import axios from 'axios'
 
 const ETH_ADDRESS = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
-const USD_ADDRESS = '0xe9e7cea3dedca5984780bafc599bd69add087d56'
+const USD_ADDRESS = '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
 
 function CreateNewFund(props) {
 
     const [show, setShow] = useState(false);
-    const [percent, setPercent] = useState();
+    const [percent, setPercent] = useState(20);
     const [fundAsset, setFundAsset] = useState('MATIC');
     const [fundName, setFundName] = useState('');
-    const [tradeVerification, setTradeVerification] = useState(true);
+    const [tradeVerification, setTradeVerification] = useState(false);
     const createNewFund = async () => {
         if (percent > 0 && percent <= 30) {
             const contract = new props.web3.eth.Contract(SmartFundRegistryABIV9, SmartFundRegistryADDRESS);
@@ -69,9 +69,6 @@ function CreateNewFund(props) {
             case 'FundAsset':
                 setFundAsset(value);
                 break;
-            case 'TradeVerification':
-                setTradeVerification(!tradeVerification); // Negate the current value
-                break;
             default:
                 break;
         }
@@ -85,7 +82,7 @@ function CreateNewFund(props) {
         setPercent(20);
         setFundAsset('MATIC');
         setFundName('');
-        setTradeVerification(true);
+        setTradeVerification(false);
     };
     const allbtnBg = useColorModeValue("#039be5", "#039be5")
     const allbtntxtcolor=useColorModeValue("#fff","gray.200")
@@ -143,7 +140,7 @@ function CreateNewFund(props) {
                             <Stack spacing={5} direction='row'>
                                 <Checkbox colorScheme='red'
                                     checked={tradeVerification}
-                                    onChange={() => setTradeVerification({ tradeVerification: !tradeVerification })}
+                                    onChange={() => setTradeVerification(!tradeVerification)}
                                 >
                                     Use trade varification
                                 </Checkbox>
